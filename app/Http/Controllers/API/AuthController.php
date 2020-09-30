@@ -37,6 +37,23 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:6',
+        ]);
+
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+
+        return response()->json(['user' => $user]);
+    }
+
     /**
      * Get the authenticated User.
      *
