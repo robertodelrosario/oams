@@ -16,6 +16,7 @@ class CreateBenchmarkStatementsTable extends Migration
         Schema::create('benchmark_statements', function (Blueprint $table) {
             $table->id();
             $table->text("statement");
+            $table->string("type");
             $table->integer("statement_parent");
             $table->timestamps();
         });

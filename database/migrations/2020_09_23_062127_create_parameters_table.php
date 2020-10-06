@@ -15,9 +15,6 @@ class CreateParametersTable extends Migration
     {
         Schema::create('parameters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("area_instrument_id");
-            $table->foreign("area_instrument_id")->references("id")->on("area_instruments")
-                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string("parameter");
             $table->timestamps();
         });

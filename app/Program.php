@@ -10,6 +10,10 @@ class Program extends Model
     protected $table = "programs";
 
     public function areaInstruments(){
-        return $this->hasMany(AreaInstrument::class);
+        return $this->belongsToMany(AreaInstrument::class);
+    }
+
+    public function campuses(){
+        return $this->belongsTo(Campus::class);
     }
 }

@@ -15,9 +15,7 @@ class CreateAreaInstrumentsTable extends Migration
     {
         Schema::create('area_instruments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("program_id");
-            $table->foreign("program_id")->references("id")->on("programs")
-                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->string('intended_program');
             $table->integer("area_number");
             $table->string('area_name');
             $table->string("version");
