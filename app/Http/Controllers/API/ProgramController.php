@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,7 @@ class ProgramController extends Controller
         $program = new Program();
         $program->program_name = $request->program_name;
         $program->accreditation_status = $request->accreditation_status;
-        $program->duration_of_validity = $request->duration_of_validity;
+        $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
         $program->campus_id = $request->campus_id;
         $program->save();
 

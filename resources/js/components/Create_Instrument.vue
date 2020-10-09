@@ -33,9 +33,9 @@
                                             </th>
                                             <th>
                                                 <div class="d-flex justify-content-center">
-                                                    <a @click.prevent="addFormSI" class="btn bnt-lg btn-outline-success">
+                                                    <button @click.prevent="addFormSI(row.key)" class="btn bnt-lg btn-outline-success" >
                                                         +
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </th>
                                         </tr>
@@ -141,7 +141,7 @@ export default {
             fields: {},
             errors: {},
             id_SI: 0,
-            rowsSI: [{ id_SI: 0, key: "", value: "" }],
+            rowsSI: [{ id_SI: 0, value: "" }],
             id_Imp: 0,
             rowsImp: [{ id_Imp: 0, key: "", value: "" }],
             id_Out: 0,
@@ -162,7 +162,7 @@ export default {
 
         addFormSI: function() {
             this.id_SI = this.id_SI + 1;
-            this.rowsSI.push({ id_SI: this.id_SI, key: "", value: "" });
+            this.rowsSI.push({ id_SI: this.id_SI, value: "" });
         },
         addFormImp: function() {
             this.id_Imp = this.id_Imp + 1;

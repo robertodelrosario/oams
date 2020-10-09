@@ -30,3 +30,14 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 });
+Route::group(['prefix' => '/suc'], function() {
+    Route::post('/addCampus', 'CampusController@addCampus');
+    Route::post('/addProgram', 'ProgramController@addProgram');
+});
+Route::group(['prefix' => '/instrument'], function() {
+    Route::post('/createInstrument', 'InstrumentController@createInstrument');
+    Route::post('/createStatement', 'InstrumentController@createStatement');
+    Route::post('/createParameter', 'InstrumentController@createParameter');
+});
+
+

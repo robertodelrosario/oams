@@ -20,6 +20,7 @@ class CreateCampusesTable extends Migration
             $table->string('address');
             $table->string('email');
             $table->string('contact_no');
+            $table->timestamps();
         });
     }
 

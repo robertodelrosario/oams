@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Campus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,8 +21,8 @@ class CampusController extends Controller
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $campus = new Campus();
-        $campus->institution_id = $request->institution_id;
+        $campus = new campus();
+        $campus->institution_name = $request->institution_name;
         $campus->campus_name = $request->campus_name;
         $campus->address = $request->address;
         $campus->email = $request->email;

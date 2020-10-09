@@ -2,5 +2,6 @@
 
 @section('content')
     <h1>ANO NA OI?</h1>
-    <create-component></create-component>
+    <cre-component></cre-component>
+    <h2>ANO NA OI?</h2>
 @endsection

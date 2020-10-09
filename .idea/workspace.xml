@@ -20,22 +20,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ApiCode.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/AreaInstrument.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/AreaInstrument.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/BenchmarkStatement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/BenchmarkStatement.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InstrumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InstrumentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/JWTAuthController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CampusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CampusController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DataController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InstrumentController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProgramController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Parameter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Parameter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Program.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Program.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/StatementIntermediary.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_23_062036_create_area_instruments_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_23_062036_create_area_instruments_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_23_062127_create_parameters_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_23_062127_create_parameters_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_23_062220_create_benchmark_statements_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_23_062220_create_benchmark_statements_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_23_062454_create_statements_intermediary_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/UserSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_22_065835_create_campuses_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_22_065835_create_campuses_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/CampusSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/CampusSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Create_Instrument.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Create_Instrument.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +48,13 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -174,12 +184,16 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/layout" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Laravel.SettingsForm" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\laragon\www\online_accreditation_management_system\resources\views\layout" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\online_accreditation_management_system\app\Http\Controllers\API" />
+      <recent name="C:\laragon\www\online_accreditation_management_system\app\Http\Controllers" />
     </key>
   </component>
   <component name="RunManager">
@@ -211,7 +225,10 @@
       <workItem from="1601603990509" duration="6522000" />
       <workItem from="1601619561481" duration="4027000" />
       <workItem from="1601857620886" duration="15084000" />
-      <workItem from="1601951004012" duration="1142000" />
+      <workItem from="1601951004012" duration="4589000" />
+      <workItem from="1602032443599" duration="13455000" />
+      <workItem from="1602117181374" duration="13534000" />
+      <workItem from="1602203698670" duration="17127000" />
     </task>
     <servers />
   </component>
@@ -231,6 +248,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="267" y="19" key="#Inspections" timestamp="1602036742784">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="267" y="19" key="#Inspections/0.0.1280.680@0.0.1280.680" timestamp="1602036742784" />
     <state x="233" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601619238311">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -259,14 +280,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="332" y="64" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1601015265912" />
-    <state x="476" y="264" key="NewPhpFileDialog" timestamp="1600678297335">
+    <state x="476" y="264" key="NewPhpFileDialog" timestamp="1602210002487">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="476" y="264" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1600678297335" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1601619610737">
+    <state x="476" y="264" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1602210002487" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1602036764293">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1601619610737" />
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1602036764293" />
+    <state x="221" y="0" key="com.intellij.database.dbimport.ImportDialog" timestamp="1602223595051">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="221" y="0" key="com.intellij.database.dbimport.ImportDialog/0.0.1280.680@0.0.1280.680" timestamp="1602223595051" />
+    <state x="371" y="146" key="com.intellij.database.dbimport.ImportUtil.ChooseTargetDialog" timestamp="1602223592947">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="371" y="146" key="com.intellij.database.dbimport.ImportUtil.ChooseTargetDialog/0.0.1280.680@0.0.1280.680" timestamp="1602223592947" />
     <state x="417" y="113" key="refactoring.ChangeSignatureDialog" timestamp="1601273092762">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

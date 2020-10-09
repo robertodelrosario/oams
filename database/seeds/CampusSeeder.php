@@ -17,7 +17,7 @@ class CampusSeeder extends Seeder
             'campus_name' => 'CDO',
             'address' => 'Lapasan, CdO',
             'email' => 'ustp_cdo@ustp.edu.ph',
-            'contact_number' => '09000000001',
+            'contact_no' => '09000000001',
         ]);
     }
 }
