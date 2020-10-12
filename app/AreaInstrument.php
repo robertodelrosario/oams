@@ -15,4 +15,7 @@ class AreaInstrument extends Model
     public  function benchmarkStatements(){
         return $this->belongsToMany(BenchmarkStatement::class, 'instruments_statements', 'area_instrument_id','benchmark_statement_id');
     }
+    public function parameters(){
+        return $this->belongsToMany(Parameter::class, 'instruments_parameters', 'area_instrument_id', 'parameter_id');
+    }
 }

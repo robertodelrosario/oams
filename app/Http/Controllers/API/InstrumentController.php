@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Validator;
 
 class InstrumentController extends Controller
 {
+
+    //CREATE INSTRUMENT FUNTION
      public function createInstrument(request $request){
         $validator = Validator::make($request->all(), [
             'intended_program' => 'required',
@@ -33,6 +35,7 @@ class InstrumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
     }
 
+    //CREATE STATEMENT FUNCTION
     public function createStatement(request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -78,6 +81,7 @@ class InstrumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!']);
     }
 
+    //CREATE PARAMETER FUNCTION
     public function createParameter(request $request){
         $validator = Validator::make($request->all(), [
             'parameter' => 'required',
@@ -90,9 +94,15 @@ class InstrumentController extends Controller
             $parameter = new Parameter();
             $parameter->parameter = $request->parameter;
             $parameter->save();
+            $instrument= AreaInstrument::where('id',$request->instrument_id)->first();
+            $parameter->areaInstruments()->attach($instrument);
+            return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter_id' => $parameter->id]);
         }
-        return response()->json(['status' => true, 'message' => 'Successfully created parameter!']);
+        return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter_id' => $check->id]);
 
     }
 
+    public function showParameters(request $request){
+        
+    }
 }
