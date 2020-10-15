@@ -20,12 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b000c261-66f6-4dc6-820c-32e54bb0ddad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b000c261-66f6-4dc6-820c-32e54bb0ddad.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/AreaInstrument.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/AreaInstrument.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Parameter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Parameter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_02_015338_create_parameters_statements_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_02_015338_create_parameters_statements_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,7 +213,9 @@
       <workItem from="1602032443599" duration="13455000" />
       <workItem from="1602117181374" duration="13534000" />
       <workItem from="1602203698670" duration="18272000" />
-      <workItem from="1602463376855" duration="7898000" />
+      <workItem from="1602463376855" duration="10545000" />
+      <workItem from="1602551287135" duration="16529000" />
+      <workItem from="1602636310755" duration="10900000" />
     </task>
     <servers />
   </component>

@@ -39,6 +39,10 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createStatement', 'InstrumentController@createStatement');
     Route::post('/createParameter', 'InstrumentController@createParameter');
     Route::get('/showParameter', 'InstrumentController@showParameter');
+    Route::get('/showInstrument', 'InstrumentController@showInstrument');
+    Route::get('/showStatement', 'InstrumentController@showStatement');
+    Route::delete('/deleteParameter', 'InstrumentController@deleteParameter');
+    Route::delete('/deleteInstrument', 'InstrumentController@deleteInstrument');
 });
 
 
