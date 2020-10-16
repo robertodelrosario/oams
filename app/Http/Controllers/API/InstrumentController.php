@@ -160,8 +160,8 @@ class InstrumentController extends Controller
         return response()->json(AreaInstrument::all());
     }
 
-    public function deleteInstrument(request $request){
-        $areaInstrument = AreaInstrument::where('id', $request->area_instrument_id);
+    public function deleteInstrument($id){
+        $areaInstrument = AreaInstrument::where('id', $id);
         $areaInstrument->delete();
         return response()->json(['status' => true, 'message' => 'Instrument successfully deleted!']);
     }
