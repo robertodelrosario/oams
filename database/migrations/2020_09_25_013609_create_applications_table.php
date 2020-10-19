@@ -15,8 +15,7 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->binary('application_letter');
-            $table->timestamp('date_applied');
+            $table->string('application_letter');
             $table->foreignId('campus_id');
             $table->foreign('campus_id')->references('id')->on('campuses')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );

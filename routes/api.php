@@ -38,11 +38,11 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
     Route::post('/createStatement', 'InstrumentController@createStatement');
     Route::post('/createParameter', 'InstrumentController@createParameter');
-    Route::get('/showParameter', 'InstrumentController@showParameter');
-    Route::get('/showInstrument', 'InstrumentController@showInstrument');
-    Route::get('/showStatement', 'InstrumentController@showStatement');
-    Route::delete('/deleteParameter', 'InstrumentController@deleteParameter');
-    Route::delete('/deleteInstrument', 'InstrumentController@deleteInstrument');
+    Route::get('/showParameter/{id}', 'InstrumentController@showParameter');
+    Route::get('/showInstrument/{id}', 'InstrumentController@showInstrument');
+    Route::get('/showStatement/{id}', 'InstrumentController@showStatement');
+    Route::delete('/deleteParameter/{id}', 'InstrumentController@deleteParameter');
+    Route::delete('/deleteInstrument/{id}', 'InstrumentController@deleteInstrument');
 });
 
 

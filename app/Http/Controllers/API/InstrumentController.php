@@ -142,16 +142,16 @@ class InstrumentController extends Controller
     }
 
     //SHOW PARAMETER LIST BASED ON INSTRUMENT
-    public function showParameter(request $request){
+    public function showParameter($id){
         $parameter = DB::table('instruments_parameters')
             ->join('parameters', 'instruments_parameters.parameter_id','=','parameters.id')
-            ->where('instruments_parameters.area_instrument_id', $request->area_instrument_id)
+            ->where('instruments_parameters.area_instrument_id', $id)
             ->get();
         return response()->json($parameter);
     }
 
-    public function deleteParameter(request $request){
-        $parameter = Parameter::where('id', $request->parameter_id);
+    public function deleteParameter($id){
+        $parameter = Parameter::where('id', $id);
         $parameter->delete();
         return response()->json(['status' => true, 'message' => 'Parameter successfully deleted!']);
     }
@@ -160,20 +160,20 @@ class InstrumentController extends Controller
         return response()->json(AreaInstrument::all());
     }
 
-    public function deleteInstrument(request $request){
-        $areaInstrument = AreaInstrument::where('id', $request->area_instrument_id);
+    public function deleteInstrument($id){
+        $areaInstrument = AreaInstrument::where('id', $id;
         $areaInstrument->delete();
         return response()->json(['status' => true, 'message' => 'Instrument successfully deleted!']);
     }
 
-    public function showStatement(request $request){
+    public function showStatement($id){
         $instrumentStatement = DB::table('instruments_statements')
             ->leftjoin('benchmark_statements','instruments_statements.benchmark_statement_id','=', 'benchmark_statements.id')
             ->leftjoin('parameters_statements', 'parameters_statements.benchmark_statement_id', '=', 'benchmark_statements.id')
             ->leftjoin('parameters', 'parameters.id', '=' , 'parameters_statements.parameter_id')
             ->leftjoin('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
-            ->where('instruments_parameters.area_instrument_id',$request->area_instrument_id )
-            ->where('instruments_statements.area_instrument_id', $request->area_instrument_id)
+            ->where('instruments_parameters.area_instrument_id',$id )
+            ->where('instruments_statements.area_instrument_id', $id)
             ->select('instruments_statements.area_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','benchmark_statements.statement_parent', 'parameters_statements.parameter_id', 'parameters.parameter')
             ->orderBy('parameters.parameter')
             ->get();
