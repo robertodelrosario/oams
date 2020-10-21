@@ -15,6 +15,7 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
+            $table->string('application_title');
             $table->string('application_letter');
             $table->foreignId('campus_id');
             $table->foreign('campus_id')->references('id')->on('campuses')

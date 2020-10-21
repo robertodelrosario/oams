@@ -21,14 +21,20 @@ class CampusController extends Controller
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $campus = new campus();
-        $campus->institution_name = $request->institution_name;
-        $campus->campus_name = $request->campus_name;
-        $campus->address = $request->address;
-        $campus->email = $request->email;
-        $campus->contact_no = $request->contact_no;
-        $campus->save();
-
-        return response()->json(['status' => true, 'message' => 'Successfully created campus']);
+        $campus = Campus::where([
+            ['institution_name', $request->institution_name], ['campus_name', $request->campus_name]
+        ])->first();
+        if(is_null($campus))
+        {
+            $campus = new Campus();
+            $campus->institution_name = $request->institution_name;
+            $campus->campus_name = $request->campus_name;
+            $campus->address = $request->address;
+            $campus->email = $request->email;
+            $campus->contact_no = $request->contact_no;
+            $campus->save();
+            return response()->json(['status' => true, 'message' => 'Successfully created campus']);
+        }
+        return response()->json(['status' => false, 'message' => 'SUC already exist!']);
     }
 }

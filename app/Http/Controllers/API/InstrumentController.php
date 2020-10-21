@@ -9,12 +9,9 @@ use App\InstrumentParameter;
 use App\InstrumentStatement;
 use App\Parameter;
 use App\ParameterStatement;
-use App\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use mysql_xdevapi\Table;
-
 class InstrumentController extends Controller
 {
 
@@ -53,7 +50,6 @@ class InstrumentController extends Controller
         $validator = Validator::make($request->all(), [
             'statement' => 'required',
             'type' => 'required',
-            //'statement_parent' => 'required',
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process statement. Required data']);
 
@@ -178,5 +174,58 @@ class InstrumentController extends Controller
             ->orderBy('parameters.parameter')
             ->get();
         return response()->json($instrumentStatement);
+    }
+
+    public function editStatement(request $request){
+        $validator = Validator::make($request->all(), [
+            'parameter_id' => 'required',
+            'instrument_id' => 'required',
+            'id' => 'required',
+            'statement' => 'required',
+        ]);
+
+        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
+
+        $statement = BenchmarkStatement::where('statement', $request->statement)->first();
+
+        $parameterStatement= ParameterStatement::where([
+            ['parameter_id',$request->parameter_id], ['benchmark_statement_id', $request->id]
+        ]);
+        if(is_null($parameterStatement)) return response()->json(['status' => true, 'message' => 'Statement in parameter does not exist']);
+        $parameterStatement->delete();
+
+        $instrumentStatement = InstrumentStatement::where([
+            ['area_instrument_id',$request->instrument_id], ['benchmark_statement_id', $request->id]
+        ]);
+        if(is_null($parameterStatement)) return response()->json(['status' => true, 'message' => 'Statement in instrument does not exist']);
+        $instrumentStatement->delete();
+
+        if(is_null($statement)){
+
+            $benchmarkStatement = new BenchmarkStatement();
+            $benchmarkStatement->statement = $request->statement;
+            $benchmarkStatement->type = $request->type;
+            $benchmarkStatement->statement_parent = $request->statement_parent;
+            $benchmarkStatement->save();
+
+            $parameter= Parameter::where('id',$request->parameter_id)->first();
+            $benchmarkStatement->parameters()->attach($parameter);
+            $instrument= AreaInstrument::where('id',$request->instrument_id)->first();
+            $benchmarkStatement->areaInstruments()->attach($instrument);
+
+            return response()->json(['status' => true, 'message' => 'Updated successfully [1]']);
+        }
+
+        $parameterStatement= new ParameterStatement();
+        $parameterStatement->parameter_id = $request->parameter_id;
+        $parameterStatement->benchmark_statement_id = $statement->id;
+        $parameterStatement->save();
+
+        $instrumentStatement =new InstrumentStatement();
+        $instrumentStatement->area_instrument_id = $request->instrument_id;
+        $instrumentStatement->benchmark_statement_id = $statement->id;
+        $instrumentStatement->save();
+
+        return response()->json(['status' => true, 'message' => 'Updated successfully [2]']);
     }
 }

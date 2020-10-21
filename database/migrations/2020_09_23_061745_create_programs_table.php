@@ -16,6 +16,7 @@ class CreateProgramsTable extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
             $table->string("program_name");
+            $table->float('rating_obtained')->nullable();
             $table->string("accreditation_status");
             $table->date("duration_of_validity");
             $table->foreignId("campus_id");

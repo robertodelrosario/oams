@@ -29,6 +29,7 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+    Route::post('setRole', 'AuthController@setRole');
 });
 Route::group(['prefix' => '/suc'], function() {
     Route::post('/addCampus', 'CampusController@addCampus');
@@ -43,6 +44,9 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::get('/showStatement/{id}', 'InstrumentController@showStatement');
     Route::delete('/deleteParameter/{id}', 'InstrumentController@deleteParameter');
     Route::delete('/deleteInstrument/{id}', 'InstrumentController@deleteInstrument');
+    Route::put('/editStatement', 'InstrumentController@editStatement');
 });
 
-
+Route::group(['prefix' => '/application'], function() {
+   Route::post('/uploadFile', 'ApplicationController@uploadFile');
+});

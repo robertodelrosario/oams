@@ -23,9 +23,9 @@ class CreateApplicationsProgramsTable extends Migration
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->integer('level');
             $table->date('preferred_date');
-            $table->binary('ppp');
-            $table->binary('compliance_report');
-            $table->binary('narative_report');
+            $table->string('ppp');
+            $table->string('compliance_report');
+            $table->string('narative_report');
             $table->timestamps();
         });
     }

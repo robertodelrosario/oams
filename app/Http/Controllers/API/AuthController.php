@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Parameter;
+use App\Role;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +56,14 @@ class AuthController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->save();
         return response()->json(['user' => $user]);
+    }
+
+    public function setRole(Request $request){
+        $user = User::where('id', $request->id)->first();
+        if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
+        $role = new Role;
+        $role->users()->attach($user->id);
+        return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
     }
 
     /**
