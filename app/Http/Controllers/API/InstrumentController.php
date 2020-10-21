@@ -179,7 +179,7 @@ class InstrumentController extends Controller
     public function editStatement(request $request){
         $validator = Validator::make($request->all(), [
             'parameter_id' => 'required',
-            'instrument_id' => 'required',
+            'area_instrument_id' => 'required',
             'id' => 'required',
             'statement' => 'required',
         ]);
@@ -195,7 +195,7 @@ class InstrumentController extends Controller
         $parameterStatement->delete();
 
         $instrumentStatement = InstrumentStatement::where([
-            ['area_instrument_id',$request->instrument_id], ['benchmark_statement_id', $request->id]
+            ['area_instrument_id',$request->area_instrument_id], ['benchmark_statement_id', $request->id]
         ]);
         if(is_null($parameterStatement)) return response()->json(['status' => true, 'message' => 'Statement in instrument does not exist']);
         $instrumentStatement->delete();
@@ -210,7 +210,7 @@ class InstrumentController extends Controller
 
             $parameter= Parameter::where('id',$request->parameter_id)->first();
             $benchmarkStatement->parameters()->attach($parameter);
-            $instrument= AreaInstrument::where('id',$request->instrument_id)->first();
+            $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
             $benchmarkStatement->areaInstruments()->attach($instrument);
 
             return response()->json(['status' => true, 'message' => 'Updated successfully [1]']);
@@ -222,7 +222,7 @@ class InstrumentController extends Controller
         $parameterStatement->save();
 
         $instrumentStatement =new InstrumentStatement();
-        $instrumentStatement->area_instrument_id = $request->instrument_id;
+        $instrumentStatement->area_instrument_id = $request->area_instrument_id;
         $instrumentStatement->benchmark_statement_id = $statement->id;
         $instrumentStatement->save();
 
