@@ -37,14 +37,14 @@ Route::group(['prefix' => '/suc'], function() {
 });
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
-    Route::post('/createStatement', 'InstrumentController@createStatement');
-    Route::post('/createParameter', 'InstrumentController@createParameter');
-    Route::get('/showParameter/{id}', 'InstrumentController@showParameter');
+    Route::post('/createStatement', 'StatementController@createStatement');
+    Route::post('/createParameter', 'ParameterController@createParameter');
+    Route::get('/showParameter/{id}', 'ParameterController@showParameter');
     Route::get('/showInstrument', 'InstrumentController@showInstrument');
-    Route::get('/showStatement/{id}', 'InstrumentController@showStatement');
-    Route::delete('/deleteParameter/{id}', 'InstrumentController@deleteParameter');
+    Route::get('/showStatement/{id}', 'StatementController@showStatement');
+    Route::delete('/deleteParameter/{id}', 'ParameterController@deleteParameter');
     Route::delete('/deleteInstrument/{id}', 'InstrumentController@deleteInstrument');
-    Route::put('/editStatement', 'InstrumentController@editStatement');
+    Route::put('/editStatement', 'StatementController@editStatement');
 });
 
 Route::group(['prefix' => '/application'], function() {
