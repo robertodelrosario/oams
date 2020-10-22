@@ -48,7 +48,7 @@ Route::group(['prefix' => '/instrument'], function() {
 });
 
 Route::group(['prefix' => '/application'], function() {
-   Route::post('/application', 'ApplicationController@application');
+   Route::post('/application/{id}', 'ApplicationController@application');
    Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
    Route::get('/showApplication/{id}', 'ApplicationController@showApplication');
 

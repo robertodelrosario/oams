@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
 {
-    public function application(request $request){
+    public function application(request $request, $id){
         $validator = Validator::make($request->all(), [
-            'application_letter' => 'required|mimes:doc,docx,pdf|max:2048',
-            'campus_id' => 'required'
+            'application_letter' => 'required|mimes:doc,docx,pdf|max:2048'
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
 
@@ -22,7 +21,7 @@ class ApplicationController extends Controller
 
         $application->application_title = time().'_'.$request->application_letter->getClientOriginalName();
         $application->application_letter = '/storage/' . $filePath;
-        $application->campus_id = $request->campus_id;
+        $application->campus_id = $id;
         $application->save();
         return response()->json(['status' => true, 'message' => 'Successfully added application letter!']);
     }
