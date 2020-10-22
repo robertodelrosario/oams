@@ -22,7 +22,7 @@ class CampusController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
         $campus = Campus::where([
-            ['institution_name', $request->institution_name], ['campus_name', $request->campus_name]
+            [strtolower('institution_name'), strtolower($request->institution_name)], [strtolower('campus_name'), strtolower($request->campus_name)]
         ])->first();
         if(is_null($campus))
         {

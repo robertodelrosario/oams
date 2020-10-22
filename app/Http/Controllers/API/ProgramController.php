@@ -19,13 +19,19 @@ class ProgramController extends Controller
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $program = new Program();
-        $program->program_name = $request->program_name;
-        $program->accreditation_status = $request->accreditation_status;
-        $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
-        $program->campus_id = $request->campus_id;
-        $program->save();
+        $check = Program::where([
+            ['campus_id', $request->campus_id], [strtolower('program_name'), strtolower($request->program_name)]
+        ])->first();
 
-        return response()->json(['status' => true, 'message' => 'Successfully added program!']);
+        if(is_null($check)){
+            $program = new Program();
+            $program->program_name = $request->program_name;
+            $program->accreditation_status = $request->accreditation_status;
+            $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
+            $program->campus_id = $request->campus_id;
+            $program->save();
+            return response()->json(['status' => true, 'message' => 'Successfully added program!']);
+        }
+        return response()->json(['status' => false, 'message' => 'Program already exist!']);
     }
 }
