@@ -33,6 +33,8 @@ Route::group([
 });
 Route::group(['prefix' => '/suc'], function() {
     Route::post('/addSuc', 'SUCController@addSuc');
+    Route::get('/showSuc', 'SUCController@showSuc');
+    Route::delete('/deleteSuc/{id}', 'SUCController@deleteSuc');
     Route::post('/addProgram', 'ProgramController@addProgram');
 });
 Route::group(['prefix' => '/instrument'], function() {
@@ -51,6 +53,7 @@ Route::group(['prefix' => '/application'], function() {
    Route::post('/application/{id}', 'ApplicationController@application');
    Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
    Route::get('/showApplication/{id}', 'ApplicationController@showApplication');
+   Route::get('/viewFile/{id}', 'ApplicationController@viewFile');
 
    Route::post('/program', 'AppliedProgramController@program');
    Route::post('/uploadDocument', 'AppliedProgramController@uploadDocument');

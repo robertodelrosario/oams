@@ -20,7 +20,7 @@ class ProgramController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
         $check = Program::where([
-            ['campus_id', $request->campus_id], [strtolower('program_name'), strtolower($request->program_name)]
+            ['campus_id', $request->suc_id], [strtolower('program_name'), strtolower($request->program_name)]
         ])->first();
 
         if(is_null($check)){
@@ -28,7 +28,7 @@ class ProgramController extends Controller
             $program->program_name = $request->program_name;
             $program->accreditation_status = $request->accreditation_status;
             $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
-            $program->campus_id = $request->campus_id;
+            $program->suc_id = $request->suc_id;
             $program->save();
             return response()->json(['status' => true, 'message' => 'Successfully added program!']);
         }
