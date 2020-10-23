@@ -20,7 +20,7 @@ class ProgramController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
         $check = Program::where([
-            ['campus_id', $request->suc_id], [strtolower('program_name'), strtolower($request->program_name)]
+            ['suc_id', $request->suc_id], [strtolower('program_name'), strtolower($request->program_name)]
         ])->first();
 
         if(is_null($check)){
