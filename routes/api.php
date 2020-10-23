@@ -32,7 +32,7 @@ Route::group([
     Route::post('setRole', 'AuthController@setRole');
 });
 Route::group(['prefix' => '/suc'], function() {
-    Route::post('/addCampus', 'CampusController@addCampus');
+    Route::post('/addSuc', 'SUCController@addSuc');
     Route::post('/addProgram', 'ProgramController@addProgram');
 });
 Route::group(['prefix' => '/instrument'], function() {
