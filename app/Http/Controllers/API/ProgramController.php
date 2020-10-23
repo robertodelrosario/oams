@@ -34,4 +34,9 @@ class ProgramController extends Controller
         }
         return response()->json(['status' => false, 'message' => 'Program already exist!']);
     }
+
+    public function showProgram($id){
+        $program = Program::where('suc_id', $id)->get();
+        return response()->json($program);
+    }
 }

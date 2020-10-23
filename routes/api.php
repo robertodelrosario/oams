@@ -35,7 +35,9 @@ Route::group(['prefix' => '/suc'], function() {
     Route::post('/addSuc', 'SUCController@addSuc');
     Route::get('/showSuc', 'SUCController@showSuc');
     Route::delete('/deleteSuc/{id}', 'SUCController@deleteSuc');
+
     Route::post('/addProgram', 'ProgramController@addProgram');
+    Route::get('/showProgram/{id}', 'ProgramController@showProgram');
 });
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
