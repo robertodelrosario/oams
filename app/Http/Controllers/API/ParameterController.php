@@ -12,6 +12,11 @@ use App\Http\Controllers\Controller;
 
 class ParameterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api',['except' => ['login', 'register', 'me']]);
+    }
+
     //CREATE PARAMETER FUNCTION
     public function createParameter(request $request){
 

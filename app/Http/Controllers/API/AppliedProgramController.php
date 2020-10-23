@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class AppliedProgramController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api',['except' => ['login', 'register', 'me']]);
+    }
+
     public function program(request $request)
     {
         $validator = Validator::make($request->all(), [

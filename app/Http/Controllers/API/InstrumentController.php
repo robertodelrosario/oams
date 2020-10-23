@@ -7,7 +7,13 @@ use App\AreaInstrument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class InstrumentController extends Controller
+
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api',['except' => ['login', 'register', 'me']]);
+    }
+
 
     //CREATE INSTRUMENT FUNTION
      public function createInstrument(request $request){

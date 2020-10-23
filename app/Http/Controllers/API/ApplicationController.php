@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api',['except' => ['login', 'register', 'me']]);
+    }
+
     public function application(request $request, $id){
         $validator = Validator::make($request->all(), [
             'application_letter' => 'required|mimes:doc,docx,pdf,jpg,png|max:2048'
