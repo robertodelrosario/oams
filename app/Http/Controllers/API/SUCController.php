@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class SUCController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth:api',['except' => ['login', 'register', 'me']]);
-    }
+    }*/
 
     public function addSuc(request $request)
     {

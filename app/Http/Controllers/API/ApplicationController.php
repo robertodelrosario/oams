@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
+    /*
     public function __construct()
     {
-        $this->middleware('auth:api',['except' => ['login', 'register', 'me']]);
-    }
+        $this->middleware('auth');
+    }*/
 
     public function application(request $request, $id){
         $validator = Validator::make($request->all(), [

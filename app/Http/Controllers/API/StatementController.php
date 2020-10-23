@@ -14,10 +14,10 @@ use App\Http\Controllers\Controller;
 
 class StatementController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth:api',['except' => ['login', 'register', 'me']]);
-    }
+    }*/
 
     //CREATE STATEMENT FUNCTION
     public function createStatement(request $request)

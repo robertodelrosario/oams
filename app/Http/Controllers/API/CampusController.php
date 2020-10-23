@@ -11,6 +11,7 @@ class CampusController extends Controller
 {
     public function addCampus(request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'institution_name' => 'required',
             'campus_name' => 'required',
