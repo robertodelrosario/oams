@@ -17,8 +17,8 @@ class CreateApplicationsTable extends Migration
             $table->id();
             $table->string('application_title');
             $table->string('application_letter');
-            $table->foreignId('campus_id');
-            $table->foreign('campus_id')->references('id')->on('campuses')
+            $table->foreignId('suc_id');
+            $table->foreign('suc_id')->references('id')->on('sucs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->timestamps();
         });

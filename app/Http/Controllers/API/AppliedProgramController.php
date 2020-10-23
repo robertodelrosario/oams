@@ -25,9 +25,9 @@ class AppliedProgramController extends Controller
         $program->program_id = $request->program_id;
         $program->level = $request->level;
         $program->preferred_date = \Carbon\Carbon::parse($request->preferred_date)->format('Y-m-d');
-        $program->ppp = "need ppp";
-        $program->compliance_report = "need compliance report";
-        $program->narative_report = "need narrative report";
+        $program->ppp = "NONE";
+        $program->compliance_report = "NONE";
+        $program->narative_report = "NONE";
         $program->save();
         return response()->json(['status' => true, 'message' => 'Successfully added program!']);
     }

@@ -13,7 +13,7 @@ class Program extends Model
         return $this->belongsToMany(AreaInstrument::class);
     }
 
-    public function campuses(){
-        return $this->belongsTo(Campus::class);
+    public function sucs(){
+        return $this->belongsTo(SUC::class);
     }
 }

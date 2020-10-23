@@ -21,7 +21,7 @@ class ApplicationController extends Controller
 
         $application->application_title = time().'_'.$request->application_letter->getClientOriginalName();
         $application->application_letter = '/storage/' . $filePath;
-        $application->campus_id = $id;
+        $application->suc_id = $id;
         $application->save();
         return response()->json(['status' => true, 'message' => 'Successfully added application letter!']);
     }
@@ -33,7 +33,7 @@ class ApplicationController extends Controller
     }
 
     public function showApplication($id){
-        $application = Application::where('campus_id', $id)->get();
+        $application = Application::where('suc_id', $id)->get();
         return response()->json($application);
     }
 }
