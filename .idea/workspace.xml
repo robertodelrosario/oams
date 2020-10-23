@@ -21,13 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Program.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Program.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_23_061745_create_programs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_23_061745_create_programs_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_013609_create_applications_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_013609_create_applications_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_013648_create_applications_programs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_013648_create_applications_programs_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/SUCSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SUCSeeder.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +222,8 @@
       <workItem from="1603155133582" duration="9917000" />
       <workItem from="1603241051285" duration="19953000" />
       <workItem from="1603326131231" duration="18405000" />
-      <workItem from="1603413729122" duration="2446000" />
+      <workItem from="1603413729122" duration="2989000" />
+      <workItem from="1603416895768" duration="36000" />
     </task>
     <servers />
   </component>
