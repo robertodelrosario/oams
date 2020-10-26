@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Application;
 use App\ApplicationProgram;
+use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +34,10 @@ class AppliedProgramController extends Controller
         $program->compliance_report = "NONE";
         $program->narative_report = "NONE";
         $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully added program!']);
+        $check = ApplicationProgram::where([
+            ['application_id', $request->application_id], ['program_id', $request->program_id]
+        ])->first();
+        return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
     }
 
     public function delete($id){
