@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Parameter;
 use App\Role;
+use App\SUC;
+use App\UserSUCModel;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -37,33 +39,6 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
-    }
-
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required|min:6',
-        ]);
-
-        if ($validator->fails())
-            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
-
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
-        return response()->json(['user' => $user]);
-    }
-
-    public function setRole(Request $request){
-        $user = User::where('id', $request->id)->first();
-        if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
-        $role = new Role;
-        $role->users()->attach($user->id);
-        return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
     }
 
     /**
@@ -112,5 +87,42 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    public function register(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails())
+            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+        $suc= SUC::where('id',$id)->first();
+        $user->sucs()->attach($suc);
+        return response()->json(['user' => $user]);
+    }
+
+    public function showUser($id){
+        $user = DB::table('users_sucs')
+            ->join('users', 'users.id', '=', 'users_sucs.user_id')
+            ->where('users_sucs.suc_id', $id)
+            ->get();
+        return response()->json(['users' => $user]);
+    }
+
+    public function setRole(Request $request){
+        $user = User::where('id', $request->id)->first();
+        if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
+        $role = new Role;
+        $role->users()->attach($user->id);
+        return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
     }
 }

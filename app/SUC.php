@@ -11,4 +11,8 @@ class SUC extends Model
     public function programs(){
         return $this->hasMany(Program::class);
     }
+
+    public function users(){
+        return $this->belongsToMany(User::class, 'users_sucs', 'suc_id', 'user_id');
+    }
 }

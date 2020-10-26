@@ -25,11 +25,12 @@ Route::group([
 
 ], function ($router) {
     Route::post('login', 'AuthController@login');
-    Route::post('register', 'AuthController@register');
+    Route::post('register/{id}', 'AuthController@register');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('setRole', 'AuthController@setRole');
+    Route::get('/showUser/{id}', 'AuthController@showUser');
 
    /*
     Route::group(['prefix' => '/suc'], function() {
