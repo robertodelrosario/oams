@@ -7,6 +7,7 @@ use App\ApplicationProgram;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AppliedProgramController extends Controller
@@ -72,7 +73,11 @@ class AppliedProgramController extends Controller
     }
 
     public function showProgram($id){
-        $program = ApplicationProgram::where('application_id', $id)->get();
+        //$application = ApplicationProgram::where('application_id', $id)->get();
+        $program = DB::table('applications_programs')
+            ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
+            ->where('applications_programs.application_id', $id)
+            ->get();
         return response()->json($program);
     }
 }
