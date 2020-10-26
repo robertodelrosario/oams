@@ -42,7 +42,7 @@ class StatementController extends Controller
                 $statement = BenchmarkStatement::where('statement',$request->statement_parent)->first();
                 $benchmarkStatement->statement_parent = $statement->id;
             }*/
-            $benchmarkStatement->statement_parent = $request->parent_statement;
+            $benchmarkStatement->statement_parent = $request->statement_parent;
             $benchmarkStatement->save();
 
             $parameter= Parameter::where('id',$request->parameter_id)->first();
