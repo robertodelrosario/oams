@@ -29,6 +29,7 @@ class StatementController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process statement. Required data']);
 
         $check = BenchmarkStatement::where('statement', $request->statement)->first();
+
         $benchmarkStatement = new BenchmarkStatement();
 
         if(is_null($check)){
@@ -72,7 +73,8 @@ class StatementController extends Controller
                 $instrumentStatement->save();
             }
         }
-        return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!']);
+        $check = BenchmarkStatement::where('statement', $request->statement)->first();
+        return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $check]);
     }
 
 

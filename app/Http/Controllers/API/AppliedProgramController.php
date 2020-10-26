@@ -21,8 +21,6 @@ class AppliedProgramController extends Controller
         $validator = Validator::make($request->all(), [
             'application_id' => 'required',
             'program_id' => 'required',
-            'level' => 'required',
-            'preferred_date' => 'required'
         ]);
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required program!']);
 
