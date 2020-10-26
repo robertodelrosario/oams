@@ -35,13 +35,14 @@ class StatementController extends Controller
         if(is_null($check)){
             $benchmarkStatement->statement = $request->statement;
             $benchmarkStatement->type = $request->type;
-            if(is_null($request->statement_parent))
+            /*if(is_null($request->statement_parent))
                 $benchmarkStatement->statement_parent = -1;
             else
             {
                 $statement = BenchmarkStatement::where('statement',$request->statement_parent)->first();
                 $benchmarkStatement->statement_parent = $statement->id;
-            }
+            }*/
+            $benchmarkStatement->statement_parent = $request->parent_statement;
             $benchmarkStatement->save();
 
             $parameter= Parameter::where('id',$request->parameter_id)->first();

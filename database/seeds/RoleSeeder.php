@@ -22,12 +22,22 @@ class RoleSeeder extends Seeder
             'updated_at' => new DateTime,
         ]);
         DB::table('roles')->insert([
-            'role' => 'support',
+            'role' => 'support head',
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ]);
         DB::table('roles')->insert([
-            'role' => 'QA',
+            'role' => 'support staff',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime,
+        ]);
+        DB::table('roles')->insert([
+            'role' => 'QA director',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime,
+        ]);
+        DB::table('roles')->insert([
+            'role' => 'QA staff',
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ]);

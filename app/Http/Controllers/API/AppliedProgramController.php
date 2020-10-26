@@ -78,6 +78,6 @@ class AppliedProgramController extends Controller
             ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
             ->where('applications_programs.application_id', $id)
             ->get();
-        return response()->json($program);
+        return response()->json([$program,$program->id]);
     }
 }
