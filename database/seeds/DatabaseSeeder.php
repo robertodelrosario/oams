@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SUCSeeder::class,
             ProgramSeeder::class,
+            AreaInstrumentSeeder::class,
         ]);
     }
 }

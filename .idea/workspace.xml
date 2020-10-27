@@ -20,12 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b000c261-66f6-4dc6-820c-32e54bb0ddad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b000c261-66f6-4dc6-820c-32e54bb0ddad.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/online_accreditation_management_system.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/online_accreditation_management_system.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/SUC.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/SUC.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/RoleSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/RoleSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSItransaction.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_013648_create_applications_programs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_013648_create_applications_programs_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/AreaInstrumentSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/AreaInstrumentSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -156,6 +161,9 @@
       <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-util" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php56" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
     </include_path>
   </component>
   <component name="ProblemsViewState">
@@ -229,7 +237,8 @@
       <workItem from="1603326131231" duration="18405000" />
       <workItem from="1603413729122" duration="2989000" />
       <workItem from="1603416895768" duration="16214000" />
-      <workItem from="1603674291602" duration="19318000" />
+      <workItem from="1603674291602" duration="19917000" />
+      <workItem from="1603758357280" duration="16041000" />
     </task>
     <servers />
   </component>
@@ -257,10 +266,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="191" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1603677141676" />
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603696850750">
+    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603781442395">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1603696850750" />
+    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1603781442395" />
     <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1603349093713">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -297,10 +306,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603345510830" />
-    <state x="221" y="0" key="com.intellij.database.dbimport.ImportDialog" timestamp="1602223595051">
+    <state x="221" y="0" key="com.intellij.database.dbimport.ImportDialog" timestamp="1603770639893">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="221" y="0" key="com.intellij.database.dbimport.ImportDialog/0.0.1280.680@0.0.1280.680" timestamp="1602223595051" />
+    <state x="221" y="0" key="com.intellij.database.dbimport.ImportDialog/0.0.1280.680@0.0.1280.680" timestamp="1603770639893" />
     <state x="371" y="146" key="com.intellij.database.dbimport.ImportUtil.ChooseTargetDialog" timestamp="1603331691525">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

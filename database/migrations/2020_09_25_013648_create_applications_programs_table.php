@@ -22,7 +22,8 @@ class CreateApplicationsProgramsTable extends Migration
             $table->foreign('program_id')->references('id')->on('programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('level');
-            $table->date('preferred_date');
+            $table->date('preferred_start_date');
+            $table->date('preferred_end_date');
             $table->string('ppp');
             $table->string('compliance_report');
             $table->string('narative_report');

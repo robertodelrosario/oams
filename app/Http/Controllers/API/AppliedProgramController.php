@@ -20,25 +20,27 @@ class AppliedProgramController extends Controller
 
     public function program(request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'application_id' => 'required',
-            'program_id' => 'required',
-        ]);
-        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required program!']);
-
-        $program = new ApplicationProgram();
-        $program->application_id = $request->application_id;
-        $program->program_id = $request->program_id;
-        $program->level = $request->level;
-        $program->preferred_date = \Carbon\Carbon::parse($request->preferred_date)->format('Y-m-d');
-        $program->ppp = "NONE";
-        $program->compliance_report = "NONE";
-        $program->narative_report = "NONE";
-        $program->save();
         $check = ApplicationProgram::where([
             ['application_id', $request->application_id], ['program_id', $request->program_id]
         ])->first();
-        return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
+        if(is_null($check)){
+            $program = new ApplicationProgram();
+            $program->application_id = $request->application_id;
+            $program->program_id = $request->program_id;
+            $program->level = $request->level;
+            $program->preferred_start_date = \Carbon\Carbon::parse($request->preferred_start_date)->format('Y-m-d');
+            $program->preferred_end_date = \Carbon\Carbon::parse($request->preferred_end_date)->format('Y-m-d');
+            $program->ppp = "NONE";
+            $program->compliance_report = "NONE";
+            $program->narative_report = "NONE";
+            $program->save();
+            $check = ApplicationProgram::where([
+                ['application_id', $request->application_id], ['program_id', $request->program_id]
+            ])->first();
+            return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
+        }
+        return response()->json(['status' => false, 'message' => 'program already applied!']);
+
     }
 
     public function delete($id){
@@ -71,7 +73,6 @@ class AppliedProgramController extends Controller
         $program->save();
         return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
     }
-
     public function showProgram($id){
         //$application = ApplicationProgram::where('application_id', $id)->get();
         $program = DB::table('applications_programs')

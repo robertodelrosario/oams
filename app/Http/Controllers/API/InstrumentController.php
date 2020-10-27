@@ -55,4 +55,10 @@ class InstrumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Instrument successfully deleted!']);
     }
 
+    public function editInstrument(request $request, $id){
+         $areaInstrument = AreaInstrument::where('id',$id)->first();
+         $areaInstrument->intended_program = $request->intended_program;
+         $areaInstrument->save();
+         return response()->json(['status' => true, 'message' => 'Successfully updated the instrument!']);
+    }
 }
