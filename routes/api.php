@@ -52,6 +52,7 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::delete('/deleteInstrument/{id}', 'InstrumentController@deleteInstrument');
     Route::put('/editStatement', 'StatementController@editStatement');
     Route::put('/editInstrument/{id}', 'InstrumentController@editInstrument');
+    Route::put('/editParameter/{id}', 'ParameterController@editParameter');
 
 });
 
