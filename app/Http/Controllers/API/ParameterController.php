@@ -66,4 +66,11 @@ class ParameterController extends Controller
         $parameter->delete();
         return response()->json(['status' => true, 'message' => 'Parameter successfully deleted!']);
     }
+
+    public function editParameter(request $request, $id){
+        $parameter = Parameter::where('id', $id)->first();
+        $parameter->parameter = $request->parameter;
+        $parameter->save();
+        return response()->json(['status' => true, 'message' => 'Parameter successfully updated!']);
+    }
 }
