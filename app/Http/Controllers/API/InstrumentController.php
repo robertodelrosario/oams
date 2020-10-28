@@ -54,12 +54,12 @@ class InstrumentController extends Controller
 
     public function deleteInstrument($id){
         $areaInstrument = AreaInstrument::where('id', $id);
-        $instrumentParameters = InstrumentParameter::where('area_instrument_id', $id)->get();
-
-        foreach ($instrumentParameters as $instrumentParameter){
-            $parameter = Parameter::where('id', $instrumentParameter->parameter_id);
-            $parameter->delete();
-        }
+        $instrumentParameters = InstrumentParameter::where('area_instrument_id', $id);
+        $instrumentParameters->delete();
+//        foreach ($instrumentParameters as $instrumentParameter){
+//            $parameter = Parameter::where('id', $instrumentParameter->parameter_id);
+//            $parameter->delete();
+//        }
         $areaInstrument->delete();
         return response()->json(['status' => true, 'message' => 'Instrument successfully deleted!']);
     }
@@ -150,6 +150,6 @@ class InstrumentController extends Controller
                 ->where('area_number', $areaInstrument->area_number)->first();
             return response()->json(['status' => true, 'message' => 'Successfully added instrument!','instrument' => $instrument]);
         }
-        return response()->json(['status' => true, 'message' => 'Instrument already exist!']);
+        return response()->json(['status' => false, 'message' => 'Instrument already exist!']);
     }
 }
