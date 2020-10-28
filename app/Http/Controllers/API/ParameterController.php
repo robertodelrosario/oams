@@ -26,38 +26,38 @@ class ParameterController extends Controller
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-//        $check = Parameter::where('parameter', $request->parameter)->first();
-//
-//        if(is_null($check)){
-//            $parameter = new Parameter();
-//            $parameter->parameter = $request->parameter;
-//            $parameter->save();
-//
-//            $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
-//            $parameter->areaInstruments()->attach($instrument);
-//            return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter_id' => $parameter->id]);
-//        }
+        $check = Parameter::where('parameter', $request->parameter)->first();
 
-        $parameter = new Parameter();
-        $parameter->parameter = $request->parameter;
-        $parameter->save();
-        $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
-        $parameter->areaInstruments()->attach($instrument);
-        return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter' => $parameter]);
-//
+        if(is_null($check)){
+            $parameter = new Parameter();
+            $parameter->parameter = $request->parameter;
+            $parameter->save();
+
+            $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
+            $parameter->areaInstruments()->attach($instrument);
+            return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter' => $parameter]);
+        }
+
+//        $parameter = new Parameter();
+//        $parameter->parameter = $request->parameter;
+//        $parameter->save();
 //        $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
-//        $instrumentParameter = new InstrumentParameter();
-//        $test = InstrumentParameter::where([
-//            ['area_instrument_id', $instrument->id],['parameter_id', $check->id]
-//        ])->first();
-//
-//        if (is_null($test)){
-//            $instrumentParameter->area_instrument_id = $instrument->id;
-//            $instrumentParameter->parameter_id = $check->id;
-//            $instrumentParameter->save();
-//            return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter_id' => $check->id]);
-//        }
-//        return response()->json(['status' => true, 'message' => 'Parameter already exist!', 'parameter_id' => $check->id]);
+//        $parameter->areaInstruments()->attach($instrument);
+//        return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter' => $parameter]);
+
+        $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
+        $instrumentParameter = new InstrumentParameter();
+        $test = InstrumentParameter::where([
+            ['area_instrument_id', $instrument->id],['parameter_id', $check->id]
+        ])->first();
+
+        if (is_null($test)){
+            $instrumentParameter->area_instrument_id = $instrument->id;
+            $instrumentParameter->parameter_id = $check->id;
+            $instrumentParameter->save();
+            return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter' => $check]);
+        }
+        return response()->json(['status' => false, 'message' => 'Parameter already exist!']);
     }
 
     public function showParameter($id){
