@@ -138,13 +138,29 @@ class StatementController extends Controller
         return response()->json(['status' => true, 'message' => 'Updated successfully [2]']);
     }
 
-    public function deleteStatement(request $request){
-        $statement = BenchmarkStatement::where('id', $request->benchmark_statement_id)->first();
+//    public function deleteStatement(request $request){
+//        $statement = BenchmarkStatement::where('id', $request->benchmark_statement_id)->first();
+//        $check = InstrumentStatement::where('benchmark_statement_id', $statement->id)->get();
+//        $checkCount = $check->count();
+//        if($checkCount>1) {
+//            $instruStatement = InstrumentStatement::where([
+//                ['benchmark_statement_id', $statement->id], ['area_instrument_id', $request->area_instrument_id]
+//            ]);
+//            $instruStatement->delete();
+//            return response()->json(['status' => true, 'message' => 'removed statement from instrument/statement table']);
+//        }
+//        else{
+//            $statement->delete();
+//            return response()->json(['status' => true, 'message' => 'removed statement from statement table']);
+//        }
+//    }
+    public function deleteStatement($instrumentID, $statementID){
+        $statement = BenchmarkStatement::where('id', $statementID)->first();
         $check = InstrumentStatement::where('benchmark_statement_id', $statement->id)->get();
         $checkCount = $check->count();
         if($checkCount>1) {
             $instruStatement = InstrumentStatement::where([
-                ['benchmark_statement_id', $statement->id], ['area_instrument_id', $request->area_instrument_id]
+                ['benchmark_statement_id', $statement->id], ['area_instrument_id', $instrumentID]
             ]);
             $instruStatement->delete();
             return response()->json(['status' => true, 'message' => 'removed statement from instrument/statement table']);
