@@ -43,6 +43,7 @@ Route::group(['prefix' => '/suc'], function() {
 });
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
+    Route::post('/cloneInstrument', 'InstrumentController@cloneInstrument');
     Route::post('/createStatement', 'StatementController@createStatement');
     Route::post('/createParameter', 'ParameterController@createParameter');
     Route::get('/showParameter/{id}', 'ParameterController@showParameter');
