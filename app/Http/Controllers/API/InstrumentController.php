@@ -151,7 +151,7 @@ class InstrumentController extends Controller
 //            }
             $instrument = AreaInstrument::where('intended_program', $areaInstrument->intended_program)
                 ->where('area_number', $areaInstrument->area_number)->first();
-            return response()->json(['status' => true, 'message' => 'Successfully added instrument!','instrument_id' => $instrument->id]);
+            return response()->json(['status' => true, 'message' => 'Successfully added instrument!','instrument' => $instrument]);
         }
         return response()->json(['status' => true, 'message' => 'Instrument already exist!']);
     }
