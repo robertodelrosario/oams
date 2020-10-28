@@ -74,7 +74,6 @@ class AppliedProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
     }
     public function showProgram($id){
-        //$application = ApplicationProgram::where('application_id', $id)->get();
         $program = DB::table('applications_programs')
             ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
             ->where('applications_programs.application_id', $id)
