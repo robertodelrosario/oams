@@ -14,6 +14,7 @@ class CreateInstrumentsStatementsTable extends Migration
     public function up()
     {
         Schema::create('instruments_statements', function (Blueprint $table) {
+            $table->id();
             $table->foreignId("area_instrument_id");
             $table->foreign("area_instrument_id")->references("id")->on("area_instruments")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );

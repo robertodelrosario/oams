@@ -40,6 +40,7 @@ Route::group(['prefix' => '/suc'], function() {
 
     Route::post('/addProgram', 'ProgramController@addProgram');
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');
+    Route::post('/selectInstrument/{programID}/{instrumentID}', 'ProgramController@selectInstrument');
 });
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
@@ -68,6 +69,11 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/uploadDocument', 'AppliedProgramController@uploadDocument');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');
     Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
+    Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
 
-    Route::post('/selectInstrument', 'MSITransactionController@selectInstrument');
+    Route::post('/attachSupportDocument', 'MSITransactionController@attachSupportDocument');
+    Route::get('/showTransactionInstrument/{id}', 'MSITransactionController@showTransactionInstrument');
+
+    Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
+    Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');
 });

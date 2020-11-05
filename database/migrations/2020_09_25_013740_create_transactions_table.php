@@ -15,8 +15,8 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('application_program');
-            $table->foreign('application_program')->references('id')->on('applications_programs')
+            $table->foreignId('application_program_id');
+            $table->foreign('application_program_id')->references('id')->on('applications_programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('area_instrument_id');
             $table->foreign('area_instrument_id')->references('id')->on('area_instruments')

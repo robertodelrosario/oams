@@ -6,6 +6,7 @@ use App\Application;
 use App\ApplicationProgram;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
+use App\InstrumentProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -79,5 +80,15 @@ class AppliedProgramController extends Controller
             ->where('applications_programs.application_id', $id)
             ->get();
         return response()->json([$program,$program->id]);
+    }
+
+    public function showInstrumentProgram($id){
+        //$instrumentPrograms = InstrumentProgram::where('program_id', $id)->get();
+        $instrumentPrograms = DB::table('instruments_programs')
+            ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
+            ->where('instruments_programs.program_id', $id)
+            ->get();
+        if(is_null($instrumentPrograms)) return response()->json(['status' => false, 'message' => 'Do not have instruments']);
+         return response()->json($instrumentPrograms);
     }
 }

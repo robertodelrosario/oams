@@ -14,6 +14,7 @@ class CreateParametersStatementsTable extends Migration
     public function up()
     {
         Schema::create('parameters_statements', function (Blueprint $table) {
+            $table->id();
             $table->foreignId("parameter_id");
             $table->foreign("parameter_id")->references("id")->on("parameters")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );

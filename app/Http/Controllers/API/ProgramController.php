@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\InstrumentProgram;
 use App\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -44,5 +45,20 @@ class ProgramController extends Controller
     public function showProgram($id){
         $program = Program::where('suc_id', $id)->get();
         return response()->json($program);
+    }
+
+    public function selectInstrument($programID, $instrumentID){
+        $instrumentProgram = InstrumentProgram::where([
+            ['program_id', $programID], ['area_instrument_id', $instrumentID]
+        ])->first();
+        if(is_null($instrumentProgram))
+        {
+            $instrumentProgram = new InstrumentProgram();
+            $instrumentProgram->program_id = $programID;
+            $instrumentProgram->area_instrument_id = $instrumentID;
+            $instrumentProgram->save();
+            return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
+        }
+        return response()->json(['status' => false, 'message' => 'Already added']);
     }
 }
