@@ -22,8 +22,6 @@
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSITransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSITransactionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_013905_create_assigned_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_013905_create_assigned_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_014026_create_instruments_scores_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_014026_create_instruments_scores_table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +236,7 @@
       <workItem from="1604471432025" duration="1778000" />
       <workItem from="1604543959922" duration="6399000" />
       <workItem from="1604558614038" duration="5205000" />
-      <workItem from="1604629908086" duration="7203000" />
+      <workItem from="1604629908086" duration="8612000" />
     </task>
     <servers />
   </component>

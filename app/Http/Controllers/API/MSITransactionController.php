@@ -43,7 +43,7 @@ class MSITransactionController extends Controller
             $supportDocument->statement_id = $statement->id;
             $supportDocument->document_id = $request->document_id;
             $supportDocument->save();
-            return response()->json(['status' => true, 'message' => 'Successfully added document']);
+            return response()->json(['status' => true, 'message' => 'Successfully added document', 'document' => $supportDocument]);
         }
         return response()->json(['status' => true, 'message' => 'Already added document']);
     }
