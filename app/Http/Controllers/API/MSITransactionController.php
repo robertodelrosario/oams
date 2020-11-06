@@ -37,7 +37,7 @@ class MSITransactionController extends Controller
             ['area_instrument_id', $request->area_instrument_id], ['benchmark_statement_id', $request->benchmark_statement_id]
         ])->first();
 
-        $check = AttachedDocument::where('statement_id', $statement->id);
+        $check = AttachedDocument::where('statement_id', $statement->id)->first();
         if(is_null($check)){
             $supportDocument = new AttachedDocument();
             $supportDocument->statement_id = $statement->id;
@@ -49,7 +49,7 @@ class MSITransactionController extends Controller
     }
 
     public function removeSupportDocument(){
-        
+
     }
 
     public function showTransactionInstrument($id){
@@ -72,6 +72,8 @@ class MSITransactionController extends Controller
         return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument]);
     }
 
+
+    //dummy, might delete later hahaha
     public function uploadDummyDocument(request $request){
         $validator = Validator::make($request->all(), [
             'document' => 'required|mimes:doc,docx,pdf,jpg,jpeg,png|max:2048'

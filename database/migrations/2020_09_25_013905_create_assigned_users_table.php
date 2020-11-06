@@ -14,6 +14,7 @@ class CreateAssignedUsersTable extends Migration
     public function up()
     {
         Schema::create('assigned_users', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
@@ -21,7 +22,7 @@ class CreateAssignedUsersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('role');
-            $table->binary('report');
+            $table->binary('report')->nullable();
             $table->timestamps();
         });
     }

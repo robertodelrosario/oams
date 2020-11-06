@@ -14,14 +14,16 @@ class CreateInstrumentsScoresTable extends Migration
     public function up()
     {
         Schema::create('instruments_scores', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('item_id');
             $table->foreign('item_id')->references('id')->on('transaction_instruments')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('assigned_user_id');
             $table->foreign('assigned_user_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->integer('item_score');
-            $table->string('remarks');
+            $table->integer('item_score')->nullable();
+            $table->text('remark')->nullable();
+            $table->string('remark_type')->nullable();
             $table->timestamps();
         });
     }
