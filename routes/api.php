@@ -25,12 +25,16 @@ Route::group([
 
 ], function ($router) {
     Route::post('login', 'AuthController@login');
-    Route::post('register/{id}', 'AuthController@register');
+    Route::post('registerSucUser/{id}', 'AuthController@registerSucUser');
+    Route::post('registerAaccupAccreditor', 'AuthController@registerAaccupAccreditor');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('setRole', 'AuthController@setRole');
-    Route::get('/showUser/{id}', 'AuthController@showUser');
+    Route::post('setRole/{userID}/{roleID}', 'AuthController@setRole');
+    Route::get('/showSucUser/{id}', 'AuthController@showSucUser');
+    Route::get('/showAaccupAccreditor', 'AuthController@showAaccupAccreditor');
+    Route::get('/showAllUser', 'AuthController@showAllUser');
+    Route::delete('/deleteUser/{id}', 'AuthController@deleteUser');
 });
 
 Route::group(['prefix' => '/suc'], function() {
@@ -73,6 +77,7 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::post('/attachSupportDocument', 'MSITransactionController@attachSupportDocument');
     Route::get('/showTransactionInstrument/{id}', 'MSITransactionController@showTransactionInstrument');
+    Route::delete('/removeSupportDocument/{id}', 'MSITransactionController@removeSupportDocument');
 
     Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
     Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');

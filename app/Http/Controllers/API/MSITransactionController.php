@@ -48,8 +48,10 @@ class MSITransactionController extends Controller
         return response()->json(['status' => true, 'message' => 'Already added document']);
     }
 
-    public function removeSupportDocument(){
-
+    public function removeSupportDocument($id){
+        $document = AttachedDocument::where('id', $id)->get();
+        $document->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully removed document']);
     }
 
     public function showTransactionInstrument($id){
@@ -70,6 +72,10 @@ class MSITransactionController extends Controller
             ->where('instruments_statements.area_instrument_id', $id)
             ->get();
         return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument]);
+    }
+
+    public function assignUser(){
+
     }
 
 

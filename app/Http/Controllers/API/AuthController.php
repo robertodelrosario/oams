@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 use App\Role;
 use App\SUC;
-use App\UserSUCModel;
+use App\UserSuc;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -89,7 +89,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register(Request $request, $id)
+    public function registerSucUser(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -100,17 +100,49 @@ class AuthController extends Controller
         if ($validator->fails())
             return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
 
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
-        $suc= SUC::where('id',$id)->first();
-        $user->sucs()->attach($suc);
-        return response()->json(['user' => $user]);
+        $check = User::where('email', $request->email)->first();
+        if(is_null($check)){
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
+            $suc= SUC::where('id',$id)->first();
+            $user->sucs()->attach($suc);
+            $department = UserSuc::where([
+                ['suc_id', $id], ['user_id',$user->id]
+            ])->first();
+            $department->department = $request->department;
+            $department->save();
+            $role = Role::where('role', $request->role)->first();
+            $role->users()->attach($user->id);
+            return response()->json(['user' => $user]);
+        }
+        return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
 
-    public function showUser($id){
+    public function registerAaccupAccreditor(request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:6',
+        ]);
+        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
+        $check = User::where('email', $request->email)->first();
+        if(is_null($check)){
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
+            $role = Role::where('role', $request->role)->first();
+            $role->users()->attach($user->id);
+            return response()->json(['user' => $user]);
+        }
+        return response()->json(['status' => false, 'message' => 'Email already registered']);
+    }
+
+    public function showSucUser($id){
         $user = DB::table('users_sucs')
             ->join('users', 'users.id', '=', 'users_sucs.user_id')
             ->where('users_sucs.suc_id', $id)
@@ -118,10 +150,29 @@ class AuthController extends Controller
         return response()->json(['users' => $user]);
     }
 
-    public function setRole(Request $request){
-        $user = User::where('id', $request->id)->first();
+    public function showAaccupAccreditor(request $request){
+        $role = Role::where('role', $request->role)->first();
+        $user = DB::table('users_roles')
+            ->join('users', 'users.id', '=', 'users_roles.user_id')
+            ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+            ->where('users_roles.role_id', $role->id)
+            ->get();
+        return response()->json(['users' => $user]);
+    }
+
+    public function showAllUser(){
+        return response()->json(User::all());
+    }
+
+    public function deleteUser($id){
+        $user = User::where('id', $id);
+        $user->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully deleted to User']);
+    }
+    public function setRole($userID, $roleID){
+        $user = User::where('id', $userID)->first();
         if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
-        $role = new Role;
+        $role = Role::where('id', $roleID)->first();
         $role->users()->attach($user->id);
         return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
     }

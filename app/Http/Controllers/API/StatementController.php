@@ -138,6 +138,17 @@ class StatementController extends Controller
         return response()->json(['status' => true, 'message' => 'Updated successfully [2]']);
     }
 
+//    public function changeParentID($statementID,$instrumentID){
+//        $statements = BenchmarkStatement::where('statement_parent', $statementID)->get();
+//        foreach ($statements as $statement)
+//        {
+//            $statementInstrument = InstrumentStatement::where([
+//                ['area_instrument_id',$instrumentID], ['benchmark_statement_id', $statementID]
+//            ])->first();
+//
+//        }
+//    }
+
 //    public function deleteStatement(request $request){
 //        $statement = BenchmarkStatement::where('id', $request->benchmark_statement_id)->first();
 //        $check = InstrumentStatement::where('benchmark_statement_id', $statement->id)->get();
