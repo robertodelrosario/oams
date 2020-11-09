@@ -182,18 +182,18 @@ class AuthController extends Controller
         $user->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted to User']);
     }
-    public function setRole($userID, $roleID){
+    public function setRole(request $request,$userID){
+        $role = Role::where('role', $request->role)->first();
         $check = UserRole::where([
-            ['user_id', $userID], ['role_id', $roleID]
+            ['user_id', $userID], ['role_id', $role->id]
         ])->first();
         if (is_null($check)){
             $user = User::where('id', $userID)->first();
             if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
-            $role = Role::where('id', $roleID)->first();
+            $role = Role::where('id', $role->id)->first();
             $role->users()->attach($user->id);
             return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
         }
         return response()->json(['status' => false, 'message' => 'Role already added to User']);
-
     }
 }

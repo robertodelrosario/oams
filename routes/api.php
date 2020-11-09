@@ -30,7 +30,7 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('setRole/{userID}/{roleID}', 'AuthController@setRole');
+    Route::post('setRole/{userID}', 'AuthController@setRole');
     Route::get('/showSucUser/{id}', 'AuthController@showSucUser');
     Route::get('/showAaccupAccreditor', 'AuthController@showAaccupAccreditor');
     Route::get('/showAllUser', 'AuthController@showAllUser');
