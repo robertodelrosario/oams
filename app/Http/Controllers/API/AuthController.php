@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API;
 use App\Role;
 use App\SUC;
+use App\UserRole;
 use App\UserSuc;
+use Doctrine\DBAL\Schema\Table;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -143,11 +146,21 @@ class AuthController extends Controller
     }
 
     public function showSucUser($id){
-        $user = DB::table('users_sucs')
+        $users = DB::table('users_sucs')
             ->join('users', 'users.id', '=', 'users_sucs.user_id')
+         //   ->join('users_roles', 'users_roles.user_id', '=', 'users.id')
+         //   ->join('roles', 'roles.id', '=', 'users_roles.role_id')
             ->where('users_sucs.suc_id', $id)
             ->get();
-        return response()->json(['users' => $user]);
+        $user_roles =array();
+        foreach($users as $user){
+            $roles = UserRole::where('user_id', $user->user_id)->get();
+            foreach ($roles as $role){
+                $rol = Role::where('id', $role->role_id)->first();
+                $user_roles = Arr::prepend($user_roles,['user_id' => $user->user_id, 'role' => $rol->role]);
+            }
+        }
+        return response()->json(['users' => $users, 'roles' => $user_roles]);
     }
 
     public function showAaccupAccreditor(request $request){
@@ -170,10 +183,17 @@ class AuthController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted to User']);
     }
     public function setRole($userID, $roleID){
-        $user = User::where('id', $userID)->first();
-        if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
-        $role = Role::where('id', $roleID)->first();
-        $role->users()->attach($user->id);
-        return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
+        $check = UserRole::where([
+            ['user_id', $userID], ['role_id', $roleID]
+        ])->first();
+        if (is_null($check)){
+            $user = User::where('id', $userID)->first();
+            if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
+            $role = Role::where('id', $roleID)->first();
+            $role->users()->attach($user->id);
+            return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
+        }
+        return response()->json(['status' => false, 'message' => 'Role already added to User']);
+
     }
 }

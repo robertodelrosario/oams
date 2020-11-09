@@ -22,11 +22,6 @@
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSITransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSITransactionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/StatementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/StatementController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_26_070508_create_users_sucs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_26_070508_create_users_sucs_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +236,9 @@
       <workItem from="1604471432025" duration="1778000" />
       <workItem from="1604543959922" duration="6399000" />
       <workItem from="1604558614038" duration="5205000" />
-      <workItem from="1604629908086" duration="20397000" />
+      <workItem from="1604629908086" duration="21580000" />
+      <workItem from="1604815028891" duration="1275000" />
+      <workItem from="1604879677028" duration="4776000" />
     </task>
     <servers />
   </component>
