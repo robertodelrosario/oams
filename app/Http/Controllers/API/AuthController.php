@@ -148,8 +148,6 @@ class AuthController extends Controller
     public function showSucUser($id){
         $users = DB::table('users_sucs')
             ->join('users', 'users.id', '=', 'users_sucs.user_id')
-         //   ->join('users_roles', 'users_roles.user_id', '=', 'users.id')
-         //   ->join('roles', 'roles.id', '=', 'users_roles.role_id')
             ->where('users_sucs.suc_id', $id)
             ->get();
         $user_roles =array();
@@ -157,20 +155,25 @@ class AuthController extends Controller
             $roles = UserRole::where('user_id', $user->user_id)->get();
             foreach ($roles as $role){
                 $rol = Role::where('id', $role->role_id)->first();
-                $user_roles = Arr::prepend($user_roles,['user_id' => $user->user_id, 'role' => $rol->role]);
+                $user_roles = Arr::prepend($user_roles,['user_id' => $user->user_id, 'role_id' => $role->role_id, 'role' => $rol->role]);
             }
         }
         return response()->json(['users' => $users, 'roles' => $user_roles]);
     }
 
-    public function showAaccupAccreditor(request $request){
-        $role = Role::where('role', $request->role)->first();
-        $user = DB::table('users_roles')
+    public function showAaccup(){
+        $aaccupStuff = DB::table('users_roles')
             ->join('users', 'users.id', '=', 'users_roles.user_id')
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
-            ->where('users_roles.role_id', $role->id)
+            ->where('users_roles.role_id', 11)
             ->get();
-        return response()->json(['users' => $user]);
+        $aaccupBoardmember = DB::table('users_roles')
+            ->join('users', 'users.id', '=', 'users_roles.user_id')
+            ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+            ->where('users_roles.role_id', 12)
+            ->get();
+        $aaccup =  $aaccupStuff->merge($aaccupBoardmember);
+        return response()->json(['users' => $aaccup]);
     }
 
     public function showAllUser(){

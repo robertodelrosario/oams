@@ -74,11 +74,6 @@ class MSITransactionController extends Controller
         return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument]);
     }
 
-    public function assignUser(){
-
-    }
-
-
     //dummy, might delete later hahaha
     public function uploadDummyDocument(request $request){
         $validator = Validator::make($request->all(), [

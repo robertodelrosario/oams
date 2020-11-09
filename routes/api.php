@@ -32,7 +32,7 @@ Route::group([
     Route::post('me', 'AuthController@me');
     Route::post('setRole/{userID}', 'AuthController@setRole');
     Route::get('/showSucUser/{id}', 'AuthController@showSucUser');
-    Route::get('/showAaccupAccreditor', 'AuthController@showAaccupAccreditor');
+    Route::get('/showAaccup', 'AuthController@showAaccup');
     Route::get('/showAllUser', 'AuthController@showAllUser');
     Route::delete('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
