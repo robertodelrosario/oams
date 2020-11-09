@@ -35,6 +35,8 @@ Route::group([
     Route::get('/showAaccupAccreditor', 'AuthController@showAaccupAccreditor');
     Route::get('/showAllUser', 'AuthController@showAllUser');
     Route::delete('/deleteUser/{id}', 'AuthController@deleteUser');
+    Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
+
 });
 
 Route::group(['prefix' => '/suc'], function() {
@@ -81,4 +83,7 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
     Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');
+
+    Route::post('/assignTask/{id}', 'AssignTaskController@assignTask');
+    Route::delete('/deleteAssignedUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedUser');
 });

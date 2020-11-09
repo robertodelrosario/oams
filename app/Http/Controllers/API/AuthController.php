@@ -196,4 +196,12 @@ class AuthController extends Controller
         }
         return response()->json(['status' => false, 'message' => 'Role already added to User']);
     }
+
+    public function deleteSetRole($userID, $roleID){
+        $role = UserRole::where([
+            ['user_id', $userID], ['role_id', $roleID]
+        ]);
+        $role->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully remove role']);
+    }
 }
