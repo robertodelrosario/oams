@@ -17,7 +17,7 @@ class CreateBenchmarkStatementsTable extends Migration
             $table->id();
             $table->text("statement");
             $table->string("type");
-            $table->integer("statement_parent");
+            //$table->integer("statement_parent");
             $table->timestamps();
         });
     }

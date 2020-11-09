@@ -21,6 +21,9 @@ class CreateInstrumentsStatementsTable extends Migration
             $table->foreignId("benchmark_statement_id");
             $table->foreign("benchmark_statement_id")->references("id")->on("benchmark_statements")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->foreignId("parent_statement_id")->nullable();
+            $table->foreign("parent_statement_id")->references("id")->on("benchmark_statements")
+                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->timestamps();
         });
     }

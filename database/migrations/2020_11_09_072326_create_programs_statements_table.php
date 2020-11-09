@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class  CreateAttachedDocumentsTable extends Migration
+class CreateProgramsStatementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class  CreateAttachedDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('attached_documents', function (Blueprint $table) {
+        Schema::create('programs_statements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('statement_id');
-            $table->foreign('statement_id')->references('id')->on('transaction_instruments')
+            $table->foreignId('program_instrument_id');
+            $table->foreign('program_instrument_id')->references('id')->on('instruments_programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->foreignId('document_id');
-            $table->foreign('document_id')->references('id')->on('dummy_documents')
+            $table->foreignId('benchmark_statement');
+            $table->foreign('benchmark_statement')->references('id')->on('benchmark_statements')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ class  CreateAttachedDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attached_documents');
+        Schema::dropIfExists('programs_statements');
     }
 }

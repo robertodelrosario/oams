@@ -46,7 +46,10 @@ Route::group(['prefix' => '/suc'], function() {
 
     Route::post('/addProgram', 'ProgramController@addProgram');
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');
+    Route::delete('/removeProgram/{sucID}/{programID}', 'ProgramController@removeProgram');
+
     Route::post('/selectInstrument/{programID}/{instrumentID}', 'ProgramController@selectInstrument');
+    Route::delete('/removeInstrument/{sucID}/{programID}', 'ProgramController@removeInstrument');
 });
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');

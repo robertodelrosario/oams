@@ -47,6 +47,14 @@ class ProgramController extends Controller
         return response()->json($program);
     }
 
+    public function removeProgram($sucID, $programID){
+        $program = Program::where([
+            ['id', $programID], ['suc_id', $sucID]
+        ]);
+        $program->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully deleted program!']);
+    }
+
     public function selectInstrument($programID, $instrumentID){
         $instrumentProgram = InstrumentProgram::where([
             ['program_id', $programID], ['area_instrument_id', $instrumentID]
@@ -60,5 +68,14 @@ class ProgramController extends Controller
             return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
         }
         return response()->json(['status' => false, 'message' => 'Already added']);
+    }
+
+
+    public function removeInstrument($programID, $instrumentID){
+        $instrumentProgram = InstrumentProgram::where([
+            ['program_id', $programID], ['area_instrument_id', $instrumentID]
+        ]);
+        $instrumentProgram->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully deleted instrument!']);
     }
 }

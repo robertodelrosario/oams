@@ -35,13 +35,15 @@ class StatementController extends Controller
         if(is_null($check)){
             $benchmarkStatement->statement = $request->statement;
             $benchmarkStatement->type = $request->type;
-            $benchmarkStatement->statement_parent = $request->statement_parent;
             $benchmarkStatement->save();
-
             $parameter= Parameter::where('id',$request->parameter_id)->first();
             $benchmarkStatement->parameters()->attach($parameter);
-            $instrument= AreaInstrument::where('id',$request->instrument_id)->first();
-            $benchmarkStatement->areaInstruments()->attach($instrument);
+
+            $instrument = new InstrumentStatement();
+            $instrument->area_instrument_id = $request->instrument_id;
+            $instrument->benchmark_statement_id = $benchmarkStatement->id;
+            $instrument->parent_statement_id = $request->statement_parent;
+            $instrument->save();
         }
         else{
             $parameterStatement = new ParameterStatement();
@@ -64,6 +66,7 @@ class StatementController extends Controller
             if(is_null($test)){
                 $instrumentStatement->area_instrument_id = $instrument->id;
                 $instrumentStatement->benchmark_statement_id = $check->id;
+                $instrumentStatement->parent_statement_id = $request->statement_parent;
                 $instrumentStatement->save();
             }
         }
@@ -80,7 +83,7 @@ class StatementController extends Controller
             ->leftjoin('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
             ->where('instruments_parameters.area_instrument_id',$id )
             ->where('instruments_statements.area_instrument_id', $id)
-            ->select('instruments_statements.area_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','benchmark_statements.statement_parent', 'parameters_statements.parameter_id', 'parameters.parameter')
+            ->select('instruments_statements.area_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','instruments_statements.parent_statement_id', 'parameters_statements.parameter_id', 'parameters.parameter')
             ->orderBy('parameters.parameter')
             ->get();
         return response()->json($instrumentStatement);
@@ -88,10 +91,11 @@ class StatementController extends Controller
 
     public function editStatement(request $request){
         $validator = Validator::make($request->all(), [
-            'parameter_id' => 'required',
-            'area_instrument_id' => 'required',
-            'id' => 'required',
-            'statement' => 'required',
+//            'parameter_id' => 'required',
+//            'area_instrument_id' => 'required',
+//            'id' => 'required',
+//            'statement_parent' => 'required',
+//            'statement' => 'required',
         ]);
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
@@ -104,25 +108,34 @@ class StatementController extends Controller
         if(is_null($parameterStatement)) return response()->json(['status' => true, 'message' => 'Statement in parameter does not exist']);
         $parameterStatement->delete();
 
-        $instrumentStatement = InstrumentStatement::where([
+        $instruStatement = InstrumentStatement::where([
             ['area_instrument_id',$request->area_instrument_id], ['benchmark_statement_id', $request->id]
-        ]);
-        if(is_null($parameterStatement)) return response()->json(['status' => true, 'message' => 'Statement in instrument does not exist']);
-        $instrumentStatement->delete();
+        ])->first();
+        if(is_null($instruStatement)) return response()->json(['status' => true, 'message' => 'Statement in instrument does not exist']);
+
+        $instruStatement->delete();
 
         if(is_null($statement)){
 
             $benchmarkStatement = new BenchmarkStatement();
             $benchmarkStatement->statement = $request->statement;
             $benchmarkStatement->type = $request->type;
-            $benchmarkStatement->statement_parent = $request->statement_parent;
             $benchmarkStatement->save();
 
             $parameter= Parameter::where('id',$request->parameter_id)->first();
             $benchmarkStatement->parameters()->attach($parameter);
-            $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
-            $benchmarkStatement->areaInstruments()->attach($instrument);
 
+            $instrument = new InstrumentStatement();
+            $instrument->area_instrument_id = $request->area_instrument_id;
+            $instrument->benchmark_statement_id = $benchmarkStatement->id;
+            $instrument->parent_statement_id = $request->statement_parent;
+            $instrument->save();
+
+            $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
+            foreach ($parents as $parent){
+                $parent->parent_statement_id = $benchmarkStatement->id;
+                $parent->save();
+            }
             return response()->json(['status' => true, 'message' => 'Updated successfully [1]']);
         }
 
@@ -134,37 +147,17 @@ class StatementController extends Controller
         $instrumentStatement =new InstrumentStatement();
         $instrumentStatement->area_instrument_id = $request->area_instrument_id;
         $instrumentStatement->benchmark_statement_id = $statement->id;
+        $instrumentStatement->parent_statement_id = $request->statement_parent;
         $instrumentStatement->save();
+
+        $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
+        foreach ($parents as $parent){
+            $parent->parent_statement_id = $statement->id;
+            $parent->save();
+        }
         return response()->json(['status' => true, 'message' => 'Updated successfully [2]']);
     }
 
-//    public function changeParentID($statementID,$instrumentID){
-//        $statements = BenchmarkStatement::where('statement_parent', $statementID)->get();
-//        foreach ($statements as $statement)
-//        {
-//            $statementInstrument = InstrumentStatement::where([
-//                ['area_instrument_id',$instrumentID], ['benchmark_statement_id', $statementID]
-//            ])->first();
-//
-//        }
-//    }
-
-//    public function deleteStatement(request $request){
-//        $statement = BenchmarkStatement::where('id', $request->benchmark_statement_id)->first();
-//        $check = InstrumentStatement::where('benchmark_statement_id', $statement->id)->get();
-//        $checkCount = $check->count();
-//        if($checkCount>1) {
-//            $instruStatement = InstrumentStatement::where([
-//                ['benchmark_statement_id', $statement->id], ['area_instrument_id', $request->area_instrument_id]
-//            ]);
-//            $instruStatement->delete();
-//            return response()->json(['status' => true, 'message' => 'removed statement from instrument/statement table']);
-//        }
-//        else{
-//            $statement->delete();
-//            return response()->json(['status' => true, 'message' => 'removed statement from statement table']);
-//        }
-//    }
     public function deleteStatement($instrumentID, $statementID){
         $statement = BenchmarkStatement::where('id', $statementID)->first();
         $check = InstrumentStatement::where('benchmark_statement_id', $statement->id)->get();

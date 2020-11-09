@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Application;
 use App\ApplicationProgram;
+use App\AreaInstrument;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
+use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -38,6 +40,14 @@ class AppliedProgramController extends Controller
             $check = ApplicationProgram::where([
                 ['application_id', $request->application_id], ['program_id', $request->program_id]
             ])->first();
+//            $instruments = InstrumentProgram::where('program_id', $program->program_id)->get();
+//            $transaction = new Transaction();
+//            foreach ($instruments as $instrument){
+//                $transaction->application_program_id = $program->id;
+//                $transaction->area_instrument_id = $instrument->area_instrument_id ;
+//                $transaction->save();
+//            }
+
             return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
         }
         return response()->json(['status' => false, 'message' => 'program already applied!']);
@@ -79,7 +89,7 @@ class AppliedProgramController extends Controller
             ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
             ->where('applications_programs.application_id', $id)
             ->get();
-        return response()->json([$program,$program->id]);
+        return response()->json($program);
     }
 
     public function showInstrumentProgram($id){
