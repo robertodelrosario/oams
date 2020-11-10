@@ -95,7 +95,7 @@ class StatementController extends Controller
 //            'area_instrument_id' => 'required',
 //            'id' => 'required',
 //            'statement_parent' => 'required',
-//            'statement' => 'required',
+            'statement' => 'required',
         ]);
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
@@ -128,7 +128,7 @@ class StatementController extends Controller
             $instrument = new InstrumentStatement();
             $instrument->area_instrument_id = $request->area_instrument_id;
             $instrument->benchmark_statement_id = $benchmarkStatement->id;
-            $instrument->parent_statement_id = $request->statement_parent;
+            $instrument->parent_statement_id = $request->parent_statement_id;
             $instrument->save();
 
             $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
@@ -147,7 +147,7 @@ class StatementController extends Controller
         $instrumentStatement =new InstrumentStatement();
         $instrumentStatement->area_instrument_id = $request->area_instrument_id;
         $instrumentStatement->benchmark_statement_id = $statement->id;
-        $instrumentStatement->parent_statement_id = $request->statement_parent;
+        $instrumentStatement->parent_statement_id = $request->parent_statement_id;
         $instrumentStatement->save();
 
         $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
