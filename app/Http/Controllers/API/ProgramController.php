@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
+use App\InstrumentStatement;
 use App\Program;
+use App\ProgramStatement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,10 +67,35 @@ class ProgramController extends Controller
             $instrumentProgram->program_id = $programID;
             $instrumentProgram->area_instrument_id = $instrumentID;
             $instrumentProgram->save();
+
+            $statements = InstrumentStatement::where('area_instrument_id', $instrumentID)->get();
+            foreach($statements as $statement){
+                $program_statement = new ProgramStatement();
+                $program_statement->program_instrument_id = $instrumentProgram->id;
+                $program_statement->benchmark_statement_id = $statement->benchmark_statement_id;
+                $program_statement->parent_statement_id = $statement->parent_statement_id;
+                $program_statement->save();
+            }
             return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
         }
         return response()->json(['status' => false, 'message' => 'Already added']);
     }
+
+//    public function refreshSelectedInstrument($programID,$instrumentID){
+//        $instrumentProgram = InstrumentProgram::where([
+//            ['program_id', $programID], ['area_instrument_id', $instrumentID]
+//        ])->first();
+//        $statements = InstrumentStatement::where('area_instrument_id', $instrumentID)->get();
+//        $statements_2 = ProgramStatement::where('program_instrument_id', $instrumentProgram->id)->get();
+//        foreach($statements as $statement){
+//            $program_statement = new ProgramStatement();
+//            $program_statement->program_instrument_id = $instrumentProgram->id;
+//            $program_statement->benchmark_statement_id = $statement->benchmark_statement_id;
+//            $program_statement->parent_statement_id = $statement->parent_statement_id;
+//            $program_statement->save();
+//        }
+//        return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
+//    }
 
 
     public function removeInstrument($programID, $instrumentID){

@@ -18,8 +18,11 @@ class CreateProgramsStatementsTable extends Migration
             $table->foreignId('program_instrument_id');
             $table->foreign('program_instrument_id')->references('id')->on('instruments_programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->foreignId('benchmark_statement');
-            $table->foreign('benchmark_statement')->references('id')->on('benchmark_statements')
+            $table->foreignId('benchmark_statement_id');
+            $table->foreign('benchmark_statement_id')->references('id')->on('benchmark_statements')
+                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->foreignId("parent_statement_id")->nullable();
+            $table->foreign("parent_statement_id")->references("id")->on("benchmark_statements")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->timestamps();
         });

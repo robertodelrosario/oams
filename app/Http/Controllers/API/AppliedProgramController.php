@@ -91,7 +91,6 @@ class AppliedProgramController extends Controller
             ->get();
         return response()->json($program);
     }
-
     public function showInstrumentProgram($id){
         //$instrumentPrograms = InstrumentProgram::where('program_id', $id)->get();
         $instrumentPrograms = DB::table('instruments_programs')

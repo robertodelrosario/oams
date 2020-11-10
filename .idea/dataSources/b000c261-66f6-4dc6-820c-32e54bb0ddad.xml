@@ -829,591 +829,589 @@ SELECT|sys.sys_config:null
     <table id="258" parent="5" name="programs">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="259" parent="5" name="roles">
+    <table id="259" parent="5" name="programs_statements">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="260" parent="5" name="sar_reports">
+    <table id="260" parent="5" name="roles">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="261" parent="5" name="sucs">
+    <table id="261" parent="5" name="sar_reports">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="262" parent="5" name="transaction_instruments">
+    <table id="262" parent="5" name="sucs">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="263" parent="5" name="transactions">
+    <table id="263" parent="5" name="transaction_instruments">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="264" parent="5" name="user_roles">
+    <table id="264" parent="5" name="transactions">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="265" parent="5" name="users">
+    <table id="265" parent="5" name="user_roles">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="266" parent="5" name="users_roles">
+    <table id="266" parent="5" name="users">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="267" parent="5" name="users_sucs">
+    <table id="267" parent="5" name="users_roles">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <column id="268" parent="234" name="application_program">
+    <table id="268" parent="5" name="users_sucs">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <column id="269" parent="234" name="application_program">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="269" parent="234" name="accreditor_id">
+    <column id="270" parent="234" name="accreditor_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="270" parent="234" name="aaccup_stuff_id">
+    <column id="271" parent="234" name="aaccup_stuff_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="271" parent="234" name="status">
+    <column id="272" parent="234" name="status">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="272" parent="234" name="created_at">
+    <column id="273" parent="234" name="created_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="273" parent="234" name="updated_at">
+    <column id="274" parent="234" name="updated_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="274" parent="234" name="accreditor_requests_application_program_foreign">
+    <index id="275" parent="234" name="accreditor_requests_application_program_foreign">
       <ColNames>application_program</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="275" parent="234" name="accreditor_requests_accreditor_id_foreign">
+    <index id="276" parent="234" name="accreditor_requests_accreditor_id_foreign">
       <ColNames>accreditor_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="276" parent="234" name="accreditor_requests_aaccup_stuff_id_foreign">
+    <index id="277" parent="234" name="accreditor_requests_aaccup_stuff_id_foreign">
       <ColNames>aaccup_stuff_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="277" parent="234" name="accreditor_requests_application_program_foreign">
+    <foreign-key id="278" parent="234" name="accreditor_requests_application_program_foreign">
       <ColNames>application_program</ColNames>
       <RefTableName>applications_programs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="278" parent="234" name="accreditor_requests_accreditor_id_foreign">
+    <foreign-key id="279" parent="234" name="accreditor_requests_accreditor_id_foreign">
       <ColNames>accreditor_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="279" parent="234" name="accreditor_requests_aaccup_stuff_id_foreign">
+    <foreign-key id="280" parent="234" name="accreditor_requests_aaccup_stuff_id_foreign">
       <ColNames>aaccup_stuff_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="280" parent="235" name="id">
+    <column id="281" parent="235" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="281" parent="235" name="user_id">
+    <column id="282" parent="235" name="user_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="282" parent="235" name="academic_rank">
+    <column id="283" parent="235" name="academic_rank">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="283" parent="235" name="academic_degree">
+    <column id="284" parent="235" name="academic_degree">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="284" parent="235" name="created_at">
+    <column id="285" parent="235" name="created_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="285" parent="235" name="updated_at">
+    <column id="286" parent="235" name="updated_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="286" parent="235" name="accreditors_profiles_user_id_foreign">
+    <index id="287" parent="235" name="accreditors_profiles_user_id_foreign">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="287" parent="235" name="PRIMARY">
+    <key id="288" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="288" parent="235" name="accreditors_profiles_user_id_foreign">
+    <foreign-key id="289" parent="235" name="accreditors_profiles_user_id_foreign">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="289" parent="236" name="accreditor_id">
+    <column id="290" parent="236" name="accreditor_id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="290" parent="236" name="specialization">
+    <column id="291" parent="236" name="specialization">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="291" parent="236" name="created_at">
+    <column id="292" parent="236" name="created_at">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="292" parent="236" name="updated_at">
+    <column id="293" parent="236" name="updated_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="293" parent="236" name="accreditors_specializations_accreditor_id_foreign">
+    <index id="294" parent="236" name="accreditors_specializations_accreditor_id_foreign">
       <ColNames>accreditor_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="294" parent="236" name="accreditors_specializations_accreditor_id_foreign">
+    <foreign-key id="295" parent="236" name="accreditors_specializations_accreditor_id_foreign">
       <ColNames>accreditor_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="295" parent="237" name="id">
+    <column id="296" parent="237" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="296" parent="237" name="application_title">
+    <column id="297" parent="237" name="application_title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="297" parent="237" name="application_letter">
+    <column id="298" parent="237" name="application_letter">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="298" parent="237" name="suc_id">
+    <column id="299" parent="237" name="suc_id">
       <Position>4</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="299" parent="237" name="created_at">
+    <column id="300" parent="237" name="created_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="300" parent="237" name="updated_at">
+    <column id="301" parent="237" name="updated_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="301" parent="237" name="applications_suc_id_foreign">
+    <index id="302" parent="237" name="applications_suc_id_foreign">
       <ColNames>suc_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="302" parent="237" name="PRIMARY">
+    <key id="303" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="303" parent="237" name="applications_suc_id_foreign">
+    <foreign-key id="304" parent="237" name="applications_suc_id_foreign">
       <ColNames>suc_id</ColNames>
       <RefTableName>sucs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="304" parent="238" name="id">
+    <column id="305" parent="238" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="305" parent="238" name="application_id">
+    <column id="306" parent="238" name="application_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="306" parent="238" name="program_id">
+    <column id="307" parent="238" name="program_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="307" parent="238" name="level">
+    <column id="308" parent="238" name="level">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="308" parent="238" name="preferred_start_date">
+    <column id="309" parent="238" name="preferred_start_date">
       <Position>5</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="309" parent="238" name="preferred_end_date">
+    <column id="310" parent="238" name="preferred_end_date">
       <Position>6</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="310" parent="238" name="ppp">
+    <column id="311" parent="238" name="ppp">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="311" parent="238" name="compliance_report">
+    <column id="312" parent="238" name="compliance_report">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="312" parent="238" name="narative_report">
+    <column id="313" parent="238" name="narative_report">
       <Position>9</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="313" parent="238" name="created_at">
+    <column id="314" parent="238" name="created_at">
       <Position>10</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="314" parent="238" name="updated_at">
+    <column id="315" parent="238" name="updated_at">
       <Position>11</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="315" parent="238" name="applications_programs_application_id_foreign">
+    <index id="316" parent="238" name="applications_programs_application_id_foreign">
       <ColNames>application_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="316" parent="238" name="applications_programs_program_id_foreign">
+    <index id="317" parent="238" name="applications_programs_program_id_foreign">
       <ColNames>program_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="317" parent="238" name="PRIMARY">
+    <key id="318" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="318" parent="238" name="applications_programs_application_id_foreign">
+    <foreign-key id="319" parent="238" name="applications_programs_application_id_foreign">
       <ColNames>application_id</ColNames>
       <RefTableName>applications</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="319" parent="238" name="applications_programs_program_id_foreign">
+    <foreign-key id="320" parent="238" name="applications_programs_program_id_foreign">
       <ColNames>program_id</ColNames>
       <RefTableName>programs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="320" parent="239" name="application_id">
+    <column id="321" parent="239" name="application_id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="321" parent="239" name="program_id">
+    <column id="322" parent="239" name="program_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="322" parent="239" name="result">
+    <column id="323" parent="239" name="result">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="323" parent="239" name="validity">
+    <column id="324" parent="239" name="validity">
       <Position>4</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="324" parent="239" name="date_granted">
+    <column id="325" parent="239" name="date_granted">
       <Position>5</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="325" parent="239" name="certificate">
+    <column id="326" parent="239" name="certificate">
       <Position>6</Position>
       <DataType>blob|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="326" parent="239" name="created_at">
+    <column id="327" parent="239" name="created_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="327" parent="239" name="updated_at">
+    <column id="328" parent="239" name="updated_at">
       <Position>8</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="328" parent="239" name="applications_status_application_id_foreign">
+    <index id="329" parent="239" name="applications_status_application_id_foreign">
       <ColNames>application_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="329" parent="239" name="applications_status_program_id_foreign">
+    <index id="330" parent="239" name="applications_status_program_id_foreign">
       <ColNames>program_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="330" parent="239" name="applications_status_application_id_foreign">
+    <foreign-key id="331" parent="239" name="applications_status_application_id_foreign">
       <ColNames>application_id</ColNames>
       <RefTableName>applications</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="331" parent="239" name="applications_status_program_id_foreign">
+    <foreign-key id="332" parent="239" name="applications_status_program_id_foreign">
       <ColNames>program_id</ColNames>
       <RefTableName>programs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="332" parent="240" name="id">
+    <column id="333" parent="240" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="333" parent="240" name="intended_program">
+    <column id="334" parent="240" name="intended_program">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="334" parent="240" name="area_number">
+    <column id="335" parent="240" name="area_number">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="335" parent="240" name="area_name">
+    <column id="336" parent="240" name="area_name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="336" parent="240" name="version">
+    <column id="337" parent="240" name="version">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="337" parent="240" name="created_at">
+    <column id="338" parent="240" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="338" parent="240" name="updated_at">
+    <column id="339" parent="240" name="updated_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <key id="339" parent="240" name="PRIMARY">
+    <key id="340" parent="240" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="340" parent="241" name="id">
+    <column id="341" parent="241" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="341" parent="241" name="application_program_id">
+    <column id="342" parent="241" name="application_program_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="342" parent="241" name="user_id">
+    <column id="343" parent="241" name="user_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="343" parent="241" name="role">
+    <column id="344" parent="241" name="role">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="344" parent="241" name="report">
+    <column id="345" parent="241" name="report">
       <Position>5</Position>
       <DataType>blob|0s</DataType>
     </column>
-    <column id="345" parent="241" name="created_at">
+    <column id="346" parent="241" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="346" parent="241" name="updated_at">
+    <column id="347" parent="241" name="updated_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="347" parent="241" name="assigned_user_heads_application_program_id_foreign">
+    <index id="348" parent="241" name="assigned_user_heads_application_program_id_foreign">
       <ColNames>application_program_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="348" parent="241" name="assigned_user_heads_user_id_foreign">
+    <index id="349" parent="241" name="assigned_user_heads_user_id_foreign">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="349" parent="241" name="PRIMARY">
+    <key id="350" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="350" parent="241" name="assigned_user_heads_application_program_id_foreign">
+    <foreign-key id="351" parent="241" name="assigned_user_heads_application_program_id_foreign">
       <ColNames>application_program_id</ColNames>
       <RefTableName>applications_programs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="351" parent="241" name="assigned_user_heads_user_id_foreign">
+    <foreign-key id="352" parent="241" name="assigned_user_heads_user_id_foreign">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="352" parent="242" name="id">
+    <column id="353" parent="242" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="353" parent="242" name="transaction_id">
+    <column id="354" parent="242" name="transaction_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="354" parent="242" name="user_id">
+    <column id="355" parent="242" name="user_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="355" parent="242" name="role">
+    <column id="356" parent="242" name="role">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="356" parent="242" name="report">
+    <column id="357" parent="242" name="report">
       <Position>5</Position>
       <DataType>blob|0s</DataType>
     </column>
-    <column id="357" parent="242" name="created_at">
+    <column id="358" parent="242" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="358" parent="242" name="updated_at">
+    <column id="359" parent="242" name="updated_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="359" parent="242" name="assigned_users_transaction_id_foreign">
+    <index id="360" parent="242" name="assigned_users_transaction_id_foreign">
       <ColNames>transaction_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="360" parent="242" name="assigned_users_user_id_foreign">
+    <index id="361" parent="242" name="assigned_users_user_id_foreign">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="361" parent="242" name="PRIMARY">
+    <key id="362" parent="242" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="362" parent="242" name="assigned_users_transaction_id_foreign">
+    <foreign-key id="363" parent="242" name="assigned_users_transaction_id_foreign">
       <ColNames>transaction_id</ColNames>
       <RefTableName>transactions</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="363" parent="242" name="assigned_users_user_id_foreign">
+    <foreign-key id="364" parent="242" name="assigned_users_user_id_foreign">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="364" parent="243" name="id">
+    <column id="365" parent="243" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="365" parent="243" name="statement_id">
+    <column id="366" parent="243" name="statement_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="366" parent="243" name="document_id">
+    <column id="367" parent="243" name="document_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="367" parent="243" name="created_at">
+    <column id="368" parent="243" name="created_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="368" parent="243" name="updated_at">
+    <column id="369" parent="243" name="updated_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="369" parent="243" name="attached_documents_statement_id_foreign">
+    <index id="370" parent="243" name="attached_documents_statement_id_foreign">
       <ColNames>statement_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="370" parent="243" name="attached_documents_document_id_foreign">
+    <index id="371" parent="243" name="attached_documents_document_id_foreign">
       <ColNames>document_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="371" parent="243" name="PRIMARY">
+    <key id="372" parent="243" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="372" parent="243" name="attached_documents_statement_id_foreign">
+    <foreign-key id="373" parent="243" name="attached_documents_statement_id_foreign">
       <ColNames>statement_id</ColNames>
-      <RefTableName>instruments_statements</RefTableName>
+      <RefTableName>transaction_instruments</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="373" parent="243" name="attached_documents_document_id_foreign">
+    <foreign-key id="374" parent="243" name="attached_documents_document_id_foreign">
       <ColNames>document_id</ColNames>
       <RefTableName>dummy_documents</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="374" parent="244" name="id">
+    <column id="375" parent="244" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="375" parent="244" name="statement">
+    <column id="376" parent="244" name="statement">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="376" parent="244" name="type">
+    <column id="377" parent="244" name="type">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="377" parent="244" name="statement_parent">
-      <Position>4</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
     <column id="378" parent="244" name="created_at">
-      <Position>5</Position>
+      <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
     <column id="379" parent="244" name="updated_at">
-      <Position>6</Position>
+      <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
     <key id="380" parent="244" name="PRIMARY">
@@ -1794,676 +1792,742 @@ SELECT|sys.sys_config:null
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="455" parent="252" name="created_at">
+    <column id="455" parent="252" name="parent_statement_id">
       <Position>4</Position>
-      <DataType>timestamp|0s</DataType>
+      <DataType>bigint(20) unsigned|0s</DataType>
     </column>
-    <column id="456" parent="252" name="updated_at">
+    <column id="456" parent="252" name="created_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="457" parent="252" name="instruments_statements_area_instrument_id_foreign">
+    <column id="457" parent="252" name="updated_at">
+      <Position>6</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <index id="458" parent="252" name="instruments_statements_area_instrument_id_foreign">
       <ColNames>area_instrument_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="458" parent="252" name="instruments_statements_benchmark_statement_id_foreign">
+    <index id="459" parent="252" name="instruments_statements_benchmark_statement_id_foreign">
       <ColNames>benchmark_statement_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="459" parent="252" name="PRIMARY">
+    <index id="460" parent="252" name="instruments_statements_parent_statement_id_foreign">
+      <ColNames>parent_statement_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="461" parent="252" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="460" parent="252" name="instruments_statements_area_instrument_id_foreign">
+    <foreign-key id="462" parent="252" name="instruments_statements_area_instrument_id_foreign">
       <ColNames>area_instrument_id</ColNames>
       <RefTableName>area_instruments</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="461" parent="252" name="instruments_statements_benchmark_statement_id_foreign">
+    <foreign-key id="463" parent="252" name="instruments_statements_benchmark_statement_id_foreign">
       <ColNames>benchmark_statement_id</ColNames>
       <RefTableName>benchmark_statements</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="462" parent="253" name="id">
+    <foreign-key id="464" parent="252" name="instruments_statements_parent_statement_id_foreign">
+      <ColNames>parent_statement_id</ColNames>
+      <RefTableName>benchmark_statements</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="465" parent="253" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="463" parent="253" name="migration">
+    <column id="466" parent="253" name="migration">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="464" parent="253" name="batch">
+    <column id="467" parent="253" name="batch">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="465" parent="253" name="PRIMARY">
+    <key id="468" parent="253" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="466" parent="254" name="id">
+    <column id="469" parent="254" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="467" parent="254" name="content">
+    <column id="470" parent="254" name="content">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="468" parent="254" name="notif_type">
+    <column id="471" parent="254" name="notif_type">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="469" parent="254" name="created_at">
+    <column id="472" parent="254" name="created_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="470" parent="254" name="updated_at">
+    <column id="473" parent="254" name="updated_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <key id="471" parent="254" name="PRIMARY">
+    <key id="474" parent="254" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="472" parent="255" name="id">
+    <column id="475" parent="255" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="473" parent="255" name="recipient_id">
+    <column id="476" parent="255" name="recipient_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="474" parent="255" name="sender_id">
+    <column id="477" parent="255" name="sender_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="475" parent="255" name="notification_id">
+    <column id="478" parent="255" name="notification_id">
       <Position>4</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="476" parent="255" name="status">
+    <column id="479" parent="255" name="status">
       <Position>5</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="477" parent="255" name="created_at">
+    <column id="480" parent="255" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="478" parent="255" name="updated_at">
+    <column id="481" parent="255" name="updated_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="479" parent="255" name="notifications_recipient_id_foreign">
+    <index id="482" parent="255" name="notifications_recipient_id_foreign">
       <ColNames>recipient_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="480" parent="255" name="notifications_sender_id_foreign">
+    <index id="483" parent="255" name="notifications_sender_id_foreign">
       <ColNames>sender_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="481" parent="255" name="notifications_notification_id_foreign">
+    <index id="484" parent="255" name="notifications_notification_id_foreign">
       <ColNames>notification_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="482" parent="255" name="PRIMARY">
+    <key id="485" parent="255" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="483" parent="255" name="notifications_recipient_id_foreign">
+    <foreign-key id="486" parent="255" name="notifications_recipient_id_foreign">
       <ColNames>recipient_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="484" parent="255" name="notifications_sender_id_foreign">
+    <foreign-key id="487" parent="255" name="notifications_sender_id_foreign">
       <ColNames>sender_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="485" parent="255" name="notifications_notification_id_foreign">
+    <foreign-key id="488" parent="255" name="notifications_notification_id_foreign">
       <ColNames>notification_id</ColNames>
       <RefTableName>notifications</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="486" parent="256" name="id">
+    <column id="489" parent="256" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="487" parent="256" name="parameter">
+    <column id="490" parent="256" name="parameter">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="488" parent="256" name="created_at">
+    <column id="491" parent="256" name="created_at">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="489" parent="256" name="updated_at">
+    <column id="492" parent="256" name="updated_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <key id="490" parent="256" name="PRIMARY">
+    <key id="493" parent="256" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="491" parent="257" name="id">
+    <column id="494" parent="257" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="492" parent="257" name="parameter_id">
+    <column id="495" parent="257" name="parameter_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="493" parent="257" name="benchmark_statement_id">
+    <column id="496" parent="257" name="benchmark_statement_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="494" parent="257" name="created_at">
+    <column id="497" parent="257" name="created_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="495" parent="257" name="updated_at">
+    <column id="498" parent="257" name="updated_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="496" parent="257" name="parameters_statements_parameter_id_foreign">
+    <index id="499" parent="257" name="parameters_statements_parameter_id_foreign">
       <ColNames>parameter_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="497" parent="257" name="parameters_statements_benchmark_statement_id_foreign">
+    <index id="500" parent="257" name="parameters_statements_benchmark_statement_id_foreign">
       <ColNames>benchmark_statement_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="498" parent="257" name="PRIMARY">
+    <key id="501" parent="257" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="499" parent="257" name="parameters_statements_parameter_id_foreign">
+    <foreign-key id="502" parent="257" name="parameters_statements_parameter_id_foreign">
       <ColNames>parameter_id</ColNames>
       <RefTableName>parameters</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="500" parent="257" name="parameters_statements_benchmark_statement_id_foreign">
+    <foreign-key id="503" parent="257" name="parameters_statements_benchmark_statement_id_foreign">
       <ColNames>benchmark_statement_id</ColNames>
       <RefTableName>benchmark_statements</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="501" parent="258" name="id">
+    <column id="504" parent="258" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="502" parent="258" name="program_name">
+    <column id="505" parent="258" name="program_name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="503" parent="258" name="rating_obtained">
+    <column id="506" parent="258" name="rating_obtained">
       <Position>3</Position>
       <DataType>double(8,2 digit)|0s</DataType>
     </column>
-    <column id="504" parent="258" name="accreditation_status">
+    <column id="507" parent="258" name="accreditation_status">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="505" parent="258" name="duration_of_validity">
+    <column id="508" parent="258" name="duration_of_validity">
       <Position>5</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="506" parent="258" name="suc_id">
+    <column id="509" parent="258" name="suc_id">
       <Position>6</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="507" parent="258" name="created_at">
+    <column id="510" parent="258" name="created_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="508" parent="258" name="updated_at">
+    <column id="511" parent="258" name="updated_at">
       <Position>8</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="509" parent="258" name="programs_suc_id_foreign">
+    <index id="512" parent="258" name="programs_suc_id_foreign">
       <ColNames>suc_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="510" parent="258" name="PRIMARY">
+    <key id="513" parent="258" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="511" parent="258" name="programs_suc_id_foreign">
+    <foreign-key id="514" parent="258" name="programs_suc_id_foreign">
       <ColNames>suc_id</ColNames>
       <RefTableName>sucs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="512" parent="259" name="id">
+    <column id="515" parent="259" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="513" parent="259" name="role">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="514" parent="259" name="created_at">
-      <Position>3</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <column id="515" parent="259" name="updated_at">
-      <Position>4</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <key id="516" parent="259" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="517" parent="260" name="application_program">
-      <Position>1</Position>
-      <DataType>bigint(20) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="518" parent="260" name="user_id">
+    <column id="516" parent="259" name="program_instrument_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="519" parent="260" name="sar_report">
+    <column id="517" parent="259" name="benchmark_statement">
       <Position>3</Position>
-      <DataType>blob|0s</DataType>
+      <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="520" parent="260" name="consolidated_status">
+    <column id="518" parent="259" name="created_at">
       <Position>4</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>timestamp|0s</DataType>
     </column>
-    <column id="521" parent="260" name="created_at">
+    <column id="519" parent="259" name="updated_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="522" parent="260" name="updated_at">
-      <Position>6</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <index id="523" parent="260" name="sar_reports_application_program_foreign">
-      <ColNames>application_program</ColNames>
+    <index id="520" parent="259" name="programs_statements_program_instrument_id_foreign">
+      <ColNames>program_instrument_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="524" parent="260" name="sar_reports_user_id_foreign">
-      <ColNames>user_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <foreign-key id="525" parent="260" name="sar_reports_application_program_foreign">
-      <ColNames>application_program</ColNames>
-      <RefTableName>applications_programs</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="526" parent="260" name="sar_reports_user_id_foreign">
-      <ColNames>user_id</ColNames>
-      <RefTableName>users</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <column id="527" parent="261" name="id">
-      <Position>1</Position>
-      <DataType>bigint(20) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>null</SequenceIdentity>
-    </column>
-    <column id="528" parent="261" name="institution_name">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="529" parent="261" name="address">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="530" parent="261" name="email">
-      <Position>4</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="531" parent="261" name="contact_no">
-      <Position>5</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="532" parent="261" name="created_at">
-      <Position>6</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <column id="533" parent="261" name="updated_at">
-      <Position>7</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <key id="534" parent="261" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="535" parent="262" name="id">
-      <Position>1</Position>
-      <DataType>bigint(20) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>null</SequenceIdentity>
-    </column>
-    <column id="536" parent="262" name="transaction_id">
-      <Position>2</Position>
-      <DataType>bigint(20) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="537" parent="262" name="benchmark_statement">
-      <Position>3</Position>
-      <DataType>bigint(20) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="538" parent="262" name="created_at">
-      <Position>4</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <column id="539" parent="262" name="updated_at">
-      <Position>5</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <index id="540" parent="262" name="transaction_instruments_transaction_id_foreign">
-      <ColNames>transaction_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="541" parent="262" name="transaction_instruments_benchmark_statement_foreign">
+    <index id="521" parent="259" name="programs_statements_benchmark_statement_foreign">
       <ColNames>benchmark_statement</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="542" parent="262" name="PRIMARY">
+    <key id="522" parent="259" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="543" parent="262" name="transaction_instruments_transaction_id_foreign">
-      <ColNames>transaction_id</ColNames>
-      <RefTableName>transactions</RefTableName>
+    <foreign-key id="523" parent="259" name="programs_statements_program_instrument_id_foreign">
+      <ColNames>program_instrument_id</ColNames>
+      <RefTableName>instruments_programs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="544" parent="262" name="transaction_instruments_benchmark_statement_foreign">
+    <foreign-key id="524" parent="259" name="programs_statements_benchmark_statement_foreign">
       <ColNames>benchmark_statement</ColNames>
       <RefTableName>benchmark_statements</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="545" parent="263" name="id">
+    <column id="525" parent="260" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="546" parent="263" name="application_program_id">
+    <column id="526" parent="260" name="role">
       <Position>2</Position>
-      <DataType>bigint(20) unsigned|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="547" parent="263" name="area_instrument_id">
+    <column id="527" parent="260" name="created_at">
       <Position>3</Position>
-      <DataType>bigint(20) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>timestamp|0s</DataType>
     </column>
-    <column id="548" parent="263" name="created_at">
+    <column id="528" parent="260" name="updated_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="549" parent="263" name="updated_at">
-      <Position>5</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <index id="550" parent="263" name="transactions_application_program_id_foreign">
-      <ColNames>application_program_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="551" parent="263" name="transactions_area_instrument_id_foreign">
-      <ColNames>area_instrument_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="552" parent="263" name="PRIMARY">
+    <key id="529" parent="260" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="553" parent="263" name="transactions_application_program_id_foreign">
+    <column id="530" parent="261" name="application_program">
+      <Position>1</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="531" parent="261" name="user_id">
+      <Position>2</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="532" parent="261" name="sar_report">
+      <Position>3</Position>
+      <DataType>blob|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="533" parent="261" name="consolidated_status">
+      <Position>4</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="534" parent="261" name="created_at">
+      <Position>5</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <column id="535" parent="261" name="updated_at">
+      <Position>6</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <index id="536" parent="261" name="sar_reports_application_program_foreign">
+      <ColNames>application_program</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="537" parent="261" name="sar_reports_user_id_foreign">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="538" parent="261" name="sar_reports_application_program_foreign">
+      <ColNames>application_program</ColNames>
+      <RefTableName>applications_programs</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="539" parent="261" name="sar_reports_user_id_foreign">
+      <ColNames>user_id</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="540" parent="262" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="541" parent="262" name="institution_name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="542" parent="262" name="address">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="543" parent="262" name="email">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="544" parent="262" name="contact_no">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="545" parent="262" name="created_at">
+      <Position>6</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <column id="546" parent="262" name="updated_at">
+      <Position>7</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <key id="547" parent="262" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="548" parent="263" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="549" parent="263" name="transaction_id">
+      <Position>2</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="550" parent="263" name="benchmark_statement">
+      <Position>3</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="551" parent="263" name="created_at">
+      <Position>4</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <column id="552" parent="263" name="updated_at">
+      <Position>5</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <index id="553" parent="263" name="transaction_instruments_transaction_id_foreign">
+      <ColNames>transaction_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="554" parent="263" name="transaction_instruments_benchmark_statement_foreign">
+      <ColNames>benchmark_statement</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="555" parent="263" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="556" parent="263" name="transaction_instruments_transaction_id_foreign">
+      <ColNames>transaction_id</ColNames>
+      <RefTableName>transactions</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="557" parent="263" name="transaction_instruments_benchmark_statement_foreign">
+      <ColNames>benchmark_statement</ColNames>
+      <RefTableName>benchmark_statements</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="558" parent="264" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="559" parent="264" name="application_program_id">
+      <Position>2</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="560" parent="264" name="area_instrument_id">
+      <Position>3</Position>
+      <DataType>bigint(20) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="561" parent="264" name="created_at">
+      <Position>4</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <column id="562" parent="264" name="updated_at">
+      <Position>5</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+    <index id="563" parent="264" name="transactions_application_program_id_foreign">
+      <ColNames>application_program_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="564" parent="264" name="transactions_area_instrument_id_foreign">
+      <ColNames>area_instrument_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="565" parent="264" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="566" parent="264" name="transactions_application_program_id_foreign">
       <ColNames>application_program_id</ColNames>
       <RefTableName>applications_programs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="554" parent="263" name="transactions_area_instrument_id_foreign">
+    <foreign-key id="567" parent="264" name="transactions_area_instrument_id_foreign">
       <ColNames>area_instrument_id</ColNames>
       <RefTableName>area_instruments</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="555" parent="264" name="user_id">
+    <column id="568" parent="265" name="user_id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="556" parent="264" name="role">
+    <column id="569" parent="265" name="role">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="557" parent="264" name="created_at">
+    <column id="570" parent="265" name="created_at">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="558" parent="264" name="updated_at">
+    <column id="571" parent="265" name="updated_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="559" parent="264" name="user_roles_user_id_foreign">
+    <index id="572" parent="265" name="user_roles_user_id_foreign">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="560" parent="264" name="user_roles_user_id_foreign">
+    <foreign-key id="573" parent="265" name="user_roles_user_id_foreign">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="561" parent="265" name="id">
+    <column id="574" parent="266" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="562" parent="265" name="name">
+    <column id="575" parent="266" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="563" parent="265" name="email">
+    <column id="576" parent="266" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="564" parent="265" name="email_verified_at">
+    <column id="577" parent="266" name="email_verified_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="565" parent="265" name="password">
+    <column id="578" parent="266" name="password">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="566" parent="265" name="remember_token">
+    <column id="579" parent="266" name="remember_token">
       <Position>6</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="567" parent="265" name="created_at">
+    <column id="580" parent="266" name="created_at">
       <Position>7</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="568" parent="265" name="updated_at">
+    <column id="581" parent="266" name="updated_at">
       <Position>8</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="569" parent="265" name="users_email_unique">
+    <index id="582" parent="266" name="users_email_unique">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="570" parent="265" name="PRIMARY">
+    <key id="583" parent="266" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="571" parent="265" name="users_email_unique">
+    <key id="584" parent="266" name="users_email_unique">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>users_email_unique</UnderlyingIndexName>
     </key>
-    <column id="572" parent="266" name="user_id">
+    <column id="585" parent="267" name="user_id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="573" parent="266" name="role_id">
+    <column id="586" parent="267" name="role_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="574" parent="266" name="created_at">
+    <column id="587" parent="267" name="created_at">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="575" parent="266" name="updated_at">
+    <column id="588" parent="267" name="updated_at">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="576" parent="266" name="users_roles_user_id_foreign">
+    <index id="589" parent="267" name="users_roles_user_id_foreign">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="577" parent="266" name="users_roles_role_id_foreign">
+    <index id="590" parent="267" name="users_roles_role_id_foreign">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="578" parent="266" name="users_roles_user_id_foreign">
+    <foreign-key id="591" parent="267" name="users_roles_user_id_foreign">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="579" parent="266" name="users_roles_role_id_foreign">
+    <foreign-key id="592" parent="267" name="users_roles_role_id_foreign">
       <ColNames>role_id</ColNames>
       <RefTableName>roles</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="580" parent="267" name="id">
+    <column id="593" parent="268" name="id">
       <Position>1</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="581" parent="267" name="suc_id">
+    <column id="594" parent="268" name="suc_id">
       <Position>2</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="582" parent="267" name="user_id">
+    <column id="595" parent="268" name="user_id">
       <Position>3</Position>
       <DataType>bigint(20) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="583" parent="267" name="department">
+    <column id="596" parent="268" name="department">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="584" parent="267" name="created_at">
+    <column id="597" parent="268" name="created_at">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="585" parent="267" name="updated_at">
+    <column id="598" parent="268" name="updated_at">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <index id="586" parent="267" name="users_sucs_suc_id_foreign">
+    <index id="599" parent="268" name="users_sucs_suc_id_foreign">
       <ColNames>suc_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="587" parent="267" name="users_sucs_user_id_foreign">
+    <index id="600" parent="268" name="users_sucs_user_id_foreign">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="588" parent="267" name="PRIMARY">
+    <key id="601" parent="268" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="589" parent="267" name="users_sucs_suc_id_foreign">
+    <foreign-key id="602" parent="268" name="users_sucs_suc_id_foreign">
       <ColNames>suc_id</ColNames>
       <RefTableName>sucs</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="590" parent="267" name="users_sucs_user_id_foreign">
+    <foreign-key id="603" parent="268" name="users_sucs_user_id_foreign">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>

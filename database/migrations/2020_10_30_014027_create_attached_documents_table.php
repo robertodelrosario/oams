@@ -16,7 +16,7 @@ class  CreateAttachedDocumentsTable extends Migration
         Schema::create('attached_documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('statement_id');
-            $table->foreign('statement_id')->references('id')->on('transaction_instruments')
+            $table->foreign('statement_id')->references('id')->on('programs_statements')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('document_id');
             $table->foreign('document_id')->references('id')->on('dummy_documents')

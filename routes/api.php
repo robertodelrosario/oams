@@ -80,9 +80,9 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
 
-    Route::post('/attachSupportDocument', 'MSITransactionController@attachSupportDocument');
-    Route::get('/showTransactionInstrument/{id}', 'MSITransactionController@showTransactionInstrument');
-    Route::delete('/removeSupportDocument/{id}', 'MSITransactionController@removeSupportDocument');
+    Route::post('/attachSupportDocument', 'MSIAttachmentController@attachSupportDocument');
+    Route::get('/showStatementDocument/{id}/{instrumentID}', 'MSIAttachmentController@showStatementDocument');
+    Route::delete('/removeSupportDocument/{id}', 'MSIAttachmentController@removeSupportDocument');
 
     Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
     Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');
