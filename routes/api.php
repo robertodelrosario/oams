@@ -81,12 +81,15 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
 
     Route::post('/attachSupportDocument', 'MSIAttachmentController@attachSupportDocument');
-    Route::get('/showStatementDocument/{id}/{instrumentID}', 'MSIAttachmentController@showStatementDocument');
+    Route::get('/showStatementDocument/{id}/{transactionID}', 'MSIAttachmentController@showStatementDocument');
     Route::delete('/removeSupportDocument/{id}', 'MSIAttachmentController@removeSupportDocument');
 
     Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
     Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');
 
     Route::post('/assignTask/{id}', 'AssignTaskController@assignTask');
+    Route::get('/showTask/{id}', 'AssignTaskController@showTask');
     Route::delete('/deleteAssignedUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedUser');
+
+    Route::put('/setScore', 'MSIEvaluationController@setScore');
 });

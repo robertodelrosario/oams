@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AssignedUser;
 use App\AttachedDocument;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\InstrumentStatement;
 use App\ProgramStatement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class MSIAttachmentController extends Controller
@@ -34,23 +36,47 @@ class MSIAttachmentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully removed document']);
     }
 
-    public function showStatementDocument($id, $instrumentID){
-        $instrumentStatement = DB::table('programs_statements')
-            ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
-            ->join('parameters_statements', 'parameters_statements.benchmark_statement_id', '=', 'programs_statements.benchmark_statement_id')
-            ->join('parameters', 'parameters.id', '=' , 'parameters_statements.parameter_id')
-            ->join('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
-            ->where('instruments_parameters.area_instrument_id',$instrumentID)
-            ->where('programs_statements.program_instrument_id', $id)
-            ->select('programs_statements.program_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'parameters_statements.parameter_id', 'parameters.parameter')
-            ->orderBy('parameters.parameter')
-            ->get();
+    public function showStatementDocument($id, $transactionID){
+        $task = AssignedUser::where([
+            ['transaction_id', $transactionID], ['user_id', $id]
+        ])->first();
+        $area = InstrumentProgram::where('id', $task->transaction_id)->first();
+            $instrumentStatement = DB::table('programs_statements')
+                ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
+                ->join('parameters_statements', 'parameters_statements.benchmark_statement_id', '=', 'programs_statements.benchmark_statement_id')
+                ->join('parameters', 'parameters.id', '=' , 'parameters_statements.parameter_id')
+                ->join('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
+                ->where('instruments_parameters.area_instrument_id',$area->area_instrument_id)
+                ->where('programs_statements.program_instrument_id', $area->id)
+                ->select('programs_statements.program_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'parameters_statements.parameter_id', 'parameters.parameter')
+                ->orderBy('parameters.parameter')
+                ->get();
 
-        $statementDocument = DB::table('programs_statements')
-            ->join('attached_documents', 'programs_statements.id', '=', 'attached_documents.statement_id')
-            ->join('dummy_documents', 'dummy_documents.id', '=', 'attached_documents.document_id')
-            ->where('programs_statements.program_instrument_id', $id)
-            ->get();
+            $statementDocument = DB::table('programs_statements')
+                ->join('attached_documents', 'programs_statements.id', '=', 'attached_documents.statement_id')
+                ->join('dummy_documents', 'dummy_documents.id', '=', 'attached_documents.document_id')
+                ->where('programs_statements.program_instrument_id', $area->id)
+                ->get();
         return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument]);
-    }
+        }
+
+//    public function showStatementDocument($id, $instrumentID){
+//        $instrumentStatement = DB::table('programs_statements')
+//            ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
+//            ->join('parameters_statements', 'parameters_statements.benchmark_statement_id', '=', 'programs_statements.benchmark_statement_id')
+//            ->join('parameters', 'parameters.id', '=' , 'parameters_statements.parameter_id')
+//            ->join('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
+//            ->where('instruments_parameters.area_instrument_id',$instrumentID)
+//            ->where('programs_statements.program_instrument_id', $id)
+//            ->select('programs_statements.program_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'parameters_statements.parameter_id', 'parameters.parameter')
+//            ->orderBy('parameters.parameter')
+//            ->get();
+//
+//        $statementDocument = DB::table('programs_statements')
+//            ->join('attached_documents', 'programs_statements.id', '=', 'attached_documents.statement_id')
+//            ->join('dummy_documents', 'dummy_documents.id', '=', 'attached_documents.document_id')
+//            ->where('programs_statements.program_instrument_id', $id)
+//            ->get();
+//        return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument]);
+//    }
 }

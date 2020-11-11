@@ -26,12 +26,12 @@ class ApplicationController extends Controller
 
         $application = new Application();
         $fileName = time().'_'.$request->application_letter->getClientOriginalName();
-        $filePath = $request->file('application_letter')->storeAs('application', $fileName, 'public');
+        $filePath = $request->file('application_letter')->storeAs('/application', $fileName, 'public');
         $application->application_title = $fileName;
-        $application->application_letter = '/storage/' . $filePath;
+        $application->application_letter = 'storage/app/public' . $filePath;
         $application->suc_id = $id;
         $application->save();
-        return response()->json(['status' => true, 'message' => 'Successfully added application letter!']);
+        return response()->json(['status' => true, 'message' => 'Successfully added application letter!', 'application' => $application]);
     }
     public function deleteApplication($id){
         $application = Application::where('id', $id);
@@ -48,8 +48,9 @@ class ApplicationController extends Controller
         $application = Application::where('id', $id)->first();
 //        $path = storage_path($application->application_letter);
 
-        $file = File::get($application->application_letter);
+        $file = File::get(storage_path($application->application_letter));
         $type = File::mimeType($application->application_letter);
+        dd($type);
 
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
@@ -57,5 +58,4 @@ class ApplicationController extends Controller
         //$content = Storage::get($path);
         //return response()->json(['status' => true, 'message' => 'retrieved file', $content]);
     }
-
 }

@@ -40,7 +40,6 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
         return $this->respondWithToken($token);
     }
 
@@ -51,7 +50,8 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        $roles = UserRole::where('user_id', auth()->user()->id)->get();
+        return response()->json(['user' => auth()->user(), 'role' => $roles]);
     }
 
     /**

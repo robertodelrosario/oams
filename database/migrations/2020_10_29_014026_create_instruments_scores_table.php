@@ -16,7 +16,7 @@ class CreateInstrumentsScoresTable extends Migration
         Schema::create('instruments_scores', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id');
-            $table->foreign('item_id')->references('id')->on('transaction_instruments')
+            $table->foreign('item_id')->references('id')->on('programs_statements')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('assigned_user_id');
             $table->foreign('assigned_user_id')->references('id')->on('users')
