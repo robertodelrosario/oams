@@ -26,13 +26,29 @@ class ApplicationController extends Controller
 
         $application = new Application();
         $fileName = time().'_'.$request->application_letter->getClientOriginalName();
-        $filePath = $request->file('application_letter')->storeAs('/application', $fileName, 'public');
+        $filePath = $request->file('application_letter')->storeAs('application/files', $fileName);
         $application->application_title = $fileName;
-        $application->application_letter = 'storage/app/public' . $filePath;
+        $application->application_letter = $filePath;
         $application->suc_id = $id;
         $application->save();
         return response()->json(['status' => true, 'message' => 'Successfully added application letter!', 'application' => $application]);
     }
+
+//    public function application(request $request, $id){
+//        $validator = Validator::make($request->all(), [
+//            'application_letter' => 'required',
+//            'application_title' => 'required'
+//        ]);
+//        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
+//
+//        $application = new Application();
+//        $application->application_title = $request->application_title;
+//        $application->application_letter = $request->file('application_letter')->store("application/files");
+//        $application->suc_id = $id;
+//        $application->save();
+//        return response()->json(['status' => true, 'message' => 'Successfully added application letter!', 'application' => $application]);
+//    }
+
     public function deleteApplication($id){
         $application = Application::where('id', $id);
         $application->delete();
@@ -43,19 +59,28 @@ class ApplicationController extends Controller
         $application = Application::where('suc_id', $id)->get();
         return response()->json($application);
     }
-
     public function viewFile($id){
         $application = Application::where('id', $id)->first();
-//        $path = storage_path($application->application_letter);
-
-        $file = File::get(storage_path($application->application_letter));
-        $type = File::mimeType($application->application_letter);
-        dd($type);
+        $file = File::get(storage_path("app/".$application->application_letter));
+        $type = File::mimeType(storage_path("app/".$application->application_letter));
 
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
-        //$content = Storage::get($path);
-        //return response()->json(['status' => true, 'message' => 'retrieved file', $content]);
     }
+
+//    public function viewFile($id){
+//        $application = Application::where('id', $id)->first();
+////        $path = storage_path($application->application_letter);
+//
+//        $file = File::get(storage_path($application->application_letter));
+//        $type = File::mimeType($application->application_letter);
+//        dd($type);
+//
+//        $response = Response::make($file, 200);
+//        $response->header("Content-Type", $type);
+//        return $response;
+//        //$content = Storage::get($path);
+//        //return response()->json(['status' => true, 'message' => 'retrieved file', $content]);
+//    }
 }
