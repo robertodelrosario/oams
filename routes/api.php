@@ -75,21 +75,49 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/viewFile/{id}', 'ApplicationController@viewFile');
 
     Route::post('/program', 'AppliedProgramController@program');
-    Route::post('/uploadDocument', 'AppliedProgramController@uploadDocument');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');
     Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
+    Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');
+
+    Route::post('/uploadPPP/{id}', 'AppliedProgramController@uploadPPP');
+    Route::post('/uploadCompliance/{id}', 'AppliedProgramController@uploadCompliance');
+    Route::post('/uploadNarrative/{id}', 'AppliedProgramController@uploadNarrative');
+    Route::get('/viewPPP/{id}', 'AppliedProgramController@viewPPP');
+    Route::get('/viewCompliance/{id}', 'AppliedProgramController@viewCompliance');
+    Route::get('/viewNarrative/{id}', 'AppliedProgramController@viewNarrative');
+    Route::delete('/deletePPP/{id}', 'AppliedProgramController@deletePPP');
+    Route::delete('/deleteCompliance/{id}', 'AppliedProgramController@deleteCompliance');
+    Route::delete('/deleteNarrative/{id}', 'AppliedProgramController@deleteNarrative');
 
     Route::post('/attachSupportDocument', 'MSIAttachmentController@attachSupportDocument');
-    Route::get('/showStatementDocument/{id}/{transactionID}', 'MSIAttachmentController@showStatementDocument');
     Route::delete('/removeSupportDocument/{id}', 'MSIAttachmentController@removeSupportDocument');
+
+    Route::get('/showStatementDocument/{id}/{transactionID}', 'MSIController@showStatementDocument');
 
     Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
     Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');
 
     Route::post('/assignTask/{id}', 'AssignTaskController@assignTask');
-    Route::get('/showTask/{id}', 'AssignTaskController@showTask');
+    //Route::get('/showTask/{id}', 'AssignTaskController@showTask');
+    //Route::get('/showTaskUser/{id}', 'AssignTaskController@showTaskUser');
     Route::delete('/deleteAssignedUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedUser');
 
+    Route::post('/assignHeadTask/{id}', 'AssignTaskController@assignHeadTask');
+    Route::delete('/deleteAssignedHeadUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedHeadUser');
+
     Route::put('/setScore', 'MSIEvaluationController@setScore');
+
+});
+
+Route::group(['prefix' => '/taskForce'], function() {
+    Route::get('/showTask/{id}', 'UserController@showTask');
+    Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
+
+});
+
+Route::group(['prefix' => '/aaccup'], function() {
+    Route::get('/showApplication', 'AaccupController@showApplication');
+    Route::put('/approve/{id}', 'AaccupController@approve');
+    Route::put('/reject/{id}', 'AaccupController@reject');
 });

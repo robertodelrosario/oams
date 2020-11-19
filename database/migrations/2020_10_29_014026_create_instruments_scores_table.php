@@ -19,7 +19,7 @@ class CreateInstrumentsScoresTable extends Migration
             $table->foreign('item_id')->references('id')->on('programs_statements')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('assigned_user_id');
-            $table->foreign('assigned_user_id')->references('id')->on('users')
+            $table->foreign('assigned_user_id')->references('id')->on('assigned_users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->integer('item_score')->nullable();
             $table->text('remark')->nullable();
