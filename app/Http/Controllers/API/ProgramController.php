@@ -8,6 +8,8 @@ use App\InstrumentStatement;
 use App\Program;
 use App\ProgramStatement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ProgramController extends Controller
@@ -96,6 +98,28 @@ class ProgramController extends Controller
 //        }
 //        return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
 //    }
+    public function showInstrumentProgram($id){
+        $instrumentPrograms = DB::table('instruments_programs')
+            ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
+            ->where('instruments_programs.program_id', $id)
+            ->get();
+        return response()->json(['instruments' => $instrumentPrograms]);
+    }
+
+    public function showStatement($id){
+        $area = InstrumentProgram::where('id', $id)->first();
+        $instrumentStatement = DB::table('programs_statements')
+            ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
+            ->join('parameters_statements', 'parameters_statements.benchmark_statement_id', '=', 'programs_statements.benchmark_statement_id')
+            ->join('parameters', 'parameters.id', '=' , 'parameters_statements.parameter_id')
+            ->join('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
+            ->where('instruments_parameters.area_instrument_id',$area->area_instrument_id)
+            ->where('programs_statements.program_instrument_id', $area->id)
+            ->select('programs_statements.program_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'parameters_statements.parameter_id', 'parameters.parameter')
+            ->orderBy('parameters.parameter')
+            ->get();
+        return response()->json(['statements' => $instrumentStatement]);
+    }
 
 
     public function removeInstrument($programID, $instrumentID){
