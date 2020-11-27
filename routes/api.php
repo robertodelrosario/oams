@@ -119,7 +119,17 @@ Route::group(['prefix' => '/taskForce'], function() {
 });
 
 Route::group(['prefix' => '/aaccup'], function() {
+    Route::get('/showAllPrograms', 'AaccupController@showAllPrograms');
     Route::get('/showApplication', 'AaccupController@showApplication');
     Route::put('/approve/{id}', 'AaccupController@approve');
     Route::put('/reject/{id}', 'AaccupController@reject');
+    Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
+    Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
+    Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
+});
+
+Route::group(['prefix' => '/accreditor'], function() {
+    Route::get('/viewRequest/{id}', 'AccreditorController@viewRequest');
+    Route::put('/acceptRequest/{id}', 'AccreditorController@acceptRequest');
+    Route::put('/rejectRequest/{id}', 'AccreditorController@rejectRequest');
 });

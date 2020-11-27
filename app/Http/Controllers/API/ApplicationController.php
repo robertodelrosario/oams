@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Application;
 use App\Http\Controllers\Controller;
+use App\Mail\ApplicationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +24,7 @@ class ApplicationController extends Controller
         $validator = Validator::make($request->all(), [
             'application_letter' => 'required|mimes:doc,docx,pdf,jpg,png|max:2048'
         ]);
-        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
+        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required ApplicationNotification Letter!']);
 
         $application = new Application();
         $fileName = time().'_'.$request->application_letter->getClientOriginalName();
@@ -31,6 +33,13 @@ class ApplicationController extends Controller
         $application->application_letter = $filePath;
         $application->suc_id = $id;
         $application->save();
+
+        $details = [
+            'Title' => 'ApplicationNotification for Accreditation',
+            'Body' => 'Please check your AOMS account to view the application',
+        ];
+        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
+
         return response()->json(['status' => true, 'message' => 'Successfully added application letter!', 'application' => $application]);
     }
 
@@ -39,9 +48,9 @@ class ApplicationController extends Controller
 //            'application_letter' => 'required',
 //            'application_title' => 'required'
 //        ]);
-//        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
+//        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required ApplicationNotification Letter!']);
 //
-//        $application = new Application();
+//        $application = new ApplicationNotification();
 //        $application->application_title = $request->application_title;
 //        $application->application_letter = $request->file('application_letter')->store("application/files");
 //        $application->suc_id = $id;
@@ -52,7 +61,7 @@ class ApplicationController extends Controller
     public function deleteApplication($id){
         $application = Application::where('id', $id);
         $application->delete();
-        return response()->json(['status' => true, 'message' => 'Application successfully deleted!']);
+        return response()->json(['status' => true, 'message' => 'ApplicationNotification successfully deleted!']);
     }
 
     public function showApplication($id){
@@ -70,7 +79,7 @@ class ApplicationController extends Controller
     }
 
 //    public function viewFile($id){
-//        $application = Application::where('id', $id)->first();
+//        $application = ApplicationNotification::where('id', $id)->first();
 ////        $path = storage_path($application->application_letter);
 //
 //        $file = File::get(storage_path($application->application_letter));

@@ -95,7 +95,8 @@ class AuthController extends Controller
     public function registerSucUser(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required',
             'password' => 'required|min:6',
         ]);
@@ -106,7 +107,8 @@ class AuthController extends Controller
         $check = User::where('email', $request->email)->first();
         if(is_null($check)){
             $user = new User;
-            $user->name = $request->name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
             $user->email = $request->email;
             $user->password = bcrypt($request->input('password'));
             $user->save();
@@ -126,7 +128,8 @@ class AuthController extends Controller
 
     public function registerAaccupAccreditor(request $request){
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required',
             'password' => 'required|min:6',
         ]);
@@ -134,7 +137,8 @@ class AuthController extends Controller
         $check = User::where('email', $request->email)->first();
         if(is_null($check)){
             $user = new User;
-            $user->name = $request->name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
             $user->email = $request->email;
             $user->password = bcrypt($request->input('password'));
             $user->save();

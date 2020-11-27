@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AccreditorRequest;
 use App\ApplicationProgram;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class AaccupController extends Controller
 {
+    public function showAllPrograms(){
+        $programs = DB::table('programs')
+            ->join('sucs', 'sucs.id', '=', 'programs.suc_id')
+            ->get();
+        return response()->json(['programs' => $programs]);
+    }
+
     public function showApplication(){
         $applications = DB::table('applications')
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
@@ -16,8 +24,32 @@ class AaccupController extends Controller
         return response()->json(['applications' => $applications]);
     }
 
-    public function requestAccreditor(){
-        
+    public function requestAccreditor(request $request,$id){
+        $accreditorRequest =new AccreditorRequest();
+        $accreditorRequest->application_program_id = $request->application_program_id;
+        $accreditorRequest->accreditor_id = $id;
+        $accreditorRequest->instrument_program_id = $request->instrument_program_id;
+        $accreditorRequest->status = "pending";
+        $accreditorRequest->save();
+        return response()->json(['status' => true, 'message' => 'Successfully sent accreditor request ','accreditor' => $accreditorRequest]);
+    }
+
+    public function viewAccreditorRequest(){
+        $req = DB::table('accreditor_requests')
+            ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
+            ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
+            ->join('instruments_programs', 'instruments_programs.id', '=', 'accreditor_requests.instrument_program_id')
+            ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
+            ->join('users', 'users.id', '=', 'accreditor_requests.accreditor_id')
+            ->select('users.first_name', 'users.last_name', 'users.email','accreditor_requests.*', 'programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
+            ->get();
+        return response()->json(['requests' => $req]);
+    }
+
+    public function deleteAccreditorRequest($id){
+        $req = AccreditorRequest::where('id', $id);
+        $req->delete();
+        return response()->json(['status' => true ,'message' => 'Successfully deleted request']);
     }
     public function approve(request $request, $id){
         $program = ApplicationProgram::where('id', $id)->first();
