@@ -134,6 +134,7 @@ class InstrumentController extends Controller
                 $instruState = new InstrumentStatement();
                 $instruState->area_instrument_id = $new_instrument->id;
                 $instruState->benchmark_statement_id = $instrumentStatement->benchmark_statement_id;
+                $instruState->parent_statement_id = $instrumentStatement->parent_statement_id;
                 $instruState->save();
             }
 

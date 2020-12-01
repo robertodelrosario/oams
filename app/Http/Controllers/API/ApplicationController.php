@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Application;
 use App\Http\Controllers\Controller;
 use App\Mail\ApplicationNotification;
+use App\SUC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -34,9 +35,12 @@ class ApplicationController extends Controller
         $application->suc_id = $id;
         $application->save();
 
+        $suc = SUC::where('id', $id)->first();
         $details = [
-            'Title' => 'ApplicationNotification for Accreditation',
+            'Title' => 'Application Notification for Accreditation',
             'Body' => 'Please check your AOMS account to view the application',
+            'suc' => $suc->institution_name,
+            'address' => $suc->
         ];
         \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
 
