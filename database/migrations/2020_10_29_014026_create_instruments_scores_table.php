@@ -21,7 +21,7 @@ class CreateInstrumentsScoresTable extends Migration
             $table->foreignId('assigned_user_id');
             $table->foreign('assigned_user_id')->references('id')->on('assigned_users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->integer('item_score')->nullable();
+            $table->float('item_score')->nullable();
             $table->text('remark')->nullable();
             $table->string('remark_type')->nullable();
             $table->timestamps();

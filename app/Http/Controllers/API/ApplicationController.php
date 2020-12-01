@@ -26,7 +26,6 @@ class ApplicationController extends Controller
             'application_letter' => 'required|mimes:doc,docx,pdf,jpg,png|max:2048'
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required ApplicationNotification Letter!']);
-
         $application = new Application();
         $fileName = time().'_'.$request->application_letter->getClientOriginalName();
         $filePath = $request->file('application_letter')->storeAs('application/files', $fileName);
@@ -45,10 +44,8 @@ class ApplicationController extends Controller
             'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
         ];
         \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
-
         return response()->json(['status' => true, 'message' => 'Successfully added application letter!', 'application' => $application]);
     }
-
 //    public function application(request $request, $id){
 //        $validator = Validator::make($request->all(), [
 //            'application_letter' => 'required',

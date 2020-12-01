@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ApplicationNotification extends Mailable
+class RequestAccreditor extends Mailable
 {
     use Queueable, SerializesModels;
     public $details;
@@ -28,7 +28,7 @@ class ApplicationNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject('Accreditation Application')
-            ->view('application');
+        return $this->subject('Accreditation Request')
+            ->view('accreditorrequest');
     }
 }
