@@ -37,10 +37,12 @@ class ApplicationController extends Controller
 
         $suc = SUC::where('id', $id)->first();
         $details = [
-            'Title' => 'Application Notification for Accreditation',
-            'Body' => 'Please check your AOMS account to view the application',
+            'title' => 'Application Notification for Accreditation',
+            'body' => 'Please check your AOMS account to view the application',
             'suc' => $suc->institution_name,
-            'address' => $suc->
+            'address' => $suc->address,
+            'email' => $suc->email,
+            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
         ];
         \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
 

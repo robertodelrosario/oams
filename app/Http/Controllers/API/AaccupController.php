@@ -51,7 +51,7 @@ class AaccupController extends Controller
         $req->delete();
         return response()->json(['status' => true ,'message' => 'Successfully deleted request']);
     }
-    public function approve(request $request, $id){
+    public function setDate(request $request, $id){
         $program = ApplicationProgram::where('id', $id)->first();
         $program->approved_start_date = $request->approved_start_date;
         $program->approved_end_date = $request->approved_end_date;

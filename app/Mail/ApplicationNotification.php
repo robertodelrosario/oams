@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class ApplicationNotification extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $details;
     /**
      * Create a new message instance.
      *
@@ -29,6 +29,6 @@ class ApplicationNotification extends Mailable
     public function build()
     {
         return $this->subject('ApplicationNotification')
-            ->view('welcome');
+            ->view('application');
     }
 }

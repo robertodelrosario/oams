@@ -121,7 +121,7 @@ Route::group(['prefix' => '/taskForce'], function() {
 Route::group(['prefix' => '/aaccup'], function() {
     Route::get('/showAllPrograms', 'AaccupController@showAllPrograms');
     Route::get('/showApplication', 'AaccupController@showApplication');
-    Route::put('/approve/{id}', 'AaccupController@approve');
+    Route::put('/setDate/{id}', 'AaccupController@approve');
     Route::put('/reject/{id}', 'AaccupController@reject');
     Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
     Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
