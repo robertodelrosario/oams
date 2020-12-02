@@ -20,13 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/accreditorrequest.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Mail/ApplicationNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/ApplicationNotification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_29_014026_create_instruments_scores_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_29_014026_create_instruments_scores_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSIEvaluationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSIEvaluationController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +252,8 @@
       <workItem from="1606081736360" duration="1212000" />
       <workItem from="1606198929449" duration="12188000" />
       <workItem from="1606437873229" duration="6073000" />
-      <workItem from="1606781716356" duration="19617000" />
+      <workItem from="1606781716356" duration="20658000" />
+      <workItem from="1606867449619" duration="1922000" />
     </task>
     <servers />
   </component>
