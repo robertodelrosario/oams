@@ -53,7 +53,6 @@ class AuthController extends Controller
         $roles = UserRole::where('user_id', auth()->user()->id)->get();
         return response()->json(['user' => auth()->user(), 'role' => $roles]);
     }
-
     /**
      * Log the user out (Invalidate the token).
      *

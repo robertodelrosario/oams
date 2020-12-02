@@ -16,7 +16,7 @@ class UserController extends Controller
             ->join('programs', 'programs.id', '=', 'instruments_programs.program_id')
             ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
             ->join('sucs', 'sucs.id', '=', 'programs.suc_id')
-            ->select('instruments_programs.*','sucs.*', 'programs.program_name', 'area_instruments.area_number', 'area_instruments.area_name', 'assigned_users.role')
+            ->select('instruments_programs.*','sucs.*', 'programs.program_name', 'area_instruments.area_number', 'area_instruments.area_name', 'assigned_users.*')
             ->where('assigned_users.user_id', $id)
             ->get();
         return response()->json(['tasks' => $tasks]);
