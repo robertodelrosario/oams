@@ -217,7 +217,7 @@ class AppliedProgramController extends Controller
             ->join('assigned_users', 'assigned_users.id', '=', 'instruments_scores.assigned_user_id')
             ->join('users', 'users.id', '=', 'assigned_users.user_id')
             ->where('programs_statements.program_instrument_id', $area->id)
-            ->select('programs_statements.*', 'instruments_scores.*','users.name', 'users.email' ,'assigned_users.role' )
+            ->select('programs_statements.*', 'instruments_scores.*','users.first_name','users.last_name', 'users.email' ,'assigned_users.role' )
             ->orderBy('users.id')
             ->get();
 
