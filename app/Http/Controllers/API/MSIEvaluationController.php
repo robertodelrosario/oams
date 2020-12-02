@@ -10,7 +10,7 @@ class MSIEvaluationController extends Controller
 {
     public function setScore(request $request){
         $count = count($request->items);
-        for ($x=1; $x<$count; $x++){
+        for ($x=0; $x<$count; $x++){
             $statement = InstrumentScore::where([
                 ['item_id', $request->items[$x]['id']],['assigned_user_id', $request->items[$x]['user_id']]
             ])->first();

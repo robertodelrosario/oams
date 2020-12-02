@@ -34,7 +34,7 @@ class AssignTaskController extends Controller
             foreach ($statements as $statement){
                 $item = new InstrumentScore();
                 $item->item_id = $statement->id;
-                $item->assigned_user_id = $assignUser->id;
+                $item->assigned_user_id = $assignUser->user_id;
                 $item->save();
             }
         }
