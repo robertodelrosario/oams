@@ -115,7 +115,6 @@ Route::group(['prefix' => '/application'], function() {
 Route::group(['prefix' => '/taskForce'], function() {
     Route::get('/showTask/{id}', 'UserController@showTask');
     Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
-
 });
 
 Route::group(['prefix' => '/aaccup'], function() {
