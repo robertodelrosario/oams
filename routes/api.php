@@ -40,10 +40,6 @@ Route::group([
 });
 
 Route::group(['prefix' => '/suc'], function() {
-    Route::post('/addSuc', 'SUCController@addSuc');
-    Route::get('/showSuc', 'SUCController@showSuc');
-    Route::delete('/deleteSuc/{id}', 'SUCController@deleteSuc');
-
     Route::post('/addProgram', 'ProgramController@addProgram');
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');
     Route::delete('/removeProgram/{sucID}/{programID}', 'ProgramController@removeProgram');
@@ -118,13 +114,18 @@ Route::group(['prefix' => '/taskForce'], function() {
 });
 
 Route::group(['prefix' => '/aaccup'], function() {
+    Route::post('/addSuc', 'SUCController@addSuc');
+    Route::get('/showSuc', 'SUCController@showSuc');
+    Route::delete('/deleteSuc/{id}', 'SUCController@deleteSuc');
+
     Route::get('/showAllPrograms', 'AaccupController@showAllPrograms');
     Route::get('/showApplication', 'AaccupController@showApplication');
-    Route::put('/setDate/{id}', 'AaccupController@approve');
+    Route::put('/setDate/{id}', 'AaccupController@setDate');
     Route::put('/reject/{id}', 'AaccupController@reject');
     Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
     Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
     Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
+
 });
 
 Route::group(['prefix' => '/accreditor'], function() {

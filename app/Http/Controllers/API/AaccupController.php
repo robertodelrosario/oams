@@ -54,7 +54,7 @@ class AaccupController extends Controller
             'area_name' => $req->area_name,
             'start_date' => $req->approved_start_date,
             'start_end' => $req->approved_end_date,
-            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
+            'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
         ];
         \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
         return response()->json(['status' => true, 'message' => 'Successfully sent accreditor request ','accreditor' => $accreditorRequest]);
