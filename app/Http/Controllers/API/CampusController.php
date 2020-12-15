@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class CampusController extends Controller
 {
-    public function addCampus(request $request)
+    public function addCampus(request $request, $id)
     {
 
         $validator = Validator::make($request->all(), [
-            'institution_name' => 'required',
             'campus_name' => 'required',
             'address' => 'required',
+            'region' => 'required',
             'email' => 'required',
             'contact_no' => 'required',
         ]);
@@ -23,19 +23,42 @@ class CampusController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
         $campus = Campus::where([
-            [strtolower('institution_name'), strtolower($request->institution_name)], [strtolower('campus_name'), strtolower($request->campus_name)]
+            ['suc_id', $id], [strtolower('campus_name'), strtolower($request->campus_name)]
         ])->first();
         if(is_null($campus))
         {
             $campus = new Campus();
-            $campus->institution_name = $request->institution_name;
+            $campus->suc_id = $id;
             $campus->campus_name = $request->campus_name;
             $campus->address = $request->address;
+            $campus->region = $request->region;
             $campus->email = $request->email;
             $campus->contact_no = $request->contact_no;
             $campus->save();
-            return response()->json(['status' => true, 'message' => 'Successfully created campus']);
+            return response()->json(['status' => true, 'message' => 'Successfully created campus', 'suc' => $campus]);
         }
         return response()->json(['status' => false, 'message' => 'SUC already exist!']);
+    }
+
+    public function showCampus($id){
+        $campus = Campus::where('suc_id', $id)->get();
+        return response()->json($campus);
+    }
+
+    public function deleteCampus($id){
+        $campus = Campus::where('id', $id);
+        $campus->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully deleted campus']);
+    }
+
+    public function editCampus(request $request, $id){
+        $campus = Campus::where('id', $id)->first();
+        $campus->campus_name = $request->campus_name;
+        $campus->address = $request->address;
+        $campus->region = $request->region;
+        $campus->email = $request->email;
+        $campus->contact_no = $request->contact_no;
+        $campus->save();
+        return response()->json(['status' => true, 'message' => 'Successfully edited campus', 'suc' => $campus]);
     }
 }

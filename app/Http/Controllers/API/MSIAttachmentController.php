@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\AssignedUser;
 use App\AttachedDocument;
+use App\DummyDocument;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\InstrumentStatement;
@@ -34,5 +35,15 @@ class MSIAttachmentController extends Controller
         $document = AttachedDocument::where('id', $id);
         $document->delete();
         return response()->json(['status' => true, 'message' => 'Successfully removed document']);
+    }
+
+    public function viewSupportDocument($id){
+        $document = DummyDocument::where('id', $id)->first();
+        $file = File::get(storage_path("app/".$document->location));
+        $type = File::mimeType(storage_path("app/".$document->location));
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
     }
 }

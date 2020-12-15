@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\AreaInstrument;
+
 use App\Http\Controllers\Controller;
 use App\SUC;
 use Illuminate\Http\Request;
@@ -35,7 +35,7 @@ class SUCController extends Controller
             $suc->email = $request->email;
             $suc->contact_no = $request->contact_no;
             $suc->save();
-            return response()->json(['status' => true, 'message' => 'Successfully created SUC']);
+            return response()->json(['status' => true, 'message' => 'Successfully created SUC', 'suc' => $suc]);
         }
         return response()->json(['status' => false, 'message' => 'SUC already exist!']);
     }
@@ -48,5 +48,15 @@ class SUCController extends Controller
         $suc = SUC::where('id', $id);
         $suc->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted SUC']);
+    }
+
+    public function editSuc(request $request, $id){
+        $suc = SUC::where('id', $id)->first();
+        $suc->institution_name = $request->institution_name;
+        $suc->address = $request->address;
+        $suc->email = $request->email;
+        $suc->contact_no = $request->contact_no;
+        $suc->save();
+        return response()->json(['status' => true, 'message' => 'Successfully created SUC', 'suc' => $suc]);
     }
 }

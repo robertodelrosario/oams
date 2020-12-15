@@ -40,15 +40,51 @@ Route::group([
 });
 
 Route::group(['prefix' => '/suc'], function() {
-    Route::post('/addProgram', 'ProgramController@addProgram');
+    Route::post('/addCampus/{id}', 'CampusController@addCampus');
+    Route::get('/showCampus/{id}', 'CampusController@showCampus');
+    Route::delete('/deleteCampus/{id}', 'CampusController@deleteCampus');
+    Route::put('/editCampus/{id}', 'CampusController@editCampus');
+
+    Route::post('/addProgram/{id}', 'ProgramController@addProgram');
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');
-    Route::delete('/removeProgram/{sucID}/{programID}', 'ProgramController@removeProgram');
+    Route::delete('/deleteProgram/{id}', 'ProgramController@deleteProgram');
+    Route::put('/editProgram/{id}', 'ProgramController@editProgram');
 
     Route::post('/selectInstrument/{programID}/{instrumentID}', 'ProgramController@selectInstrument');
     Route::get('/showInstrumentProgram/{id}', 'ProgramController@showInstrumentProgram');
     Route::get('/showStatement/{id}', 'ProgramController@showStatement');
     Route::delete('/removeInstrument/{sucID}/{programID}', 'ProgramController@removeInstrument');
 });
+
+
+Route::group(['prefix' => '/taskForce'], function() {
+    Route::get('/showTask/{id}', 'UserController@showTask');
+    Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
+});
+
+Route::group(['prefix' => '/aaccup'], function() {
+    Route::post('/addSuc', 'SUCController@addSuc');
+    Route::get('/showSuc', 'SUCController@showSuc');
+    Route::delete('/deleteSuc/{id}', 'SUCController@deleteSuc');
+    Route::put('/editSuc/{id}', 'SUCController@editSuc');
+
+    Route::get('/showAllPrograms', 'AaccupController@showAllPrograms');
+    Route::get('/showApplication', 'AaccupController@showApplication');
+    Route::put('/setDate/{id}', 'AaccupController@setDate');
+    Route::put('/reject/{id}', 'AaccupController@reject');
+    Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
+    Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
+    Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
+
+});
+
+Route::group(['prefix' => '/accreditor'], function() {
+    Route::get('/viewRequest/{id}', 'AccreditorController@viewRequest');
+    Route::put('/acceptRequest/{id}', 'AccreditorController@acceptRequest');
+    Route::put('/rejectRequest/{id}', 'AccreditorController@rejectRequest');
+    Route::get('/viewRemark/{id}', 'AccreditorController@viewRemark');
+});
+
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
     Route::post('/cloneInstrument', 'InstrumentController@cloneInstrument');
@@ -67,9 +103,12 @@ Route::group(['prefix' => '/instrument'], function() {
 });
 
 Route::group(['prefix' => '/application'], function() {
-    Route::post('/application/{id}', 'ApplicationController@application');
+    Route::post('/createApplication/{id}', 'ApplicationController@createApplication');
     Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
     Route::get('/showApplication/{id}', 'ApplicationController@showApplication');
+
+    Route::post('/uploadFile/{id}', 'ApplicationController@uploadFile');
+    Route::delete('/deleteFile/{id}', 'ApplicationController@deleteFile');
     Route::get('/viewFile/{id}', 'ApplicationController@viewFile');
 
     Route::post('/program', 'AppliedProgramController@program');
@@ -90,6 +129,7 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::post('/attachSupportDocument', 'MSIAttachmentController@attachSupportDocument');
     Route::delete('/removeSupportDocument/{id}', 'MSIAttachmentController@removeSupportDocument');
+    Route::get('/viewSupportDocument/{id}', 'MSIAttachmentController@viewSupportDocument');
 
     Route::get('/showStatementDocument/{id}/{transactionID}', 'MSIController@showStatementDocument');
 
@@ -108,28 +148,3 @@ Route::group(['prefix' => '/application'], function() {
 
 });
 
-Route::group(['prefix' => '/taskForce'], function() {
-    Route::get('/showTask/{id}', 'UserController@showTask');
-    Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
-});
-
-Route::group(['prefix' => '/aaccup'], function() {
-    Route::post('/addSuc', 'SUCController@addSuc');
-    Route::get('/showSuc', 'SUCController@showSuc');
-    Route::delete('/deleteSuc/{id}', 'SUCController@deleteSuc');
-
-    Route::get('/showAllPrograms', 'AaccupController@showAllPrograms');
-    Route::get('/showApplication', 'AaccupController@showApplication');
-    Route::put('/setDate/{id}', 'AaccupController@setDate');
-    Route::put('/reject/{id}', 'AaccupController@reject');
-    Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
-    Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
-    Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
-
-});
-
-Route::group(['prefix' => '/accreditor'], function() {
-    Route::get('/viewRequest/{id}', 'AccreditorController@viewRequest');
-    Route::put('/acceptRequest/{id}', 'AccreditorController@acceptRequest');
-    Route::put('/rejectRequest/{id}', 'AccreditorController@rejectRequest');
-});

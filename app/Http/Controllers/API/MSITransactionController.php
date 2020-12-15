@@ -19,9 +19,9 @@ class MSITransactionController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Document!']);
         $dummyDocument = new DummyDocument();
         $fileName = time().'_'.$request->document->getClientOriginalName();
-        $filePath = $request->file('document')->storeAs('document', $fileName, 'public');
+        $filePath = $request->file('document')->storeAs('application/files', $fileName);
         $dummyDocument->title = $fileName;
-        $dummyDocument->location = '/storage/' . $filePath;
+        $dummyDocument->location = $filePath;
         $dummyDocument->save();
         return response()->json(['status' => true, 'message' => 'Successfully added document']);
     }

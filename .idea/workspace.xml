@@ -20,12 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/online_accreditation_management_system.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/online_accreditation_management_system.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/report.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/CampusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CampusController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSIAttachmentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSIAttachmentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSITransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSITransactionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProgramController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/SUCController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/SUCController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_22_065835_create_campuses_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_22_065835_create_campuses_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_23_061745_create_programs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_23_061745_create_programs_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_013609_create_applications_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_013609_create_applications_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_013648_create_applications_programs_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_013648_create_applications_programs_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/CampusSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/CampusSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/ProgramSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ProgramSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,9 +187,6 @@
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
     </include_path>
   </component>
-  <component name="ProblemsViewState">
-    <option name="showPreview" value="true" />
-  </component>
   <component name="ProjectId" id="1hoSs2lWeTrWbE3M2SdeJm4agmB" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -274,7 +283,9 @@
       <workItem from="1606781716356" duration="20658000" />
       <workItem from="1606867449619" duration="17979000" />
       <workItem from="1607049494504" duration="2772000" />
-      <workItem from="1607476623317" duration="4244000" />
+      <workItem from="1607476623317" duration="14508000" />
+      <workItem from="1607912031630" duration="17871000" />
+      <workItem from="1607992211977" duration="2486000" />
     </task>
     <servers />
   </component>
@@ -306,10 +317,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1606805870453" />
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1606801119090">
+    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1607994971162">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1606801119090" />
+    <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1607994971162" />
     <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1603349093713">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -338,10 +349,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="332" y="64" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1606806084182" />
-    <state x="476" y="264" key="NewPhpFileDialog" timestamp="1606800701125">
+    <state x="476" y="264" key="NewPhpFileDialog" timestamp="1607500904323">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="476" y="264" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1606800701125" />
+    <state x="476" y="264" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1607500904323" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1603345510830">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -362,14 +373,14 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="417" y="113" key="refactoring.ChangeSignatureDialog/0.0.1280.680@0.0.1280.680" timestamp="1601273092762" />
-    <state x="551" y="199" key="run.anything.popup" timestamp="1606285578734">
+    <state x="551" y="199" key="run.anything.popup" timestamp="1607494359459">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="551" y="199" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1606285578734" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1606783332747">
+    <state x="551" y="199" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1607494359459" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1607502349166">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1606783332747" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1607502349166" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -381,7 +392,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php</url>
-          <line>48</line>
+          <line>49</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

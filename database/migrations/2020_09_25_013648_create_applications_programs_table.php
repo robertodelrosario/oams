@@ -30,6 +30,9 @@ class CreateApplicationsProgramsTable extends Migration
             $table->date('approved_start_date')->nullable();
             $table->date('approved_end_date')->nullable();
             $table->string('status')->nullable();
+            $table->string('result');
+            $table->date('date_granted');
+            $table->binary('certificate');
             $table->timestamps();
         });
     }

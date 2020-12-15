@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProgramsTable extends Migration
+class CreateApplicationsFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateProgramsTable extends Migration
      */
     public function up()
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('applications_files', function (Blueprint $table) {
             $table->id();
-            $table->string("program_name");
-            $table->float('rating_obtained')->nullable();
-            $table->string("accreditation_status");
-            $table->date("duration_of_validity");
-            $table->foreignId("campus_id");
-            $table->foreign("campus_id")->references("id")->on("campuses")
+            $table->foreignId('application_id');
+            $table->foreign('application_id')->references('id')->on('applications')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->string('file_title');
+            $table->string('file');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ class CreateProgramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('applications_files');
     }
 }

@@ -15,8 +15,6 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->string('application_title');
-            $table->string('application_letter');
             $table->foreignId('suc_id');
             $table->foreign('suc_id')->references('id')->on('sucs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );

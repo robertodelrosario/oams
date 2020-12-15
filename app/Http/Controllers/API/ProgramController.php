@@ -20,7 +20,7 @@ class ProgramController extends Controller
         $this->middleware('auth');
     }*/
 
-    public function addProgram(request $request)
+    public function addProgram(request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'program_name' => 'required',
@@ -31,7 +31,7 @@ class ProgramController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
         $check = Program::where([
-            ['suc_id', $request->suc_id], [strtolower('program_name'), strtolower($request->program_name)]
+            ['campus_id', $request->campus_id], [strtolower('program_name'), strtolower($request->program_name)]
         ])->first();
 
         if(is_null($check)){
@@ -39,7 +39,7 @@ class ProgramController extends Controller
             $program->program_name = $request->program_name;
             $program->accreditation_status = $request->accreditation_status;
             $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
-            $program->suc_id = $request->suc_id;
+            $program->campus_id = $id;
             $program->save();
             return response()->json(['status' => true, 'message' => 'Successfully added program!']);
         }
@@ -47,16 +47,21 @@ class ProgramController extends Controller
     }
 
     public function showProgram($id){
-        $program = Program::where('suc_id', $id)->get();
+        $program = Program::where('campus_id', $id)->get();
         return response()->json($program);
     }
 
-    public function removeProgram($sucID, $programID){
-        $program = Program::where([
-            ['id', $programID], ['suc_id', $sucID]
-        ]);
+    public function deleteProgram($id){
+        $program = Program::where('id',$id);
         $program->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted program!']);
+    }
+
+    public function editProgram(request $request, $id){
+        $program = Program::where('id', $id)->first();
+        $program->program_name = $request->program_name;
+        $program->save();
+        return response()->json(['status' => true, 'message' => 'Successfully edited program name', 'suc' => $program]);
     }
 
     public function selectInstrument($programID, $instrumentID){
@@ -83,21 +88,6 @@ class ProgramController extends Controller
         return response()->json(['status' => false, 'message' => 'Already added']);
     }
 
-//    public function refreshSelectedInstrument($programID,$instrumentID){
-//        $instrumentProgram = InstrumentProgram::where([
-//            ['program_id', $programID], ['area_instrument_id', $instrumentID]
-//        ])->first();
-//        $statements = InstrumentStatement::where('area_instrument_id', $instrumentID)->get();
-//        $statements_2 = ProgramStatement::where('program_instrument_id', $instrumentProgram->id)->get();
-//        foreach($statements as $statement){
-//            $program_statement = new ProgramStatement();
-//            $program_statement->program_instrument_id = $instrumentProgram->id;
-//            $program_statement->benchmark_statement_id = $statement->benchmark_statement_id;
-//            $program_statement->parent_statement_id = $statement->parent_statement_id;
-//            $program_statement->save();
-//        }
-//        return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
-//    }
     public function showInstrumentProgram($id){
         $instrumentPrograms = DB::table('instruments_programs')
             ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')

@@ -15,9 +15,12 @@ class CreateCampusesTable extends Migration
     {
         Schema::create('campuses', function (Blueprint $table) {
             $table->id();
-            $table->string('institution_name');
+            $table->foreignId("suc_id");
+            $table->foreign("suc_id")->references("id")->on("sucs")
+                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('campus_name');
             $table->string('address');
+            $table->string('region');
             $table->string('email');
             $table->string('contact_no');
             $table->timestamps();
