@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\AccreditorRequest;
+use App\AssignedUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
+use App\InstrumentScore;
+use App\ProgramStatement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -26,7 +29,7 @@ class AccreditorController extends Controller
         return response()->json(['requests' => $req]);
     }
 
-    public function acceptRequest($id){
+    public function acceptRequest(request $request,$id){
         $req = AccreditorRequest::where('id', $id)->first();
         $req->status = 'accepted';
         $req->save();
@@ -39,6 +42,10 @@ class AccreditorController extends Controller
         $req->save();
         return response()->json(['status' => true, 'message' => 'Successfully rejected request']);
     }
+
+
+
+
 
     public function viewRemark($id){
         $area = InstrumentProgram::where('id', $id)->first();
