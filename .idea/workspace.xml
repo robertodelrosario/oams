@@ -21,14 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AssignTaskController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AssignTaskController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_07_013905_create_assigned_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_07_013905_create_assigned_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_09_015606_create_assigned_user_heads_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_09_015606_create_assigned_user_heads_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -277,7 +270,7 @@
       <workItem from="1607912031630" duration="17871000" />
       <workItem from="1607992211977" duration="18929000" />
       <workItem from="1608043851664" duration="909000" />
-      <workItem from="1608078253898" duration="4877000" />
+      <workItem from="1608078253898" duration="5082000" />
     </task>
     <servers />
   </component>
