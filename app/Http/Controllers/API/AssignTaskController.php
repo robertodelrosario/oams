@@ -23,10 +23,11 @@ class AssignTaskController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added task!', 'users' => $head]);
     }
 
-    public function assignTask(request $request, $id){  // TRANSACTION AREA INSTRUMENT ID
+    public function assignTask(request $request, $id, $app_prog_id){  // TRANSACTION AREA INSTRUMENT ID
         $assignUser = new AssignedUser();
         $assignUser->transaction_id = $id;
         $assignUser->user_id = $request->user_id;
+        $assignUser->app_program_id = $app_prog_id;
         $assignUser->role = $request->role;
         $assignUser->save();
         if ($request->role == 'internal accreditor' || $request->role == 'external accreditor'){
@@ -35,7 +36,6 @@ class AssignTaskController extends Controller
                 $item = new InstrumentScore();
                 $item->item_id = $statement->id;
                 $item->assigned_user_id = $assignUser->id;
-                echo $item->assigned_user_id;
                 $item->save();
             }
         }

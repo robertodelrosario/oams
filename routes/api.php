@@ -83,6 +83,9 @@ Route::group(['prefix' => '/accreditor'], function() {
     Route::put('/acceptRequest/{id}', 'AccreditorController@acceptRequest');
     Route::put('/rejectRequest/{id}', 'AccreditorController@rejectRequest');
     Route::get('/viewRemark/{id}', 'AccreditorController@viewRemark');
+
+    Route::get('/showProgram/{id}', 'AccreditorController@showProgram');
+    Route::get('/showInstrument/{id}/{app_prog}', 'AccreditorController@showInstrument');
 });
 
 Route::group(['prefix' => '/instrument'], function() {
@@ -136,7 +139,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
     Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');
 
-    Route::post('/assignTask/{id}', 'AssignTaskController@assignTask');
+    Route::post('/assignTask/{id}/{app_prog_id}', 'AssignTaskController@assignTask');
     //Route::get('/showTask/{id}', 'AssignTaskController@showTask');
     //Route::get('/showTaskUser/{id}', 'AssignTaskController@showTaskUser');
     Route::delete('/deleteAssignedUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedUser');

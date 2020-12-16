@@ -56,10 +56,6 @@ class InstrumentController extends Controller
         $areaInstrument = AreaInstrument::where('id', $id);
         $instrumentParameters = InstrumentParameter::where('area_instrument_id', $id);
         $instrumentParameters->delete();
-//        foreach ($instrumentParameters as $instrumentParameter){
-//            $parameter = Parameter::where('id', $instrumentParameter->parameter_id);
-//            $parameter->delete();
-//        }
         $areaInstrument->delete();
         return response()->json(['status' => true, 'message' => 'Instrument successfully deleted!']);
     }
@@ -98,36 +94,6 @@ class InstrumentController extends Controller
             $new_instrument = AreaInstrument::where([
                 ['intended_program', $request->new_intended_program], ['area_number', $request->area_number]
             ])->first();
-
-//            $instrumentParameters = InstrumentParameter::where('area_instrument_id', $instrument->id)->get();
-
-//            foreach($instrumentParameters as $instrumentParameter){
-//                $param = Parameter::where('id', $instrumentParameter->parameter_id)->first();
-//                $parameter = new Parameter();
-//                $parameter->parameter = $param->parameter;
-//                $parameter->save();
-//                $instrument= AreaInstrument::where('id',$instrument->id)->first();
-//                $parameter->areaInstruments()->attach($new_instrument);
-//
-//                $parameterStatements = ParameterStatement::where('parameter_id', $instrumentParameter->parameter_id)->get();
-//                foreach ($parameterStatements as $parameterStatement){
-//                    $paramState = new ParameterStatement();
-//                    $paramState->parameter_id = $parameter->id;
-//                    $paramState->benchmark_statement_id = $parameterStatement->benchmark_statement_id;
-//                    $paramState->save();
-//                }
-//
-//            }
-//            $instrumentParameters = InstrumentParameter::where('area_instrument_id', $instrumentID->id)->get();
-//            foreach ($instrumentParameters as $instrumentParameter){
-//                $parameterStatements = ParameterStatement::where('parameter_id', $instrumentParameter->parameter_id)->get();
-//                foreach ($parameterStatements as $parameterStatement){
-//                    $paramState = new ParameterStatement();
-//                    $paramState->parameter_id = $parameterStatement->parameter_id;
-//                    $paramState->benchmark_statement_id = $parameterStatement->benchmark_statement_id;
-//                    $paramState->save();
-//                }
-//            }
 
             $instrumentStatements = InstrumentStatement::where('area_instrument_id', $instrument->id)->get();
             foreach ($instrumentStatements as $instrumentStatement){

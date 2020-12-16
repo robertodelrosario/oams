@@ -18,11 +18,15 @@ class CreateAssignedUsersTable extends Migration
             $table->foreignId('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('instruments_programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->foreignId('app_program_id');
+            $table->foreign('app_program_id')->references('id')->on('applications_programs')
+                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('role');
             $table->binary('report')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

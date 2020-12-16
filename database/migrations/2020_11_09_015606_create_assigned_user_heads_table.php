@@ -23,6 +23,7 @@ class CreateAssignedUserHeadsTable extends Migration
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('role');
             $table->binary('report')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

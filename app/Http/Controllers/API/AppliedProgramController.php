@@ -39,26 +39,14 @@ class AppliedProgramController extends Controller
             $program->level = $request->level;
             $program->preferred_start_date = \Carbon\Carbon::parse($request->preferred_start_date)->format('Y-m-d');
             $program->preferred_end_date = \Carbon\Carbon::parse($request->preferred_end_date)->format('Y-m-d');
-//            $program->ppp = "NONE";
-//            $program->compliance_report = "NONE";
-//            $program->narrative_report = "NONE";
             $program->status = "pending";
             $program->save();
             $check = ApplicationProgram::where([
                 ['application_id', $request->application_id], ['program_id', $request->program_id]
             ])->first();
-//            $instruments = InstrumentProgram::where('program_id', $program->program_id)->get();
-//            $transaction = new Transaction();
-//            foreach ($instruments as $instrument){
-//                $transaction->application_program_id = $program->id;
-//                $transaction->area_instrument_id = $instrument->area_instrument_id ;
-//                $transaction->save();
-//            }
-
             return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
         }
         return response()->json(['status' => false, 'message' => 'program already applied!']);
-
     }
 
     public function delete($id){
@@ -205,7 +193,6 @@ class AppliedProgramController extends Controller
             ->select('programs_statements.program_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'parameters_statements.parameter_id', 'parameters.parameter')
             ->orderBy('parameters.parameter')
             ->get();
-
         $statementDocument = DB::table('programs_statements')
             ->join('attached_documents', 'programs_statements.id', '=', 'attached_documents.statement_id')
             ->join('dummy_documents', 'dummy_documents.id', '=', 'attached_documents.document_id')
@@ -220,7 +207,6 @@ class AppliedProgramController extends Controller
             ->select('programs_statements.*', 'instruments_scores.*','users.first_name','users.last_name', 'users.email' ,'assigned_users.role' )
             ->orderBy('users.id')
             ->get();
-
         return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument, 'scores' => $scores]);
     }
 }

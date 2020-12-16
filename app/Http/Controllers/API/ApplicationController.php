@@ -95,7 +95,6 @@ class ApplicationController extends Controller
 
     public function uploadFile(Request $request, $id)
     {
-
         $validator = Validator::make($request->all(), [
             'filename' => 'required',
             'filename.*' => 'mimes:doc,pdf,docx,zip'
