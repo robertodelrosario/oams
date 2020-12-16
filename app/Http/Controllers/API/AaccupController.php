@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\API;
 
 use App\AccreditorRequest;
+use App\ApplicationFile;
 use App\ApplicationProgram;
 use App\Http\Controllers\Controller;
 use App\Mail\ApplicationNotification;
 use App\Mail\RequestAccreditor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class AaccupController extends Controller
 {
-    public function showAllPrograms(){
+    public function showAllProgram(){
         $programs = DB::table('programs')
-            ->join('sucs', 'sucs.id', '=', 'programs.suc_id')
+            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+            ->join('sucs', 'sucs.id', '=', 'campuses.suc_id')
             ->get();
         return response()->json(['programs' => $programs]);
     }
@@ -24,7 +27,14 @@ class AaccupController extends Controller
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
             ->select('applications.*', 'sucs.institution_name','sucs.address', 'sucs.email','sucs.contact_no')
             ->get();
-        return response()->json(['applications' => $applications]);
+        $file_arr = array();
+        foreach ($applications as $application){
+            $files = ApplicationFile::where('application_id',$application->id)->get();
+            foreach ($files as $file){
+                $file_arr = Arr::prepend($file_arr,$file);
+            }
+        }
+        return response()->json(['applications' => $applications, 'files' => $file_arr]);
     }
 
     public function requestAccreditor(request $request,$id){

@@ -179,6 +179,15 @@ class AuthController extends Controller
         return response()->json(['users' => $aaccup]);
     }
 
+    public function showAccreditor(){
+        $accreditor = DB::table('users_roles')
+            ->join('users', 'users.id', '=', 'users_roles.user_id')
+            ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+            ->where('users_roles.role_id', 8)
+            ->get();
+        return response()->json(['users' => $accreditor]);
+    }
+
     public function showAllUser(){
         return response()->json(User::all());
     }

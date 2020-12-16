@@ -33,6 +33,7 @@ Route::group([
     Route::post('setRole/{userID}', 'AuthController@setRole');
     Route::get('/showSucUser/{id}', 'AuthController@showSucUser');
     Route::get('/showAaccup', 'AuthController@showAaccup');
+    Route::get('/showAccreditor', 'AuthController@showAccreditor');
     Route::get('/showAllUser', 'AuthController@showAllUser');
     Route::delete('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
@@ -68,7 +69,7 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::delete('/deleteSuc/{id}', 'SUCController@deleteSuc');
     Route::put('/editSuc/{id}', 'SUCController@editSuc');
 
-    Route::get('/showAllPrograms', 'AaccupController@showAllPrograms');
+    Route::get('/showAllProgram', 'AaccupController@showAllProgram');
     Route::get('/showApplication', 'AaccupController@showApplication');
     Route::put('/setDate/{id}', 'AaccupController@setDate');
     Route::put('/reject/{id}', 'AaccupController@reject');
