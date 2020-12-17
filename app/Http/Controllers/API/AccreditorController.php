@@ -25,7 +25,7 @@ class AccreditorController extends Controller
             ->join('instruments_programs', 'instruments_programs.id', '=', 'accreditor_requests.instrument_program_id')
             ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
             ->where('accreditor_requests.accreditor_id', $id)
-            ->where('accreditor_requests.status', '=', 'pending')
+//            ->where('accreditor_requests.status', '=', 'pending')
             ->select( 'accreditor_requests.id','sucs.institution_name' ,'programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
             ->get();
         return response()->json(['requests' => $req]);

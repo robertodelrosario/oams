@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Campus;
+use App\CampusUser;
 use App\Role;
 use App\SUC;
 use App\UserRole;
@@ -50,8 +52,14 @@ class AuthController extends Controller
      */
     public function me()
     {
+        $campus = DB::table('campuses_users')
+            ->join('campuses', 'campuses.id', '=', 'campuses_users.campus_id')
+            ->join('sucs', 'sucs.id', '=', 'campuses.suc_id')
+            ->where('campuses_users.user_id',auth()->user()->id)
+            ->select('campuses.*', 'sucs.*')
+            ->get();
         $roles = UserRole::where('user_id', auth()->user()->id)->get();
-        return response()->json(['user' => auth()->user(), 'role' => $roles]);
+        return response()->json(['user' => auth()->user(), 'role' => $roles, 'campus'=>$campus]);
     }
     /**
      * Log the user out (Invalidate the token).
@@ -111,10 +119,10 @@ class AuthController extends Controller
             $user->email = $request->email;
             $user->password = bcrypt($request->input('password'));
             $user->save();
-            $suc= SUC::where('id',$id)->first();
-            $user->sucs()->attach($suc);
-            $department = UserSuc::where([
-                ['suc_id', $id], ['user_id',$user->id]
+            $campus= Campus::where('id',$id)->first();
+            $user->campuses()->attach($campus);
+            $department = CampusUser::where([
+                ['campus_id', $id], ['user_id',$user->id]
             ])->first();
             $department->department = $request->department;
             $department->save();
@@ -148,10 +156,10 @@ class AuthController extends Controller
         return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
 
-    public function showSucUser($id){
-        $users = DB::table('users_sucs')
-            ->join('users', 'users.id', '=', 'users_sucs.user_id')
-            ->where('users_sucs.suc_id', $id)
+    public function showCampusUser($id){
+        $users = DB::table('campuses_users')
+            ->join('users', 'users.id', '=', 'campuses_users.user_id')
+            ->where('campuses_users.campus_id', $id)
             ->get();
         $user_roles =array();
         foreach($users as $user){
