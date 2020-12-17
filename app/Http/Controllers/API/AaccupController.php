@@ -50,16 +50,18 @@ class AaccupController extends Controller
             ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
             ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
+            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
             ->join('instruments_programs', 'instruments_programs.id', '=', 'accreditor_requests.instrument_program_id')
             ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
             ->where('accreditor_requests.accreditor_id', $id)
             ->where('accreditor_requests.status', '=', 'pending')
-            ->select( 'accreditor_requests.id','sucs.institution_name' ,'programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
+            ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
             ->first();
 
         $details = [
             'title' => 'Request for Accreditation',
             'suc' => $req->institution_name,
+            'campus' => $req->campus_name,
             'program' => $req->program_name,
             'area_number' => $req->area_number,
             'area_name' => $req->area_name,

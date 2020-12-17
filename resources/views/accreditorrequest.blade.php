@@ -17,6 +17,7 @@
                         <p style="margin-top: 50px">Hi, </p>
                         <p>Accreditor request:</p>
                         <p><strong>SUC: </strong>{{ $details['suc'] }}<br>
+                            <strong>CAMPUS: </strong>{{ $details['campus'] }}<br>
                             <strong>Program: </strong>{{ $details['program'] }}<br>
                             <strong>Area: </strong>{{ $details['area_number'] }} {{ $details['area_name'] }}<br>
                             <strong>Date: </strong>{{ $details['start_date'] }} - {{ $details['start_end'] }}</p>

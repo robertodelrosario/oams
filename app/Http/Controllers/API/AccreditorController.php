@@ -22,11 +22,12 @@ class AccreditorController extends Controller
             ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
             ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
+            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
             ->join('instruments_programs', 'instruments_programs.id', '=', 'accreditor_requests.instrument_program_id')
             ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
             ->where('accreditor_requests.accreditor_id', $id)
 //            ->where('accreditor_requests.status', '=', 'pending')
-            ->select( 'accreditor_requests.id','sucs.institution_name' ,'programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
+            ->select( 'accreditor_requests.id','sucs.institution_name' ,'campuses.campus_name', 'programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
             ->get();
         return response()->json(['requests' => $req]);
     }
@@ -66,7 +67,12 @@ class AccreditorController extends Controller
         ])->get();
         $program = array();
         foreach ($tasks as $task){
-            $app_prog = ApplicationProgram::where('id', $task->app_program_id)->first();
+           // $app_prog = ApplicationProgram::where('id', $task->app_program_id)->first();
+            $app_prog = DB::table('applications_programs')
+                ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
+                ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+                ->where('applications_programs.id', $task->app_program_id)
+                ->get();
             $program = Arr::prepend($program,$app_prog);
         }
         $program = array_unique($program);

@@ -150,6 +150,7 @@ class AppliedProgramController extends Controller
     public function showProgram($id){
         $programs = DB::table('applications_programs')
             ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
+            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
             ->where('applications_programs.application_id', $id)
             ->get();
         $users = array();
