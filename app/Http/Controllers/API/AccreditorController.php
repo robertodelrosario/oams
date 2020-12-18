@@ -66,16 +66,20 @@ class AccreditorController extends Controller
          ['user_id', $id], ['status', null]
         ])->get();
         $program = array();
+        $index = array();
         foreach ($tasks as $task){
            // $app_prog = ApplicationProgram::where('id', $task->app_program_id)->first();
             $app_prog = DB::table('applications_programs')
                 ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                 ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
                 ->where('applications_programs.id', $task->app_program_id)
-                ->get();
-            $program = Arr::prepend($program,$app_prog);
+                ->first();
+            if(!in_array($app_prog->id,$index))
+            {
+                $program = Arr::prepend($program,$app_prog);
+                $index = Arr::prepend($index,$app_prog->id);
+            }
         }
-        $program = array_unique($program);
         return response()->json(['programs'=>$program]);
     }
 
