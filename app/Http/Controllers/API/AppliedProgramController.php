@@ -158,7 +158,7 @@ class AppliedProgramController extends Controller
             $user = DB::table('assigned_user_heads')
                 ->join('users', 'users.id', '=', 'assigned_user_heads.user_id')
                 ->where('assigned_user_heads.application_program_id', $program->id)
-                ->get();
+                ->first();
             if ($user != null) $users = Arr::prepend($users, $user);
         }
         return response()->json(['programs' =>$programs, 'users' => $users]);
