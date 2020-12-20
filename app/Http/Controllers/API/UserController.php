@@ -25,6 +25,8 @@ class UserController extends Controller
     public function showHeadTask($id){
         $tasks = DB::table('assigned_user_heads')
             ->join('applications_programs', 'applications_programs.id', '=', 'assigned_user_heads.application_program_id')
+            ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
+            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
             ->where('assigned_user_heads.user_id', $id)
             ->get();
         return response()->json(['tasks'=> $tasks]);
