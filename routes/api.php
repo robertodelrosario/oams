@@ -72,6 +72,12 @@ Route::group(['prefix' => '/taskForce'], function() {
     Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
 });
 
+Route::group(['prefix' => '/task'], function() {
+    Route::get('/showProgram/{id}', 'UserController@showProgram');
+    Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
+});
+
+
 Route::group(['prefix' => '/aaccup'], function() {
     Route::post('/addSuc', 'SUCController@addSuc');
     Route::get('/showSuc', 'SUCController@showSuc');
