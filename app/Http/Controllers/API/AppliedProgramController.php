@@ -44,6 +44,7 @@ class AppliedProgramController extends Controller
             $check = ApplicationProgram::where([
                 ['application_id', $request->application_id], ['program_id', $request->program_id]
             ])->first();
+
             return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
         }
         return response()->json(['status' => false, 'message' => 'program already applied!']);
@@ -152,6 +153,7 @@ class AppliedProgramController extends Controller
             ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
             ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
             ->where('applications_programs.application_id', $id)
+            ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
             ->get();
         $users = array();
         foreach ($programs as $program){

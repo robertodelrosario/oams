@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
+use App\ApplicationFile;
 use App\Document;
+use App\DummyDocument;
 use App\Http\Controllers\Controller;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -80,7 +83,7 @@ class DocumentController extends Controller
             $tag->tag = $key;
             $tag->document_id = $id;
             $tag->save();
-            $tags = Arr::prepend($tags,$tag );
+            $tags = Arr::prepend($tags,$tag);
         }
         return response()->json(['status' => true, 'message' => 'Successfully added tags', 'tags' =>$tags]);
     }
@@ -89,5 +92,15 @@ class DocumentController extends Controller
         $tag = Tag::where('id', $id);
         $tag->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted tag']);
+    }
+
+    public function viewFile($id){
+        $file_link = Document::where('id', $id)->first();
+        $file = File::get(storage_path("app/".$file_link->link));
+        $type = File::mimeType(storage_path("app/".$file_link->link));
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
     }
 }

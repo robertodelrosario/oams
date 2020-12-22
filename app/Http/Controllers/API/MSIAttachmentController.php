@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\ApplicationFile;
 use App\AssignedUser;
 use App\AttachedDocument;
 use App\DummyDocument;
@@ -13,6 +14,8 @@ use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 class MSIAttachmentController extends Controller
 {
@@ -36,16 +39,6 @@ class MSIAttachmentController extends Controller
         $document = AttachedDocument::where('id', $id);
         $document->delete();
         return response()->json(['status' => true, 'message' => 'Successfully removed document']);
-    }
-
-    public function viewSupportDocument($id){
-        $document = DummyDocument::where('id', $id)->first();
-        $file = File::get(storage_path("app/".$document->location));
-        $type = File::mimeType(storage_path("app/".$document->location));
-
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        return $response;
     }
 
     public function showDocument(){

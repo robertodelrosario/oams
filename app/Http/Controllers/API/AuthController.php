@@ -132,10 +132,9 @@ class AuthController extends Controller
         return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
 
-    public function addToOffice(request $request, $id){
+    public function addToOffice($id, $office_id){
         $user = CampusUser::where('id', $id)->first();
-        echo $user;
-        $user->office_id = $request->office_id;
+        $user->office_id = $office_id;
         $user->save();
         return response()->json(['status' => true, 'message' => 'Successfully added to office']);
     }

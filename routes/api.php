@@ -30,7 +30,7 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('/addToOffice/{id}', 'AuthController@addToOffice');
+    Route::post('/addToOffice/{id}/{office_id}', 'AuthController@addToOffice');
     Route::post('setRole/{userID}', 'AuthController@setRole');
     Route::get('/showCampusUser/{id}', 'AuthController@showCampusUser');
     Route::get('/showAaccup', 'AuthController@showAaccup');
@@ -63,15 +63,6 @@ Route::group(['prefix' => '/suc'], function() {
     Route::delete('/removeInstrument/{sucID}/{programID}', 'ProgramController@removeInstrument');
 });
 
-
-Route::group(['prefix' => '/taskForce'], function() {
-    Route::get('/showProgram/{id}', 'TaskForceController@showProgram');
-    Route::get('/showInstrument/{id}/{app_prog}', 'TaskForceController@showInstrument');
-
-    Route::get('/showTask/{id}', 'UserController@showTask');
-    Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
-});
-
 Route::group(['prefix' => '/task'], function() {
     Route::get('/showProgram/{id}', 'UserController@showProgram');
     Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
@@ -98,6 +89,7 @@ Route::group(['prefix' => '/document'], function() {
     Route::post('/uploadDocument/{userID}/{officeID}', 'DocumentController@uploadDocument');
     Route::get('/showDocument/{id}', 'DocumentController@showDocument');
     Route::delete('/deleteDocument/{id}', 'DocumentController@deleteDocument');
+    Route::get('/viewFile/{id}', 'DocumentController@viewFile');
 
     Route::post('/addTag/{id}', 'DocumentController@addTag');
     Route::delete('/deleteTag/{id}', 'DocumentController@deleteTag');
