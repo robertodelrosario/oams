@@ -30,6 +30,7 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+    Route::post('/addToOffice/{id}', 'AuthController@addToOffice');
     Route::post('setRole/{userID}', 'AuthController@setRole');
     Route::get('/showCampusUser/{id}', 'AuthController@showCampusUser');
     Route::get('/showAaccup', 'AuthController@showAaccup');
@@ -46,6 +47,11 @@ Route::group(['prefix' => '/suc'], function() {
     Route::delete('/deleteCampus/{id}', 'CampusController@deleteCampus');
     Route::put('/editCampus/{id}', 'CampusController@editCampus');
 
+    Route::post('/createOffice/{id}', 'OfficeController@createOffice');
+    Route::get('/showOffice/{id}', 'OfficeController@showOffice');
+    Route::delete('/deleteOffice/{id}', 'OfficeController@deleteOffice');
+    Route::put('/editOffice/{id}', 'OfficeController@editOffice');
+
     Route::post('/addProgram/{id}', 'ProgramController@addProgram');
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');
     Route::delete('/deleteProgram/{id}', 'ProgramController@deleteProgram');
@@ -59,6 +65,9 @@ Route::group(['prefix' => '/suc'], function() {
 
 
 Route::group(['prefix' => '/taskForce'], function() {
+    Route::get('/showProgram/{id}', 'TaskForceController@showProgram');
+    Route::get('/showInstrument/{id}/{app_prog}', 'TaskForceController@showInstrument');
+
     Route::get('/showTask/{id}', 'UserController@showTask');
     Route::get('/showHeadTask/{id}', 'UserController@showHeadTask');
 });
@@ -77,6 +86,15 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
     Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
 
+});
+
+Route::group(['prefix' => '/document'], function() {
+    Route::post('/uploadDocument/{userID}/{officeID}', 'DocumentController@uploadDocument');
+    Route::get('/showDocument/{id}', 'DocumentController@showDocument');
+    Route::delete('/deleteDocument/{id}', 'DocumentController@deleteDocument');
+
+    Route::post('/addTag/{id}', 'DocumentController@addTag');
+    Route::delete('/deleteTag/{id}', 'DocumentController@deleteTag');
 });
 
 Route::group(['prefix' => '/accreditor'], function() {
@@ -134,6 +152,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/attachSupportDocument', 'MSIAttachmentController@attachSupportDocument');
     Route::delete('/removeSupportDocument/{id}', 'MSIAttachmentController@removeSupportDocument');
     Route::get('/viewSupportDocument/{id}', 'MSIAttachmentController@viewSupportDocument');
+    Route::get('/showDocument', 'MSIAttachmentController@showDocument');
 
     Route::get('/showStatementDocument/{id}/{transactionID}', 'MSIController@showStatementDocument');
 

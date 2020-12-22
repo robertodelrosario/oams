@@ -13,4 +13,8 @@ class Campus extends Model
     public function users(){
         return $this->belongsToMany(User::class, 'campuses_users', 'campus_id', 'user_id');
     }
+
+    public function offices(){
+        return $this->hasMany(Office::class);
+    }
 }

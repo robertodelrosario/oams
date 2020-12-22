@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampusesUsersTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateCampusesUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('campuses_users', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campus_id');
-            $table->foreign("campus_id")->references("id")->on("campuses")
-                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->foreignId('user_id');
-            $table->foreign("user_id")->references("id")->on("users")
-                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->string('document_name');
+            $table->string('link');
+            $table->string('type');
             $table->foreignId('office_id')->nullable();
             $table->foreign("office_id")->references("id")->on("offices")
+                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->foreignId('uploader_id')->nullable();
+            $table->foreign("uploader_id")->references("id")->on("users")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->timestamps();
         });
@@ -35,6 +35,6 @@ class CreateCampusesUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campuses_users');
+        Schema::dropIfExists('documents');
     }
 }

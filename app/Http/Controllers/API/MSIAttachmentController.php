@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\InstrumentStatement;
 use App\ProgramStatement;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -45,5 +46,23 @@ class MSIAttachmentController extends Controller
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function showDocument(){
+        $documents = DB::table('documents')
+            ->join('offices', 'offices.id', '=', 'documents.office_id')
+            ->join('users', 'users.id', '=', 'documents.uploader_id')
+            ->select('documents.*', 'offices.office_name', 'users.first_name', 'users.last_name', 'users.email')
+            ->get();
+
+        $tag = array();
+        foreach ($documents as $document)
+        {
+            $tags = Tag::where('document_id', $document->id)->get();
+            foreach ($tags as $key){
+                $tag = Arr::prepend($tag, $key);
+            }
+        }
+        return response()->json(['documents' =>$documents, 'tags' => $tag]);
     }
 }

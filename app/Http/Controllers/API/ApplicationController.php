@@ -120,6 +120,7 @@ class ApplicationController extends Controller
 
     public function deleteFile($id){
         $file = ApplicationFile::where('id', $id);
+        File::delete(storage_path("app/".$file->file));
         $file->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted file!']);
     }

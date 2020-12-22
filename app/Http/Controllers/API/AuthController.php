@@ -56,7 +56,6 @@ class AuthController extends Controller
             ->join('campuses', 'campuses.id', '=', 'campuses_users.campus_id')
             ->join('sucs', 'sucs.id', '=', 'campuses.suc_id')
             ->where('campuses_users.user_id',auth()->user()->id)
-            ->select('campuses.*', 'sucs.*')
             ->get();
         $roles = UserRole::where('user_id', auth()->user()->id)->get();
         return response()->json(['user' => auth()->user(), 'role' => $roles, 'campus'=>$campus]);
@@ -121,16 +120,24 @@ class AuthController extends Controller
             $user->save();
             $campus= Campus::where('id',$id)->first();
             $user->campuses()->attach($campus);
-            $department = CampusUser::where([
-                ['campus_id', $id], ['user_id',$user->id]
-            ])->first();
-            $department->department = $request->department;
-            $department->save();
+//            $department = CampusUser::where([
+//                ['campus_id', $id], ['user_id',$user->id]
+//            ])->first();
+//            $department->department = $request->department;
+//            $department->save();
             $role = Role::where('role', $request->role)->first();
             $role->users()->attach($user->id);
             return response()->json(['user' => $user]);
         }
         return response()->json(['status' => false, 'message' => 'Email already registered']);
+    }
+
+    public function addToOffice(request $request, $id){
+        $user = CampusUser::where('id', $id)->first();
+        echo $user;
+        $user->office_id = $request->office_id;
+        $user->save();
+        return response()->json(['status' => true, 'message' => 'Successfully added to office']);
     }
 
     public function registerAaccupAccreditor(request $request){
@@ -160,6 +167,11 @@ class AuthController extends Controller
         $users = DB::table('campuses_users')
             ->join('users', 'users.id', '=', 'campuses_users.user_id')
             ->where('campuses_users.campus_id', $id)
+            ->select('campuses_users.id','campuses_users.user_id', 'users.first_name', 'users.last_name', 'users.email', 'users.password')
+            ->get();
+        $office = DB::table('campuses_users')
+            ->join('offices', 'offices.id', '=', 'campuses_users.office_id')
+            ->where('campuses_users.campus_id', $id)
             ->get();
         $user_roles =array();
         foreach($users as $user){
@@ -169,7 +181,7 @@ class AuthController extends Controller
                 $user_roles = Arr::prepend($user_roles,['user_id' => $user->user_id, 'role_id' => $role->role_id, 'role' => $rol->role]);
             }
         }
-        return response()->json(['users' => $users, 'roles' => $user_roles]);
+        return response()->json(['users' => $users,'office' =>  $office,'roles' => $user_roles]);
     }
 
     public function showAaccup(){
