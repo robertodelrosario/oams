@@ -134,7 +134,7 @@ class UserController extends Controller
                 }
             }
         }
-        return response()->json(['program_task_force head'=>$program_task_force, 'program_internal_accreditor head' => $program_internal_accreditor, 'program_external_accreditor head' => $program_external_accreditor]);
+        return response()->json(['program_task_force_head'=>$program_task_force, 'program_internal_accreditor_head' => $program_internal_accreditor, 'program_external_accreditor_head' => $program_external_accreditor]);
 
 
 
