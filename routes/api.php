@@ -67,7 +67,7 @@ Route::group(['prefix' => '/task'], function() {
     Route::get('/showProgram/{id}', 'UserController@showProgram');
     Route::get('/showInstrument/{id}/{app_prog}', 'UserController@showInstrument');
     Route::get('/showProgramHead/{id}', 'UserController@showProgramHead');
-    Route::get('/showInstrumentHead/{id}/', 'UserController@showInstrumentHead');
+    Route::get('/showInstrumentHead/{app_prog}', 'UserController@showInstrumentHead');
 });
 
 
