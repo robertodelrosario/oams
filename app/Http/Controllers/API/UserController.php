@@ -98,7 +98,7 @@ class UserController extends Controller
                 $app_prog = DB::table('applications_programs')
                     ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                     ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-                    ->where('applications_programs.id', $task->app_program_id)
+                    ->where('applications_programs.id', $task->application_program_id)
                     ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
                     ->first();
                 if(!in_array($app_prog->id,$index1))
@@ -111,7 +111,7 @@ class UserController extends Controller
                 $app_prog = DB::table('applications_programs')
                     ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                     ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-                    ->where('applications_programs.id', $task->app_program_id)
+                    ->where('applications_programs.id', $task->application_program_id)
                     ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
                     ->first();
                 if(!in_array($app_prog->id,$index2))
@@ -124,7 +124,7 @@ class UserController extends Controller
                 $app_prog = DB::table('applications_programs')
                     ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                     ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-                    ->where('applications_programs.id', $task->app_program_id)
+                    ->where('applications_programs.id', $task->application_program_id)
                     ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
                     ->first();
                 if(!in_array($app_prog->id,$index3))
