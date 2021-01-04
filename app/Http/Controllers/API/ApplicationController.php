@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Application;
 use App\ApplicationFile;
+use App\ApplicationProgram;
 use App\Http\Controllers\Controller;
 use App\Mail\ApplicationNotification;
 use App\SUC;
@@ -25,36 +26,9 @@ class ApplicationController extends Controller
         $this->middleware('auth');
     }*/
 
-    public function createApplication($id){
-        $application = new Application();
-        $application->suc_id=$id;
-        $application->save();
-
-        $suc = SUC::where('id', $id)->first();
-        $details = [
-            'title' => 'Application Notification for Accreditation',
-            'body' => 'Please check your AOMS account to view the application',
-            'suc' => $suc->institution_name,
-            'address' => $suc->address,
-            'email' => $suc->email,
-            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
-        ];
-        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
-
-        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
-    }
-
-//    public function application(request $request, $id){
-//        $validator = Validator::make($request->all(), [
-//            'application_letter' => 'required|mimes:doc,docx,pdf,jpg,png|max:2048'
-//        ]);
-//        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required ApplicationNotification Letter!']);
+//    public function createApplication($id){
 //        $application = new Application();
-//        $fileName = time().'_'.$request->application_letter->getClientOriginalName();
-//        $filePath = $request->file('application_letter')->storeAs('application/files', $fileName);
-//        $application->application_title = $fileName;
-//        $application->application_letter = $filePath;
-//        $application->suc_id = $id;
+//        $application->suc_id=$id;
 //        $application->save();
 //
 //        $suc = SUC::where('id', $id)->first();
@@ -67,8 +41,48 @@ class ApplicationController extends Controller
 //            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
 //        ];
 //        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
-//        return response()->json(['status' => true, 'message' => 'Successfully added application letter!', 'application' => $application]);
+//
+//        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
 //    }
+
+    public function createApplication(request $request, $sucID, $userID){
+        $validator = Validator::make($request->all(), [
+            'title' => 'required'
+        ]);
+        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
+
+        $application = new Application();
+        $application->suc_id=$sucID;
+        $application->sender_id = $userID;
+        $application->title = $request->title;
+        $application->status = 'unsubmitted';
+        $application->save();
+
+        $count = count($request->programs);
+        for($x=0; $x<$count; $x++){
+            $program = new ApplicationProgram();
+            $program->application_id = $application->id;
+            $program->program_id = $request->programs[$x]['program_id'];
+            $program->level = $request->programs[$x]['level'];
+            $program->preferred_start_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_start_date'])->format('Y-m-d');
+            $program->preferred_end_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_end_date'])->format('Y-m-d');
+            $program->status = "pending";
+            $program->save();
+        }
+
+        $suc = SUC::where('id', $sucID)->first();
+        $details = [
+            'title' => 'Application Notification for Accreditation',
+            'body' => 'Please check your AOMS account to view the application',
+            'suc' => $suc->institution_name,
+            'address' => $suc->address,
+            'email' => $suc->email,
+            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
+        ];
+        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
+
+        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
+    }
 
     public function deleteApplication($id){
         $application = Application::where('id', $id);

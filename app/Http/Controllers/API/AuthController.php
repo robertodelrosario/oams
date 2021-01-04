@@ -56,7 +56,7 @@ class AuthController extends Controller
             ->join('campuses', 'campuses.id', '=', 'campuses_users.campus_id')
             ->join('sucs', 'sucs.id', '=', 'campuses.suc_id')
             ->where('campuses_users.user_id',auth()->user()->id)
-            ->get();
+            ->first();
         $roles = UserRole::where('user_id', auth()->user()->id)->get();
         return response()->json(['user' => auth()->user(), 'role' => $roles, 'campus'=>$campus]);
     }

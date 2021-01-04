@@ -25,6 +25,7 @@ class CreateAccreditorRequestsTable extends Migration
             $table->foreign('instrument_program_id')->references('id')->on('instruments_programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('status');
+            $table->string('remark')->nullable();
             $table->timestamps();
         });
     }

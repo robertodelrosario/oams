@@ -148,7 +148,8 @@ class UserController extends Controller
 //        return response()->json(['tasks'=> $tasks]);
     }
 
-    public function showInstrumentHead($app_prog){
+    public function showInstrumentHead($app_prog)
+    {
         $program = ApplicationProgram::where('id', $app_prog)->first();
         $instrument = DB::table('instruments_programs')
             ->join('programs', 'programs.id', '=', 'instruments_programs.program_id')
@@ -156,23 +157,6 @@ class UserController extends Controller
             ->where('instruments_programs.program_id', $program->program_id)
             ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program', 'area_instruments.area_number', 'area_instruments.area_name')
             ->get();
-        return response()->json(['areas'=>$instrument]);
-
-//        $areas = AssignedUserHead::where([
-//            ['application_program_id', $app_prog], ['user_id', $id]
-//        ])->get();
-//        $instrument_array = array();
-//        foreach ($areas as $area){
-//
-//
-//            $instrument = DB::table('instruments_programs')
-//                ->join('programs', 'programs.id', '=', 'instruments_programs.program_id')
-//                ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
-//                ->where('instruments_programs.id', $area->transaction_id)
-//                ->get();
-//            $instrument_array = Arr::prepend($instrument_array,$instrument);
-//        }
-//        return response()->json(['areas'=>$instrument_array]);
+        return response()->json(['areas' => $instrument]);
     }
-
 }
