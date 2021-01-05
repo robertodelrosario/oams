@@ -47,7 +47,9 @@ class ApplicationController extends Controller
 
     public function createApplication(request $request, $sucID, $userID){
         $validator = Validator::make($request->all(), [
-            'title' => 'required'
+            'title' => 'required',
+            'filename' => 'required',
+            'filename.*' => 'mimes:doc,pdf,docx,zip'
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
@@ -69,7 +71,6 @@ class ApplicationController extends Controller
             $program->status = "pending";
             $program->save();
         }
-
         return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
     }
 
@@ -88,6 +89,7 @@ class ApplicationController extends Controller
             'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
         ];
         \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
+        return response()->json(['status' => true, 'message' => 'Successful']);
     }
 
     public function deleteApplication($id){

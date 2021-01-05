@@ -85,27 +85,6 @@ class AccreditorController extends Controller
         }
         return response()->json(['status' => true, 'message' => 'Successfully accepted request']);
     }
-//    public function acceptRequest($id){
-//        $req = AccreditorRequest::where('id', $id)->first();
-//        $req->status = 'accepted';
-//        $req->save();
-//
-//        $assignUser = new AssignedUser();
-//        $assignUser->transaction_id = $req->instrument_program_id;
-//        $assignUser->user_id = $req->accreditor_id;
-//        $assignUser->app_program_id = $req->application_program_id;
-//        $assignUser->role = 'external accreditor';
-//        $assignUser->save();
-//
-//        $statements = ProgramStatement::where('program_instrument_id', $assignUser->transaction_id)->get();
-//        foreach ($statements as $statement){
-//            $item = new InstrumentScore();
-//            $item->item_id = $statement->id;
-//            $item->assigned_user_id = $assignUser->id;
-//            $item->save();
-//        }
-//        return response()->json(['status' => true, 'message' => 'Successfully accepted request']);
-//    }
 
     public function rejectRequest(request $request, $id){
         $req = AccreditorRequest::where('id', $id)->first();

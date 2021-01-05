@@ -11,6 +11,7 @@ use App\Mail\RequestAccreditor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AaccupController extends Controller
 {
@@ -25,6 +26,7 @@ class AaccupController extends Controller
     public function showApplication(){
         $applications = DB::table('applications')
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+            ->where('applications.status', 'submitted')
             ->select('applications.*', 'sucs.institution_name','sucs.address', 'sucs.email','sucs.contact_no')
             ->get();
         $file_arr = array();
@@ -128,11 +130,16 @@ class AaccupController extends Controller
 
     public function editRequest(request $request, $id){
         $accreditorRequest = AccreditorRequest::where('id', $id)->first();
-        if($request->type == 0) $accreditorRequest->role = '[leader] external accreditor - area 7';
-        else if($request->type == 1) $accreditorRequest->role = '[leader] external accreditor';
-        else if($x > 0 && $request->taskRequests[$x]['type'] == 0) $accreditorRequest->role = 'external accreditor - area 7';
-        else if($x > 0 && $request->taskRequests[$x]['type'] == 1) $accreditorRequest->role = 'external accreditor';
+        if(Str::contains($accreditorRequest->role, 'leader')){
+            if($request->type == 0) $accreditorRequest->role = '[leader] external accreditor - area 7';
+            else if($request->type == 1) $accreditorRequest->role = '[leader] external accreditor';
+        }
+        else{
+            if($request->type == 0) $accreditorRequest->role = 'external accreditor - area 7';
+            else if($request->type == 1) $accreditorRequest->role = 'external accreditor';
+        }
         $accreditorRequest->save();
+        return response()->json(['status' => true ,'message' => 'Successfully edited request']);
     }
 
     public function setDate(request $request, $id){
