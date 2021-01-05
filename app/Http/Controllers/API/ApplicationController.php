@@ -70,6 +70,14 @@ class ApplicationController extends Controller
             $program->save();
         }
 
+        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
+    }
+
+    public function submitApplication($id, $sucID){
+        $application = Application::where('id', $id)->first();
+        $application->status = 'submitted';
+        $application->save();
+
         $suc = SUC::where('id', $sucID)->first();
         $details = [
             'title' => 'Application Notification for Accreditation',
@@ -80,8 +88,6 @@ class ApplicationController extends Controller
             'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
         ];
         \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
-
-        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
     }
 
     public function deleteApplication($id){
@@ -94,8 +100,9 @@ class ApplicationController extends Controller
         //$applications = Application::where('suc_id', $id)->get();
         $applications = DB::table('applications')
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+            ->join('users', 'users.id', '=','applications.sender_id')
             ->where('applications.suc_id', $id)
-            ->select('applications.*', 'sucs.institution_name', 'sucs.address', 'sucs.email', 'sucs.contact_no')
+            ->select('applications.*', 'sucs.institution_name', 'sucs.address', 'sucs.email', 'sucs.contact_no', 'users.first_name', 'users.last_name')
             ->get();
         $file_arr = array();
         foreach ($applications as $application){
@@ -148,5 +155,6 @@ class ApplicationController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
+
 
 }

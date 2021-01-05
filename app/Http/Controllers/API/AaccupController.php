@@ -37,40 +37,75 @@ class AaccupController extends Controller
         return response()->json(['applications' => $applications, 'files' => $file_arr]);
     }
 
-    public function requestAccreditor(request $request,$id){
-        $accreditorRequest =new AccreditorRequest();
-        $accreditorRequest->application_program_id = $request->application_program_id;
-        $accreditorRequest->accreditor_id = $id;
-        $accreditorRequest->instrument_program_id = $request->instrument_program_id;
-        $accreditorRequest->status = "pending";
-        $accreditorRequest->save();
+//    public function requestAccreditor(request $request,$id){
+//        $accreditorRequest =new AccreditorRequest();
+//        $accreditorRequest->application_program_id = $request->application_program_id;
+//        $accreditorRequest->accreditor_id = $id;
+//        $accreditorRequest->status = "pending";
+//        $accreditorRequest->save();
+//
+//        $req = DB::table('accreditor_requests')
+//            ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
+//            ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
+//            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+//            ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
+//            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+//            ->where('accreditor_requests.accreditor_id', $id)
+//            ->where('accreditor_requests.status', '=', 'pending')
+//            ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
+//            ->first();
+//
+//        $details = [
+//            'title' => 'Request for Accreditation',
+//            'suc' => $req->institution_name,
+//            'campus' => $req->campus_name,
+//            'program' => $req->program_name,
+//            'start_date' => $req->approved_start_date,
+//            'start_end' => $req->approved_end_date,
+//            'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
+//        ];
+//        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
+//        return response()->json(['status' => true, 'message' => 'Successfully sent accreditor request ','accreditor' => $accreditorRequest]);
+//    }
 
-        $req = DB::table('accreditor_requests')
-            ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
-            ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
-            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
-            ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
-            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-            ->join('instruments_programs', 'instruments_programs.id', '=', 'accreditor_requests.instrument_program_id')
-            ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
-            ->where('accreditor_requests.accreditor_id', $id)
-            ->where('accreditor_requests.status', '=', 'pending')
-            ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
-            ->first();
+    public function request(request $request,$userID,$id){
+        $count = count($request->taskRequests);
+        for($x=0; $x<$count; $x++) {
+            $accreditorRequest =new AccreditorRequest();
+            $accreditorRequest->application_program_id = $id;
+            $accreditorRequest->accreditor_id = $request->taskRequests[$x]['user_id'];
+            if($x == 0 && $request->taskRequests[$x]['type'] == 0) $accreditorRequest->role = '[leader] external accreditor - area 7';
+            else if($x == 0 && $request->taskRequests[$x]['type'] == 1) $accreditorRequest->role = '[leader] external accreditor';
+            else if($x > 0 && $request->taskRequests[$x]['type'] == 0) $accreditorRequest->role = 'external accreditor - area 7';
+            else if($x > 0 && $request->taskRequests[$x]['type'] == 1) $accreditorRequest->role = 'external accreditor';
+            $accreditorRequest->sender_id = $userID;
+            $accreditorRequest->status = "pending";
+            $accreditorRequest->save();
 
-        $details = [
-            'title' => 'Request for Accreditation',
-            'suc' => $req->institution_name,
-            'campus' => $req->campus_name,
-            'program' => $req->program_name,
-            'area_number' => $req->area_number,
-            'area_name' => $req->area_name,
-            'start_date' => $req->approved_start_date,
-            'start_end' => $req->approved_end_date,
-            'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
-        ];
-        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
-        return response()->json(['status' => true, 'message' => 'Successfully sent accreditor request ','accreditor' => $accreditorRequest]);
+            $req = DB::table('accreditor_requests')
+                ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
+                ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
+                ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+                ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
+                ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+                ->where('accreditor_requests.id', $accreditorRequest->id)
+                ->where('accreditor_requests.status', '=', 'pending')
+                ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
+                ->first();
+
+            $title = 'Request for Accreditation - '.$accreditorRequest->role;
+            $details = [
+                'title' => $title,
+                'suc' => $req->institution_name,
+                'campus' => $req->campus_name,
+                'program' => $req->program_name,
+                'start_date' => $req->approved_start_date,
+                'start_end' => $req->approved_end_date,
+                'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
+            ];
+            \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully sent accreditor requests']);
     }
 
     public function viewAccreditorRequest(){
@@ -90,6 +125,16 @@ class AaccupController extends Controller
         $req->delete();
         return response()->json(['status' => true ,'message' => 'Successfully deleted request']);
     }
+
+    public function editRequest(request $request, $id){
+        $accreditorRequest = AccreditorRequest::where('id', $id)->first();
+        if($request->type == 0) $accreditorRequest->role = '[leader] external accreditor - area 7';
+        else if($request->type == 1) $accreditorRequest->role = '[leader] external accreditor';
+        else if($x > 0 && $request->taskRequests[$x]['type'] == 0) $accreditorRequest->role = 'external accreditor - area 7';
+        else if($x > 0 && $request->taskRequests[$x]['type'] == 1) $accreditorRequest->role = 'external accreditor';
+        $accreditorRequest->save();
+    }
+
     public function setDate(request $request, $id){
         $program = ApplicationProgram::where('id', $id)->first();
         $program->approved_start_date = $request->approved_start_date;

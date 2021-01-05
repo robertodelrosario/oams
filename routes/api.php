@@ -31,6 +31,7 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('/addToOffice/{id}/{office_id}', 'AuthController@addToOffice');
+    Route::put('/removeFromOffice/{id}', 'AuthController@removeFromOffice');
     Route::post('setRole/{userID}', 'AuthController@setRole');
     Route::get('/showCampusUser/{id}', 'AuthController@showCampusUser');
     Route::get('/showAaccup', 'AuthController@showAaccup');
@@ -82,6 +83,7 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::put('/setDate/{id}', 'AaccupController@setDate');
     Route::put('/reject/{id}', 'AaccupController@reject');
     Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
+    Route::post('/request/{userID}/{id}', 'AaccupController@request');
     Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
     Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
 
@@ -126,6 +128,7 @@ Route::group(['prefix' => '/instrument'], function() {
 
 Route::group(['prefix' => '/application'], function() {
     Route::post('/createApplication/{sucID}/{userID}', 'ApplicationController@createApplication');
+    Route::post('/submitApplication/{id}/{sucID}', 'ApplicationController@submitApplication');
     Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
     Route::get('/showApplication/{id}', 'ApplicationController@showApplication');
 
@@ -135,6 +138,7 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::post('/program', 'AppliedProgramController@program');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');
+    Route::put('/edit/{id}', 'AppliedProgramController@edit');
     Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
     Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');
@@ -160,7 +164,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showDummyDocument', 'MSITransactionController@showDummyDocument');
 
     Route::post('/assignTask/{id}/{app_prog_id}', 'AssignTaskController@assignTask');
-    //Route::get('/showTask/{id}', 'AssignTaskController@showTask');
+    Route::post('/assignAccreditor/{id}', 'AssignTaskController@assignAccreditor');
     //Route::get('/showTaskUser/{id}', 'AssignTaskController@showTaskUser');
     Route::delete('/deleteAssignedUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedUser');
 

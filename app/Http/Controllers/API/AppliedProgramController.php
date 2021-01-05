@@ -56,6 +56,15 @@ class AppliedProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted applied program!']);
     }
 
+    public function edit(request $request, $id){
+        $program = ApplicationProgram::where('id',$id)->first();
+        $program->level = $request->level;
+        $program->preferred_start_date = \Carbon\Carbon::parse($request->preferred_start_date)->format('Y-m-d');
+        $program->preferred_end_date = \Carbon\Carbon::parse($request->preferred_end_date)->format('Y-m-d');
+        $program->save();
+        return response()->json(['status' => true, 'message' => 'Successfully updated applied program!']);
+    }
+
     public function uploadPPP(request $request, $id){
         $validator = Validator::make($request->all(), [
             'ppp' => 'required|mimes:doc,docx,pdf|max:2048'

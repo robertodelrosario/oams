@@ -31,6 +31,7 @@ class CreateApplicationsProgramsTable extends Migration
             $table->date('approved_end_date')->nullable();
             $table->string('status')->nullable();
             $table->string('result')->nullable();
+            $table->string('sfr_report')->nullable();
             $table->date('date_granted')->nullable();
             $table->binary('certificate')->nullable();
             $table->timestamps();

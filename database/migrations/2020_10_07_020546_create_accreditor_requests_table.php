@@ -21,9 +21,10 @@ class CreateAccreditorRequestsTable extends Migration
             $table->foreignId('accreditor_id');
             $table->foreign('accreditor_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->foreignId('instrument_program_id');
-            $table->foreign('instrument_program_id')->references('id')->on('instruments_programs')
+            $table->foreignId('sender_id');
+            $table->foreign('sender_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->string('role');
             $table->string('status');
             $table->string('remark')->nullable();
             $table->timestamps();

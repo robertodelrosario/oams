@@ -23,40 +23,94 @@ class AccreditorController extends Controller
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
             ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
             ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-            ->join('instruments_programs', 'instruments_programs.id', '=', 'accreditor_requests.instrument_program_id')
-            ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
             ->where('accreditor_requests.accreditor_id', $id)
-//            ->where('accreditor_requests.status', '=', 'pending')
-            ->select( 'accreditor_requests.id','accreditor_requests.status','sucs.institution_name' ,'campuses.campus_name', 'programs.program_name','area_instruments.area_name','area_instruments.area_number', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
+            ->select( 'accreditor_requests.id','sucs.institution_name' ,'campuses.campus_name', 'programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date', 'accreditor_requests.status', 'accreditor_requests.role')
             ->get();
         return response()->json(['requests' => $req]);
     }
-
     public function acceptRequest($id){
         $req = AccreditorRequest::where('id', $id)->first();
+        $application_program = ApplicationProgram::where('id', $req->application_program_id)->first();
         $req->status = 'accepted';
         $req->save();
 
-        $assignUser = new AssignedUser();
-        $assignUser->transaction_id = $req->instrument_program_id;
-        $assignUser->user_id = $req->accreditor_id;
-        $assignUser->app_program_id = $req->application_program_id;
-        $assignUser->role = 'external accreditor';
-        $assignUser->save();
+        if($req->role == "[leader] external accreditor - area 7" || $req->role == "external accreditor - area 7")
+        {
+            $area = DB::table('instruments_programs')
+                ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
+                ->where([
+                    ['instruments_programs.program_id', $application_program->program_id], ['area_instruments.area_number', 7]
+                ])
+                ->select('instruments_programs.*')
+                ->first();
+            $assignUser = new AssignedUser();
+            $assignUser->transaction_id = $area->id;
+            $assignUser->user_id = $req->accreditor_id;
+            $assignUser->app_program_id = $req->application_program_id;
+            $assignUser->role = $req->role;
+            $assignUser->save();
 
-        $statements = ProgramStatement::where('program_instrument_id', $assignUser->transaction_id)->get();
-        foreach ($statements as $statement){
-            $item = new InstrumentScore();
-            $item->item_id = $statement->id;
-            $item->assigned_user_id = $assignUser->id;
-            $item->save();
+            $statements = ProgramStatement::where('program_instrument_id', $area->id)->get();
+            foreach ($statements as $statement){
+                $item = new InstrumentScore();
+                $item->item_id = $statement->id;
+                $item->assigned_user_id = $req->accreditor_id;
+                $item->save();
+            }
+        }
+        else if($req->role == "[leader] external accreditor" || $req->role == "external accreditor"){
+            $areas = DB::table('instruments_programs')
+                ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
+                ->where([
+                    ['instruments_programs.program_id', $application_program->program_id], ['area_instruments.area_number','!=', 7]
+                ])
+                ->select('instruments_programs.*')
+                ->get();
+            foreach ($areas as $area){
+                $assignUser = new AssignedUser();
+                $assignUser->transaction_id = $area->id;
+                $assignUser->user_id = $req->accreditor_id;
+                $assignUser->app_program_id = $req->application_program_id;
+                $assignUser->role = $req->role;
+                $assignUser->save();
+
+                $statements = ProgramStatement::where('program_instrument_id', $area->id)->get();
+                foreach ($statements as $statement){
+                    $item = new InstrumentScore();
+                    $item->item_id = $statement->id;
+                    $item->assigned_user_id = $req->accreditor_id;
+                    $item->save();
+                }
+            }
         }
         return response()->json(['status' => true, 'message' => 'Successfully accepted request']);
     }
+//    public function acceptRequest($id){
+//        $req = AccreditorRequest::where('id', $id)->first();
+//        $req->status = 'accepted';
+//        $req->save();
+//
+//        $assignUser = new AssignedUser();
+//        $assignUser->transaction_id = $req->instrument_program_id;
+//        $assignUser->user_id = $req->accreditor_id;
+//        $assignUser->app_program_id = $req->application_program_id;
+//        $assignUser->role = 'external accreditor';
+//        $assignUser->save();
+//
+//        $statements = ProgramStatement::where('program_instrument_id', $assignUser->transaction_id)->get();
+//        foreach ($statements as $statement){
+//            $item = new InstrumentScore();
+//            $item->item_id = $statement->id;
+//            $item->assigned_user_id = $assignUser->id;
+//            $item->save();
+//        }
+//        return response()->json(['status' => true, 'message' => 'Successfully accepted request']);
+//    }
 
-    public function rejectRequest($id){
+    public function rejectRequest(request $request, $id){
         $req = AccreditorRequest::where('id', $id)->first();
         $req->status = 'rejected';
+        $req->remark = $request->remark;
         $req->save();
         return response()->json(['status' => true, 'message' => 'Successfully rejected request']);
     }

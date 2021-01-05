@@ -139,6 +139,12 @@ class AuthController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added to office']);
     }
 
+    public function removeFromOffice($id){
+        $user = CampusUser::where('id', $id)->first();
+        $user->office_id = null;
+        $user->save();
+        return response()->json(['status' => true, 'message' => 'Successfully remove from office']);
+    }
     public function registerAaccupAccreditor(request $request){
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
