@@ -21,5 +21,19 @@ class UserSeeder extends Seeder
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ]);
+
+        for($x=1; $x<=12; $x++){
+            DB::table('users_roles')->insert([
+                'user_id' => 1,
+                'role_id' => $x
+            ]);
+        }
+        DB::table('campuses_users')->insert([
+            'campus_id' => 1,
+            'user_id' => 1
+        ]);
+        
+
+
     }
 }

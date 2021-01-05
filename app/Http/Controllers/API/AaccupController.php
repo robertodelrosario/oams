@@ -130,16 +130,19 @@ class AaccupController extends Controller
 
     public function editRequest(request $request, $id){
         $accreditorRequest = AccreditorRequest::where('id', $id)->first();
-        if(Str::contains($accreditorRequest->role, 'leader')){
-            if($request->type == 0) $accreditorRequest->role = '[leader] external accreditor - area 7';
-            else if($request->type == 1) $accreditorRequest->role = '[leader] external accreditor';
+        if($accreditorRequest->status == 'pending'){
+            if(Str::contains($accreditorRequest->role, 'leader')){
+                if($request->type == 0) $accreditorRequest->role = '[leader] external accreditor - area 7';
+                else if($request->type == 1) $accreditorRequest->role = '[leader] external accreditor';
+            }
+            else{
+                if($request->type == 0) $accreditorRequest->role = 'external accreditor - area 7';
+                else if($request->type == 1) $accreditorRequest->role = 'external accreditor';
+            }
+            $accreditorRequest->save();
+            return response()->json(['status' => true ,'message' => 'Successfully edited request']);
         }
-        else{
-            if($request->type == 0) $accreditorRequest->role = 'external accreditor - area 7';
-            else if($request->type == 1) $accreditorRequest->role = 'external accreditor';
-        }
-        $accreditorRequest->save();
-        return response()->json(['status' => true ,'message' => 'Successfully edited request']);
+        else return response()->json(['status' => false ,'message' => 'Request already is already '.$accreditorRequest->status]);
     }
 
     public function setDate(request $request, $id){
