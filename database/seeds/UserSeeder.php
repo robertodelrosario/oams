@@ -81,7 +81,6 @@ class UserSeeder extends Seeder
         DB::table('campuses_users')->insert([
             'campus_id' => 1,
             'user_id' => 5,
-            'office_id' => 1
         ]);
 
         DB::table('users')->insert([
