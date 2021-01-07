@@ -49,13 +49,14 @@ class AaccupController extends Controller
             ->get();
         $users = array();
         foreach ($programs as $program){
-            $assigned_users = DB::table('assigned_users')
-                ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                ->where('assigned_users.app_program_id', $program->id)
+            $request_users = DB::table('users')
+                ->join('accreditor_requests', 'users.id', '=', 'accreditor_requests.accreditor_id')
+                ->where('accreditor_requests.application_program_id', $program->id)
                 ->get();
-            foreach ($assigned_users as $user)
-                if ($user != null && Str::contains($user->role, 'external accreditor')) $users = Arr::prepend($users, $user);
+            foreach ($request_users as $user)
+                if ($user != null) $users = Arr::prepend($users, $user);
         }
+
         return response()->json(['programs' =>$programs, 'users' => $users]);
     }
 
