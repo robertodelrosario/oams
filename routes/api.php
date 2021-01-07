@@ -80,6 +80,7 @@ Route::group(['prefix' => '/aaccup'], function() {
 
     Route::get('/showAllProgram', 'AaccupController@showAllProgram');
     Route::get('/showApplication', 'AaccupController@showApplication');
+    Route::get('/showProgram/{id}', 'AaccupController@showProgram');
     Route::put('/setDate/{id}', 'AaccupController@setDate');
     Route::put('/reject/{id}', 'AaccupController@reject');
     Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
