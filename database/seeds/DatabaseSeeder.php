@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ProgramSeeder::class,
             AreaInstrumentSeeder::class,
             RoleSeeder::class,
+            OfficeSeeder::class,
             UserSeeder::class,
         ]);
     }

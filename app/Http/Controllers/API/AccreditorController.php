@@ -101,7 +101,6 @@ class AccreditorController extends Controller
         $program = array();
         $index = array();
         foreach ($tasks as $task){
-           // $app_prog = ApplicationProgram::where('id', $task->app_program_id)->first();
             $app_prog = DB::table('applications_programs')
                 ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                 ->join('campuses', 'campuses.id', '=', 'programs.campus_id')

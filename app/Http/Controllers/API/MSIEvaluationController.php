@@ -22,4 +22,8 @@ class MSIEvaluationController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added scores']);
     }
 
+    public function scoreComparison($id){
+        
+    }
+
 }

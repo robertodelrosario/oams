@@ -88,6 +88,9 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
     Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
 
+    Route::post('/setAcceptableScoreGap/{id}', 'AaccupController@setAcceptableScoreGap');
+    Route::post('/editAcceptableScoreGap/{id}', 'AaccupController@editAcceptableScoreGap');
+
 });
 
 Route::group(['prefix' => '/document'], function() {

@@ -6,6 +6,7 @@ use App\AccreditorRequest;
 use App\ApplicationFile;
 use App\ApplicationProgram;
 use App\Http\Controllers\Controller;
+use App\InstrumentParameter;
 use App\Mail\ApplicationNotification;
 use App\Mail\RequestAccreditor;
 use Illuminate\Http\Request;
@@ -39,36 +40,24 @@ class AaccupController extends Controller
         return response()->json(['applications' => $applications, 'files' => $file_arr]);
     }
 
-//    public function requestAccreditor(request $request,$id){
-//        $accreditorRequest =new AccreditorRequest();
-//        $accreditorRequest->application_program_id = $request->application_program_id;
-//        $accreditorRequest->accreditor_id = $id;
-//        $accreditorRequest->status = "pending";
-//        $accreditorRequest->save();
-//
-//        $req = DB::table('accreditor_requests')
-//            ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
-//            ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
-//            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
-//            ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
-//            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-//            ->where('accreditor_requests.accreditor_id', $id)
-//            ->where('accreditor_requests.status', '=', 'pending')
-//            ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
-//            ->first();
-//
-//        $details = [
-//            'title' => 'Request for Accreditation',
-//            'suc' => $req->institution_name,
-//            'campus' => $req->campus_name,
-//            'program' => $req->program_name,
-//            'start_date' => $req->approved_start_date,
-//            'start_end' => $req->approved_end_date,
-//            'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
-//        ];
-//        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
-//        return response()->json(['status' => true, 'message' => 'Successfully sent accreditor request ','accreditor' => $accreditorRequest]);
-//    }
+    public function showProgram($id){
+        $programs = DB::table('applications_programs')
+            ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
+            ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+            ->where('applications_programs.application_id', $id)
+            ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
+            ->get();
+        $users = array();
+        foreach ($programs as $program){
+            $assigned_users = DB::table('assigned_users')
+                ->join('users', 'users.id', '=', 'assigned_users.user_id')
+                ->where('assigned_users.application_program_id', $program->id)
+                ->get();
+            foreach ($assigned_users as $user)
+                if ($user != null && Str::contains($user->role, 'external accreditor')) $users = Arr::prepend($users, $user);
+        }
+        return response()->json(['programs' =>$programs, 'users' => $users]);
+    }
 
     public function request(request $request,$userID,$id){
         $count = count($request->taskRequests);
@@ -158,5 +147,21 @@ class AaccupController extends Controller
         $program->status = "rejected";
         $program->save();
         return response()->json(['status' => true, 'message' => 'Rejected program application']);
+    }
+
+    public function setAcceptableScoreGap(request $request, $id){
+        $parameters = InstrumentParameter::where('area_instrument_id', $id)->get();
+        foreach ($parameters as $parameter){
+            $parameter->acceptable_score_gap = $request->gap;
+            $parameter->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameters]);
+    }
+
+    public function editAcceptableScoreGap(request $request, $id){
+        $parameter = InstrumentParameter::where('id', $id)->first();
+        $parameter->acceptable_score_gap = $request->gap;
+        $parameter->save();
+        return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);
     }
 }

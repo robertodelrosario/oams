@@ -22,8 +22,16 @@
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AccreditorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSIController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSIController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSIEvaluationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSIEvaluationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Office.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Office.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Tag.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_12_022708_create_instruments_parameters_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_12_022708_create_instruments_parameters_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/OfficeSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/OfficeSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeds/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/UserSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,7 +287,9 @@
       <workItem from="1608684104475" duration="8070000" />
       <workItem from="1609124067510" duration="1048000" />
       <workItem from="1609643044022" duration="20661000" />
-      <workItem from="1609808077913" duration="10105000" />
+      <workItem from="1609808077913" duration="17164000" />
+      <workItem from="1609894379794" duration="6032000" />
+      <workItem from="1609981245703" duration="4087000" />
     </task>
     <servers />
   </component>
@@ -367,11 +377,6 @@
           <url>file://$PROJECT_DIR$/app/Http/Controllers/API/UserController.php</url>
           <line>8</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php</url>
-          <line>59</line>
-          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
