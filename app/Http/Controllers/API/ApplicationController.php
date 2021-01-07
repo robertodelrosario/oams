@@ -48,8 +48,6 @@ class ApplicationController extends Controller
     public function createApplication(request $request, $sucID, $userID){
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'filename' => 'required',
-            'filename.*' => 'mimes:doc,pdf,docx,zip'
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
