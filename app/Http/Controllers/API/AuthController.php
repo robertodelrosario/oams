@@ -140,7 +140,12 @@ class AuthController extends Controller
         $user = CampusUser::where('id', $id)->first();
         $user->office_id = $office_id;
         $user->save();
-        return response()->json(['status' => true, 'message' => 'Successfully added to office']);
+
+        $office = DB::table('offices')
+            ->join('campuses_users', 'campuses_users.office_id', '=', 'offices.id')
+            ->where('campuses_users.id', $id)
+            ->first();
+        return response()->json(['status' => true, 'message' => 'Successfully added to office', 'office' => $office]);
     }
 
     public function removeFromOffice($id){
