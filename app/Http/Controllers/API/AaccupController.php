@@ -51,7 +51,7 @@ class AaccupController extends Controller
         foreach ($programs as $program){
             $assigned_users = DB::table('assigned_users')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                ->where('assigned_users.application_program_id', $program->id)
+                ->where('assigned_users.app_program_id', $program->id)
                 ->get();
             foreach ($assigned_users as $user)
                 if ($user != null && Str::contains($user->role, 'external accreditor')) $users = Arr::prepend($users, $user);
