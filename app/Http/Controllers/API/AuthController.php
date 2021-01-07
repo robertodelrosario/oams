@@ -127,7 +127,11 @@ class AuthController extends Controller
 //            $department->save();
             $role = Role::where('role', $request->role)->first();
             $role->users()->attach($user->id);
-            return response()->json(['user' => $user]);
+            $roles = DB::table('users_roles')
+                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+                ->where('user_id', $user->id)
+                ->get();
+            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
         }
         return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
@@ -163,7 +167,11 @@ class AuthController extends Controller
             $user->save();
             $role = Role::where('role', $request->role)->first();
             $role->users()->attach($user->id);
-            return response()->json(['user' => $user]);
+            $roles = DB::table('users_roles')
+                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+                ->where('user_id', $user->id)
+                ->get();
+            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
         }
         return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
@@ -232,7 +240,11 @@ class AuthController extends Controller
             if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
             $role = Role::where('id', $role->id)->first();
             $role->users()->attach($user->id);
-            return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
+            $roles = DB::table('users_roles')
+                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+                ->where('user_id', $userID)
+                ->get();
+            return response()->json(['status' => true, 'message' => 'Role successfully added to User', 'roles' => $roles]);
         }
         return response()->json(['status' => false, 'message' => 'Role already added to User']);
     }
