@@ -101,7 +101,6 @@ class UserSeeder extends Seeder
         DB::table('campuses_users')->insert([
             'campus_id' => 1,
             'user_id' => 6,
-            'office_id' => 1
         ]);
 
         DB::table('users')->insert([
@@ -121,7 +120,6 @@ class UserSeeder extends Seeder
         DB::table('campuses_users')->insert([
             'campus_id' => 1,
             'user_id' => 7,
-            'office_id' => 1
         ]);
 
         DB::table('users')->insert([
@@ -147,7 +145,6 @@ class UserSeeder extends Seeder
         DB::table('campuses_users')->insert([
             'campus_id' => 1,
             'user_id' => 1,
-            'office_id' => 1
         ]);
 
 
