@@ -85,12 +85,13 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::put('/reject/{id}', 'AaccupController@reject');
     Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
     Route::post('/request/{userID}/{id}', 'AaccupController@request');
+    Route::post('/addRequest/{userID}/{id}', 'AaccupController@addRequest');
     Route::put('/editRequest/{id}', 'AaccupController@editRequest');
     Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
     Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
 
-    Route::post('/setAcceptableScoreGap/{id}', 'AaccupController@setAcceptableScoreGap');
-    Route::post('/editAcceptableScoreGap/{id}', 'AaccupController@editAcceptableScoreGap');
+    Route::put('/setAcceptableScoreGap/{id}', 'AaccupController@setAcceptableScoreGap');
+    Route::put('/editAcceptableScoreGap/{id}', 'AaccupController@editAcceptableScoreGap');
 
 });
 
@@ -177,6 +178,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteAssignedHeadUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedHeadUser');
 
     Route::put('/setScore', 'MSIEvaluationController@setScore');
+    Route::get('/scoreComparison/{id}', 'MSIEvaluationController@scoreComparison');
 
 });
 

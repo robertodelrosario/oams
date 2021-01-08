@@ -38,13 +38,6 @@ class ParameterController extends Controller
             return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter' => $parameter]);
         }
 
-//        $parameter = new Parameter();
-//        $parameter->parameter = $request->parameter;
-//        $parameter->save();
-//        $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
-//        $parameter->areaInstruments()->attach($instrument);
-//        return response()->json(['status' => true, 'message' => 'Successfully created parameter!', 'parameter' => $parameter]);
-
         $instrument= AreaInstrument::where('id',$request->area_instrument_id)->first();
         $instrumentParameter = new InstrumentParameter();
         $test = InstrumentParameter::where([

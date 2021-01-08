@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MSIController extends Controller
 {
@@ -14,7 +15,7 @@ class MSIController extends Controller
         $task = AssignedUser::where([
             ['transaction_id', $transactionID], ['user_id', $id]
         ])->first();
-        if($task->role == 'internal accreditor' || $task->role == 'external accreditor'){
+        if($task->role == 'internal accreditor' || Str::contains($task->role, 'external accreditor')){
             $area = InstrumentProgram::where('id', $task->transaction_id)->first();
             $instrumentStatement = DB::table('programs_statements')
                 ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')

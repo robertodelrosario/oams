@@ -170,24 +170,8 @@ class AccreditorController extends Controller
         return response()->json(['areas'=>$instrument_array]);
     }
 
+    public function saveParameterMean($id){
+        $instrument = InstrumentProgram::where('id', $id)->first();
 
-
-//    public function viewRemark($id){
-//        $area = InstrumentProgram::where('id', $id)->first();
-//        $remarks = DB::table('programs_statements')
-//            ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
-//            ->join('parameters_statements', 'parameters_statements.benchmark_statement_id', '=', 'programs_statements.benchmark_statement_id')
-//            ->join('parameters', 'parameters.id', '=' , 'parameters_statements.parameter_id')
-//            ->join('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
-//            ->join('instruments_scores', 'instruments_scores.item_id', '=', 'programs_statements.id')
-//            ->join('users', 'users.id', '=', 'instruments_scores.assigned_user_id')
-//            ->where('instruments_parameters.area_instrument_id',$area->area_instrument_id)
-//            ->where('programs_statements.program_instrument_id', $area->id)
-//            ->where('instruments_scores.remark', '!=', null)
-//            ->orderBy('benchmark_statements.id')
-//            ->get();
-//        $pdf = PDF::loadView('report', ['remarks' => $remarks]);
-//        return $pdf->download('pdf_file.pdf');
-//  //      return response()->json(['data' => $data]);
-//    }
+    }
 }
