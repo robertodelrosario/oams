@@ -107,8 +107,8 @@ class AaccupController extends Controller
             $accreditorRequest =new AccreditorRequest();
             $accreditorRequest->application_program_id = $id;
             $accreditorRequest->accreditor_id = $request->taskRequests[$x]['user_id'];
-            if($x > 0 && $request->taskRequests[$x]['type'] == 0) $accreditorRequest->role = 'external accreditor - area 7';
-            else if($x > 0 && $request->taskRequests[$x]['type'] == 1) $accreditorRequest->role = 'external accreditor';
+            if($request->taskRequests[$x]['type'] == 0) $accreditorRequest->role = 'external accreditor - area 7';
+            else if($request->taskRequests[$x]['type'] == 1) $accreditorRequest->role = 'external accreditor';
             $accreditorRequest->sender_id = $userID;
             $accreditorRequest->status = "pending";
             $accreditorRequest->save();
