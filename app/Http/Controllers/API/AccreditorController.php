@@ -126,8 +126,9 @@ class AccreditorController extends Controller
             $instrument = DB::table('instruments_programs')
                 ->join('programs', 'programs.id', '=', 'instruments_programs.program_id')
                 ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
+                ->select('instruments_programs.*', 'area_instruments.area_number', 'area_instruments.area_name')
                 ->where('instruments_programs.id', $area->transaction_id)
-                ->get();
+                ->first();
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
         return response()->json(['areas'=>$instrument_array]);

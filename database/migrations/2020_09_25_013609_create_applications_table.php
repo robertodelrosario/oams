@@ -19,7 +19,7 @@ class CreateApplicationsTable extends Migration
             $table->foreign('suc_id')->references('id')->on('sucs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('title');
-            $table->foreignId('sender_id');
+            $table->foreignId('sender_id')->nullable();
             $table->foreign('sender_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->string('status');
