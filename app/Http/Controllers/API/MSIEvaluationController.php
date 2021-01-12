@@ -38,7 +38,6 @@ class MSIEvaluationController extends Controller
             ->orderBy('parameters.parameter')
             ->get();
         return response()->json(['statements' => $instrumentStatements]);
-
     }
 
 }

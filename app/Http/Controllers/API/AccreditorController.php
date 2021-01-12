@@ -6,8 +6,11 @@ use App\AccreditorRequest;
 use App\ApplicationProgram;
 use App\AssignedUser;
 use App\Http\Controllers\Controller;
+use App\InstrumentParameter;
 use App\InstrumentProgram;
 use App\InstrumentScore;
+use App\ParameterMean;
+use App\ParameterProgram;
 use App\ProgramStatement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -54,7 +57,15 @@ class AccreditorController extends Controller
             foreach ($statements as $statement){
                 $item = new InstrumentScore();
                 $item->item_id = $statement->id;
-                $item->assigned_user_id = $req->accreditor_id;
+                $item->assigned_user_id = $assignUser->id;
+                $item->save();
+            }
+
+            $parameters = ParameterProgram::where('program_instrument_id', $area->id)->get();
+            foreach ($parameters as $parameter){
+                $item = new ParameterMean();
+                $item->parameter_program_id = $parameters->id;
+                $item->assigned_user_id = $assignUser->id;
                 $item->save();
             }
         }
@@ -114,7 +125,7 @@ class AccreditorController extends Controller
                 $index = Arr::prepend($index,$app_prog->id);
             }
         }
-        return response()->json(['programs'=>$program]);
+        return response()->json(['programs'=>$program, 'task' => $tasks]);
     }
 
     public function showInstrument($id, $app_prog){

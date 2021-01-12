@@ -18,8 +18,8 @@ class CreateParametersMeansTable extends Migration
             $table->foreignId('program_parameter_id');
             $table->foreign('program_parameter_id')->references('id')->on('parameters_programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->foreignId('accreditor_id');
-            $table->foreign('accreditor_id')->references('id')->on('users')
+            $table->foreignId('assigned_user_id');
+            $table->foreign('assigned_user_id')->references('id')->on('assigned_users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->float('parameter_mean');
             $table->timestamps();

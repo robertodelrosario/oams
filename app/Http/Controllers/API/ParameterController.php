@@ -53,11 +53,12 @@ class ParameterController extends Controller
         return response()->json(['status' => false, 'message' => 'Parameter already exist!']);
     }
 
-    public function showParameter($id){
-        $parameter = DB::table('instruments_parameters')
-            ->join('parameters', 'instruments_parameters.parameter_id','=','parameters.id')
+    public function showParameter($id, $userID){
+        $parameter = DB::table('parameters')
+            ->join('instruments_parameters', 'instruments_parameters.parameter_id','=','parameters.id')
             ->where('instruments_parameters.area_instrument_id', $id)
             ->get();
+
         return response()->json($parameter);
     }
 

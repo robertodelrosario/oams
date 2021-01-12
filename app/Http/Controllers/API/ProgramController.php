@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\InstrumentParameter;
 use App\InstrumentProgram;
 use App\InstrumentStatement;
+use App\ParameterProgram;
 use App\Program;
 use App\ProgramStatement;
 use Illuminate\Http\Request;
@@ -74,6 +76,14 @@ class ProgramController extends Controller
             $instrumentProgram->program_id = $programID;
             $instrumentProgram->area_instrument_id = $instrumentID;
             $instrumentProgram->save();
+
+            $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $instrumentID)->get();
+            foreach ($instrumentParamenters as $instrumentParamenter){
+                $parameter = new ParameterProgram();
+                $parameter->program_instrument_id = $instrumentProgram->id;
+                $parameter->parameter_id = $instrumentParamenter->parameter_id;
+                $parameter->save();
+            }
 
             $statements = InstrumentStatement::where('area_instrument_id', $instrumentID)->get();
             foreach($statements as $statement){
