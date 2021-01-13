@@ -15,8 +15,8 @@ class CreateProgramsStatementsTable extends Migration
     {
         Schema::create('programs_statements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('program_instrument_id');
-            $table->foreign('program_instrument_id')->references('id')->on('instruments_programs')
+            $table->foreignId('program_parameter_id');
+            $table->foreign('program_parameter_id')->references('id')->on('parameters_programs')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('benchmark_statement_id');
             $table->foreign('benchmark_statement_id')->references('id')->on('benchmark_statements')

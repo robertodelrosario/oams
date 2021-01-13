@@ -83,16 +83,29 @@ class ProgramController extends Controller
                 $parameter->program_instrument_id = $instrumentProgram->id;
                 $parameter->parameter_id = $instrumentParamenter->parameter_id;
                 $parameter->save();
-            }
 
-            $statements = InstrumentStatement::where('area_instrument_id', $instrumentID)->get();
-            foreach($statements as $statement){
-                $program_statement = new ProgramStatement();
-                $program_statement->program_instrument_id = $instrumentProgram->id;
-                $program_statement->benchmark_statement_id = $statement->benchmark_statement_id;
-                $program_statement->parent_statement_id = $statement->parent_statement_id;
-                $program_statement->save();
+                $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                foreach ($statements as $statement){
+                    $programStatement = new ProgramStatement();
+                    $programStatement->program_parameter_id = $parameter->id;
+                    $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                    $programStatement->parent_statement_id = $statement->parent_statement_id;
+                    $programStatement->save();
+                }
             }
+//
+//            $parameters = ParameterProgram::where('program_instrument_id', $instrumentProgram->id)->get();
+//            foreach ($parameters as $parameter){
+//
+//            }
+//            $statements = InstrumentStatement::where('area_instrument_id', $instrumentID)->get();
+//            foreach($statements as $statement){
+//                $program_statement = new ProgramStatement();
+//                $program_statement->program_instrument_id = $instrumentProgram->id;
+//                $program_statement->benchmark_statement_id = $statement->benchmark_statement_id;
+//                $program_statement->parent_statement_id = $statement->parent_statement_id;
+//                $program_statement->save();
+//            }
             return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
         }
         return response()->json(['status' => false, 'message' => 'Already added']);
