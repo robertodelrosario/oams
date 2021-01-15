@@ -19,7 +19,7 @@ class  CreateAttachedDocumentsTable extends Migration
             $table->foreign('statement_id')->references('id')->on('programs_statements')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('document_id');
-            $table->foreign('document_id')->references('id')->on('dummy_documents')
+            $table->foreign('document_id')->references('id')->on('documents')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->timestamps();
         });

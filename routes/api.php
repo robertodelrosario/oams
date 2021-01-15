@@ -67,10 +67,10 @@ Route::group(['prefix' => '/suc'], function() {
 Route::group(['prefix' => '/task'], function() {
     Route::get('/showProgram/{id}', 'UserController@showProgram');
     Route::get('/showInstrument/{id}/{app_prog}', 'UserController@showInstrument');
+    Route::get('/showParameter/{id}/', 'UserController@showParameter');
     Route::get('/showProgramHead/{id}', 'UserController@showProgramHead');
     Route::get('/showInstrumentHead/{app_prog}', 'UserController@showInstrumentHead');
 });
-
 
 Route::group(['prefix' => '/aaccup'], function() {
     Route::post('/addSuc', 'SUCController@addSuc');
@@ -113,6 +113,7 @@ Route::group(['prefix' => '/accreditor'], function() {
 
     Route::get('/showProgram/{id}', 'AccreditorController@showProgram');
     Route::get('/showInstrument/{id}/{app_prog}', 'AccreditorController@showInstrument');
+    Route::get('/showParameter/{id}', 'AccreditorController@showParameter');
 });
 
 Route::group(['prefix' => '/instrument'], function() {

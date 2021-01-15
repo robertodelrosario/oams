@@ -46,6 +46,7 @@ class AccreditorController extends Controller
                 ])
                 ->select('instruments_programs.*')
                 ->first();
+            dd($area);
             $assignUser = new AssignedUser();
             $assignUser->transaction_id = $area->id;
             $assignUser->user_id = $req->accreditor_id;
@@ -53,20 +54,21 @@ class AccreditorController extends Controller
             $assignUser->role = $req->role;
             $assignUser->save();
 
-            $statements = ProgramStatement::where('program_instrument_id', $area->id)->get();
-            foreach ($statements as $statement){
-                $item = new InstrumentScore();
-                $item->item_id = $statement->id;
-                $item->assigned_user_id = $assignUser->id;
-                $item->save();
-            }
-
-            $parameters = ParameterProgram::where('program_instrument_id', $area->id)->get();
+            $parameters = ParameterProgram::where('program_instrument_id',$area->id)->get();
             foreach ($parameters as $parameter){
                 $item = new ParameterMean();
-                $item->parameter_program_id = $parameters->id;
+                $item->program_parameter_id = $parameter->id;
                 $item->assigned_user_id = $assignUser->id;
+                $item->parameter_mean = 0;
                 $item->save();
+
+                $statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+                foreach ($statements as $statement){
+                    $item = new InstrumentScore();
+                    $item->item_id = $statement->id;
+                    $item->assigned_user_id = $assignUser->id;
+                    $item->save();
+                }
             }
         }
         else if($req->role == "[leader] external accreditor" || $req->role == "external accreditor"){
@@ -85,12 +87,21 @@ class AccreditorController extends Controller
                 $assignUser->role = $req->role;
                 $assignUser->save();
 
-                $statements = ProgramStatement::where('program_instrument_id', $area->id)->get();
-                foreach ($statements as $statement){
-                    $item = new InstrumentScore();
-                    $item->item_id = $statement->id;
-                    $item->assigned_user_id = $req->accreditor_id;
+                $parameters = ParameterProgram::where('program_instrument_id',$area->id)->get();
+                foreach ($parameters as $parameter){
+                    $item = new ParameterMean();
+                    $item->program_parameter_id = $parameter->id;
+                    $item->assigned_user_id = $assignUser->id;
+                    $item->parameter_mean = 0;
                     $item->save();
+
+                    $statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+                    foreach ($statements as $statement){
+                        $item = new InstrumentScore();
+                        $item->item_id = $statement->id;
+                        $item->assigned_user_id = $assignUser->id;
+                        $item->save();
+                    }
                 }
             }
         }
@@ -107,7 +118,7 @@ class AccreditorController extends Controller
 
     public function showProgram(request $request, $id){
         $tasks = AssignedUser::where([
-         ['user_id', $id], ['status', null], ['role', $request->role]
+         ['user_id', $id], ['status', null]
         ])->get();
         $program = array();
         $index = array();
@@ -143,6 +154,16 @@ class AccreditorController extends Controller
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
         return response()->json(['areas'=>$instrument_array]);
+    }
+
+    public function showParameter($id){
+        $parameter = DB::table('parameters')
+            ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
+            ->join('parameters_means', 'parameters_means.program_parameter_id', '=', 'parameters_programs.id')
+            ->select('parameters_programs.*', 'parameters.parameter', 'parameters_means.program_parameter_id', 'parameters_means.assigned_user_id', 'parameters_means.parameter_mean')
+            ->where('parameters_programs.program_instrument_id', $id)
+            ->get();
+        return response()->json($parameter);
     }
     public function showProgramHead(request $request,$id){
         $tasks = AssignedUserHead::where([

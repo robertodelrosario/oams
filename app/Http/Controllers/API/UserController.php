@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -49,7 +50,7 @@ class UserController extends Controller
                     $index2 = Arr::prepend($index2,$app_prog->id);
                 }
             }
-            else if($task->role == 'external accreditor'){
+            else if(Str::contains($task->role, 'external accreditor')){
                 $app_prog = DB::table('applications_programs')
                     ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                     ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
@@ -81,6 +82,16 @@ class UserController extends Controller
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
         return response()->json(['areas'=>$instrument_array]);
+    }
+
+    public function showParameter($id){
+        $parameter = DB::table('parameters')
+            ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
+            ->join('parameters_means', 'parameters_means.program_parameter_id', '=', 'parameters_programs.id')
+            ->select('parameters_programs.*', 'parameters.parameter', 'parameters_means.program_parameter_id', 'parameters_means.assigned_user_id', 'parameters_means.parameter_mean')
+            ->where('parameters_programs.program_instrument_id', $id)
+            ->get();
+        return response()->json($parameter);
     }
 
     public function showProgramHead($id){
