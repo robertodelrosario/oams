@@ -19,16 +19,14 @@ use Illuminate\Support\Facades\Response;
 
 class MSIAttachmentController extends Controller
 {
-    public function attachSupportDocument(request $request){
-        $statement = ProgramStatement::where([
-            ['program_instrument_id', $request->program_instrument_id], ['benchmark_statement_id', $request->benchmark_statement_id]
+    public function attachSupportDocument($id, $docID){
+        $check = AttachedDocument::where([
+         ['statement_id', $id], ['document_id', $docID]
         ])->first();
-
-        $check = AttachedDocument::where('statement_id', $statement->id)->first();
         if(is_null($check)){
             $supportDocument = new AttachedDocument();
-            $supportDocument->statement_id = $statement->id;
-            $supportDocument->document_id = $request->document_id;
+            $supportDocument->statement_id = $id;
+            $supportDocument->document_id = $docID;
             $supportDocument->save();
             return response()->json(['status' => true, 'message' => 'Successfully added document', 'document' => $supportDocument]);
         }

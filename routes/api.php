@@ -161,7 +161,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteCompliance/{id}', 'AppliedProgramController@deleteCompliance');
     Route::delete('/deleteNarrative/{id}', 'AppliedProgramController@deleteNarrative');
 
-    Route::post('/attachSupportDocument', 'MSIAttachmentController@attachSupportDocument');
+    Route::post('/attachSupportDocument/{id}/{docID}', 'MSIAttachmentController@attachSupportDocument');
     Route::delete('/removeSupportDocument/{id}', 'MSIAttachmentController@removeSupportDocument');
     Route::get('/viewSupportDocument/{id}', 'MSIAttachmentController@viewSupportDocument');
     Route::get('/showDocument', 'MSIAttachmentController@showDocument');

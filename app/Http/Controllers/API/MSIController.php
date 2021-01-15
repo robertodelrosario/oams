@@ -40,7 +40,6 @@ class MSIController extends Controller
                 ->join('instruments_scores', 'instruments_scores.item_id', '=', 'programs_statements.id')
                 ->where('parameters_programs.program_instrument_id', $area->id)
                 ->where('instruments_scores.assigned_user_id', $task->id)
-      //          ->select('programs_statements.*', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type', 'instruments_scores.*')
                 ->select('programs_statements.id','programs_statements.program_parameter_id','parameters_programs.parameter_id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'instruments_scores.*')
                 ->get();
 
@@ -51,28 +50,25 @@ class MSIController extends Controller
                     $attachedDocument = Arr::prepend($attachedDocument, $document);
                 }
             }
-//            $statementDocument = DB::table('programs_statements')
-//                ->join('attached_documents', 'programs_statements.id', '=', 'attached_documents.statement_id')
-//                ->join('documents', 'documents.id', '=', 'attached_documents.document_id')
-//                ->where('programs_statements.program_parameter_id', $area->id)
-//                ->get();
 
             return response()->json(['statements' => $instrumentStatements, 'documents' => $attachedDocument]);
         }
         else{
             $area = InstrumentProgram::where('id', $task->transaction_id)->first();
-            $instrumentStatement = DB::table('programs_statements')
+            $instrumentStatements = DB::table('programs_statements')
                 ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
                 ->join('parameters_programs', 'parameters_programs.id', '=', 'programs_statements.program_parameter_id')
                 ->where('parameters_programs.program_instrument_id', $area->id)
                 ->select('programs_statements.*', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id')
                 ->get();
 
-            $statementDocument = DB::table('programs_statements')
-                ->join('attached_documents', 'programs_statements.id', '=', 'attached_documents.statement_id')
-                ->join('documents', 'documents.id', '=', 'attached_documents.document_id')
-                ->where('parameters_programs.program_instrument_id', $area->id)
-                ->get();
+            $attachedDocument = array();
+            foreach ($instrumentStatements as $instrumentStatement){
+                $documents = AttachedDocument::where('statement_id', $instrumentStatement->id)->get();
+                foreach ($documents as $document){
+                    $attachedDocument = Arr::prepend($attachedDocument, $document);
+                }
+            }
 
             $remarks = DB::table('programs_statements')
                 ->join('instruments_scores', 'programs_statements.id', '=', 'instruments_scores.item_id')
@@ -83,7 +79,7 @@ class MSIController extends Controller
                 ->orderBy('users.id')
                 ->get();
 
-            return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument, 'remarks' => $remarks]);
+            return response()->json(['statements' => $instrumentStatements, 'documents' => $attachedDocument, 'remarks' => $remarks]);
         }
     }
 }

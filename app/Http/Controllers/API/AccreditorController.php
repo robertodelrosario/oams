@@ -33,6 +33,9 @@ class AccreditorController extends Controller
     }
     public function acceptRequest($id){
         $req = AccreditorRequest::where('id', $id)->first();
+        if($req->status == 'accepted'){
+            return response()->json(['status' => true, 'message' => 'Already accepted request']);
+        }
         $application_program = ApplicationProgram::where('id', $req->application_program_id)->first();
         $req->status = 'accepted';
         $req->save();
