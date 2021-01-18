@@ -30,7 +30,10 @@ class MSIController extends Controller
 
             $attachedDocument = array();
             foreach ($instrumentStatements as $instrumentStatement){
-                $documents = AttachedDocument::where('statement_id', $instrumentStatement->id)->get();
+                $documents = DB::table('documents')
+                    ->join('attached_documents', 'documents.id', '=', 'attached_documents.document_id')
+                    ->where('statement_id', $instrumentStatement->id)
+                    ->get();
                 foreach ($documents as $document){
                     $attachedDocument = Arr::prepend($attachedDocument, $document);
                 }
@@ -49,7 +52,10 @@ class MSIController extends Controller
 
             $attachedDocument = array();
             foreach ($instrumentStatements as $instrumentStatement){
-                $documents = AttachedDocument::where('statement_id', $instrumentStatement->id)->get();
+                $documents = DB::table('documents')
+                    ->join('attached_documents', 'documents.id', '=', 'attached_documents.document_id')
+                    ->where('statement_id', $instrumentStatement->id)
+                    ->get();
                 foreach ($documents as $document){
                     $attachedDocument = Arr::prepend($attachedDocument, $document);
                 }
@@ -64,7 +70,6 @@ class MSIController extends Controller
                 ->select('programs_statements.*', 'instruments_scores.remark', 'instruments_scores.remark_type','users.first_name','users.last_name', 'users.email' ,'assigned_users.role' )
                 ->orderBy('users.id')
                 ->get();
-
             return response()->json(['statements' => $instrumentStatements, 'documents' => $attachedDocument, 'remarks' => $remarks]);
         }
     }

@@ -101,8 +101,9 @@ class UserController extends Controller
     public function showParameter($id){
         $parameter = DB::table('parameters')
             ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
-            ->join('parameters_means', 'parameters_means.program_parameter_id', '=', 'parameters_programs.id')
-            ->select('parameters_programs.*', 'parameters.parameter', 'parameters_means.program_parameter_id', 'parameters_means.assigned_user_id', 'parameters_means.parameter_mean')
+            //->join('parameters_means', 'parameters_means.program_parameter_id', '=', 'parameters_programs.id')
+            ->select('parameters_programs.*', 'parameters.parameter')
+//            ->select('parameters_programs.*', 'parameters.parameter', 'parameters_means.program_parameter_id', 'parameters_means.assigned_user_id', 'parameters_means.parameter_mean')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
         return response()->json($parameter);
