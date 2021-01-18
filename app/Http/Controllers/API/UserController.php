@@ -6,6 +6,7 @@ use App\ApplicationProgram;
 use App\AssignedUser;
 use App\AssignedUserHead;
 use App\Http\Controllers\Controller;
+use App\ParameterMean;
 use App\Program;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -99,14 +100,28 @@ class UserController extends Controller
     }
 
     public function showParameter($id){
-        $parameter = DB::table('parameters')
+        $parameters = DB::table('parameters')
             ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
             //->join('parameters_means', 'parameters_means.program_parameter_id', '=', 'parameters_programs.id')
             ->select('parameters_programs.*', 'parameters.parameter')
 //            ->select('parameters_programs.*', 'parameters.parameter', 'parameters_means.program_parameter_id', 'parameters_means.assigned_user_id', 'parameters_means.parameter_mean')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
-        return response()->json($parameter);
+        $mean_array = array();
+        foreach ($parameters as $parameter){
+            $means = DB::table('parameters_means')
+                ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
+                ->join('users', 'users.id', '=', 'assigned_users.user_id')
+                ->where('program_parameter_id', $parameter->id)
+                ->select('parameters_means.*', 'assigned_users.user_id' ,'users.first_name','users.last_name')
+                ->get();
+            foreach ($means as $mean){
+                $mean_array = Arr::prepend($mean_array,$mean);
+            }
+
+
+        }
+        return response()->json(['parameters'=>$parameters, 'means' => $mean_array]);
     }
 
     public function showProgramHead($id){
