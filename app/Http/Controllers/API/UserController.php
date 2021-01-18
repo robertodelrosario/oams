@@ -6,6 +6,8 @@ use App\ApplicationProgram;
 use App\AssignedUser;
 use App\AssignedUserHead;
 use App\Http\Controllers\Controller;
+use App\Program;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +70,18 @@ class UserController extends Controller
     }
 
     public function showInstrument($id, $app_prog){
+        $check = ApplicationProgram::where('id', $app_prog)->first();
+        $program = Program::where('id', $check->program_id)->first();
+        $date = new Carbon;
+
+        if($check->approved_start_date >= $date){
+            return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' will start on ' .$check->approved_start_date ]);
+        }
+        else if($check->approved_end_date < $date){
+            echo $date;
+            return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' has been ended last ' .$check->approved_end_date ]);
+        }
+
         $areas = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->get();
