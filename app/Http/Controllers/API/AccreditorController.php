@@ -49,7 +49,6 @@ class AccreditorController extends Controller
                 ])
                 ->select('instruments_programs.*')
                 ->first();
-            dd($area);
             $assignUser = new AssignedUser();
             $assignUser->transaction_id = $area->id;
             $assignUser->user_id = $req->accreditor_id;

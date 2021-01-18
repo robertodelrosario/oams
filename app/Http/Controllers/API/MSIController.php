@@ -13,21 +13,6 @@ use Illuminate\Support\Str;
 
 class MSIController extends Controller
 {
-//    public function showStatement($id, $transactionID){
-//        $task = AssignedUser::where([
-//            ['transaction_id', $transactionID], ['user_id', $id]
-//        ])->first();
-//        if($task->role == 'internal accreditor' || Str::contains($task->role, 'external accreditor')){
-//            $instrumentStatement = DB::table('programs_statements')
-//                ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
-//                ->join('parameters_programs', 'parameters_programs.id', '=', 'programs_statements.program_parameter_id')
-//                ->join('instruments_scores', 'instruments_scores.item_id', '=', 'programs_statements.id')
-//                ->where('parameters_programs.program_instrument_id', $area->id)
-//                ->where('instruments_scores.assigned_user_id', $task->id)
-//                ->select('programs_statements.program_parameter_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'instruments_scores.*')
-//                ->get();
-//        }
-//    }
     public function showStatementDocument($id, $transactionID){
         $task = AssignedUser::where([
             ['transaction_id', $transactionID], ['user_id', $id]
@@ -71,6 +56,7 @@ class MSIController extends Controller
             }
 
             $remarks = DB::table('programs_statements')
+                ->join('parameters_programs', 'parameters_programs.id', '=', 'programs_statements.program_parameter_id')
                 ->join('instruments_scores', 'programs_statements.id', '=', 'instruments_scores.item_id')
                 ->join('assigned_users', 'assigned_users.id', '=', 'instruments_scores.assigned_user_id')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')

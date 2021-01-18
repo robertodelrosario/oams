@@ -55,6 +55,7 @@ class AuthController extends Controller
         $campus = DB::table('campuses_users')
             ->join('campuses', 'campuses.id', '=', 'campuses_users.campus_id')
             ->join('sucs', 'sucs.id', '=', 'campuses.suc_id')
+            ->join('offices', 'offices.id', 'campuses_users.office_id')
             ->where('campuses_users.user_id',auth()->user()->id)
             ->first();
         $roles = UserRole::where('user_id', auth()->user()->id)->get();
