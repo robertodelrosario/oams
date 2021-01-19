@@ -130,12 +130,9 @@ class UserController extends Controller
                 $mean_array = Arr::prepend($mean_array,$mean);
             }
 
-            $instrument = ParameterProgram::where('id', $parameter->id)->first();
-            $area_instrument = InstrumentProgram::where('id',$instrument->program_instrument_id)->first();
-
+//            $instrument = ParameterProgram::where('id', $parameter->id)->first();
+//            $area_instrument = InstrumentProgram::where('id',$instrument->program_instrument_id)->first();
         }
-
-
         return response()->json(['parameters'=>$parameters, 'means' => $mean_array]);
     }
 

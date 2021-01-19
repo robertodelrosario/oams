@@ -9,6 +9,8 @@ use App\AssignedUserHead;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\InstrumentScore;
+use App\ParameterMean;
+use App\ParameterProgram;
 use App\ProgramStatement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -33,12 +35,28 @@ class AssignTaskController extends Controller
         $assignUser->role = $request->role;
         $assignUser->save();
         if ($request->role == 'internal accreditor' || $request->role == 'external accreditor'){
-            $statements = ProgramStatement::where('program_instrument_id', $id)->get();
-            foreach ($statements as $statement){
-                $item = new InstrumentScore();
-                $item->item_id = $statement->id;
+//            $statements = ProgramStatement::where('program_instrument_id', $id)->get();
+//            foreach ($statements as $statement){
+//                $item = new InstrumentScore();
+//                $item->item_id = $statement->id;
+//                $item->assigned_user_id = $assignUser->id;
+//                $item->save();
+//            }
+            $parameters = ParameterProgram::where('program_instrument_id',$id)->get();
+            foreach ($parameters as $parameter){
+                $item = new ParameterMean();
+                $item->program_parameter_id = $parameter->id;
                 $item->assigned_user_id = $assignUser->id;
+                $item->parameter_mean = 0;
                 $item->save();
+
+                $statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+                foreach ($statements as $statement){
+                    $item = new InstrumentScore();
+                    $item->item_id = $statement->id;
+                    $item->assigned_user_id = $assignUser->id;
+                    $item->save();
+                }
             }
         }
         return response()->json(['status' => true, 'message' => 'Successfully added task!', 'users' => $assignUser]);
