@@ -109,7 +109,7 @@ class UserController extends Controller
             $role = $area->role;
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
-        return response()->json(['areas'=>$instrument_array, 'role' =>$role ]);
+        return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role ]);
     }
 
     public function showParameter($id){
