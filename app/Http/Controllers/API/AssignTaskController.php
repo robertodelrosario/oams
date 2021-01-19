@@ -35,13 +35,6 @@ class AssignTaskController extends Controller
         $assignUser->role = $request->role;
         $assignUser->save();
         if ($request->role == 'internal accreditor' || $request->role == 'external accreditor'){
-//            $statements = ProgramStatement::where('program_instrument_id', $id)->get();
-//            foreach ($statements as $statement){
-//                $item = new InstrumentScore();
-//                $item->item_id = $statement->id;
-//                $item->assigned_user_id = $assignUser->id;
-//                $item->save();
-//            }
             $parameters = ParameterProgram::where('program_instrument_id',$id)->get();
             foreach ($parameters as $parameter){
                 $item = new ParameterMean();

@@ -58,7 +58,8 @@ class AuthController extends Controller
             ->join('sucs', 'sucs.id', '=', 'campuses.suc_id')
             ->where('campuses_users.user_id',auth()->user()->id)
             ->first();
-        $office = Office::where('id', $campus->office_id)->first();
+        $office = null;
+        if(!(is_null($campus)))  $office = Office::where('id', $campus->office_id)->first();
         $roles = UserRole::where('user_id', auth()->user()->id)->get();
         return response()->json(['user' => auth()->user(), 'role' => $roles, 'campus'=>$campus, 'office' => $office]);
     }
