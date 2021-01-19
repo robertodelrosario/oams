@@ -98,6 +98,7 @@ class UserController extends Controller
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->get();
         $instrument_array = array();
+        $role = null;
         foreach ($areas as $area){
             $instrument = DB::table('instruments_programs')
                 ->join('programs', 'programs.id', '=', 'instruments_programs.program_id')
@@ -105,9 +106,10 @@ class UserController extends Controller
                 ->where('instruments_programs.id', $area->transaction_id)
                 ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program', 'area_instruments.area_number', 'area_instruments.area_name')
                 ->first();
+            $role = $area->role;
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
-        return response()->json(['areas'=>$instrument_array]);
+        return response()->json(['areas'=>$instrument_array, 'role' =>$role ]);
     }
 
     public function showParameter($id){

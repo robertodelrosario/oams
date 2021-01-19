@@ -74,6 +74,10 @@ class ApplicationController extends Controller
 
     public function submitApplication($id, $sucID){
         $application = Application::where('id', $id)->first();
+        $files = ApplicationFile::where('application_id', $application->id)->first();
+        if(is_null($files)){
+            return response()->json(['status' => false, 'message' => 'Need to attach application files']);
+        }
         $application->status = 'submitted';
         $application->save();
 
