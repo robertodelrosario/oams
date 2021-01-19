@@ -7,6 +7,7 @@ use App\InstrumentParameter;
 use App\InstrumentProgram;
 use App\InstrumentScore;
 use App\ParameterMean;
+use App\Recommendation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,8 +31,14 @@ class MSIEvaluationController extends Controller
         $parameter_mean->parameter_mean = $request->parameter_mean;
         $parameter_mean->save();
 
-
-        return response()->json(['status' => true, 'message' => 'Successfully added scores']);
+        foreach($request->recommendations as $recommendation){
+            $recom = new Recommendation();
+            $recom->program_parameter_id = $id;
+            $recom->assigned_user_id = $assignedUserId;
+            $recom->recommendation = $recommendation;
+            $recom->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully added scores', 'scores' => $request->items, 'mean' => $request->parameter_mean, 'recommendations' => $request->recommendations]);
     }
 
 //    public function scoreComparison($id){

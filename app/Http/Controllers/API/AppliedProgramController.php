@@ -207,7 +207,7 @@ class AppliedProgramController extends Controller
             ->get();
         $statementDocument = DB::table('programs_statements')
             ->join('attached_documents', 'programs_statements.id', '=', 'attached_documents.statement_id')
-            ->join('dummy_documents', 'dummy_documents.id', '=', 'attached_documents.document_id')
+            ->join('documents', 'documents.id', '=', 'attached_documents.document_id')
             ->where('programs_statements.program_instrument_id', $area->id)
             ->get();
 

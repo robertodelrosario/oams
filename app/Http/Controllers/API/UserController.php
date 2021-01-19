@@ -6,7 +6,9 @@ use App\ApplicationProgram;
 use App\AssignedUser;
 use App\AssignedUserHead;
 use App\Http\Controllers\Controller;
+use App\InstrumentProgram;
 use App\ParameterMean;
+use App\ParameterProgram;
 use App\Program;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -75,7 +77,10 @@ class UserController extends Controller
         $program = Program::where('id', $check->program_id)->first();
         $date = new Carbon;
 
-        if($check->approved_start_date >= $date){
+        if ($check->approved_start_date == null || $check->approved_end_date == null){
+            return response()->json(['message'=>'Accreditation for program is not yet approved']);
+        }
+        else if($check->approved_start_date >= $date){
             return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' will start on ' .$check->approved_start_date ]);
         }
         else if($check->approved_end_date < $date){
@@ -119,8 +124,12 @@ class UserController extends Controller
                 $mean_array = Arr::prepend($mean_array,$mean);
             }
 
-
+            $instrument = ParameterProgram::where('id', $parameter->id)->first();
+            $area_instrument = InstrumentProgram::where('id',$instrument->program_instrument_id)->first();
+            
         }
+
+
         return response()->json(['parameters'=>$parameters, 'means' => $mean_array]);
     }
 
