@@ -31,12 +31,14 @@ class MSIEvaluationController extends Controller
         $parameter_mean->parameter_mean = $request->parameter_mean;
         $parameter_mean->save();
 
-        foreach($request->recommendations as $recommendation){
-            $recom = new Recommendation();
-            $recom->program_parameter_id = $id;
-            $recom->assigned_user_id = $assignedUserId;
-            $recom->recommendation = $recommendation;
-            $recom->save();
+        if(!(is_null($request->recommendations))){
+            foreach($request->recommendations as $recommendation){
+                $recom = new Recommendation();
+                $recom->program_parameter_id = $id;
+                $recom->assigned_user_id = $assignedUserId;
+                $recom->recommendation = $recommendation;
+                $recom->save();
+            }
         }
         return response()->json(['status' => true, 'message' => 'Successfully added scores', 'scores' => $request->items, 'mean' => $request->parameter_mean, 'recommendations' => $request->recommendations]);
     }

@@ -77,15 +77,21 @@ class UserController extends Controller
         $program = Program::where('id', $check->program_id)->first();
         $date = new Carbon;
 
-        if ($check->approved_start_date == null || $check->approved_end_date == null){
-            return response()->json(['message'=>'Accreditation for program is not yet approved']);
-        }
-        else if($check->approved_start_date >= $date){
-            return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' will start on ' .$check->approved_start_date ]);
-        }
-        else if($check->approved_end_date < $date){
-            echo $date;
-            return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' has been ended last ' .$check->approved_end_date ]);
+
+        $area = AssignedUser::where([
+            ['app_program_id', $app_prog], ['user_id', $id]
+        ])->first();
+        if(Str::contains($area->role, 'external accreditor')){
+            if ($check->approved_start_date == null || $check->approved_end_date == null){
+                return response()->json(['message'=>'Accreditation for program is not yet approved']);
+            }
+            else if($check->approved_start_date >= $date){
+                return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' will start on ' .$check->approved_start_date ]);
+            }
+            else if($check->approved_end_date < $date){
+                echo $date;
+                return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' has been ended last ' .$check->approved_end_date ]);
+            }
         }
 
         $areas = AssignedUser::where([
@@ -126,7 +132,7 @@ class UserController extends Controller
 
             $instrument = ParameterProgram::where('id', $parameter->id)->first();
             $area_instrument = InstrumentProgram::where('id',$instrument->program_instrument_id)->first();
-            
+
         }
 
 
