@@ -10,9 +10,13 @@ use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
 use App\Mail\ApplicationNotification;
 use App\Mail\RequestAccreditor;
+use App\Notification;
+use App\NotificationContent;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class AaccupController extends Controller
@@ -186,6 +190,32 @@ class AaccupController extends Controller
         $application->status = 'on going';
         $application->save();
         return response()->json(['status' => true, 'message' => 'Successfully approved program application', 'program' => $program]);
+    }
+
+    public function declineSchedule(request $request, $id, $userID){
+        $validator = Validator::make($request->all(), [
+            'message' => 'required'
+        ]);
+        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Message Letter!']);
+
+        $program = ApplicationProgram::where('id', $id)->first();
+        $application = Application::where('id', $program->application_id)->first();
+
+        $content = new NotificationContent();
+        $content->content = $request->message;
+        $content->notif_type = 'decline schedule';
+        $content->save();
+
+        $notification = new Notification();
+        $notification->recipient_id = $application->sender_id;
+        $notification->sender_id = $userID;
+        $notification->notification_id = $content->id;
+        $notification->save();
+
+        $program->status = "schedule unavailable";
+        $program->save();
+
+        return response()->json(['status' => true, 'message' => 'Successfully Sent message']);
     }
     public function reject( $id){
         $program = ApplicationProgram::where('id', $id)->first();

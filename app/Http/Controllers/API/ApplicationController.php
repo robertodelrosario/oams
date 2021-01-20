@@ -55,7 +55,7 @@ class ApplicationController extends Controller
         $application->suc_id=$sucID;
         $application->sender_id = $userID;
         $application->title = $request->title;
-        $application->status = 'unsubmitted';
+        $application->status = 'under preparation';
         $application->save();
 
         $count = count($request->programs);
@@ -66,7 +66,7 @@ class ApplicationController extends Controller
             $program->level = $request->programs[$x]['level'];
             $program->preferred_start_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_start_date'])->format('Y-m-d');
             $program->preferred_end_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_end_date'])->format('Y-m-d');
-            $program->status = "under preparation";
+            $program->status = "pending";
             $program->save();
         }
         return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
