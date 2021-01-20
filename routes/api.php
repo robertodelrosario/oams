@@ -81,7 +81,7 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::get('/showAllProgram', 'AaccupController@showAllProgram');
     Route::get('/showApplication', 'AaccupController@showApplication');
     Route::get('/showProgram/{id}', 'AaccupController@showProgram');
-    Route::put('/setDate/{id}', 'AaccupController@setDate');
+    Route::put('/approve/{id}', 'AaccupController@approve');
     Route::put('/reject/{id}', 'AaccupController@reject');
     Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
     Route::post('/request/{userID}/{id}', 'AaccupController@request');
@@ -183,6 +183,5 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showBestPractice/{id}/{assignedUserId}', 'MSIEvaluationController@showBestPractice');
     Route::put('/editBestPractice/{id}', 'MSIEvaluationController@editBestPractice');
     Route::delete('/deleteBestPractice/{id}', 'MSIEvaluationController@deleteBestPractice');
-
 });
 

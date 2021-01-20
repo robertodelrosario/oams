@@ -66,7 +66,7 @@ class ApplicationController extends Controller
             $program->level = $request->programs[$x]['level'];
             $program->preferred_start_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_start_date'])->format('Y-m-d');
             $program->preferred_end_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_end_date'])->format('Y-m-d');
-            $program->status = "pending";
+            $program->status = "under preparation";
             $program->save();
         }
         return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
@@ -78,7 +78,7 @@ class ApplicationController extends Controller
         if(is_null($files)){
             return response()->json(['status' => false, 'message' => 'Need to attach application files']);
         }
-        $application->status = 'submitted';
+        $application->status = 'pending';
         $application->save();
 
         $suc = SUC::where('id', $sucID)->first();

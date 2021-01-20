@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\BestPractice;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
 use App\InstrumentProgram;
@@ -31,34 +32,34 @@ class MSIEvaluationController extends Controller
         $parameter_mean->parameter_mean = $request->parameter_mean;
         $parameter_mean->save();
 
-        if(!(is_null($request->recommendations))){
-            foreach($request->recommendations as $recommendation){
-                $recom = new Recommendation();
-                $recom->program_parameter_id = $id;
-                $recom->assigned_user_id = $assignedUserId;
-                $recom->recommendation = $recommendation;
-                $recom->save();
+        if(!(is_null($request->best_practices))){
+            foreach($request->best_practices as $best_practice){
+                $practice = new Recommendation();
+                $practice->program_parameter_id = $id;
+                $practice->assigned_user_id = $assignedUserId;
+                $practice->best_practice = $best_practice;
+                $practice->save();
             }
         }
-        return response()->json(['status' => true, 'message' => 'Successfully added scores', 'scores' => $request->items, 'mean' => $request->parameter_mean, 'recommendations' => $request->recommendations]);
+        return response()->json(['status' => true, 'message' => 'Successfully added scores', 'scores' => $request->items, 'mean' => $request->parameter_mean, 'best_practices' => $request->best_practices]);
     }
 
     public function showBestPractice($id, $assignedUserId){
-        $bestPractices = Recommendation::where([
+        $bestPractices = BestPractice::where([
             ['program_parameter_id',$id], ['assigned_user_id', $assignedUserId]
         ])->get();
         return response()->json($bestPractices);
     }
 
     public function deleteBestPractice($id){
-        $bestPractice = Recommendation::where('id', $id);
+        $bestPractice = BestPractice::where('id', $id);
         $bestPractice->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted practice']);
     }
 
     public function editBestPractice(request $request, $id){
-        $bestPractice = Recommendation::where('id', $id)->first();
-        $bestPractice->recommendation = $request->recommendation;
+        $bestPractice = BestPractice::where('id', $id)->first();
+        $bestPractice->best_practice = $request->best_practice;
         $bestPractice->save();
         return response()->json(['status' => true, 'message' => 'Successfully deleted practice']);
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecommendationsTable extends Migration
+class CreateBestPracticesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRecommendationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('recommendations', function (Blueprint $table) {
+        Schema::create('best_practices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('program_parameter_id');
             $table->foreign('program_parameter_id')->references('id')->on('parameters_programs')
@@ -21,7 +21,7 @@ class CreateRecommendationsTable extends Migration
             $table->foreignId('assigned_user_id');
             $table->foreign('assigned_user_id')->references('id')->on('assigned_users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->string('recommendation');
+            $table->string('best_practice');
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateRecommendationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recommendations');
+        Schema::dropIfExists('best_practices');
     }
 }

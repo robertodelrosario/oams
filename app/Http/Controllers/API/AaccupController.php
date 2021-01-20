@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\AccreditorRequest;
+use App\Application;
 use App\ApplicationFile;
 use App\ApplicationProgram;
 use App\Http\Controllers\Controller;
@@ -28,7 +29,7 @@ class AaccupController extends Controller
         $applications = DB::table('applications')
             ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
             ->join('users', 'users.id', '=','applications.sender_id')
-            ->where('applications.status', 'submitted')
+            ->where('applications.status','!=' ,'under preparation')
             ->select('applications.*', 'sucs.institution_name','sucs.address', 'sucs.email','sucs.contact_no', 'users.first_name', 'users.last_name')
             ->get();
         $file_arr = array();
@@ -174,12 +175,16 @@ class AaccupController extends Controller
         else return response()->json(['status' => false ,'message' => 'Request already is already '.$accreditorRequest->status]);
     }
 
-    public function setDate(request $request, $id){
+    public function approve(request $request, $id){
         $program = ApplicationProgram::where('id', $id)->first();
         $program->approved_start_date = $request->approved_start_date;
         $program->approved_end_date = $request->approved_end_date;
-        $program->status = "on going";
+        $program->status = "approved";
         $program->save();
+
+        $application = Application::where('id', $program->application_id)->first();
+        $application->status = 'on going';
+        $application->save();
         return response()->json(['status' => true, 'message' => 'Successfully approved program application', 'program' => $program]);
     }
     public function reject( $id){

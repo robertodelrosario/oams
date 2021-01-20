@@ -21,7 +21,6 @@ class CreateInstrumentsParametersTable extends Migration
             $table->foreignId("parameter_id");
             $table->foreign("parameter_id")->references("id")->on("parameters")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->float('acceptable_score_gap')->nullable();
             $table->timestamps();
         });
     }
