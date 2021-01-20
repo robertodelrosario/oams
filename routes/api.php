@@ -180,7 +180,9 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteAssignedHeadUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedHeadUser');
 
     Route::put('/setScore/{id}/{assignedUserId}', 'MSIEvaluationController@setScore');
-    Route::get('/scoreComparison/{id}', 'MSIEvaluationController@scoreComparison');
+    Route::get('/showBestPractice/{id}/{assignedUserId}', 'MSIEvaluationController@showBestPractice');
+    Route::put('/editBestPractice/{id}', 'MSIEvaluationController@editBestPractice');
+    Route::delete('/deleteBestPractice/{id}', 'MSIEvaluationController@deleteBestPractice');
 
 });
 
