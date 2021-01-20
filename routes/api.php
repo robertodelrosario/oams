@@ -82,7 +82,7 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::get('/showApplication', 'AaccupController@showApplication');
     Route::get('/showProgram/{id}', 'AaccupController@showProgram');
     Route::put('/approve/{id}', 'AaccupController@approve');
-    Route::post('/declineSchedule/{id}/{userID}', 'AaccupController@declineSchedule');
+    Route::post('/rechedule/{id}/{userID}', 'AaccupController@rechedule');
     Route::put('/reject/{id}', 'AaccupController@reject');
     Route::post('/requestAccreditor/{id}', 'AaccupController@requestAccreditor');
     Route::post('/request/{userID}/{id}', 'AaccupController@request');
@@ -133,6 +133,12 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::put('/editInstrument/{id}', 'InstrumentController@editInstrument');
     Route::put('/editParameter/{id}', 'ParameterController@editParameter');
 
+});
+
+Route::group(['prefix' => '/notification'], function() {
+    Route::get('/showAllNotification/{id}', 'NotificationController@showAllNotification');
+    Route::get('/viewNotication/{id}', 'NotificationController@viewNotication');
+    Route::delete('/deleteNotification/{id}', 'NotificationController@deleteNotification');
 });
 
 Route::group(['prefix' => '/application'], function() {

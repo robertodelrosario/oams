@@ -23,6 +23,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AaccupController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ApplicationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/NotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/NotificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_020400_create_notifications_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_020400_create_notifications_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -291,7 +293,7 @@
       <workItem from="1610932564929" duration="19457000" />
       <workItem from="1611015079573" duration="16713000" />
       <workItem from="1611059571486" duration="15000" />
-      <workItem from="1611104682996" duration="7089000" />
+      <workItem from="1611104682996" duration="13663000" />
     </task>
     <servers />
   </component>
@@ -351,6 +353,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="146" key="com.intellij.database.dbimport.ImportUtil.ChooseTargetDialog/0.0.1280.680@0.0.1280.680" timestamp="1603331691525" />
+    <state x="458" y="255" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611123457438">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="458" y="255" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1611123457438" />
     <state x="527" y="99" width="734" height="667" key="dock-window-1" timestamp="1606285668747">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

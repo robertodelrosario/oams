@@ -22,7 +22,7 @@ class CreateNotificationsTable extends Migration
             $table->foreign('sender_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->foreignId('notification_id');
-            $table->foreign('notification_id')->references('id')->on('notifications')
+            $table->foreign('notification_id')->references('id')->on('notification_contents')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
             $table->boolean('status');
             $table->timestamps();

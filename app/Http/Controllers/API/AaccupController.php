@@ -192,7 +192,7 @@ class AaccupController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully approved program application', 'program' => $program]);
     }
 
-    public function declineSchedule(request $request, $id, $userID){
+    public function rechedule(request $request, $id, $userID){
         $validator = Validator::make($request->all(), [
             'message' => 'required'
         ]);
@@ -203,13 +203,14 @@ class AaccupController extends Controller
 
         $content = new NotificationContent();
         $content->content = $request->message;
-        $content->notif_type = 'decline schedule';
+        $content->notif_type = 'declined schedule';
         $content->save();
 
         $notification = new Notification();
         $notification->recipient_id = $application->sender_id;
         $notification->sender_id = $userID;
         $notification->notification_id = $content->id;
+        $notification->status = 0;
         $notification->save();
 
         $program->status = "schedule unavailable";

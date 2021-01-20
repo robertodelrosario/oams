@@ -91,7 +91,7 @@ class ApplicationController extends Controller
             'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
         ];
         \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
-        return response()->json(['status' => true, 'message' => 'Successful']);
+        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
     }
 
     public function deleteApplication($id){
