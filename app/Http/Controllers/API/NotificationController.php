@@ -37,7 +37,7 @@ class NotificationController extends Controller
         $notification = Notification::where('id', $id)->first();
         $notification->status = 1;
         $notification->save();
-        return response()->json((['notification' => $content, 'details' => $application]);
+        return response()->json(['notification' => $content, 'details' => $application]);
     }
     public function deleteNotification($id){
         $notification = Notification::where('id', $id)->first();
