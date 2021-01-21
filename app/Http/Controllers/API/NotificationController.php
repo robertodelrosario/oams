@@ -17,6 +17,7 @@ class NotificationController extends Controller
             ->where('notifications.recipient_id', $id)
             ->select('notifications.*', 'notification_contents.content','notification_contents.notif_type', 'users.first_name', 'users.last_name', 'users.email', 'notifications_programs.applied_program_id')
             ->get();
+
         return response()->json($notification);
     }
     public function viewNotication($id){
@@ -27,10 +28,16 @@ class NotificationController extends Controller
             ->where('notifications.id', $id)
             ->select('notifications.*', 'notification_contents.content','notification_contents.notif_type', 'users.first_name', 'users.last_name', 'users.email', 'notifications_programs.applied_program_id')
             ->first();
+        $application = DB::table('applications_programs')
+            ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
+            ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
+            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+            ->where('applications_programs.id',$content->applied_program_id)
+            ->first();
         $notification = Notification::where('id', $id)->first();
         $notification->status = 1;
         $notification->save();
-        return response()->json($content);
+        return response()->json((['notification' => $content, 'details' => $application]);
     }
     public function deleteNotification($id){
         $notification = Notification::where('id', $id)->first();
