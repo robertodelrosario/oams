@@ -62,6 +62,8 @@ Route::group(['prefix' => '/suc'], function() {
     Route::get('/showInstrumentProgram/{id}', 'ProgramController@showInstrumentProgram');
     Route::get('/showStatement/{id}', 'ProgramController@showStatement');
     Route::delete('/removeInstrument/{sucID}/{programID}', 'ProgramController@removeInstrument');
+
+    Route::post('/acceptDeclineReschedule/{id}/{userID}', 'QuasController@acceptDeclineReschedule');
 });
 
 Route::group(['prefix' => '/task'], function() {

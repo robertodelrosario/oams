@@ -12,6 +12,7 @@ use App\Mail\ApplicationNotification;
 use App\Mail\RequestAccreditor;
 use App\Notification;
 use App\NotificationContent;
+use App\NotificationProgram;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -212,6 +213,11 @@ class AaccupController extends Controller
         $notification->notification_id = $content->id;
         $notification->status = 0;
         $notification->save();
+
+        $notifProgram = new NotificationProgram();
+        $notifProgram->notification_id = $notification->id;
+        $notifProgram->applied_program_id = $program->id;
+        $notifProgram->save();
 
         $program->status = "schedule unavailable";
         $program->save();

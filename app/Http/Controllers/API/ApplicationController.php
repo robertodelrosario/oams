@@ -26,25 +26,6 @@ class ApplicationController extends Controller
         $this->middleware('auth');
     }*/
 
-//    public function createApplication($id){
-//        $application = new Application();
-//        $application->suc_id=$id;
-//        $application->save();
-//
-//        $suc = SUC::where('id', $id)->first();
-//        $details = [
-//            'title' => 'Application Notification for Accreditation',
-//            'body' => 'Please check your AOMS account to view the application',
-//            'suc' => $suc->institution_name,
-//            'address' => $suc->address,
-//            'email' => $suc->email,
-//            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
-//        ];
-//        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
-//
-//        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
-//    }
-
     public function createApplication(request $request, $sucID, $userID){
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -159,6 +140,4 @@ class ApplicationController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
-
-
 }
