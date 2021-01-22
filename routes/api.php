@@ -121,7 +121,7 @@ Route::group(['prefix' => '/accreditor'], function() {
 
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
-    Route::post('/cloneInstrument', 'InstrumentController@cloneInstrument');
+    Route::post('/cloneInstrument/{id}', 'InstrumentController@cloneInstrument');
 //    Route::post('/createStatement', 'StatementController@createStatement');
     Route::post('/createStatement/{id}', 'StatementController@createStatement');
     Route::post('/createParameter', 'ParameterController@createParameter');

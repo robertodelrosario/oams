@@ -67,56 +67,35 @@ class InstrumentController extends Controller
          return response()->json(['status' => true, 'message' => 'Successfully updated the instrument!']);
     }
 
-    public function cloneInstrument(request $request){
-        $validator = Validator::make($request->all(), [
-            'new_intended_program' => 'required',
-            'intended_program' => 'required',
-            'area_number' => 'required',
-            'area_name' => 'required',
-            'version' => 'required',
-        ]);
-        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process instrument. Required data']);
-        $test = AreaInstrument::where([
-            ['intended_program', $request->new_intended_program], ['area_number', $request->area_number]
-        ])->first();
-        if(is_null($test)){
-            $areaInstrument = new AreaInstrument();
-            $areaInstrument->intended_program = $request->new_intended_program;
-            $areaInstrument->area_number = $request->area_number;
-            $areaInstrument->area_name = $request->area_name;
-            $areaInstrument->version = $request->version;
-            $areaInstrument->save();
+    public function cloneInstrument(request $request,$id){
+        $instrument = AreaInstrument::where('id', $id)->first();
+        if(is_null($instrument)) return response()->json(['status' => false, 'message' => 'Instrument does not exist']);
 
-            $instrument = AreaInstrument::where([
-               ['intended_program', $request->intended_program], ['area_number', $request->area_number]
-            ])->first();
+        $areaInstrument = new AreaInstrument();
+        $areaInstrument->intended_program = $request->intended_program;
+        $areaInstrument->area_number = $instrument->area_number;
+        $areaInstrument->area_name = $instrument->area_name;
+        $areaInstrument->version = $instrument->version;
+        $areaInstrument->save();
 
-            $new_instrument = AreaInstrument::where([
-                ['intended_program', $request->new_intended_program], ['area_number', $request->area_number]
-            ])->first();
+        $parameters = InstrumentParameter::where('area_instrument_id', $instrument->id)->get();
+        foreach ($parameters as $parameter){
+            $instrumentParameter = new InstrumentParameter();
+            $instrumentParameter->area_instrument_id = $areaInstrument->id;
+            $instrumentParameter->parameter_id = $parameter->parameter_id;
+            $instrumentParameter->save();
 
-            $instrumentStatements = InstrumentStatement::where('area_instrument_id', $instrument->id)->get();
-            foreach ($instrumentStatements as $instrumentStatement){
-                $instruState = new InstrumentStatement();
-                $instruState->area_instrument_id = $new_instrument->id;
-                $instruState->benchmark_statement_id = $instrumentStatement->benchmark_statement_id;
-                $instruState->parent_statement_id = $instrumentStatement->parent_statement_id;
-                $instruState->save();
+            $statements = InstrumentStatement::where('instrument_parameter_id',$parameter->parameter_id)->get();
+            foreach ($statements as $statement){
+                $instrumentStatement = new InstrumentStatement();
+                $instrumentStatement->instrument_parameter_id = $instrumentParameter->id;
+                $instrumentStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                $instrumentStatement->parent_statement_id = $statement->parent_statement_id;
+                $instrumentStatement->save();
             }
-
-            $instrumentParameters = InstrumentParameter::where('area_instrument_id', $instrument->id)->get();
-            $instrumentID = AreaInstrument::where('intended_program', $areaInstrument->intended_program)
-                ->where('area_number', $areaInstrument->area_number)->first();
-            foreach($instrumentParameters as $instrumentParameter){
-                $instruParam = new InstrumentParameter();
-                $instruParam->area_instrument_id = $instrumentID->id;
-                $instruParam->parameter_id = $instrumentParameter->parameter_id;
-                $instruParam->save();
-            }
-            $instrument = AreaInstrument::where('intended_program', $areaInstrument->intended_program)
-                ->where('area_number', $areaInstrument->area_number)->first();
-            return response()->json(['status' => true, 'message' => 'Successfully added instrument!','instrument' => $instrument]);
         }
-        return response()->json(['status' => false, 'message' => 'Instrument already exist!']);
+
+        return response()->json(['status' => true, 'message' => 'Successfully added instrument!','instrument' => $areaInstrument]);
+
     }
 }

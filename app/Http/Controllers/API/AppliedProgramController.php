@@ -183,11 +183,13 @@ class AppliedProgramController extends Controller
         if(is_null($instrumentPrograms)) return response()->json(['status' => false, 'message' => 'Do not have instruments']);
         $users = array();
         foreach ($instrumentPrograms as $instrumentProgram){
-            $user = DB::table('assigned_users')
+            $assigned_users = DB::table('assigned_users')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')
                 ->where('assigned_users.transaction_id', $instrumentProgram->id)
                 ->get();
-            if ($user != null) $users = Arr::prepend($users, $user);
+            foreach($assigned_users as $assigned_user){
+                if ($assigned_user != null) $users = Arr::prepend($users, $assigned_user);
+            }
         }
         return response()->json(['instruments' => $instrumentPrograms, 'users' => $users]);
     }

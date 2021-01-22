@@ -13,7 +13,6 @@ class QuasController extends Controller
     public function acceptDeclineReschedule(request $request, $id,$userID){
         $notif = Notification::where('id', $id)->first();
         $program = NotificationProgram::where('notification_id', $notif->id)->first();
-
         $content = new NotificationContent();
         $content->content = $request->message;
         if($request->decision  == 'accepted') $content->notif_type = 'accepted reschedule';

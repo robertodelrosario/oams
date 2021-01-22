@@ -171,12 +171,12 @@ class StatementController extends Controller
             $instrumentStatement = new InstrumentStatement();
             $instrumentStatement->instrument_parameter_id = $request->instrument_parameter_id;
             $instrumentStatement->benchmark_statement_id = $benchmarkStatement->id;
-            $instrumentStatement->parent_statement_id = $request->statement_parent;
+            $instrumentStatement->parent_statement_id = $request->parent_statement_id;
             $instrumentStatement->save();
 
             $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
             foreach ($parents as $parent){
-                $parent->parent_statement_id = $statement->id;
+                $parent->parent_statement_id = $benchmarkStatement->id;
                 $parent->save();
             }
             return response()->json(['status' => true, 'message' => 'Updated successfully [1]']);
@@ -185,7 +185,7 @@ class StatementController extends Controller
         $instrumentStatement = new InstrumentStatement();
         $instrumentStatement->instrument_parameter_id = $request->instrument_parameter_id;
         $instrumentStatement->benchmark_statement_id = $statement->id;
-        $instrumentStatement->parent_statement_id = $request->statement_parent;
+        $instrumentStatement->parent_statement_id = $request->parent_statement_id;
         $instrumentStatement->save();
 
         $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
