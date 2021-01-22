@@ -145,10 +145,6 @@ class StatementController extends Controller
 
     public function editStatement(request $request){
         $validator = Validator::make($request->all(), [
-//            'parameter_id' => 'required',
-//            'area_instrument_id' => 'required',
-//            'id' => 'required',
-//            'statement_parent' => 'required',
             'statement' => 'required',
         ]);
 
@@ -179,7 +175,7 @@ class StatementController extends Controller
                 $parent->parent_statement_id = $benchmarkStatement->id;
                 $parent->save();
             }
-            return response()->json(['status' => true, 'message' => 'Updated successfully [1]']);
+            return response()->json(['status' => true, 'message' => 'Updated successfully [1]', 'statement' => $benchmarkStatement]);
         }
 
         $instrumentStatement = new InstrumentStatement();
@@ -193,7 +189,7 @@ class StatementController extends Controller
             $parent->parent_statement_id = $statement->id;
             $parent->save();
         }
-        return response()->json(['status' => true, 'message' => 'Updated successfully [2]']);
+        return response()->json(['status' => true, 'message' => 'Updated successfully [2]', 'statement' => $statement]);
     }
 
     public function deleteStatement($instrumentID, $statementID){
