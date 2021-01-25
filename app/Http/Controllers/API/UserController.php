@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+//use phpDocumentor\Reflection\Types\Collection;
+use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
@@ -113,14 +115,14 @@ class UserController extends Controller
     }
 
     public function showParameter($id){
+        $collection = new Collection();
         $parameters = DB::table('parameters')
             ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
-            //->join('parameters_means', 'parameters_means.program_parameter_id', '=', 'parameters_programs.id')
             ->select('parameters_programs.*', 'parameters.parameter')
-//            ->select('parameters_programs.*', 'parameters.parameter', 'parameters_means.program_parameter_id', 'parameters_means.assigned_user_id', 'parameters_means.parameter_mean')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
         $mean_array = array();
+
         foreach ($parameters as $parameter){
             $means = DB::table('parameters_means')
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
@@ -128,14 +130,43 @@ class UserController extends Controller
                 ->where('program_parameter_id', $parameter->id)
                 ->select('parameters_means.*', 'assigned_users.user_id' ,'users.first_name','users.last_name')
                 ->get();
+//            $diff = abs($means[0]->parameter_mean - ($means[1]->parameter_mean));
+//            $average = ($means[0]->parameter_mean + $means[1]->parameter_mean)/count($means);
+//            if($diff >= $parameter->acceptable_score_gap){
+//                $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
+//            }
+//            else{
+//                $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
+//            }
             foreach ($means as $mean){
                 $mean_array = Arr::prepend($mean_array,$mean);
-            }
 
-//            $instrument = ParameterProgram::where('id', $parameter->id)->first();
-//            $area_instrument = InstrumentProgram::where('id',$instrument->program_instrument_id)->first();
+            }
         }
-        return response()->json(['parameters'=>$parameters, 'means' => $mean_array]);
+        if(count($parameters) != count($mean_array)) {
+            foreach ($parameters as $parameter) {
+                $means = DB::table('parameters_means')
+                    ->join('assigned_users', 'assigned_users.id', '=', 'parameters_means.assigned_user_id')
+                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
+                    ->where('program_parameter_id', $parameter->id)
+                    ->select('parameters_means.*', 'assigned_users.user_id', 'users.first_name', 'users.last_name')
+                    ->get();
+                if($parameter->acceptable_score_gap != null){
+                    $diff = abs($means[0]->parameter_mean - ($means[1]->parameter_mean));
+                    $average = ($means[0]->parameter_mean + $means[1]->parameter_mean) / count($means);
+                    if ($diff >= $parameter->acceptable_score_gap) {
+                        $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
+                    } else {
+                        $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
+                    }
+                }
+            }
+        }
+        else{
+            $collection = null;
+        }
+
+        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collection]);
     }
 
     public function showProgramHead($id){

@@ -13,6 +13,7 @@ use App\Mail\RequestAccreditor;
 use App\Notification;
 use App\NotificationContent;
 use App\NotificationProgram;
+use App\ParameterProgram;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -232,7 +233,7 @@ class AaccupController extends Controller
     }
 
     public function setAcceptableScoreGap(request $request, $id){
-        $parameters = InstrumentParameter::where('area_instrument_id', $id)->get();
+        $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
         foreach ($parameters as $parameter){
             $parameter->acceptable_score_gap = $request->gap;
             $parameter->save();
@@ -240,9 +241,20 @@ class AaccupController extends Controller
         return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameters]);
     }
 
+    public function showAcceptableScoreGap($id){
+        $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
+        return response()->json(['gap' => $parameters]);
+    }
+
     public function editAcceptableScoreGap(request $request, $id){
-        $parameter = InstrumentParameter::where('id', $id)->first();
+        $parameter = ParameterProgram::where('id', $id)->first();
         $parameter->acceptable_score_gap = $request->gap;
+        $parameter->save();
+        return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);
+    }
+    public function removeAcceptableScoreGap($id){
+        $parameter = ParameterProgram::where('id', $id)->first();
+        $parameter->acceptable_score_gap = null;
         $parameter->save();
         return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);
     }

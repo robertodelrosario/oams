@@ -165,6 +165,8 @@ class AccreditorController extends Controller
             ->select('parameters_programs.*', 'parameters.parameter', 'parameters_means.program_parameter_id', 'parameters_means.assigned_user_id', 'parameters_means.parameter_mean')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
+
+
         return response()->json($parameter);
     }
     public function showProgramHead(request $request,$id){
