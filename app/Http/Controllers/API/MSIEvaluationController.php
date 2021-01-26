@@ -34,7 +34,7 @@ class MSIEvaluationController extends Controller
 
         if(!(is_null($request->best_practices))){
             foreach($request->best_practices as $best_practice){
-                $practice = new Recommendation();
+                $practice = new BestPractice();
                 $practice->program_parameter_id = $id;
                 $practice->assigned_user_id = $assignedUserId;
                 $practice->best_practice = $best_practice;

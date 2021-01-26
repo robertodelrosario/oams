@@ -195,6 +195,8 @@ class StatementController extends Controller
     public function deleteStatement($instrumentID, $statementID){
         $check = InstrumentStatement::where('benchmark_statement_id', $statementID)->get();
         $checkCount = $check->count();
+//        dd($check);
+//        dd($checkCount);
         if($checkCount>1) {
             $instruStatement = InstrumentStatement::where([
                 ['benchmark_statement_id', $statementID], ['instrument_parameter_id', $instrumentID]
@@ -204,6 +206,7 @@ class StatementController extends Controller
         }
         else{
             $statement = BenchmarkStatement::where('id', $statementID)->first();
+            dd($statement);
             $statement->delete();
             return response()->json(['status' => true, 'message' => 'removed statement from statement table']);
         }

@@ -221,6 +221,8 @@ class AaccupController extends Controller
         $notifProgram->save();
 
         $program->status = "schedule unavailable";
+        $program->preferred_start_date = $request->preferred_start_date;
+        $program->preferred_end_date = $request->preferred_end_date;
         $program->save();
 
         return response()->json(['status' => true, 'message' => 'Successfully Sent message']);
@@ -252,6 +254,7 @@ class AaccupController extends Controller
         $parameter->save();
         return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);
     }
+
     public function removeAcceptableScoreGap($id){
         $parameter = ParameterProgram::where('id', $id)->first();
         $parameter->acceptable_score_gap = null;

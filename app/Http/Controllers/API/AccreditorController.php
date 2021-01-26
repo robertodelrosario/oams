@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\AccreditorRequest;
 use App\ApplicationProgram;
+use App\AreaMean;
 use App\AssignedUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
@@ -207,8 +208,9 @@ class AccreditorController extends Controller
         return response()->json(['areas'=>$instrument_array]);
     }
 
-    public function saveParameterMean($id){
-        $instrument = InstrumentProgram::where('id', $id)->first();
+    public function saveAreaMean($id){
+        $area_mean = AreaMean::where('instrument_program_id', $id)->get();
+
 
     }
 }

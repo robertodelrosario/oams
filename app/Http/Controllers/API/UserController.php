@@ -130,17 +130,8 @@ class UserController extends Controller
                 ->where('program_parameter_id', $parameter->id)
                 ->select('parameters_means.*', 'assigned_users.user_id' ,'users.first_name','users.last_name')
                 ->get();
-//            $diff = abs($means[0]->parameter_mean - ($means[1]->parameter_mean));
-//            $average = ($means[0]->parameter_mean + $means[1]->parameter_mean)/count($means);
-//            if($diff >= $parameter->acceptable_score_gap){
-//                $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
-//            }
-//            else{
-//                $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
-//            }
             foreach ($means as $mean){
                 $mean_array = Arr::prepend($mean_array,$mean);
-
             }
         }
         if(count($parameters) != count($mean_array)) {
