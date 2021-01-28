@@ -17,6 +17,7 @@ class SUCSeeder extends Seeder
             'address' => 'Lapasan, CdO',
             'email' => 'ustp_cdo@ustp.edu.ph',
             'contact_no' => '09000000001',
+            'suc_level' => 'level 1'
         ]);
     }
 }

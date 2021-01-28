@@ -53,17 +53,6 @@ class RoleSeeder extends Seeder
             'updated_at' => new DateTime,
         ]);
         DB::table('roles')->insert([
-            'role' => 'internal accreditor head',
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime,
-        ]);
-
-        DB::table('roles')->insert([
-            'role' => 'external accreditor head',
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime,
-        ]);
-        DB::table('roles')->insert([
             'role' => 'aaccup staff',
             'created_at' => new DateTime,
             'updated_at' => new DateTime,

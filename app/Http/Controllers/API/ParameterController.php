@@ -62,15 +62,34 @@ class ParameterController extends Controller
     }
 
     public function deleteParameter($id){
-        $parameter = Parameter::where('id', $id);
+        $parameter = InstrumentParameter::where('id', $id)->first();
+        $check = InstrumentParameter::where('parameter_id', $parameter->parameter_id)->get();
+        if(count($check)<=1){
+            $param = Parameter::where('id', $parameter->parameter_id)->first();
+            $param->delete();
+        }
         $parameter->delete();
         return response()->json(['status' => true, 'message' => 'Parameter successfully deleted!']);
     }
 
     public function editParameter(request $request, $id){
-        $parameter = Parameter::where('id', $id)->first();
-        $parameter->parameter = $request->parameter;
-        $parameter->save();
+        $parameter = InstrumentParameter::where('id', $id)->first();
+        $check = Parameter::where('parameter', $request->parameter)->first();
+        if(is_null($check)){
+            $param = new Parameter();
+            $param->parameter = $request->parameter;
+            $param->save();
+
+            $par = new InstrumentParameter();
+            $par->area_instrument_id = $parameter->area_instrument_id;
+            $par->parameter_id = $param->id;
+            $par->save();
+            $parameter->delete();
+        }
+        else{
+            $parameter->parameter_id = $check->id;
+            $parameter->save();
+        }
         return response()->json(['status' => true, 'message' => 'Parameter successfully updated!']);
     }
 }

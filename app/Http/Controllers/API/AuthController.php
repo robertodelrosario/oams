@@ -107,6 +107,7 @@ class AuthController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required',
+            'contact_no' => 'required',
             'password' => 'required|min:6',
         ]);
 
@@ -119,15 +120,12 @@ class AuthController extends Controller
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->email = $request->email;
+            $user->contact_no = $request->contact_no;
             $user->password = bcrypt($request->input('password'));
+            $user->status = 'active';
             $user->save();
             $campus= Campus::where('id',$id)->first();
             $user->campuses()->attach($campus);
-//            $department = CampusUser::where([
-//                ['campus_id', $id], ['user_id',$user->id]
-//            ])->first();
-//            $department->department = $request->department;
-//            $department->save();
             $role = Role::where('role', $request->role)->first();
             $role->users()->attach($user->id);
             $roles = DB::table('users_roles')
@@ -163,6 +161,7 @@ class AuthController extends Controller
             'last_name' => 'required',
             'email' => 'required',
             'password' => 'required|min:6',
+            'contact_no' => 'required',
         ]);
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
         $check = User::where('email', $request->email)->first();
@@ -172,6 +171,8 @@ class AuthController extends Controller
             $user->last_name = $request->last_name;
             $user->email = $request->email;
             $user->password = bcrypt($request->input('password'));
+            $user->contact_no = $request->contact_no;
+            $user->status = 'active';
             $user->save();
             $role = Role::where('role', $request->role)->first();
             $role->users()->attach($user->id);
@@ -206,18 +207,18 @@ class AuthController extends Controller
     }
 
     public function showAaccup(){
-        $aaccupStuff = DB::table('users_roles')
+        $aaccupStaff = DB::table('users_roles')
             ->join('users', 'users.id', '=', 'users_roles.user_id')
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
-            ->where('users_roles.role_id', 11)
+            ->where('users_roles.role_id', 9)
             ->get();
         $aaccupBoardmember = DB::table('users_roles')
             ->join('users', 'users.id', '=', 'users_roles.user_id')
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
-            ->where('users_roles.role_id', 12)
+            ->where('users_roles.role_id', 10)
             ->get();
-        $aaccup =  $aaccupStuff->merge($aaccupBoardmember);
-        return response()->json(['users' => $aaccup]);
+//        $aaccup =  $aaccupStaff->merge($aaccupBoardmember);
+        return response()->json(['user_staffs' => $aaccupStaff, 'user_boardmembers' => $aaccupBoardmember]);
     }
 
     public function showAccreditor(){
@@ -234,10 +235,19 @@ class AuthController extends Controller
     }
 
     public function deleteUser($id){
-        $user = User::where('id', $id);
-        $user->delete();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted to User']);
+        $user = User::where('id', $id)->first();
+        $user->status = 'disabled';
+        $user->save();
+        return response()->json(['status' => true, 'message' => 'Successfully disabled user account']);
     }
+
+    public function activateUser($id){
+        $user = User::where('id', $id)->first();
+        $user->status = 'active';
+        $user->save();
+        return response()->json(['status' => true, 'message' => 'Successfully activated user account']);
+    }
+
     public function setRole(request $request,$userID){
         $role = Role::where('role', $request->role)->first();
         $check = UserRole::where([

@@ -111,7 +111,7 @@ class ApplicationController extends Controller
         if ($request->hasfile('filename')) {
             foreach ($files = $request->file('filename') as $file) {
                 $application = new ApplicationFile();
-                $fileName = time() . '_' . $file->getClientOriginalName();
+                $fileName = $file->getClientOriginalName();
                 $filePath = $file->storeAs('application/files', $fileName);
                 $application->file_title = $fileName;
                 $application->file = $filePath;

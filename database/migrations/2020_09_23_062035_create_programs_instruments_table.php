@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSucsTable extends Migration
+class CreateProgramsInstrumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateSucsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sucs', function (Blueprint $table) {
+        Schema::create('programs_instruments', function (Blueprint $table) {
             $table->id();
-            $table->string('institution_name');
-            $table->string('address');
-            $table->string('email');
-            $table->string('contact_no');
-            $table->string('suc_level');
+            $table->string('intended_program');
+            $table->string('type_of_instrument')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateSucsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sucs');
+        Schema::dropIfExists('programs_instruments');
     }
 }

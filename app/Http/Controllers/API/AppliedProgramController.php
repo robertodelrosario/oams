@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Application;
+use App\ApplicationFile;
 use App\ApplicationProgram;
+use App\ApplicationProgramFile;
 use App\AreaInstrument;
 use App\AssignedUser;
 use App\AssignedUserHead;
@@ -65,97 +67,140 @@ class AppliedProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully updated applied program!']);
     }
 
-    public function uploadPPP(request $request, $id){
+    public function uploadFile(Request $request, $id, $userID)
+    {
         $validator = Validator::make($request->all(), [
-            'ppp' => 'required|mimes:doc,docx,pdf|max:2048'
+            'filename' => 'required',
+            'filename.*' => 'mimes:doc,pdf,docx,zip'
         ]);
-        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required report!']);
+        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
 
-        $program = ApplicationProgram::where('id', $id)->first();
 
-        $fileName = time().'_'.$request->ppp->getClientOriginalName();
-        $filePath = $request->file('ppp')->storeAs('uploads', $fileName);
-        $program->ppp = $filePath;
-        $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
+        if ($request->hasfile('filename')) {
+            foreach ($files = $request->file('filename') as $file) {
+                $applicationProgram = new ApplicationProgramFile();
+                $fileName = $file->getClientOriginalName();
+                $filePath = $file->storeAs('application/files', $fileName);
+                $applicationProgram->file_title = $fileName;
+                $applicationProgram->file = $filePath;
+                $applicationProgram->type = $request->type;
+                $applicationProgram->application_program_id = $id;
+                $applicationProgram->uploader_id = $userID;
+                $applicationProgram->save();
+            }
+            return response()->json(['status' => true, 'message' => 'Successfully added files!']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
     }
-    public function uploadCompliance(request $request, $id){
-        $validator = Validator::make($request->all(), [
-            'compliance_report' => 'required|mimes:doc,docx,pdf|max:2048'
-        ]);
-        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required report!']);
 
-        $program = ApplicationProgram::where('id', $id)->first();
+    public function deleteFile($id){
+        $file = ApplicationProgramFile::where('id', $id);
+        File::delete(storage_path("app/".$file->file));
+        $file->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully deleted file!']);
+    }
 
-        $fileName = time().'_'.$request->compliance_report->getClientOriginalName();
-        $filePath = $request->file('compliance_report')->storeAs('uploads', $fileName);
-        $program->compliance_report =$filePath;
-        $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
-    }
-    public function uploadNarrative(request $request, $id){
-        $validator = Validator::make($request->all(), [
-            'narrative_report' => 'required|mimes:doc,docx,pdf|max:2048'
-        ]);
-        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required report!']);
-
-        $program = ApplicationProgram::where('id', $id)->first();
-        $fileName = time().'_'.$request->narrative_report->getClientOriginalName();
-        $filePath = $request->file('narrative_report')->storeAs('uploads', $fileName);
-        $program->narrative_report =$filePath;
-        $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
-    }
-    public function deletePPP($id){
-        $program = ApplicationProgram::where('id', $id)->first();
-        Storage::delete(storage_path("app/".$program->ppp));
-        $program->ppp = null;
-        $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted supporting documents!']);
-    }
-    public function deleteCompliance($id){
-        $program = ApplicationProgram::where('id', $id)->first();
-        Storage::delete(storage_path("app/".$program->compliance_report));
-        $program->compliance_report= null;
-        $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted supporting documents!']);
-    }
-    public function deleteNarrative($id){
-        $program = ApplicationProgram::where('id', $id)->first();
-        File::delete(storage_path("app/".$program->Narrative_report));
-        $program->Narrative_report= null;
-        $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted supporting documents!']);
-    }
-    public function viewPPP($id){
-        $ppp = ApplicationProgram::where('id', $id)->first();
-        $file = File::get(storage_path("app/".$ppp->ppp));
-        $type = File::mimeType(storage_path("app/".$ppp->ppp));
+    public function viewFile($id){
+        $file_link = ApplicationProgramFile::where('id', $id)->first();
+        $file = File::get(storage_path("app/".$file_link->file));
+        $type = File::mimeType(storage_path("app/".$file_link->file));
 
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
     }
 
-    public function viewNarrative($id){
-        $narrative = ApplicationProgram::where('id', $id)->first();
-        $file = File::get(storage_path("app/".$narrative->narrative_report));
-        $type = File::mimeType(storage_path("app/".$narrative->narrative_report));
-
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        return $response;
-    }
-
-    public function viewCompliance($id){
-        $compliance = ApplicationProgram::where('id', $id)->first();
-        $file = File::get(storage_path("app/".$compliance->compliance_report));
-        $type = File::mimeType(storage_path("app/".$compliance->compliance_report));
-
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        return $response;
-    }
+//    public function uploadPPP(request $request, $id){
+//        $validator = Validator::make($request->all(), [
+//            'ppp' => 'required|mimes:doc,docx,pdf|max:2048'
+//        ]);
+//        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required report!']);
+//
+//        $program = ApplicationProgram::where('id', $id)->first();
+//
+//        $fileName = time().'_'.$request->ppp->getClientOriginalName();
+//        $filePath = $request->file('ppp')->storeAs('uploads', $fileName);
+//        $program->ppp = $filePath;
+//        $program->save();
+//        return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
+//    }
+//    public function uploadCompliance(request $request, $id){
+//        $validator = Validator::make($request->all(), [
+//            'compliance_report' => 'required|mimes:doc,docx,pdf|max:2048'
+//        ]);
+//        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required report!']);
+//
+//        $program = ApplicationProgram::where('id', $id)->first();
+//
+//        $fileName = time().'_'.$request->compliance_report->getClientOriginalName();
+//        $filePath = $request->file('compliance_report')->storeAs('uploads', $fileName);
+//        $program->compliance_report =$filePath;
+//        $program->save();
+//        return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
+//    }
+//    public function uploadNarrative(request $request, $id){
+//        $validator = Validator::make($request->all(), [
+//            'narrative_report' => 'required|mimes:doc,docx,pdf|max:2048'
+//        ]);
+//        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Required report!']);
+//
+//        $program = ApplicationProgram::where('id', $id)->first();
+//        $fileName = time().'_'.$request->narrative_report->getClientOriginalName();
+//        $filePath = $request->file('narrative_report')->storeAs('uploads', $fileName);
+//        $program->narrative_report =$filePath;
+//        $program->save();
+//        return response()->json(['status' => true, 'message' => 'Successfully added supporting documents!']);
+//    }
+//    public function deletePPP($id){
+//        $program = ApplicationProgram::where('id', $id)->first();
+//        Storage::delete(storage_path("app/".$program->ppp));
+//        $program->ppp = null;
+//        $program->save();
+//        return response()->json(['status' => true, 'message' => 'Successfully deleted supporting documents!']);
+//    }
+//    public function deleteCompliance($id){
+//        $program = ApplicationProgram::where('id', $id)->first();
+//        Storage::delete(storage_path("app/".$program->compliance_report));
+//        $program->compliance_report= null;
+//        $program->save();
+//        return response()->json(['status' => true, 'message' => 'Successfully deleted supporting documents!']);
+//    }
+//    public function deleteNarrative($id){
+//        $program = ApplicationProgram::where('id', $id)->first();
+//        File::delete(storage_path("app/".$program->Narrative_report));
+//        $program->Narrative_report= null;
+//        $program->save();
+//        return response()->json(['status' => true, 'message' => 'Successfully deleted supporting documents!']);
+//    }
+//    public function viewPPP($id){
+//        $ppp = ApplicationProgram::where('id', $id)->first();
+//        $file = File::get(storage_path("app/".$ppp->ppp));
+//        $type = File::mimeType(storage_path("app/".$ppp->ppp));
+//
+//        $response = Response::make($file, 200);
+//        $response->header("Content-Type", $type);
+//        return $response;
+//    }
+//
+//    public function viewNarrative($id){
+//        $narrative = ApplicationProgram::where('id', $id)->first();
+//        $file = File::get(storage_path("app/".$narrative->narrative_report));
+//        $type = File::mimeType(storage_path("app/".$narrative->narrative_report));
+//
+//        $response = Response::make($file, 200);
+//        $response->header("Content-Type", $type);
+//        return $response;
+//    }
+//
+//    public function viewCompliance($id){
+//        $compliance = ApplicationProgram::where('id', $id)->first();
+//        $file = File::get(storage_path("app/".$compliance->compliance_report));
+//        $type = File::mimeType(storage_path("app/".$compliance->compliance_report));
+//
+//        $response = Response::make($file, 200);
+//        $response->header("Content-Type", $type);
+//        return $response;
+//    }
 
     public function showProgram($id){
         $programs = DB::table('applications_programs')
@@ -165,14 +210,17 @@ class AppliedProgramController extends Controller
             ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
             ->get();
         $users = array();
+        $attach_files = array();
         foreach ($programs as $program){
             $user = DB::table('assigned_user_heads')
                 ->join('users', 'users.id', '=', 'assigned_user_heads.user_id')
                 ->where('assigned_user_heads.application_program_id', $program->id)
                 ->first();
             if ($user != null) $users = Arr::prepend($users, $user);
+            $files = ApplicationProgramFile::where('application_program_id', $program->id)->get();
+            foreach ($files as $file) $attach_files = Arr::prepend($attach_files, $file);
         }
-        return response()->json(['programs' =>$programs, 'users' => $users]);
+        return response()->json(['programs' =>$programs, 'users' => $users, 'files' => $attach_files]);
     }
     public function showInstrumentProgram($id){
         $instrumentPrograms = DB::table('instruments_programs')

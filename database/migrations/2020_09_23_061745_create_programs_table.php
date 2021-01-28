@@ -18,6 +18,7 @@ class CreateProgramsTable extends Migration
             $table->string("program_name");
             $table->float('rating_obtained')->nullable();
             $table->string("accreditation_status");
+            $table->string("latest_applied_level")->nullable();
             $table->date("duration_of_validity");
             $table->foreignId("campus_id");
             $table->foreign("campus_id")->references("id")->on("campuses")

@@ -19,21 +19,33 @@ class SUCController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'institution_name' => 'required',
+            'campus_name' => 'required',
+            'region' => 'required',
+            'province' => 'required',
+            'municipality' => 'required',
             'address' => 'required',
             'email' => 'required',
             'contact_no' => 'required',
+            'suc_level' => 'required',
         ]);
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $suc = SUC::where(strtolower('institution_name'), strtolower($request->institution_name))->first();
+        $suc = SUC::where([
+            [strtolower('institution_name'), strtolower($request->institution_name)], [strtolower('campus_name'), strtolower($request->campus_name)]
+        ])->first();
         if(is_null($suc))
         {
             $suc = new SUC();
             $suc->institution_name = $request->institution_name;
+            $suc->campus_name = $request->campus_name;
+            $suc->region = $request->region;
+            $suc->province = $request->province;
+            $suc->municipality = $request->municipality;
             $suc->address = $request->address;
             $suc->email = $request->email;
             $suc->contact_no = $request->contact_no;
+            $suc->suc_level = $request->suc_level;
             $suc->save();
             return response()->json(['status' => true, 'message' => 'Successfully created SUC', 'suc' => $suc]);
         }
@@ -53,9 +65,14 @@ class SUCController extends Controller
     public function editSuc(request $request, $id){
         $suc = SUC::where('id', $id)->first();
         $suc->institution_name = $request->institution_name;
+        $suc->campus_name = $request->campus_name;
+        $suc->region = $request->region;
+        $suc->province = $request->province;
+        $suc->municipality = $request->municipality;
         $suc->address = $request->address;
         $suc->email = $request->email;
         $suc->contact_no = $request->contact_no;
+        $suc->suc_level = $request->suc_level;
         $suc->save();
         return response()->json(['status' => true, 'message' => 'Successfully created SUC', 'suc' => $suc]);
     }

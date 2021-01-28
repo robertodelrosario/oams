@@ -14,28 +14,24 @@ class ProgramSeeder extends Seeder
     {
         DB::table('programs')->insert([
             'program_name' => 'IT',
+            'latest_applied_level' => 'Level III, Phase 2',
             'accreditation_status' => 'Level III Re-accredited',
             'duration_of_validity' => '2020-10-10',
             'campus_id' => '1'
         ]);
         DB::table('programs')->insert([
             'program_name' => 'CpE',
+            'latest_applied_level' => 'Level III, Phase 2',
             'accreditation_status' => 'Level III Re-accredited',
             'duration_of_validity' => '2020-10-10',
             'campus_id' => '1'
         ]);
         DB::table('programs')->insert([
             'program_name' => 'ComSci',
+            'latest_applied_level' => 'Level III, Phase 2',
             'accreditation_status' => 'Level III Re-accredited',
             'duration_of_validity' => '2020-10-10',
             'campus_id' => '1'
-        ]);
-
-        DB::table('programs')->insert([
-            'program_name' => 'IT',
-            'accreditation_status' => 'Level III Re-accredited',
-            'duration_of_validity' => '2020-10-10',
-            'campus_id' => '2'
         ]);
     }
 }

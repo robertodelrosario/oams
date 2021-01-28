@@ -24,16 +24,12 @@ class CreateApplicationsProgramsTable extends Migration
             $table->string('level');
             $table->date('preferred_start_date');
             $table->date('preferred_end_date');
-            $table->string('ppp')->nullable();
-            $table->string('compliance_report')->nullable();
-            $table->string('narrative_report')->nullable();
             $table->date('approved_start_date')->nullable();
             $table->date('approved_end_date')->nullable();
             $table->string('status')->nullable();
             $table->string('result')->nullable();
-            $table->string('sfr_report')->nullable();
             $table->date('date_granted')->nullable();
-            $table->binary('certificate')->nullable();
+            $table->string('certificate')->nullable();
             $table->timestamps();
         });
     }

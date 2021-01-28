@@ -37,7 +37,8 @@ Route::group([
     Route::get('/showAaccup', 'AuthController@showAaccup');
     Route::get('/showAccreditor', 'AuthController@showAccreditor');
     Route::get('/showAllUser', 'AuthController@showAllUser');
-    Route::delete('/deleteUser/{id}', 'AuthController@deleteUser');
+    Route::put('/deleteUser/{id}', 'AuthController@deleteUser');
+    Route::put('/activateUser/{id}', 'AuthController@activateUser');
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
 
 });
@@ -61,7 +62,7 @@ Route::group(['prefix' => '/suc'], function() {
     Route::post('/selectInstrument/{programID}/{instrumentID}', 'ProgramController@selectInstrument');
     Route::get('/showInstrumentProgram/{id}', 'ProgramController@showInstrumentProgram');
     Route::get('/showStatement/{id}', 'ProgramController@showStatement');
-    Route::delete('/removeInstrument/{sucID}/{programID}', 'ProgramController@removeInstrument');
+    Route::delete('/removeInstrument/{programID}/{instrumentID}', 'ProgramController@removeInstrument');
 
     Route::post('/acceptDeclineReschedule/{id}/{userID}', 'QuasController@acceptDeclineReschedule');
 });
@@ -127,14 +128,15 @@ Route::group(['prefix' => '/instrument'], function() {
 //    Route::post('/createStatement', 'StatementController@createStatement');
     Route::post('/createStatement/{id}', 'StatementController@createStatement');
     Route::post('/createParameter', 'ParameterController@createParameter');
+    Route::get('/showProgram', 'InstrumentController@showProgram');
     Route::get('/showParameter/{id}', 'ParameterController@showParameter');
-    Route::get('/showInstrument', 'InstrumentController@showInstrument');
+    Route::get('/showInstrument/{id}', 'InstrumentController@showInstrument');
     Route::get('/showStatement/{id}', 'StatementController@showStatement');
     Route::delete('/deleteParameter/{id}', 'ParameterController@deleteParameter');
-    Route::delete('/deleteInstrument/{id}', 'InstrumentController@deleteInstrument');
+    Route::delete('/deleteProgram/{id}', 'InstrumentController@deleteProgram');
     Route::delete('/deleteStatement/{instrumentID}/{statementID}', 'StatementController@deleteStatement');
     Route::put('/editStatement', 'StatementController@editStatement');
-    Route::put('/editInstrument/{id}', 'InstrumentController@editInstrument');
+    Route::put('/editProgram/{id}', 'InstrumentController@editProgram');
     Route::put('/editParameter/{id}', 'ParameterController@editParameter');
 
 });
