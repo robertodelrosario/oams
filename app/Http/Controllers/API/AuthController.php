@@ -189,7 +189,7 @@ class AuthController extends Controller
         $users = DB::table('campuses_users')
             ->join('users', 'users.id', '=', 'campuses_users.user_id')
             ->where('campuses_users.campus_id', $id)
-            ->select('campuses_users.id','campuses_users.user_id', 'users.first_name', 'users.last_name', 'users.email', 'users.password')
+            ->select('campuses_users.id','campuses_users.user_id', 'users.first_name', 'users.last_name', 'users.email', 'users.password', 'users.status')
             ->get();
         $office = DB::table('campuses_users')
             ->join('offices', 'offices.id', '=', 'campuses_users.office_id')

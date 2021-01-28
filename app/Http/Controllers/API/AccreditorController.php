@@ -7,8 +7,6 @@ use App\ApplicationProgram;
 use App\AreaMean;
 use App\AssignedUser;
 use App\Http\Controllers\Controller;
-use App\InstrumentParameter;
-use App\InstrumentProgram;
 use App\InstrumentScore;
 use App\ParameterMean;
 use App\ParameterProgram;
@@ -16,7 +14,6 @@ use App\ProgramStatement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade as PDF;
 
 class AccreditorController extends Controller
 {
@@ -28,7 +25,7 @@ class AccreditorController extends Controller
             ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
             ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
             ->where('accreditor_requests.accreditor_id', $id)
-            ->select( 'accreditor_requests.id','sucs.institution_name' ,'campuses.campus_name', 'programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date', 'accreditor_requests.status', 'accreditor_requests.role')
+            ->select( 'accreditor_requests.id','sucs.institution_name' ,'campuses.campus_name', 'programs.program_name', 'applications_programs.preferred_start_date', 'applications_programs.preferred_end_date', 'accreditor_requests.status', 'accreditor_requests.role')
             ->get();
         return response()->json(['requests' => $req]);
     }
@@ -210,7 +207,5 @@ class AccreditorController extends Controller
 
     public function saveAreaMean($id){
         $area_mean = AreaMean::where('instrument_program_id', $id)->get();
-
-
     }
 }

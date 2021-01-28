@@ -21,6 +21,8 @@ class CreateCampusesTable extends Migration
             $table->string('campus_name');
             $table->string('address');
             $table->string('region');
+            $table->string('province')->nullable();
+            $table->string('municipality')->nullable();
             $table->string('email');
             $table->string('contact_no');
             $table->timestamps();

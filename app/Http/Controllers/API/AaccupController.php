@@ -183,8 +183,8 @@ class AaccupController extends Controller
 
     public function approve(request $request, $id){
         $program = ApplicationProgram::where('id', $id)->first();
-        $program->approved_start_date = $request->approved_start_date;
-        $program->approved_end_date = $request->approved_end_date;
+        $program->approved_start_date = $program->preferred_start_date;
+        $program->approved_end_date = $program->preferred_end_date;
         $program->status = "approved";
         $program->save();
 

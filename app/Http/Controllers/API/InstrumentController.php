@@ -82,7 +82,7 @@ class InstrumentController extends Controller
         $intendedProgram->intended_program = $request->intended_program;
         $intendedProgram->type_of_instrument = $request->type_of_instrument;
         $intendedProgram->save();
-         return response()->json(['status' => true, 'message' => 'Successfully updated the instrument!', 'instrument' => $intendedProgram]);
+        return response()->json(['status' => true, 'message' => 'Successfully updated the instrument!', 'instrument' => $intendedProgram]);
     }
 
     public function cloneInstrument(request $request,$id){

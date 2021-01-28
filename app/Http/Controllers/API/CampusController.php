@@ -32,6 +32,8 @@ class CampusController extends Controller
             $campus->campus_name = $request->campus_name;
             $campus->address = $request->address;
             $campus->region = $request->region;
+            $campus->province = $request->province;
+            $campus->municipality = $request->municipality;
             $campus->email = $request->email;
             $campus->contact_no = $request->contact_no;
             $campus->save();
@@ -57,6 +59,9 @@ class CampusController extends Controller
         $campus->address = $request->address;
         $campus->region = $request->region;
         $campus->email = $request->email;
+        $campus->region = $request->region;
+        $campus->province = $request->province;
+        $campus->municipality = $request->municipality;
         $campus->contact_no = $request->contact_no;
         $campus->save();
         return response()->json(['status' => true, 'message' => 'Successfully edited campus', 'suc' => $campus]);

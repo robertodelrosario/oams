@@ -38,10 +38,6 @@ class SUCController extends Controller
         {
             $suc = new SUC();
             $suc->institution_name = $request->institution_name;
-            $suc->campus_name = $request->campus_name;
-            $suc->region = $request->region;
-            $suc->province = $request->province;
-            $suc->municipality = $request->municipality;
             $suc->address = $request->address;
             $suc->email = $request->email;
             $suc->contact_no = $request->contact_no;
@@ -65,10 +61,6 @@ class SUCController extends Controller
     public function editSuc(request $request, $id){
         $suc = SUC::where('id', $id)->first();
         $suc->institution_name = $request->institution_name;
-        $suc->campus_name = $request->campus_name;
-        $suc->region = $request->region;
-        $suc->province = $request->province;
-        $suc->municipality = $request->municipality;
         $suc->address = $request->address;
         $suc->email = $request->email;
         $suc->contact_no = $request->contact_no;
