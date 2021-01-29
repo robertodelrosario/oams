@@ -227,7 +227,7 @@ class AppliedProgramController extends Controller
         $instrumentPrograms = DB::table('instruments_programs')
             ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
             ->where('instruments_programs.program_id', $id)
-            ->select('instruments_programs.*', 'area_instruments.intended_program', 'area_instruments.area_number', 'area_instruments.area_name', 'area_instruments.version')
+            ->select('instruments_programs.*', 'area_instruments.area_number', 'area_instruments.area_name', 'area_instruments.version')
             ->get();
         if(is_null($instrumentPrograms)) return response()->json(['status' => false, 'message' => 'Do not have instruments']);
         $users = array();

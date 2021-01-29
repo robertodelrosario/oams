@@ -18,8 +18,14 @@ class CreateAccreditorsProfilesTable extends Migration
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->foreignId('campus_id')->nullable();
+            $table->foreign('campus_id')->references('id')->on('campuses')
+                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->string('middle_initial')->nullable();
+            $table->string('gender')->nullable();
+            $table->date('birthday')->nullable();
             $table->string('academic_rank')->nullable();
-            $table->string('academic_degree')->nullable();
+            $table->string('designation')->nullable();
             $table->string('region');
             $table->string('province')->nullable();
             $table->string('municipality')->nullable();

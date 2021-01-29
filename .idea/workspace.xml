@@ -22,7 +22,7 @@
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProgramController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_25_013409_create_accreditors_profiles_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_25_013409_create_accreditors_profiles_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -299,7 +299,7 @@
       <workItem from="1611623379140" duration="33875000" />
       <workItem from="1611797158052" duration="12968000" />
       <workItem from="1611836794084" duration="1389000" />
-      <workItem from="1611882297462" duration="6789000" />
+      <workItem from="1611882297462" duration="8632000" />
     </task>
     <servers />
   </component>
