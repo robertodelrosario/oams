@@ -36,6 +36,7 @@ Route::group([
     Route::get('/showCampusUser/{id}', 'AuthController@showCampusUser');
     Route::get('/showAaccup', 'AuthController@showAaccup');
     Route::get('/showAccreditor', 'AuthController@showAccreditor');
+    Route::get('/showLocalAccreditor/{id}', 'AuthController@showAccreditor');
     Route::get('/showAllUser', 'AuthController@showAllUser');
     Route::put('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::put('/activateUser/{id}', 'AuthController@activateUser');
@@ -185,7 +186,6 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::post('/assignTask/{id}/{app_prog_id}', 'AssignTaskController@assignTask');
     Route::post('/assignAccreditor/{id}', 'AssignTaskController@assignAccreditor');
-    //Route::get('/showTaskUser/{id}', 'AssignTaskController@showTaskUser');
     Route::delete('/deleteAssignedUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedUser');
 
     Route::post('/assignHeadTask/{id}', 'AssignTaskController@assignHeadTask');

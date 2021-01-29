@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\AccreditorDegree;
 use App\AccreditorProfile;
 use App\AccreditorSpecialization;
 use App\Campus;
@@ -139,6 +140,70 @@ class AuthController extends Controller
         return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
 
+    public function registerLocalAccreditor(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:6',
+            'contact_no' => 'required',
+        ]);
+
+        if ($validator->fails())
+            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
+
+        $check = User::where('email', $request->email)->first();
+        if(is_null($check)){
+            $user = new User;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->email = $request->email;
+            $user->contact_no = $request->contact_no;
+            $user->password = bcrypt($request->input('password'));
+            $user->status = 'active';
+            $user->save();
+            $campus= Campus::where('id',$id)->first();
+            $user->campuses()->attach($campus);
+            $role = Role::where('role', $request->role)->first();
+            $role->users()->attach($user->id);
+
+            $region = new AccreditorProfile();
+            $region->user = $user->id;
+            $region->region = $request->region;
+            $region->campus_id = $id;
+            $region->save();
+
+            $specialization = new AccreditorSpecialization();
+            $specialization->accreditor_id = $user->id;
+            $specialization->specialization = $request->specialization;
+            $specialization->save();
+
+            $roles = DB::table('users_roles')
+                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+                ->where('user_id', $user->id)
+                ->get();
+            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
+        }
+        else{
+
+            $role = Role::where('role', $request->role)->first();
+            $role->users()->attach($check->id);
+
+            $region = new AccreditorProfile();
+            $region->user = $check->id;
+            $region->region = $request->region;
+            $region->campus_id = $id;
+            $region->save();
+
+            $specialization = new AccreditorSpecialization();
+            $specialization->accreditor_id = $check->id;
+            $specialization->specialization = $request->specialization;
+            $specialization->save();
+
+            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $check]);
+        }
+    }
+
     public function addToOffice($id, $office_id){
         $user = CampusUser::where('id', $id)->first();
         $user->office_id = $office_id;
@@ -219,6 +284,36 @@ class AuthController extends Controller
         return response()->json(['users' => $users,'office' =>  $office,'roles' => $user_roles]);
     }
 
+    public function showLocalAccreditor($id){
+        $campuses = Campus::where('suc_id', $id)->get();
+        $accreditor_array = array();
+        $specializations = array();
+        $degrees_arr = array();
+        foreach ($campuses as $campus){
+            $accreditors = DB::table('users_roles')
+                ->join('users', 'users.id', '=', 'users_roles.user_id')
+                ->join('accreditors_profiles', 'accreditors_profiles.user_id', '=', 'users.id')
+                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+                ->where('users_roles.role_id', 8)
+                ->where('accreditors_profiles.campus_id', $campus->id)
+                ->get();
+            foreach ($accreditors as $accreditor){
+                $accreditor_array = Arr::prepend($accreditor_array,$accreditor);
+
+                $specials = AccreditorSpecialization::where('accreditor_id', $accreditor->user_id)->get();
+                foreach ($specials as $special){
+                    $specializations = Arr::prepend($specializations, $special);
+                }
+
+                $degrees = AccreditorDegree::where('user_id', $accreditor->user_id)->get();
+                foreach ($degrees as $degree){
+                    $degrees_arr = Arr::prepend($degrees_arr, $degree);
+                }
+            }
+        }
+        return response()->json(['users' => $accreditors, 'specializations' => $specializations, 'degrees' => $degrees_arr]);
+    }
+
     public function showAaccup(){
         $aaccupStaff = DB::table('users_roles')
             ->join('users', 'users.id', '=', 'users_roles.user_id')
@@ -235,13 +330,29 @@ class AuthController extends Controller
     }
 
     public function showAccreditor(){
-        $accreditor = DB::table('users_roles')
+        $accreditors = DB::table('users_roles')
             ->join('users', 'users.id', '=', 'users_roles.user_id')
             ->join('accreditors_profiles', 'accreditors_profiles.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
             ->where('users_roles.role_id', 8)
             ->get();
-        return response()->json(['users' => $accreditor]);
+
+        $specializations = array();
+        foreach($accreditors as $accreditor){
+            $specials = AccreditorSpecialization::where('accreditor_id', $accreditor->user_id)->get();
+            foreach ($specials as $special){
+                $specializations = Arr::prepend($specializations, $special);
+            }
+        }
+
+        $degrees_arr = array();
+        foreach($accreditors as $accreditor){
+            $degrees = AccreditorDegree::where('user_id', $accreditor->user_id)->get();
+            foreach ($degrees as $degree){
+                $degrees_arr = Arr::prepend($degrees_arr, $degree);
+            }
+        }
+        return response()->json(['users' => $accreditors, 'specializations' => $specializations, 'degrees' => $degrees_arr]);
     }
 
     public function showAllUser(){
