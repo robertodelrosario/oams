@@ -222,6 +222,7 @@ class AppliedProgramController extends Controller
         }
         return response()->json(['programs' =>$programs, 'users' => $users, 'files' => $attach_files]);
     }
+
     public function showInstrumentProgram($id){
         $instrumentPrograms = DB::table('instruments_programs')
             ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
