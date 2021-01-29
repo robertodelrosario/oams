@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\AccreditorProfile;
+use App\AccreditorSpecialization;
 use App\Campus;
 use App\CampusUser;
 use App\Office;
@@ -175,6 +177,17 @@ class AuthController extends Controller
             $user->status = 'active';
             $user->save();
             $role = Role::where('role', $request->role)->first();
+            if($role->id == 8){
+                $region = new AccreditorProfile();
+                $region->user = $user->id;
+                $region->region = $request->region;
+                $region->save();
+
+                $specialization = new AccreditorSpecialization();
+                $specialization->accreditor_id = $user->id;
+                $specialization->specialization = $request->specialization;
+                $specialization->save();
+            }
             $role->users()->attach($user->id);
             $roles = DB::table('users_roles')
                 ->join('roles', 'roles.id', '=', 'users_roles.role_id')
@@ -189,7 +202,7 @@ class AuthController extends Controller
         $users = DB::table('campuses_users')
             ->join('users', 'users.id', '=', 'campuses_users.user_id')
             ->where('campuses_users.campus_id', $id)
-            ->select('campuses_users.id','campuses_users.user_id', 'users.first_name', 'users.last_name', 'users.email', 'users.password', 'users.status')
+            ->select('campuses_users.id','campuses_users.user_id', 'users.first_name', 'users.last_name', 'users.email', 'users.password', 'users.status', 'users.contact_no')
             ->get();
         $office = DB::table('campuses_users')
             ->join('offices', 'offices.id', '=', 'campuses_users.office_id')
@@ -217,13 +230,14 @@ class AuthController extends Controller
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
             ->where('users_roles.role_id', 10)
             ->get();
-//        $aaccup =  $aaccupStaff->merge($aaccupBoardmember);
-        return response()->json(['user_staffs' => $aaccupStaff, 'user_boardmembers' => $aaccupBoardmember]);
+        $aaccup =  $aaccupStaff->merge($aaccupBoardmember);
+        return response()->json(['users' => $aaccup]);
     }
 
     public function showAccreditor(){
         $accreditor = DB::table('users_roles')
             ->join('users', 'users.id', '=', 'users_roles.user_id')
+            ->join('accreditors_profiles', 'accreditors_profiles.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
             ->where('users_roles.role_id', 8)
             ->get();
