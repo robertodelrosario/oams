@@ -168,7 +168,7 @@ class AuthController extends Controller
             $role->users()->attach($user->id);
 
             $region = new AccreditorProfile();
-            $region->user = $user->id;
+            $region->user_id = $user->id;
             $region->region = $request->region;
             $region->campus_id = $id;
             $region->save();
@@ -186,17 +186,12 @@ class AuthController extends Controller
         }
         else{
 
-            $role = Role::where('role', $request->role)->first();
-            $role->users()->attach($check->id);
-
-            $region = new AccreditorProfile();
-            $region->user = $check->id;
+            $region = AccreditorProfile::where('user_id',$check->id )->first();
             $region->region = $request->region;
             $region->campus_id = $id;
             $region->save();
 
-            $specialization = new AccreditorSpecialization();
-            $specialization->accreditor_id = $check->id;
+            $specialization = AccreditorSpecialization::where('accreditor_id', $check->id)->first();
             $specialization->specialization = $request->specialization;
             $specialization->save();
 
@@ -244,7 +239,7 @@ class AuthController extends Controller
             $role = Role::where('role', $request->role)->first();
             if($role->id == 8){
                 $region = new AccreditorProfile();
-                $region->user = $user->id;
+                $region->user_id = $user->id;
                 $region->region = $request->region;
                 $region->save();
 

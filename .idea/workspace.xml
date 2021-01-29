@@ -21,8 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/AccreditorDegree.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/AccreditorDegree.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AssignTaskController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AssignTaskController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
@@ -300,7 +298,7 @@
       <workItem from="1611623379140" duration="33875000" />
       <workItem from="1611797158052" duration="12968000" />
       <workItem from="1611836794084" duration="1389000" />
-      <workItem from="1611882297462" duration="14933000" />
+      <workItem from="1611882297462" duration="16604000" />
     </task>
     <servers />
   </component>
