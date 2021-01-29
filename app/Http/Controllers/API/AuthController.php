@@ -46,6 +46,8 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        if(auth()->user()->status == 'inactive')
+            return response()->json(['error' => 'Unauthorized [1]'], 401);
         return $this->respondWithToken($token);
     }
 
@@ -356,7 +358,7 @@ class AuthController extends Controller
 
     public function deleteUser($id){
         $user = User::where('id', $id)->first();
-        $user->status = 'disabled';
+        $user->status = 'inactive';
         $user->save();
         return response()->json(['status' => true, 'message' => 'Successfully disabled user account']);
     }
