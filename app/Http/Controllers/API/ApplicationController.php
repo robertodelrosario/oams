@@ -12,11 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Input\Input;
 
 class ApplicationController extends Controller
 {
@@ -78,7 +75,7 @@ class ApplicationController extends Controller
     public function deleteApplication($id){
         $application = Application::where('id', $id);
         $application->delete();
-        return response()->json(['status' => true, 'message' => 'ApplicationNotification successfully deleted!']);
+        return response()->json(['status' => true, 'message' => 'Application successfully deleted!']);
     }
 
     public function showApplication($id){
@@ -125,7 +122,7 @@ class ApplicationController extends Controller
     }
 
     public function deleteFile($id){
-        $file = ApplicationFile::where('id', $id);
+        $file = ApplicationFile::where('id', $id)->first();
         File::delete(storage_path("app/".$file->file));
         $file->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted file!']);

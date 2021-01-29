@@ -93,8 +93,8 @@ class AppliedProgramController extends Controller
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
     }
 
-    public function deleteFile($id){
-        $file = ApplicationProgramFile::where('id', $id);
+    public function deleteProgramFile($id){
+        $file = ApplicationProgramFile::where('id', $id)->first();
         File::delete(storage_path("app/".$file->file));
         $file->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted file!']);

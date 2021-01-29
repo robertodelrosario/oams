@@ -165,6 +165,10 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
     Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');
 
+    Route::post('/uploadFile/{id}/{userID}', 'AppliedProgramController@uploadFile');
+    Route::delete('/deleteProgramFile/{id}', 'AppliedProgramController@deleteProgramFile');
+
+
     Route::post('/uploadPPP/{id}', 'AppliedProgramController@uploadPPP');
     Route::post('/uploadCompliance/{id}', 'AppliedProgramController@uploadCompliance');
     Route::post('/uploadNarrative/{id}', 'AppliedProgramController@uploadNarrative');
