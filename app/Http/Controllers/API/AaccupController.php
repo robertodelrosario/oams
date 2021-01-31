@@ -81,29 +81,28 @@ class AaccupController extends Controller
             $accreditorRequest->sender_id = $userID;
             $accreditorRequest->status = "pending";
             $accreditorRequest->save();
-
-            $req = DB::table('accreditor_requests')
-                ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
-                ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
-                ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
-                ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
-                ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-                ->where('accreditor_requests.id', $accreditorRequest->id)
-                ->where('accreditor_requests.status', '=', 'pending')
-                ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
-                ->first();
-
-            $title = 'Request for Accreditation - '.$accreditorRequest->role;
-            $details = [
-                'title' => $title,
-                'suc' => $req->institution_name,
-                'campus' => $req->campus_name,
-                'program' => $req->program_name,
-                'start_date' => $req->approved_start_date,
-                'start_end' => $req->approved_end_date,
-                'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
-            ];
-            \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
+//            $req = DB::table('accreditor_requests')
+//                ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
+//                ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
+//                ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+//                ->join('programs', 'programs.id', '=', 'applications_programs.program_id')
+//                ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+//                ->where('accreditor_requests.id', $accreditorRequest->id)
+//                ->where('accreditor_requests.status', '=', 'pending')
+//                ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
+//                ->first();
+//
+//            $title = 'Request for Accreditation - '.$accreditorRequest->role;
+//            $details = [
+//                'title' => $title,
+//                'suc' => $req->institution_name,
+//                'campus' => $req->campus_name,
+//                'program' => $req->program_name,
+//                'start_date' => $req->approved_start_date,
+//                'start_end' => $req->approved_end_date,
+//                'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
+//            ];
+//            \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
         }
         return response()->json(['status' => true, 'message' => 'Successfully sent accreditor requests']);
     }
@@ -248,10 +247,12 @@ class AaccupController extends Controller
         return response()->json(['gap' => $parameters]);
     }
 
-    public function editAcceptableScoreGap(request $request, $id){
-        $parameter = ParameterProgram::where('id', $id)->first();
-        $parameter->acceptable_score_gap = $request->gap;
-        $parameter->save();
+    public function editAcceptableScoreGap(request $request){
+        foreach ($request->gaps as $gap){
+            $parameter = ParameterProgram::where('id', $gap->id)->first();
+            $parameter->acceptable_score_gap = $gap->gap;
+            $parameter->save();
+        }
         return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);
     }
 
