@@ -100,7 +100,7 @@ class AppliedProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted file!']);
     }
 
-    public function viewFile($id){
+    public function viewProgramFile($id){
         $file_link = ApplicationProgramFile::where('id', $id)->first();
         $file = File::get(storage_path("app/".$file_link->file));
         $type = File::mimeType(storage_path("app/".$file_link->file));

@@ -204,7 +204,6 @@ class StatementController extends Controller
         }
         else{
             $statement = BenchmarkStatement::where('id', $statementID)->first();
-            dd($statement);
             $statement->delete();
             return response()->json(['status' => true, 'message' => 'removed statement from statement table']);
         }

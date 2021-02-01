@@ -153,7 +153,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/submitApplication/{id}/{sucID}', 'ApplicationController@submitApplication');
     Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
     Route::get('/showApplication/{id}', 'ApplicationController@showApplication');
-    Route::get('/showSubmittedApplication/{id}', 'ApplicationController@showSubmittedApplication');
+//    Route::get('/showSubmittedApplication/{id}', 'ApplicationController@showSubmittedApplication');
 
     Route::post('/uploadFile/{id}', 'ApplicationController@uploadFile');
     Route::delete('/deleteFile/{id}', 'ApplicationController@deleteFile');
@@ -168,7 +168,7 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::post('/uploadFile/{id}/{userID}', 'AppliedProgramController@uploadFile');
     Route::delete('/deleteProgramFile/{id}', 'AppliedProgramController@deleteProgramFile');
-
+    Route::get('/viewProgramFile/{id}', 'AppliedProgramController@viewProgramFile');
 
     Route::post('/uploadPPP/{id}', 'AppliedProgramController@uploadPPP');
     Route::post('/uploadCompliance/{id}', 'AppliedProgramController@uploadCompliance');

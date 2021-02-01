@@ -36,7 +36,7 @@ class AreaInstrumentSeeder extends Seeder
         DB::table('area_instruments')->insert([
             'intended_program_id' => '1',
             'area_number' => '3',
-            'area_name' => 'AREA III: Curriculum and Instruction',
+            'area_name' => 'AREA III: CURRICULUM AND INSTRUCTION',
             'version' => '1',
             'created_at' => new DateTime,
             'updated_at' => new DateTime,

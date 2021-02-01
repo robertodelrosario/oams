@@ -35,7 +35,7 @@ class InstrumentController extends Controller
 
         $area_name = ["AREA 1: VISION, MISSION, GOALS AND OBJECTIVES",
             "AREA II: FACULTY",
-            "AREA III: Curriculum and Instruction",
+            "AREA III: CURRICULUM AND INSTRUCTION",
             "AREA IV: SUPPORT TO STUDENTS",
             "AREA V: RESEARCH",
             "AREA VI: EXTENSION AND COMMUNITY INVOLVEMENT",
