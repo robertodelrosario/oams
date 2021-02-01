@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\AreaInstrument;
 use App\InstrumentParameter;
+use App\InstrumentStatement;
 use App\Parameter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,15 @@ class ParameterController extends Controller
             $par->area_instrument_id = $parameter->area_instrument_id;
             $par->parameter_id = $param->id;
             $par->save();
+
+            $statements = InstrumentStatement::where('instrument_parameter_id', $parameter->id)->get();
+            foreach ($statements as $statement){
+                $instrumentStatement = new InstrumentStatement();
+                $instrumentStatement->instrument_parameter_id = $par->id;
+                $instrumentStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                $instrumentStatement->parent_statement_id = $statement->parent_statement_id;
+                $instrumentStatement->save();
+            }
             $parameter->delete();
         }
         else{
