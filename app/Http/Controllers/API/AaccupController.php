@@ -249,8 +249,8 @@ class AaccupController extends Controller
 
     public function editAcceptableScoreGap(request $request){
         foreach ($request->gaps as $gap){
-            $parameter = ParameterProgram::where('id', $gap->id)->first();
-            $parameter->acceptable_score_gap = $gap->gap;
+            $parameter = ParameterProgram::where('id', $gap['id'])->first();
+            $parameter->acceptable_score_gap = $gap['gap'];
             $parameter->save();
         }
         return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);

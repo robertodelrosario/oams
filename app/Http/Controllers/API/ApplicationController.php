@@ -35,19 +35,26 @@ class ApplicationController extends Controller
         $application->title = $request->title;
         $application->status = 'under preparation';
         $application->save();
-
+        $message = 0;
         $count = count($request->programs);
         for($x=0; $x<$count; $x++){
-            $program = new ApplicationProgram();
-            $program->application_id = $application->id;
-            $program->program_id = $request->programs[$x]['program_id'];
-            $program->level = $request->programs[$x]['level'];
-            $program->preferred_start_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_start_date'])->format('Y-m-d');
-            $program->preferred_end_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_end_date'])->format('Y-m-d');
-            $program->status = "pending";
-            $program->save();
+            $check = ApplicationProgram::where([
+                ['application_id', $application->id], ['program_id', $request->programs[$x]['program_id']]
+            ])->first();
+            if(is_null($check)){
+                $program = new ApplicationProgram();
+                $program->application_id = $application->id;
+                $program->program_id = $request->programs[$x]['program_id'];
+                $program->level = $request->programs[$x]['level'];
+                $program->preferred_start_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_start_date'])->format('Y-m-d');
+                $program->preferred_end_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_end_date'])->format('Y-m-d');
+                $program->status = "pending";
+                $program->save();
+            }
+            else $message=1;
         }
-        return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
+        if($message == 0) return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
+        else return response()->json(['status' => true, 'message' => 'Successfully added programs with no duplication.', 'application' => $application]);
     }
 
     public function submitApplication($id, $sucID){
