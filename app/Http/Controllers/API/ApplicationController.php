@@ -66,16 +66,16 @@ class ApplicationController extends Controller
         $application->status = 'pending';
         $application->save();
 
-        $suc = SUC::where('id', $sucID)->first();
-        $details = [
-            'title' => 'Application Notification for Accreditation',
-            'body' => 'Please check your AOMS account to view the application',
-            'suc' => $suc->institution_name,
-            'address' => $suc->address,
-            'email' => $suc->email,
-            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
-        ];
-        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
+//        $suc = SUC::where('id', $sucID)->first();
+//        $details = [
+//            'title' => 'Application Notification for Accreditation',
+//            'body' => 'Please check your AOMS account to view the application',
+//            'suc' => $suc->institution_name,
+//            'address' => $suc->address,
+//            'email' => $suc->email,
+//            'link' =>'http://online_accreditation_management_system.test/api/v1/aaccup/showApplication'
+//        ];
+//        \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new ApplicationNotification($details));
         return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
     }
 
@@ -103,13 +103,31 @@ class ApplicationController extends Controller
         return response()->json(['applications' => $applications, 'files' => $file_arr]);
     }
 
+    public function showSubmittedApplication($id){
+        $applications = DB::table('applications')
+            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+            ->join('users', 'users.id', '=','applications.sender_id')
+            ->where('applications.status','!=' ,'under preparation')
+            ->where('applications.suc_id', $id)
+            ->select('applications.*', 'sucs.institution_name','sucs.address', 'sucs.email','sucs.contact_no', 'users.first_name', 'users.last_name')
+            ->get();
+        $file_arr = array();
+        foreach ($applications as $application){
+            $files = ApplicationFile::where('application_id',$application->id)->get();
+            foreach ($files as $file){
+                $file_arr = Arr::prepend($file_arr,$file);
+            }
+        }
+        return response()->json(['applications' => $applications, 'files' => $file_arr]);
+    }
+
     public function uploadFile(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'filename' => 'required',
             'filename.*' => 'mimes:doc,pdf,docx,zip'
         ]);
-        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
+        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file types are .doc,.pdf,.docx, and .zip']);
 
 
         if ($request->hasfile('filename')) {

@@ -153,6 +153,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/submitApplication/{id}/{sucID}', 'ApplicationController@submitApplication');
     Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
     Route::get('/showApplication/{id}', 'ApplicationController@showApplication');
+    Route::get('/showSubmittedApplication/{id}', 'ApplicationController@showSubmittedApplication');
 
     Route::post('/uploadFile/{id}', 'ApplicationController@uploadFile');
     Route::delete('/deleteFile/{id}', 'ApplicationController@deleteFile');
