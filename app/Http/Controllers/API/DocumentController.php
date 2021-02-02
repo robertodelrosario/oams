@@ -16,7 +16,7 @@ class DocumentController extends Controller
     public function uploadDocument(request $request, $userID, $officeID){
         $document = new Document();
         if($request->type == 'file'){
-            $fileName = time().'_'.$request->document->getClientOriginalName();
+            $fileName = $request->document->getClientOriginalName();
             $filePath = $request->file('document')->storeAs('document/files', $fileName);
             $document->document_name = $fileName;
             $document->link = $filePath;
