@@ -6,10 +6,13 @@ use App\Application;
 use App\ApplicationFile;
 use App\ApplicationProgram;
 use App\Http\Controllers\Controller;
+use App\InstrumentProgram;
 use App\Mail\ApplicationNotification;
+use App\Program;
 use App\SUC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
@@ -60,9 +63,29 @@ class ApplicationController extends Controller
     public function submitApplication($id, $sucID){
         $application = Application::where('id', $id)->first();
         $files = ApplicationFile::where('application_id', $application->id)->first();
+
+        $messages = null;
         if(is_null($files)){
-            return response()->json(['status' => false, 'message' => 'Need to attach application files']);
+            $messages = $messages. 'Need to attach application files.';
         }
+        $programs = ApplicationProgram::where('application_id', $id)->get();
+        if(!(is_null($programs))){
+            $messages = $messages . ' Applied program ID number ';
+            $count = count($programs);
+            for ($x=0; $x<$count; $x++){
+
+                $instrument = InstrumentProgram::where('program_id', $programs[$x]['program_id'])->first();
+                if(is_null($instrument)){
+                    if($x+1 == $count){
+                        $messages = $messages .$programs[$x]['id']. ' ';
+                    }
+                    else $messages = $messages .$programs[$x]['id']. ', ';
+                }
+            }
+            $messages = $messages . 'has a missing attached instruments.';
+        }
+
+        if (!(is_null($messages))) return response()->json(['status' => false, 'message' => $messages]);
         $application->status = 'pending';
         $application->save();
 

@@ -38,7 +38,7 @@ class UserController extends Controller
                     ->where('applications_programs.id', $task->app_program_id)
                     ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
                     ->first();
-                if(!in_array($app_prog->id,$index1))
+                if(!(in_array($app_prog->id,$index1)))
                 {
                     $program_task_force = Arr::prepend($program_task_force,$app_prog);
                     $index1 = Arr::prepend($index1,$app_prog->id);
@@ -51,7 +51,7 @@ class UserController extends Controller
                     ->where('applications_programs.id', $task->app_program_id)
                     ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
                     ->first();
-                if(!in_array($app_prog->id,$index2))
+                if(!(in_array($app_prog->id,$index2)))
                 {
                     $program_internal_accreditor = Arr::prepend($program_internal_accreditor,$app_prog);
                     $index2 = Arr::prepend($index2,$app_prog->id);
@@ -64,7 +64,7 @@ class UserController extends Controller
                     ->where('applications_programs.id', $task->app_program_id)
                     ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
                     ->first();
-                if(!in_array($app_prog->id,$index3))
+                if(!(in_array($app_prog->id,$index3)))
                 {
                     $program_external_accreditor = Arr::prepend($program_external_accreditor,$app_prog);
                     $index3 = Arr::prepend($index3,$app_prog->id);
@@ -121,8 +121,8 @@ class UserController extends Controller
             ->select('parameters_programs.*', 'parameters.parameter')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
-        $mean_array = array();
 
+        $mean_array = array();
         foreach ($parameters as $parameter){
             $means = DB::table('parameters_means')
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
@@ -157,7 +157,15 @@ class UserController extends Controller
             $collection = null;
         }
 
-        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collection]);
+        $total = 0;
+        foreach ($collection as $item){
+            $total = $total + $item->average_mean;
+        }
+        $mean = $total/(count($collection));
+        $area_mean = new Collection();
+        $area_mean->push(['total' => $total,'area_mean' => $area_mean]);
+
+        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collection, 'area_mean' => $area_mean]);
     }
 
     public function showProgramHead($id){
