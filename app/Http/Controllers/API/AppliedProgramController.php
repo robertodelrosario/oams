@@ -15,6 +15,7 @@ use App\InstrumentProgram;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -201,6 +202,30 @@ class AppliedProgramController extends Controller
 //        $response->header("Content-Type", $type);
 //        return $response;
 //    }
+
+    public function programList($id){
+        $collection = new Collection();
+        $programs = DB::table('campuses')
+            ->join('programs', 'programs.campus_id', '=', 'campuses.id')
+            ->where('campuses.id', $id)
+            ->get();
+        foreach($programs as $program){
+            $checkPrograms = ApplicationProgram::where('program_id', $program->id)->get();
+            $status = 0;
+            foreach ($checkPrograms as $checkProgram){
+                if($checkProgram->status == 'done') continue;
+                else{
+                    $status = 1;
+                    break;
+                }
+            }
+            if ($status == 0){
+                $collection->push($program);
+            }
+        }
+        return response()->json(['programs' =>$collection]);
+
+    }
 
     public function showProgram($id){
         $programs = DB::table('applications_programs')
