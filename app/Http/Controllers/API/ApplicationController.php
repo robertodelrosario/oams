@@ -65,12 +65,12 @@ class ApplicationController extends Controller
         $files = ApplicationFile::where('application_id', $application->id)->first();
 
         $messages = null;
+        $messages_1 = null;
         if(is_null($files)){
-            $messages = $messages. 'Need to attach application files.';
+            $messages_1 ='Need to attach application files.';
         }
         $programs = ApplicationProgram::where('application_id', $id)->get();
         if(!(is_null($programs))){
-            $messages = $messages . ' Applied program ID number ';
             $count = count($programs);
             for ($x=0; $x<$count; $x++){
                 $instrument = InstrumentProgram::where('program_id', $programs[$x]['program_id'])->first();
@@ -81,12 +81,15 @@ class ApplicationController extends Controller
                     else $messages = $messages .$programs[$x]['id']. ', ';
                 }
             }
-            $messages = $messages . 'has a missing attached instruments.';
         }
 
-        if (!(is_null($messages))) return response()->json(['status' => false, 'message' => $messages]);
-        $application->status = 'pending';
-        $application->save();
+        if (is_null($messages)){
+            $application->status = 'pending';
+            $application->save();
+            return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
+        }
+        $messages = $messages_1.' Applied program ID number '.$messages.'has a missing attached instruments.';
+        return response()->json(['status' => false, 'message' => $messages]);
 
 //        $suc = SUC::where('id', $sucID)->first();
 //        $details = [
