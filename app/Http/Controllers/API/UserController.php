@@ -133,6 +133,7 @@ class UserController extends Controller
                 $mean_array = Arr::prepend($mean_array,$mean);
             }
         }
+        $total = 0;
         if(count($parameters) != count($mean_array)) {
             foreach ($parameters as $parameter) {
                 $means = DB::table('parameters_means')
@@ -149,18 +150,17 @@ class UserController extends Controller
                     } else {
                         $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
                     }
+                    $total = $total + $average;
                 }
             }
         }
         else{
             $collections = null;
         }
-
-        $total = 0;
-        foreach ($collections as $collection){
-            $total = $total + $collection->average_mean;
-        }
-        $mean = $total/(count($collection));
+//        foreach ($collections as $item){
+//            $total = $total + $item->average_mean;
+//        }
+        $mean = $total/(count($collections));
         $area_mean = new Collection();
         $area_mean->push(['total' => $total,'area_mean' => $mean]);
 
