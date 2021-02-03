@@ -160,7 +160,7 @@ class UserController extends Controller
 //        foreach ($collections as $item){
 //            $total = $total + $item->average_mean;
 //        }
-        $mean = $total/(count($collections));
+        $mean = $total/$collections->count();
         $area_mean = new Collection();
         $area_mean->push(['total' => $total,'area_mean' => $mean]);
 
