@@ -97,6 +97,7 @@ class StatementController extends Controller
             $instrumentStatement->benchmark_statement_id = $benchmarkStatement->id;
             $instrumentStatement->parent_statement_id = $request->statement_parent;
             $instrumentStatement->save();
+            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $benchmarkStatement]);
         }
 
         else{
@@ -111,10 +112,9 @@ class StatementController extends Controller
                 $instrumentStatement->parent_statement_id = $request->statement_parent;
                 $instrumentStatement->save();
             }
+            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $check]);
         }
 
-        $check = BenchmarkStatement::where('statement', $request->statement)->first();
-        return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $check]);
     }
 
 //    public function showStatement($id){
@@ -155,7 +155,7 @@ class StatementController extends Controller
         $instruStatement = InstrumentStatement::where([
             ['instrument_parameter_id',$request->instrument_parameter_id], ['benchmark_statement_id', $request->id]
         ])->first();
-        if(is_null($instruStatement)) return response()->json(['status' => true, 'message' => 'Statement in instrument does not exist']);
+        if(is_null($instruStatement)) return response()->json(['status' => false, 'message' => 'Statement in instrument does not exist']);
         $instruStatement->delete();
 
         if(is_null($statement)){

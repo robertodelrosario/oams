@@ -73,7 +73,6 @@ class ApplicationController extends Controller
             $messages = $messages . ' Applied program ID number ';
             $count = count($programs);
             for ($x=0; $x<$count; $x++){
-
                 $instrument = InstrumentProgram::where('program_id', $programs[$x]['program_id'])->first();
                 if(is_null($instrument)){
                     if($x+1 == $count){
