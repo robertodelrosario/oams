@@ -162,7 +162,7 @@ class UserController extends Controller
         }
         $mean = $total/(count($collection));
         $area_mean = new Collection();
-        $area_mean->push(['total' => $total,'area_mean' => $area_mean]);
+        $area_mean->push(['total' => $total,'area_mean' => $mean]);
 
         return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean]);
     }
