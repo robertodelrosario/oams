@@ -17,7 +17,7 @@ class CreateInstrumentsProgramsTable extends Migration
             $table->id();
             $table->foreignId("program_id");
             $table->foreign("program_id")->references("id")->on("programs")
-                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+                ->onUpdate( 'cascade' )->onDelete( 'restrict' );
             $table->foreignId("area_instrument_id");
             $table->foreign("area_instrument_id")->references("id")->on("area_instruments")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );

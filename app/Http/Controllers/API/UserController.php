@@ -152,7 +152,8 @@ class UserController extends Controller
                     $total = $total + $average;
                 }
             }
-            $mean = $total/$collections->count();
+            if ($collections->count() != 0) $mean = $total/$collections->count();
+            else $mean =0;
         }
         else{
             $mean = 0;
