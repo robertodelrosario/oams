@@ -106,7 +106,7 @@ class UserController extends Controller
                 ->join('programs', 'programs.id', '=', 'instruments_programs.program_id')
                 ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
                 ->where('instruments_programs.id', $area->transaction_id)
-                ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program', 'area_instruments.area_number', 'area_instruments.area_name')
+                ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program_id', 'area_instruments.area_number', 'area_instruments.area_name')
                 ->first();
             $role = $area->role;
             $instrument_array = Arr::prepend($instrument_array,$instrument);
