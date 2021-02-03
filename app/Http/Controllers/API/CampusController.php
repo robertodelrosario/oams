@@ -43,8 +43,8 @@ class CampusController extends Controller
             $user = new User;
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
-            $user->email = $request->email;
-            $user->contact_no = $request->contact_no;
+            $user->email = $request->user_email;
+            $user->contact_no = $request->user_contact_no;
             $user->password = bcrypt($request->input('password'));
             $user->status = 'active';
             $user->save();

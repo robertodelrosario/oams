@@ -120,7 +120,6 @@ class UserController extends Controller
             ->select('parameters_programs.*', 'parameters.parameter')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
-
         $mean_array = array();
         foreach ($parameters as $parameter){
             $means = DB::table('parameters_means')
