@@ -79,7 +79,6 @@ class UserController extends Controller
         $program = Program::where('id', $check->program_id)->first();
         $date = new Carbon;
 
-
         $area = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->first();
@@ -115,7 +114,7 @@ class UserController extends Controller
     }
 
     public function showParameter($id){
-        $collection = new Collection();
+        $collections = new Collection();
         $parameters = DB::table('parameters')
             ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
             ->select('parameters_programs.*', 'parameters.parameter')
@@ -146,26 +145,26 @@ class UserController extends Controller
                     $diff = abs($means[0]->parameter_mean - ($means[1]->parameter_mean));
                     $average = ($means[0]->parameter_mean + $means[1]->parameter_mean) / count($means);
                     if ($diff >= $parameter->acceptable_score_gap) {
-                        $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
+                        $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
                     } else {
-                        $collection->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
+                        $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
                     }
                 }
             }
         }
         else{
-            $collection = null;
+            $collections = null;
         }
 
         $total = 0;
-        foreach ($collection as $item){
-            $total = $total + $item->average_mean;
+        foreach ($collections as $collection){
+            $total = $total + $collection->average_mean;
         }
         $mean = $total/(count($collection));
         $area_mean = new Collection();
         $area_mean->push(['total' => $total,'area_mean' => $area_mean]);
 
-        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collection, 'area_mean' => $area_mean]);
+        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean]);
     }
 
     public function showProgramHead($id){
