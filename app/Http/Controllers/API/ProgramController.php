@@ -41,8 +41,16 @@ class ProgramController extends Controller
         if(is_null($check)){
             $program = new Program();
             $program->program_name = $request->program_name;
-            $program->accreditation_status = $request->accreditation_status;
+            $program->last_applied_level = $request->last_applied_level;
+            if($request->last_applied_level == 'Candidate') $program->accreditation_status = 'Candidate';
+            elseif ($request->last_applied_level == 'Level I') $program->accreditation_status = 'Level I Accredited';
+            elseif ($request->last_applied_level == 'Level II') $program->accreditation_status = 'Level II Re-accredited';
+            elseif ($request->last_applied_level == 'Level III, Phase 1') $program->accreditation_status = 'Level II Re-accredited';
+            elseif ($request->last_applied_level == 'Level III, Phase 2') $program->accreditation_status = 'Level III Re-accredited';
+            elseif ($request->last_applied_level == 'Level IV, Phase 1') $program->accreditation_status = 'Level III Re-accredited';
+            elseif ($request->last_applied_level == 'Level IV, Phase 2') $program->accreditation_status = 'Level IV Re-accredited';
             $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
+            $program->rating_obtained = $request->rating_obtained;
             $program->campus_id = $id;
             $program->save();
             return response()->json(['status' => true, 'message' => 'Successfully added program!']);
