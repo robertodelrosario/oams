@@ -28,7 +28,7 @@ class ProgramController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'program_name' => 'required',
-            'accreditation_status' => 'required',
+            'last_applied_level' => 'required',
             'duration_of_validity' => 'required',
         ]);
 
