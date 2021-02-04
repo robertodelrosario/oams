@@ -250,6 +250,7 @@ class AppliedProgramController extends Controller
             if($check->count() > 0 ) $status = 'attached';
             $collection->push([
                 'id' => $program->id,
+                'program_id' => $program->program_id,
                 'application_id' => $program->application_id,
                 'level' =>$program->level,
                 'preferred_start_date' =>$program->preferred_start_date,
