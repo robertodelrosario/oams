@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\ApplicationProgram;
+use App\AreaMean;
 use App\AssignedUser;
 use App\AssignedUserHead;
 use App\Http\Controllers\Controller;
@@ -110,6 +111,8 @@ class UserController extends Controller
             $role = $area->role;
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
+
+
         return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role ]);
     }
 
@@ -125,7 +128,7 @@ class UserController extends Controller
             $means = DB::table('parameters_means')
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                ->where('program_parameter_id', $parameter->id)
+                ->where('parameters_means.program_parameter_id', $parameter->id)
                 ->select('parameters_means.*', 'assigned_users.user_id' ,'users.first_name','users.last_name')
                 ->get();
             foreach ($means as $mean){
@@ -138,7 +141,7 @@ class UserController extends Controller
                 $means = DB::table('parameters_means')
                     ->join('assigned_users', 'assigned_users.id', '=', 'parameters_means.assigned_user_id')
                     ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->where('program_parameter_id', $parameter->id)
+                    ->where('parameters_means.program_parameter_id', $parameter->id)
                     ->select('parameters_means.*', 'assigned_users.user_id', 'users.first_name', 'users.last_name')
                     ->get();
                 if($parameter->acceptable_score_gap != null){
@@ -158,12 +161,11 @@ class UserController extends Controller
         else{
             $mean = 0;
         }
-//        foreach ($collections as $item){
-//            $total = $total + $item->average_mean;
-//        }
-
         $area_mean = new Collection();
         $area_mean->push(['total' => $total,'area_mean' => $mean]);
+
+
+        $area = AreaMean::where('instrument_program_id', $id)->first();
 
         return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean]);
     }

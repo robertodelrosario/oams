@@ -260,7 +260,10 @@ class AppliedProgramController extends Controller
                 'result' =>$program->result,
                 'date_granted' =>$program->date_granted,
                 'certificate'=>$program->certificate,
-                'attachment_status' => $status
+                'attachment_status' => $status,
+                'program_name' =>$program->program_name,
+                'campus_name' =>$program->campus_name,
+
             ]);
         }
         return response()->json(['programs' =>$collection, 'users' => $users, 'files' => $attach_files]);
