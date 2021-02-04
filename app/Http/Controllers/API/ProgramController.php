@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\ApplicationProgram;
 use App\AreaInstrument;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
@@ -55,7 +56,9 @@ class ProgramController extends Controller
     }
 
     public function deleteProgram($id){
-        $program = Program::where('id',$id);
+        $program = Program::where('id',$id)->first();
+        $check = ApplicationProgram::where('program_id', $program->id)->get();
+        if ($check->count() > 0) return response()->json(['status' => false, 'message' => 'Cannot delete program!']);
         $program->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted program!']);
     }

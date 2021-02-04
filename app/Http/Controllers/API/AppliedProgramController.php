@@ -236,6 +236,7 @@ class AppliedProgramController extends Controller
             ->get();
         $users = array();
         $attach_files = array();
+        $collection = new Collection();
         foreach ($programs as $program){
             $user = DB::table('assigned_user_heads')
                 ->join('users', 'users.id', '=', 'assigned_user_heads.user_id')
@@ -244,8 +245,25 @@ class AppliedProgramController extends Controller
             if ($user != null) $users = Arr::prepend($users, $user);
             $files = ApplicationProgramFile::where('application_program_id', $program->id)->get();
             foreach ($files as $file) $attach_files = Arr::prepend($attach_files, $file);
+            $status = 'missing';
+            $check = InstrumentProgram::where('program_id', $program->id)->get();
+            if($check->count() > 0 ) $status = 'attached';
+            $collection->push([
+                'id' => $program->id,
+                'application_id' => $program->application_id,
+                'level' =>$program->level,
+                'preferred_start_date' =>$program->preferred_start_date,
+                'preferred_end_date' =>$program->preferred_end_date,
+                'approved_start_date' =>$program->approved_start_date,
+                'approved_end_date' =>$program->approved_end_date,
+                'status' =>$program->status,
+                'result' =>$program->result,
+                'date_granted' =>$program->date_granted,
+                'certificate'=>$program->certificate,
+                'attachment_status' => $status
+            ]);
         }
-        return response()->json(['programs' =>$programs, 'users' => $users, 'files' => $attach_files]);
+        return response()->json(['programs' =>$collection, 'users' => $users, 'files' => $attach_files]);
     }
 
     public function showInstrumentProgram($id){
