@@ -28,7 +28,7 @@ class ProgramController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'program_name' => 'required',
-            'last_applied_level' => 'required',
+            'latest_applied_level' => 'required',
             'duration_of_validity' => 'required',
         ]);
 
@@ -41,7 +41,7 @@ class ProgramController extends Controller
         if(is_null($check)){
             $program = new Program();
             $program->program_name = $request->program_name;
-            $program->latest_applied_level = $request->last_applied_level;
+            $program->latest_applied_level = $request->latest_applied_level;
             if($request->last_applied_level == 'Candidate') $program->accreditation_status = 'Candidate';
             elseif ($request->last_applied_level == 'Level I') $program->accreditation_status = 'Level I Accredited';
             elseif ($request->last_applied_level == 'Level II') $program->accreditation_status = 'Level II Re-accredited';
