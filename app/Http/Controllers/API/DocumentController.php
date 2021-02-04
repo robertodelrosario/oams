@@ -64,7 +64,7 @@ class DocumentController extends Controller
 
     public function deleteDocument($id){
         $document = Document::where('id', $id)->first();
-        $check = AttachedDocument::where('documenet_id', $document->id)->get();
+        $check = AttachedDocument::where('document_id', $document->id)->get();
         if($check->count() > 0 ) return response()->json(['status' => false, 'message' => 'Document is being used.']);
         if ($document->type == 'file'){
             File::delete(storage_path("app/".$document->link));
