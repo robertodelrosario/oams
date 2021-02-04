@@ -231,7 +231,7 @@ class AppliedProgramController extends Controller
         $programs = DB::table('applications_programs')
             ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
             ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-            ->where('application_id', $id)
+            ->where('applications_programs.application_id', $id)
             ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
             ->get();
         $users = array();
@@ -240,7 +240,7 @@ class AppliedProgramController extends Controller
         foreach ($programs as $program){
             $user = DB::table('assigned_user_heads')
                 ->join('users', 'users.id', '=', 'assigned_user_heads.user_id')
-                ->where('application_program_id', $program->id)
+                ->where('assigned_user_heads.application_program_id', $program->id)
                 ->first();
             if ($user != null) $users = Arr::prepend($users, $user);
             $files = ApplicationProgramFile::where('application_program_id', $program->id)->get();

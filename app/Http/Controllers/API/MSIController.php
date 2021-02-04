@@ -47,7 +47,7 @@ class MSIController extends Controller
                 ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
                 ->join('parameters_programs', 'parameters_programs.id', '=', 'programs_statements.program_parameter_id')
                 ->where('parameters_programs.program_instrument_id', $area->id)
-                ->select('programs_statements.*', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id')
+                ->select('programs_statements.*','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id')
                 ->get();
 
             $attachedDocument = array();
