@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 
+use App\Campus;
 use App\Http\Controllers\Controller;
 use App\SUC;
 use Illuminate\Http\Request;
@@ -53,6 +54,8 @@ class SUCController extends Controller
     }
 
     public function deleteSuc($id){
+        $campuses = Campus::where('suc_id', $id)->get();
+        if ($campuses->count() > 0) return response()->json(['status' => false, 'message' => 'SUC has an existing Campuses.']);
         $suc = SUC::where('id', $id);
         $suc->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted SUC']);

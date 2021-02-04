@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\AreaInstrument;
 use App\InstrumentParameter;
+use App\InstrumentProgram;
 use App\InstrumentStatement;
 use App\Parameter;
 use App\ParameterStatement;
@@ -72,7 +73,12 @@ class InstrumentController extends Controller
     }
 
     public function deleteProgram($id){
-        $intendedProgram = ProgramInstrument::where('id', $id);
+        $intendedProgram = ProgramInstrument::where('id', $id)->first();
+        $instruments = AreaInstrument::where('intended_program_id', $intendedProgram->id)->get();
+        foreach ($instruments as $instrument){
+            $check = InstrumentProgram::where('area_instrument_id', $instrument->id)->get();
+            if($check->count() > 0) return response()->json(['status' => false, 'message' => 'Instrument is being used by a program.']);
+        }
         $intendedProgram->delete();
         return response()->json(['status' => true, 'message' => 'Instrument successfully deleted!']);
     }

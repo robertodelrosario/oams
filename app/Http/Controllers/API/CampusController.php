@@ -63,11 +63,11 @@ class CampusController extends Controller
         return response()->json($campus);
     }
 
-    public function deleteCampus($id){
-        $campus = Campus::where('id', $id);
-        $campus->delete();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted campus']);
-    }
+//    public function deleteCampus($id){
+//        $campus = Campus::where('id', $id);
+//        $campus->delete();
+//        return response()->json(['status' => true, 'message' => 'Successfully deleted campus']);
+//    }
 
     public function editCampus(request $request, $id){
         $campus = Campus::where('id', $id)->first();

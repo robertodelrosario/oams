@@ -105,9 +105,13 @@ class ApplicationController extends Controller
     }
 
     public function deleteApplication($id){
-        $application = Application::where('id', $id);
-        $application->delete();
-        return response()->json(['status' => true, 'message' => 'Application successfully deleted!']);
+        $application = Application::where('id', $id)->first();
+        if($application->status == 'under preparation' || $application->status == 'done'){
+            $application->delete();
+            return response()->json(['status' => true, 'message' => 'Application successfully deleted!']);
+        }
+        return response()->json(['status' => false, 'message' => 'Application is on going.']);
+
     }
 
     public function showApplication($id){

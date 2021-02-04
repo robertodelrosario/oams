@@ -67,14 +67,16 @@ class AssignTaskController extends Controller
     public function deleteAssignedUser($userID, $transactionID){
         $user = AssignedUser::where([
             ['transaction_id', $transactionID], ['user_id', $userID]
-        ]);
+        ])->first();
+        if($user->status == null) return response()->json(['status' => false, 'message' => 'Transaction is still on going.']);
         $user->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted']);
     }
     public function deleteAssignedHeadUser($userID, $transactionID){
         $user = AssignedUserHead::where([
             ['application_program_id', $transactionID], ['user_id', $userID]
-        ]);
+        ])->first();
+        if($user->status == null) return response()->json(['status' => false, 'message' => 'Transaction is still on going.']);
         $user->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted']);
     }

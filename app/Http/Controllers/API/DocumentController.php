@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AttachedDocument;
 use App\Document;
 use App\Http\Controllers\Controller;
 use App\Tag;
@@ -63,8 +64,9 @@ class DocumentController extends Controller
 
     public function deleteDocument($id){
         $document = Document::where('id', $id)->first();
+        $check = AttachedDocument::where('documenet_id', $document->id)->get();
+        if($check->count() > 0 ) return response()->json(['status' => false, 'message' => 'Document is being used.']);
         if ($document->type == 'file'){
-           // Storage::delete("app/".$document->link);
             File::delete(storage_path("app/".$document->link));
             $document->delete();
         }

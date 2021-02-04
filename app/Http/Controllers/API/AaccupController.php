@@ -130,17 +130,17 @@ class AaccupController extends Controller
                 ->select( 'accreditor_requests.id','sucs.institution_name','campuses.campus_name','programs.program_name', 'applications_programs.approved_start_date', 'applications_programs.approved_end_date')
                 ->first();
 
-            $title = 'Request for Accreditation - '.$accreditorRequest->role;
-            $details = [
-                'title' => $title,
-                'suc' => $req->institution_name,
-                'campus' => $req->campus_name,
-                'program' => $req->program_name,
-                'start_date' => $req->approved_start_date,
-                'start_end' => $req->approved_end_date,
-                'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
-            ];
-            \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
+//            $title = 'Request for Accreditation - '.$accreditorRequest->role;
+//            $details = [
+//                'title' => $title,
+//                'suc' => $req->institution_name,
+//                'campus' => $req->campus_name,
+//                'program' => $req->program_name,
+//                'start_date' => $req->approved_start_date,
+//                'start_end' => $req->approved_end_date,
+//                'link' =>'http://online_accreditation_management_system.test/api/v1/auth/login'
+//            ];
+//            \Mail::to('roberto.delrosario@ustp.edu.ph')->send(new RequestAccreditor($details));
         }
         return response()->json(['status' => true, 'message' => 'Successfully sent accreditor requests']);
 

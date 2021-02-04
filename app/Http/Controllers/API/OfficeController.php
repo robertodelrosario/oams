@@ -38,7 +38,8 @@ class OfficeController extends Controller
     }
 
     public function deleteOffice($id){
-        $office = Office::where('id', $id);
+        $office = Office::where('id', $id)->first();
+
         $office->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted!']);
     }

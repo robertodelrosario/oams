@@ -40,7 +40,6 @@ class ProgramController extends Controller
         if(is_null($check)){
             $program = new Program();
             $program->program_name = $request->program_name;
-
             $program->accreditation_status = $request->accreditation_status;
             $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
             $program->campus_id = $id;
