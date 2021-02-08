@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class MSIController extends Controller
 {
-    public function ($id, $transactionID){
+    public function showStatementDocument($id, $transactionID){
         $task = AssignedUser::where([
             ['transaction_id', $transactionID], ['user_id', $id]
         ])->first();
