@@ -14,7 +14,6 @@ class RequiredDocumentController extends Controller
 {
     public function makeDocumentList(request $request){
         if(is_null($request->list)) return response()->json(['status' => false, 'message' => 'List is empty']);
-      //  dd($request->lists);
         $lists = $request->list;
         foreach ($lists as $list){
             $document = new Document();

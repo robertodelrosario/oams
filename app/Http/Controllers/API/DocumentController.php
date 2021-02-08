@@ -6,11 +6,13 @@ use App\AttachedDocument;
 use App\Document;
 use App\Http\Controllers\Controller;
 use App\Tag;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Collection;
 
 class DocumentController extends Controller
 {
@@ -40,13 +42,39 @@ class DocumentController extends Controller
     }
 
     public function showDocument($id){
+        $collection = new Collection();
         $documents = DB::table('documents')
             ->join('offices', 'offices.id', '=', 'documents.office_id')
-            ->join('users', 'users.id', '=', 'documents.uploader_id')
-            ->select('documents.*', 'offices.office_name', 'users.first_name', 'users.last_name', 'users.email')
+            //->join('users', 'users.id', '=', 'documents.uploader_id')
+            //->select('documents.*', 'offices.office_name', 'users.first_name', 'users.last_name', 'users.email')
+            ->select('documents.*', 'offices.office_name')
             ->where('offices.id', $id)
             ->get();
+        foreach ($documents as $document){
 
+            if($document->uploader_id == null){
+                $first_name = null;
+                $last_name = null;
+            }
+            else{
+                $user = User::where('id', $document->uploader_id)->first();
+                $first_name = $user->first_name;
+                $last_name = $user->last_name;
+            }
+            $collection->push([
+                'id' => $document->id,
+                'document_name' => $document->document_name,
+                'link' => $document->link,
+                'type' => $document->type,
+                'office_id' => $document->office_id,
+                'uploader_id' => $document->uploader_id,
+                'uploader_id' => $document->uploader_id,
+                'updated_at' => $document->updated_at,
+                'office_name' => $document->office_name,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+            ]);
+        }
         $tag = array();
         foreach ($documents as $document)
         {
@@ -55,7 +83,7 @@ class DocumentController extends Controller
                 $tag = Arr::prepend($tag, $key);
             }
         }
-        return response()->json(['documents' =>$documents, 'tags' => $tag]);
+        return response()->json(['documents' =>$collection, 'tags' => $tag]);
     }
 
     public function deleteDocument($id){
