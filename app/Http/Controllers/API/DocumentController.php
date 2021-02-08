@@ -107,8 +107,7 @@ class DocumentController extends Controller
 
     public function deleteDocument($id){
         $document = Document::where('id', $id)->first();
-        $check = AttachedDocument::where('document_id', $document->id)->get();
-        if($document->link == 'none') return response()->json(['status' => false, 'message' => 'Document is attached.']);
+        if($document->link != 'none') return response()->json(['status' => false, 'message' => 'Document is attached.']);
         if ($document->type == 'file'){
             File::delete(storage_path("app/".$document->link));
             $document->delete();
