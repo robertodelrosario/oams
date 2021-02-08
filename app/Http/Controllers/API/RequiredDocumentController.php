@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class RequiredDocumentController extends Controller
 {
-    public function makeDocumentList(request $request){
+    public function makeDocumentList(request $request, $id){
         if(is_null($request->list)) return response()->json(['status' => false, 'message' => 'List is empty']);
         $lists = $request->list;
         foreach ($lists as $list){
@@ -20,7 +20,7 @@ class RequiredDocumentController extends Controller
             $document->document_name = $list['document_title'];
             $document->link = 'none';
             $document->type = 'undefined';
-            $document->office_id = $list['office_id'];
+            $document->office_id = $id;
             $document->save();
             foreach ($list['area'] as $area){
                 $tag = new Tag();
@@ -32,22 +32,4 @@ class RequiredDocumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added to list']);
     }
 
-    public function showDocumentList($id){
-        $offices = Office::where('campus_id', $id)->get();
-        $docs = array();
-        $tags = array();
-        foreach ($offices as $office){
-            $documents = DB::table('offices')
-                ->join('documents', 'offices.id','=', 'documents.office_id')
-                ->where('office_id', $office->id)
-                ->get();
-            foreach ($documents as $document) $docs = Arr::prepend($docs, $document);
-        }
-        foreach ($docs as $doc){
-            $taggings = Tag::where('document_id', $doc->id)->get();
-            foreach ($taggings as $tagging) $tags = Arr::prepend($tags, $tagging);
-        }
-        return response()->json(['documents'=>$docs, 'tags'=>$tags]);
-
-    }
 }

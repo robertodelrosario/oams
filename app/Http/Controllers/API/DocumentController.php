@@ -16,6 +16,27 @@ use Illuminate\Support\Collection;
 
 class DocumentController extends Controller
 {
+
+    public function makeDocumentList(request $request, $id){
+        if(is_null($request->list)) return response()->json(['status' => false, 'message' => 'List is empty']);
+        $lists = $request->list;
+        foreach ($lists as $list){
+            $document = new Document();
+            $document->document_name = $list['document_title'];
+            $document->link = 'none';
+            $document->type = 'undefined';
+            $document->office_id = $id;
+            $document->save();
+            foreach ($list['area'] as $area){
+                $tag = new Tag();
+                $tag->document_id = $document->id;
+                $tag->tag = $area;
+                $tag->save();
+            }
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully added to list']);
+    }
+
     public function uploadDocument(request $request, $userID, $id){
         $document = Document::where('id', $id)->first();
         if($request->type == 'file'){
@@ -45,8 +66,6 @@ class DocumentController extends Controller
         $collection = new Collection();
         $documents = DB::table('documents')
             ->join('offices', 'offices.id', '=', 'documents.office_id')
-            //->join('users', 'users.id', '=', 'documents.uploader_id')
-            //->select('documents.*', 'offices.office_name', 'users.first_name', 'users.last_name', 'users.email')
             ->select('documents.*', 'offices.office_name')
             ->where('offices.id', $id)
             ->get();

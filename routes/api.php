@@ -68,8 +68,7 @@ Route::group(['prefix' => '/suc'], function() {
 
     Route::post('/acceptDeclineReschedule/{id}/{userID}', 'QuasController@acceptDeclineReschedule');
 
-    Route::post('/makeDocumentList', 'RequiredDocumentController@makeDocumentList');
-    Route::get('/showDocumentList/{id}', 'RequiredDocumentController@showDocumentList');
+
 });
 
 Route::group(['prefix' => '/task'], function() {
@@ -113,6 +112,7 @@ Route::group(['prefix' => '/document'], function() {
 
     Route::post('/addTag/{id}', 'DocumentController@addTag');
     Route::delete('/deleteTag/{id}', 'DocumentController@deleteTag');
+    Route::post('/makeDocumentList', 'DocumentController@makeDocumentList');
 });
 
 Route::group(['prefix' => '/accreditor'], function() {
