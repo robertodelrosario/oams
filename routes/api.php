@@ -69,7 +69,7 @@ Route::group(['prefix' => '/suc'], function() {
     Route::post('/acceptDeclineReschedule/{id}/{userID}', 'QuasController@acceptDeclineReschedule');
 
     Route::post('/makeDocumentList', 'RequiredDocumentController@makeDocumentList');
-    Route::post('/showDocumentList/{id}', 'RequiredDocumentController@showDocumentList');
+    Route::get('/showDocumentList/{id}', 'RequiredDocumentController@showDocumentList');
 });
 
 Route::group(['prefix' => '/task'], function() {

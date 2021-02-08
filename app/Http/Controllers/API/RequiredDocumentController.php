@@ -8,20 +8,21 @@ use App\Office;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use PhpParser\Comment\Doc;
 
 class RequiredDocumentController extends Controller
 {
     public function makeDocumentList(request $request){
-        if(is_null($request->list)) return response()->json(['status' => false, 'message' => 'List is empty']);
-        foreach ($request->list as $list){
+        if(is_null($request->lists)) return response()->json(['status' => false, 'message' => 'List is empty']);
+      //  dd($request->lists);
+        $lists = $request->lists;
+        foreach ($lists as $list){
             $document = new Document();
-            $document->document_name = $list->document_title;
-            $document->link = 'Not yet uploaded';
-            $document->type = null;
-            $document->office_id = $list->office_id;
+            $document->document_name = $list['document_title'];
+            $document->link = 'none';
+            $document->type = 'undefined';
+            $document->office_id = $list['office_id'];
             $document->save();
-            foreach ($list->area as $area){
+            foreach ($list['area'] as $area){
                 $tag = new Tag();
                 $tag->document_id = $document->id;
                 $tag->tag = $area;

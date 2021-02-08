@@ -21,12 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AssignTaskController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AssignTaskController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/DocumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/DocumentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSIAttachmentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSIAttachmentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Tag.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Document.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Document.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/RequiredDocumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/RequiredDocumentController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -315,7 +311,7 @@
       <workItem from="1612489465620" duration="5754000" />
       <workItem from="1612591590077" duration="2598000" />
       <workItem from="1612704755459" duration="2497000" />
-      <workItem from="1612746923510" duration="2415000" />
+      <workItem from="1612746923510" duration="4383000" />
     </task>
     <servers />
   </component>
