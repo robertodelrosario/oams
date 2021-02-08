@@ -14,22 +14,18 @@ use Illuminate\Support\Facades\Response;
 
 class DocumentController extends Controller
 {
-    public function uploadDocument(request $request, $userID, $officeID){
-        $document = new Document();
+    public function uploadDocument(request $request, $userID, $id){
+        $document = Document::where('id', $id)->first();
         if($request->type == 'file'){
             $fileName = $request->document->getClientOriginalName();
             $filePath = $request->file('document')->storeAs('document/files', $fileName);
-            $document->document_name = $fileName;
             $document->link = $filePath;
-            $document->office_id = $officeID;
             $document->uploader_id = $userID;
             $document->type = $request->type;
             $document->save();
         }
         else{
-            $document->document_name = $request->document_name;
             $document->link = $request->link;
-            $document->office_id = $officeID;
             $document->uploader_id = $userID;
             $document->type = $request->type;
             $document->save();

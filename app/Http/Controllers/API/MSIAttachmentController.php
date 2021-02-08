@@ -30,7 +30,7 @@ class MSIAttachmentController extends Controller
             $supportDocument->save();
             return response()->json(['status' => true, 'message' => 'Successfully added document', 'document' => $supportDocument]);
         }
-        return response()->json(['status' => true, 'message' => 'Already added document']);
+        return response()->json(['status' => false, 'message' => 'Already added document']);
     }
 
     public function removeSupportDocument($id){
