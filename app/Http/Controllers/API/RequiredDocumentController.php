@@ -12,9 +12,9 @@ use Illuminate\Support\Arr;
 class RequiredDocumentController extends Controller
 {
     public function makeDocumentList(request $request){
-        if(is_null($request->lists)) return response()->json(['status' => false, 'message' => 'List is empty']);
+        if(is_null($request->list)) return response()->json(['status' => false, 'message' => 'List is empty']);
       //  dd($request->lists);
-        $lists = $request->lists;
+        $lists = $request->list;
         foreach ($lists as $list){
             $document = new Document();
             $document->document_name = $list['document_title'];
@@ -37,7 +37,9 @@ class RequiredDocumentController extends Controller
         $docs = array();
         $tags = array();
         foreach ($offices as $office){
-            $documents = Document::where('office_id', $office->id)->get();
+            $documents = Document::where('office_id', $office->id)
+                ->join('offices', 'offices.id','=', $office->id)
+                ->get();
             foreach ($documents as $document) $docs = Arr::prepend($docs, $document);
         }
         foreach ($docs as $doc){
