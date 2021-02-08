@@ -108,13 +108,21 @@ class DocumentController extends Controller
     public function deleteDocument($id){
         $document = Document::where('id', $id)->first();
         $check = AttachedDocument::where('document_id', $document->id)->get();
-        if($check->count() > 0 ) return response()->json(['status' => false, 'message' => 'Document is being used.']);
+        if($document->link == 'none') return response()->json(['status' => false, 'message' => 'Document is attached.']);
         if ($document->type == 'file'){
             File::delete(storage_path("app/".$document->link));
             $document->delete();
         }
         else $document->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted file']);
+    }
+
+    public function removeDocument($id){
+        $document = Document::where('id', $id)->first();
+        $document->link = 'none';
+        $document->uploader_id = null;
+        $document->save();
+        return response()->json(['status' => true, 'message' => 'Successfully removed file']);
     }
 
     public function addTag(request $request, $id){
@@ -143,5 +151,12 @@ class DocumentController extends Controller
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function editDocumentName(request $request, $id){
+        $document = Document::where('id', $id)->first();
+        $document->document_name =$request->document_name;
+        $document->save();
+        return response()->json(['status' => true, 'message' => 'Successfully edited document name/']);
     }
 }

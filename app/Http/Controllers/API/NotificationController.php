@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Notification;
+use App\NotificationContent;
+use App\NotificationProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -43,4 +45,5 @@ class NotificationController extends Controller
         $notification->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted notification']);
     }
+
 }

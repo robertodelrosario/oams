@@ -81,6 +81,26 @@ class AaccupController extends Controller
             $accreditorRequest->sender_id = $userID;
             $accreditorRequest->status = "pending";
             $accreditorRequest->save();
+
+            $notif = NotificationContent::where('content', 'Request for Accreditation - '.$accreditorRequest->role)->first();
+            $notification = new NotificationContent();
+            $send_notification = new Notification();
+            if(is_null($notif)){
+                $notification->content = 'Request for Accreditation - '.$accreditorRequest->role;
+                $notification->notif_type = 'request for accreditation';
+                $notification->save();
+                $send_notification->notification_id = $notification->id;
+            }
+            else $send_notification->notification_id =$notif->id;
+            $send_notification->recipient_id = $request->taskRequests[$x]['user_id'];
+            $send_notification->sender_id = $userID;
+            $send_notification->save();
+
+            $notification_program = new NotificationProgram();
+            $notification_program->notification_id = $send_notification->id;
+            $notification_program->applied_program_id = $id;
+            $notification_program->save();
+
 //            $req = DB::table('accreditor_requests')
 //                ->join('applications_programs', 'applications_programs.id', '=', 'accreditor_requests.application_program_id')
 //                ->join('applications', 'applications.id', '=', 'applications_programs.application_id')
