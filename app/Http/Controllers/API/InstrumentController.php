@@ -34,7 +34,7 @@ class InstrumentController extends Controller
             [strtolower('intended_program'), strtolower($request->intended_program)], [strtolower('type_of_instrument'), strtolower($request->type_of_instrument)]
         ])->first();
 
-        $area_name = ["AREA 1: VISION, MISSION, GOALS AND OBJECTIVES",
+        $area_name = ["AREA I: VISION, MISSION, GOALS AND OBJECTIVES",
             "AREA II: FACULTY",
             "AREA III: CURRICULUM AND INSTRUCTION",
             "AREA IV: SUPPORT TO STUDENTS",
@@ -104,7 +104,7 @@ class InstrumentController extends Controller
 
         if(!(is_null($test))) return response()->json(['status' => false, 'message' => 'Instrument already exist']);
 
-        $area_name = ["AREA 1: VISION, MISSION, GOALS AND OBJECTIVES",
+        $area_name = ["AREA I: VISION, MISSION, GOALS AND OBJECTIVES",
             "AREA II: FACULTY",
             "AREA III: Curriculum and Instruction",
             "AREA IV: SUPPORT TO STUDENTS",

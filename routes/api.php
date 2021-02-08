@@ -112,7 +112,7 @@ Route::group(['prefix' => '/document'], function() {
 
     Route::post('/addTag/{id}', 'DocumentController@addTag');
     Route::delete('/deleteTag/{id}', 'DocumentController@deleteTag');
-    Route::post('/makeDocumentList', 'DocumentController@makeDocumentList');
+    Route::post('/makeDocumentList/{id}', 'DocumentController@makeDocumentList');
 });
 
 Route::group(['prefix' => '/accreditor'], function() {
