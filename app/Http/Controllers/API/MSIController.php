@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class MSIController extends Controller
 {
-    public function showStatementDocument($id, $transactionID){
+    public function ($id, $transactionID){
         $task = AssignedUser::where([
             ['transaction_id', $transactionID], ['user_id', $id]
         ])->first();
@@ -25,7 +25,17 @@ class MSIController extends Controller
                 ->join('instruments_scores', 'instruments_scores.item_id', '=', 'programs_statements.id')
                 ->where('parameters_programs.program_instrument_id', $area->id)
                 ->where('instruments_scores.assigned_user_id', $task->id)
-                ->select('programs_statements.*','parameters_programs.parameter_id','benchmark_statements.statement','benchmark_statements.type','programs_statements.parent_statement_id', 'instruments_scores.*')
+                ->select('programs_statements.*',
+                    'parameters_programs.parameter_id',
+                    'benchmark_statements.statement',
+                    'benchmark_statements.type',
+                    'programs_statements.parent_statement_id',
+                    'instruments_scores.item_id',
+                    'instruments_scores.assigned_user_id',
+                    'instruments_scores.item_score',
+                    'instruments_scores.remark',
+                    'instruments_scores.remark',
+                    'instruments_scores.remark_type')
                 ->get();
 
             $attachedDocument = array();
