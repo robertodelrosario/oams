@@ -94,6 +94,7 @@ class AaccupController extends Controller
             else $send_notification->notification_id =$notif->id;
             $send_notification->recipient_id = $request->taskRequests[$x]['user_id'];
             $send_notification->sender_id = $userID;
+            $send_notification->status = 0;
             $send_notification->save();
 
             $notification_program = new NotificationProgram();
