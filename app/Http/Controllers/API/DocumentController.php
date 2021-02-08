@@ -6,7 +6,7 @@ use App\AttachedDocument;
 use App\Document;
 use App\Http\Controllers\Controller;
 use App\Tag;
-use http\Client\Curl\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
