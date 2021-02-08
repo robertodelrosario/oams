@@ -8,6 +8,7 @@ use App\Office;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class RequiredDocumentController extends Controller
 {
@@ -37,8 +38,9 @@ class RequiredDocumentController extends Controller
         $docs = array();
         $tags = array();
         foreach ($offices as $office){
-            $documents = Document::where('office_id', $office->id)
-                ->join('offices', 'offices.id','=', $office->id)
+            $documents = DB::table('offices')
+                ->join('documents', 'offices.id','=', 'documents.office_id')
+                ->where('office_id', $office->id)
                 ->get();
             foreach ($documents as $document) $docs = Arr::prepend($docs, $document);
         }
@@ -46,7 +48,7 @@ class RequiredDocumentController extends Controller
             $taggings = Tag::where('document_id', $doc->id)->get();
             foreach ($taggings as $tagging) $tags = Arr::prepend($tags, $tagging);
         }
-        return response()->json(['status' => true, 'message' => 'Successfully added to list', 'documents'=>$docs, 'tags'=>$tags]);
+        return response()->json(['documents'=>$docs, 'tags'=>$tags]);
 
     }
 }
