@@ -143,6 +143,8 @@ class UserController extends Controller
         $total = 0;
         $total_internal = 0;
         foreach ($parameters as $parameter) {
+            $mean_ext = 0;
+            $mean_internal = 0;
             if($parameter->acceptable_score_gap == null) $gap = 0;
             else $gap = $parameter->acceptable_score_gap;
             $diff = 0;
@@ -161,8 +163,8 @@ class UserController extends Controller
                 $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
             }
             $total = $total + $average;
-            if ($collections->count() != 0) $mean = $total/$collections->count();
-            else $mean =0;
+            if ($collections->count() != 0) $mean_ext = $total/$collections->count();
+            else $mean_ext =0;
 
             $diff_internal = 0;
             $sum_internal = 0;
@@ -184,7 +186,7 @@ class UserController extends Controller
         }
 
         $area_mean = new Collection();
-        $area_mean->push(['total' => $total,'area_mean' => $mean]);
+        $area_mean->push(['total' => $total,'area_mean' => $mean_ext]);
 
         $area_mean_internal = new Collection();
         $area_mean_internal->push(['total' => $total_internal,'area_mean' => $mean_internal]);
