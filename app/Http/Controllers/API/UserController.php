@@ -181,7 +181,6 @@ class UserController extends Controller
             $total_internal = $total_internal + $average_internal;
             if ($collections_internal->count() != 0) $mean_internal = $total_internal/$collections_internal->count();
             else $mean_internal =0;
-
         }
 
         $area_mean = new Collection();
