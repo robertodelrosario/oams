@@ -147,12 +147,14 @@ class UserController extends Controller
             else $gap = $parameter->acceptable_score_gap;
             $diff = 0;
             $sum = 0;
+
             foreach ($mean_array as $mean){
                 $diff = abs($diff - $mean->parameter_mean);
                 $sum = $sum + $mean->parameter_mean;
             }
             if(count($mean_array) <= 1) $diff = 0;
-            $average = $sum/count($mean_array);
+            if(count($mean_array) !=null) $average = $sum/count($mean_array);
+            else $average = $sum;
             if ($diff >= $gap) {
                 $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
             } else {
@@ -169,7 +171,8 @@ class UserController extends Controller
                 $sum_internal = $sum_internal + $mean_item->parameter_mean;
             }
             if(count($mean_array_internal) <= 1) $diff_internal = 0;
-            $average_internal = $sum_internal/count($mean_array_internal);
+            if(count($mean_array_internal) !=null ) $average_internal = $sum_internal/count($mean_array_internal);
+            else $average_internal = $sum_internal;
             if ($diff_internal >= $gap) {
                 $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average_internal, 'difference' => $diff_internal, 'status' => 'unaccepted']);
             } else {

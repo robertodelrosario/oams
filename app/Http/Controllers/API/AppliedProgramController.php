@@ -72,7 +72,7 @@ class AppliedProgramController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'filename' => 'required',
-            'filename.*' => 'mimes:doc,pdf,docx,zip'
+            'filename.*' => 'mimes:doc,pdf,docx,zip,png,jpg'   //
         ]);
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
 
