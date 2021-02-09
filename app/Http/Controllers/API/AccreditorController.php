@@ -47,12 +47,19 @@ class AccreditorController extends Controller
                 ])
                 ->select('instruments_programs.*')
                 ->first();
+
             $assignUser = new AssignedUser();
             $assignUser->transaction_id = $area->id;
             $assignUser->user_id = $req->accreditor_id;
             $assignUser->app_program_id = $req->application_program_id;
             $assignUser->role = $req->role;
             $assignUser->save();
+
+            $area_mean = new AreaMean();
+            $area_mean->instrument_program_id = $area->id;
+            $area_mean->assigned_user_id = $assignUser->id;
+            $area_mean->area_mean = 0;
+            $area_mean->save();
 
             $parameters = ParameterProgram::where('program_instrument_id',$area->id)->get();
             foreach ($parameters as $parameter){
@@ -86,6 +93,14 @@ class AccreditorController extends Controller
                 $assignUser->app_program_id = $req->application_program_id;
                 $assignUser->role = $req->role;
                 $assignUser->save();
+
+                if($req->role == "[leader] external accreditor"){
+                    $area_mean = new AreaMean();
+                    $area_mean->instrument_program_id = $area->id;
+                    $area_mean->assigned_user_id = $assignUser->id;
+                    $area_mean->area_mean = 0;
+                    $area_mean->save();
+                }
 
                 $parameters = ParameterProgram::where('program_instrument_id',$area->id)->get();
                 foreach ($parameters as $parameter){

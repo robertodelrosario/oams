@@ -101,6 +101,11 @@ class AppliedProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted file!']);
     }
 
+    public function showProgramFile($id){
+        $files = ApplicationProgramFile::where('application_program_id', $id)->get();
+        return response()->json($files);
+    }
+
     public function viewProgramFile($id){
         $file_link = ApplicationProgramFile::where('id', $id)->first();
         $file = File::get(storage_path("app/".$file_link->file));
@@ -246,8 +251,10 @@ class AppliedProgramController extends Controller
             $files = ApplicationProgramFile::where('application_program_id', $program->id)->get();
             foreach ($files as $file) $attach_files = Arr::prepend($attach_files, $file);
             $status = 'missing';
-            $check = InstrumentProgram::where('program_id', $program->id)->get();
-            if($check->count() > 0 ) $status = 'attached';
+            $check = InstrumentProgram::where('program_id', $program->program_id)->get();
+            if(count($check) > 0 ){
+                $status = 'attached';
+            }
             $collection->push([
                 'id' => $program->id,
                 'program_id' => $program->program_id,

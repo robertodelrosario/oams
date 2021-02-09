@@ -83,6 +83,7 @@ class UserController extends Controller
         $area = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->first();
+
         if(Str::contains($area->role, 'external accreditor')){
             if ($check->approved_start_date == null || $check->approved_end_date == null){
                 return response()->json(['message'=>'Accreditation for program is not yet approved']);
@@ -118,6 +119,79 @@ class UserController extends Controller
 
     public function showParameter($id){
         $collections = new Collection();
+        $collections_internal = new Collection();
+        $parameters = DB::table('parameters')
+            ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
+            ->select('parameters_programs.*', 'parameters.parameter')
+            ->where('parameters_programs.program_instrument_id', $id)
+            ->get();
+        $mean_array = array();
+        $mean_array_internal = array();
+        foreach ($parameters as $parameter){
+            $means = DB::table('parameters_means')
+                ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
+                ->join('users', 'users.id', '=', 'assigned_users.user_id')
+                ->where('parameters_means.program_parameter_id', $parameter->id)
+//                ->where('assigned_users.role', '!=', 'internal accreditor')
+                ->select('parameters_means.*', 'assigned_users.user_id','assigned_users.role' ,'users.first_name','users.last_name')
+                ->get();
+            foreach ($means as $mean){
+                if(Str::contains($mean->role, 'external accreditor')) $mean_array = Arr::prepend($mean_array,$mean);
+                else $mean_array_internal = Arr::prepend($mean_array_internal,$mean);
+            }
+        }
+        $total = 0;
+        $total_internal = 0;
+        foreach ($parameters as $parameter) {
+            if($parameter->acceptable_score_gap == null) $gap = 0;
+            else $gap = $parameter->acceptable_score_gap;
+            $diff = 0;
+            $sum = 0;
+            foreach ($mean_array as $mean){
+                $diff = abs($diff - $mean->parameter_mean);
+                $sum = $sum + $mean->parameter_mean;
+            }
+            if(count($mean_array) <= 1) $diff = 0;
+            $average = $sum/count($mean_array);
+            if ($diff >= $gap) {
+                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
+            } else {
+                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
+            }
+            $total = $total + $average;
+            if ($collections->count() != 0) $mean = $total/$collections->count();
+            else $mean =0;
+
+            $diff_internal = 0;
+            $sum_internal = 0;
+            foreach ($mean_array_internal as $mean_item){
+                $diff_internal = abs($diff_internal - $mean_item->parameter_mean);
+                $sum_internal = $sum_internal + $mean_item->parameter_mean;
+            }
+            if(count($mean_array_internal) <= 1) $diff_internal = 0;
+            $average_internal = $sum_internal/count($mean_array_internal);
+            if ($diff_internal >= $gap) {
+                $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average_internal, 'difference' => $diff_internal, 'status' => 'unaccepted']);
+            } else {
+                $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average_internal, 'difference' => $diff_internal, 'status' => 'accepted']);
+            }
+            $total_internal = $total_internal + $average_internal;
+            if ($collections_internal->count() != 0) $mean_internal = $total_internal/$collections_internal->count();
+            else $mean_internal =0;
+
+        }
+
+        $area_mean = new Collection();
+        $area_mean->push(['total' => $total,'area_mean' => $mean]);
+
+        $area_mean_internal = new Collection();
+        $area_mean_internal->push(['total' => $total_internal,'area_mean' => $mean_internal]);
+
+        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean, 'means_internal' => $mean_array_internal, 'result_internal'=> $collections_internal, 'area_mean_internal' => $area_mean_internal]);
+    }
+
+    public function showParameterInternal($id){
+        $collections = new Collection();
         $parameters = DB::table('parameters')
             ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
             ->select('parameters_programs.*', 'parameters.parameter')
@@ -129,6 +203,7 @@ class UserController extends Controller
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')
                 ->where('parameters_means.program_parameter_id', $parameter->id)
+                ->where('assigned_users.role', '=', 'internal accreditor')
                 ->select('parameters_means.*', 'assigned_users.user_id' ,'users.first_name','users.last_name')
                 ->get();
             foreach ($means as $mean){
@@ -136,36 +211,32 @@ class UserController extends Controller
             }
         }
         $total = 0;
-        if(count($parameters) != count($mean_array)) {
-            foreach ($parameters as $parameter) {
-                $means = DB::table('parameters_means')
-                    ->join('assigned_users', 'assigned_users.id', '=', 'parameters_means.assigned_user_id')
-                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->where('parameters_means.program_parameter_id', $parameter->id)
-                    ->select('parameters_means.*', 'assigned_users.user_id', 'users.first_name', 'users.last_name')
-                    ->get();
-                if($parameter->acceptable_score_gap != null){
-                    $diff = abs($means[0]->parameter_mean - ($means[1]->parameter_mean));
-                    $average = ($means[0]->parameter_mean + $means[1]->parameter_mean) / count($means);
-                    if ($diff >= $parameter->acceptable_score_gap) {
-                        $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
-                    } else {
-                        $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
-                    }
-                    $total = $total + $average;
+        foreach ($parameters as $parameter) {
+            $means = $mean_array;
+            if($parameter->acceptable_score_gap != null){
+                $diff = 0;
+                $sum = 0;foreach ($means as $mean){
+                    $diff = abs($diff - $mean->parameter_mean);
+                    $sum = $sum + $mean->parameter_mean;
                 }
+                if(count($means) <= 1) $diff = 0;
+                $average = $sum/count($means);
+                if ($diff >= $parameter->acceptable_score_gap) {
+                    $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
+                } else {
+                    $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
+                }
+                $total = $total + $average;
             }
-            if ($collections->count() != 0) $mean = $total/$collections->count();
-            else $mean =0;
         }
-        else{
-            $mean = 0;
-        }
+        if ($collections->count() != 0) $mean = $total/$collections->count();
+        else $mean =0;
         $area_mean = new Collection();
         $area_mean->push(['total' => $total,'area_mean' => $mean]);
 
 
-        $area = AreaMean::where('instrument_program_id', $id)->first();
+        //       $area = AreaMean::where('instrument_program_id', $id)->first();
+
 
         return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean]);
     }

@@ -111,7 +111,6 @@ class ApplicationController extends Controller
             return response()->json(['status' => true, 'message' => 'Application successfully deleted!']);
         }
         return response()->json(['status' => false, 'message' => 'Application is on going.']);
-
     }
 
     public function showApplication($id){

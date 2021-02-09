@@ -20,10 +20,6 @@ class SUCController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'institution_name' => 'required',
-            'campus_name' => 'required',
-            'region' => 'required',
-            'province' => 'required',
-            'municipality' => 'required',
             'address' => 'required',
             'email' => 'required',
             'contact_no' => 'required',

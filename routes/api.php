@@ -75,6 +75,7 @@ Route::group(['prefix' => '/task'], function() {
     Route::get('/showProgram/{id}', 'UserController@showProgram');
     Route::get('/showInstrument/{id}/{app_prog}', 'UserController@showInstrument');
     Route::get('/showParameter/{id}/', 'UserController@showParameter');
+    Route::get('/showParameterInternal/{id}/', 'UserController@showParameterInternal');
     Route::get('/showProgramHead/{id}', 'UserController@showProgramHead');
     Route::get('/showInstrumentHead/{app_prog}', 'UserController@showInstrumentHead');
 });
@@ -175,6 +176,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/uploadFile/{id}/{userID}', 'AppliedProgramController@uploadFile');
     Route::delete('/deleteProgramFile/{id}', 'AppliedProgramController@deleteProgramFile');
     Route::get('/viewProgramFile/{id}', 'AppliedProgramController@viewProgramFile');
+    Route::get('/showProgramFile/{id}', 'AppliedProgramController@showProgramFile');
 
     Route::post('/uploadPPP/{id}', 'AppliedProgramController@uploadPPP');
     Route::post('/uploadCompliance/{id}', 'AppliedProgramController@uploadCompliance');

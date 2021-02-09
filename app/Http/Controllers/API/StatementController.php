@@ -97,7 +97,15 @@ class StatementController extends Controller
             $instrumentStatement->benchmark_statement_id = $benchmarkStatement->id;
             $instrumentStatement->parent_statement_id = $request->statement_parent;
             $instrumentStatement->save();
-            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $benchmarkStatement]);
+
+            $collections = new Collection();
+            $collections->push([
+                'id'=>$benchmarkStatement->id,
+                'statement'=>$benchmarkStatement->statement,
+                'type'=>$benchmarkStatement->type,
+                'parent_statement_id'=>$instrumentStatement->parent_statement_id
+            ]);
+            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
         }
 
         else{
