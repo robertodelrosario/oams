@@ -189,6 +189,8 @@ class UserController extends Controller
         $area_mean_internal = new Collection();
         $area_mean_internal->push(['total' => $total_internal,'area_mean' => $mean_internal]);
 
+
+
         return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean, 'means_internal' => $mean_array_internal, 'result_internal'=> $collections_internal, 'area_mean_internal' => $area_mean_internal]);
     }
 

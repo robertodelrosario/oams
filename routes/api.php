@@ -96,6 +96,7 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::post('/request/{userID}/{id}', 'AaccupController@request');
     Route::post('/addRequest/{userID}/{id}', 'AaccupController@addRequest');
     Route::put('/editRequest/{id}', 'AaccupController@editRequest');
+    Route::put('/setAccreditorLead/{id}', 'AaccupController@setAccreditorLead');
     Route::get('/viewAccreditorRequest', 'AaccupController@viewAccreditorRequest');
     Route::delete('/deleteAccreditorRequest/{id}', 'AaccupController@deleteAccreditorRequest');
 

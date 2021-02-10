@@ -179,7 +179,8 @@ class AaccupController extends Controller
     }
 
     public function deleteAccreditorRequest($id){
-        $req = AccreditorRequest::where('id', $id);
+        $req = AccreditorRequest::where('id', $id)->first();
+        if($req->status == 'accepted') return response()->json(['status' => false ,'message' => 'Request already accepted.']);
         $req->delete();
         return response()->json(['status' => true ,'message' => 'Successfully deleted request']);
     }
@@ -201,7 +202,19 @@ class AaccupController extends Controller
         else return response()->json(['status' => false ,'message' => 'Request already is already '.$accreditorRequest->status]);
     }
 
-    public function approve(request $request, $id){
+    public function setAccreditorLead($id){
+        $accreditorRequest = AccreditorRequest::where('id', $id)->first();
+        if($accreditorRequest->status == 'accepted') return response()->json(['status' => false ,'message' => 'Request already accepted.']);
+        $programs = AccreditorRequest::where('application_program_id', $accreditorRequest->application_program_id)->get();
+        foreach ($programs as $program){
+            if(Str::contains($program->role, 'leader')) return response()->json(['status' => false ,'message' => 'The team has already a leader.']);
+        }
+        $accreditorRequest->role = '[leader] '.$accreditorRequest->role;
+        $accreditorRequest->save();
+        return response()->json(['status' => true ,'message' => 'Successfully assigned the leader.', 'user'=>$accreditorRequest]);
+    }
+
+    public function approve($id){
         $program = ApplicationProgram::where('id', $id)->first();
         $program->approved_start_date = $program->preferred_start_date;
         $program->approved_end_date = $program->preferred_end_date;

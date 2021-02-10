@@ -37,7 +37,7 @@ class AssignTaskController extends Controller
         $check = AssignedUser::where([
             ['app_program_id', $app_prog_id], ['user_id', $request->user_id]
         ])->first();
-        if(count($check) > 0 ) return response()->json(['status' => false, 'message' => 'User has already a task.']);
+//        if(count($check) > 0 ) return response()->json(['status' => false, 'message' => 'User has already a task.']);
         $assignUser = new AssignedUser();
         $assignUser->transaction_id = $id;
         $assignUser->user_id = $request->user_id;
@@ -47,7 +47,7 @@ class AssignTaskController extends Controller
 
         $user = User::where('id', $assignUser->user_id)->first();
 
-        if ($request->role == 'internal accreditor' || $request->role == 'external accreditor'){
+        if ($request->role == 'internal accreditor'){
             $parameters = ParameterProgram::where('program_instrument_id',$id)->get();
             foreach ($parameters as $parameter){
                 $item = new ParameterMean();
