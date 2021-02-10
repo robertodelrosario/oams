@@ -28,9 +28,7 @@ class SUCController extends Controller
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $suc = SUC::where([
-            [strtolower('institution_name'), strtolower($request->institution_name)], [strtolower('campus_name'), strtolower($request->campus_name)]
-        ])->first();
+        $suc = SUC::where(strtolower('institution_name'), strtolower($request->institution_name))->first();
         if(is_null($suc))
         {
             $suc = new SUC();

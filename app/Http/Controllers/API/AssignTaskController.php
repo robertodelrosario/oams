@@ -6,6 +6,7 @@ use App\AccreditorDegree;
 use App\AccreditorSpecialization;
 use App\ApplicationProgram;
 use App\AreaInstrument;
+use App\AreaMean;
 use App\AssignedUser;
 use App\AssignedUserHead;
 use App\Campus;
@@ -37,13 +38,27 @@ class AssignTaskController extends Controller
         $check = AssignedUser::where([
             ['app_program_id', $app_prog_id], ['user_id', $request->user_id]
         ])->first();
-//        if(count($check) > 0 ) return response()->json(['status' => false, 'message' => 'User has already a task.']);
+
+        if(!(is_null($check)) && $check->role != $request->role) return response()->json(['status' => false, 'message' => 'You are already assigned as '.$check->role]);
+
         $assignUser = new AssignedUser();
         $assignUser->transaction_id = $id;
         $assignUser->user_id = $request->user_id;
         $assignUser->app_program_id = $app_prog_id;
         $assignUser->role = $request->role;
         $assignUser->save();
+
+        $check = AssignedUser::where([
+            ['app_program_id', $app_prog_id], ['transaction_id', $id], ['role', 'internal accreditor']
+        ])->get();
+        if(count($check) <= 1 )
+        {
+            $area_mean = new AreaMean();
+            $area_mean->instrument_program_id = $id;
+            $area_mean->assigned_user_id = $assignUser->id;
+            $area_mean->area_mean = 0;
+            $area_mean->save();
+        }
 
         $user = User::where('id', $assignUser->user_id)->first();
 
