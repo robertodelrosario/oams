@@ -132,7 +132,6 @@ class UserController extends Controller
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')
                 ->where('parameters_means.program_parameter_id', $parameter->id)
-//                ->where('assigned_users.role', '!=', 'internal accreditor')
                 ->select('parameters_means.*', 'assigned_users.user_id','assigned_users.role' ,'users.first_name','users.last_name')
                 ->get();
             foreach ($means as $mean){
@@ -143,13 +142,12 @@ class UserController extends Controller
         $total = 0;
         $total_internal = 0;
         foreach ($parameters as $parameter) {
-            $mean_ext = 0;
-            $mean_internal = 0;
             if($parameter->acceptable_score_gap == null) $gap = 0;
             else $gap = $parameter->acceptable_score_gap;
             $diff = 0;
             $sum = 0;
-
+            $mean_ext=0;
+            $mean_internal=0;
             foreach ($mean_array as $mean){
                 $diff = abs($diff - $mean->parameter_mean);
                 $sum = $sum + $mean->parameter_mean;
