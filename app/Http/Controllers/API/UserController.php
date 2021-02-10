@@ -113,8 +113,8 @@ class UserController extends Controller
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
 
-        $instruments = AssignedUser::where('app_program_id', $app_prog)->get();
-        
+        //$instruments = AssignedUser::where('app_program_id', $app_prog)->get();
+
 
         return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role ]);
     }
