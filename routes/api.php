@@ -74,7 +74,7 @@ Route::group(['prefix' => '/suc'], function() {
 Route::group(['prefix' => '/task'], function() {
     Route::get('/showProgram/{id}', 'UserController@showProgram');
     Route::get('/showInstrument/{id}/{app_prog}', 'UserController@showInstrument');
-    Route::get('/showParameter/{id}/', 'UserController@showParameter');
+    Route::get('/showParameter/{id}/{app_prog}', 'UserController@showParameter');
     Route::get('/showParameterInternal/{id}/', 'UserController@showParameterInternal');
     Route::get('/showProgramHead/{id}', 'UserController@showProgramHead');
     Route::get('/showInstrumentHead/{app_prog}', 'UserController@showInstrumentHead');

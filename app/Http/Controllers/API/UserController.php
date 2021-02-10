@@ -117,7 +117,7 @@ class UserController extends Controller
         return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role ]);
     }
 
-    public function showParameter($id){
+    public function showParameter($id, $app_prog){
         $collections = new Collection();
         $collections_internal = new Collection();
         $parameters = DB::table('parameters')
@@ -132,6 +132,7 @@ class UserController extends Controller
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')
                 ->where('parameters_means.program_parameter_id', $parameter->id)
+                ->where('assigned_users.app_program_id', $app_prog)
                 ->select('parameters_means.*', 'assigned_users.user_id','assigned_users.role' ,'users.first_name','users.last_name')
                 ->get();
             foreach ($means as $mean){
@@ -146,8 +147,6 @@ class UserController extends Controller
             else $gap = $parameter->acceptable_score_gap;
             $diff = 0;
             $sum = 0;
-            $mean_ext=0;
-            $mean_internal=0;
             foreach ($mean_array as $mean){
                 $diff = abs($diff - $mean->parameter_mean);
                 $sum = $sum + $mean->parameter_mean;
@@ -189,60 +188,28 @@ class UserController extends Controller
         $area_mean_internal = new Collection();
         $area_mean_internal->push(['total' => $total_internal,'area_mean' => $mean_internal]);
 
-
+        foreach($mean_array as $arr){
+            if(Str::contains($arr->role, 'leader')){
+                $mean = AreaMean::where([
+                    ['instrument_program_id',$id], ['assigned_user_id', $arr->assigned_user_id]
+                ])->first();
+                if(!(is_null($mean))){
+                    $mean->area_mean = $mean_ext;
+                    $mean->save();
+                }
+            }
+        }
+        foreach($mean_array_internal as $arr){
+            $mean = AreaMean::where([
+                ['instrument_program_id',$id], ['assigned_user_id', $arr->assigned_user_id]
+            ])->first();
+            if(!(is_null($mean))){
+                $mean->area_mean = $mean_internal;
+                $mean->save();
+            }
+        }
 
         return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean, 'means_internal' => $mean_array_internal, 'result_internal'=> $collections_internal, 'area_mean_internal' => $area_mean_internal]);
-    }
-
-    public function showParameterInternal($id){
-        $collections = new Collection();
-        $parameters = DB::table('parameters')
-            ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
-            ->select('parameters_programs.*', 'parameters.parameter')
-            ->where('parameters_programs.program_instrument_id', $id)
-            ->get();
-        $mean_array = array();
-        foreach ($parameters as $parameter){
-            $means = DB::table('parameters_means')
-                ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
-                ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                ->where('parameters_means.program_parameter_id', $parameter->id)
-                ->where('assigned_users.role', '=', 'internal accreditor')
-                ->select('parameters_means.*', 'assigned_users.user_id' ,'users.first_name','users.last_name')
-                ->get();
-            foreach ($means as $mean){
-                $mean_array = Arr::prepend($mean_array,$mean);
-            }
-        }
-        $total = 0;
-        foreach ($parameters as $parameter) {
-            $means = $mean_array;
-            if($parameter->acceptable_score_gap != null){
-                $diff = 0;
-                $sum = 0;foreach ($means as $mean){
-                    $diff = abs($diff - $mean->parameter_mean);
-                    $sum = $sum + $mean->parameter_mean;
-                }
-                if(count($means) <= 1) $diff = 0;
-                $average = $sum/count($means);
-                if ($diff >= $parameter->acceptable_score_gap) {
-                    $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
-                } else {
-                    $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
-                }
-                $total = $total + $average;
-            }
-        }
-        if ($collections->count() != 0) $mean = $total/$collections->count();
-        else $mean =0;
-        $area_mean = new Collection();
-        $area_mean->push(['total' => $total,'area_mean' => $mean]);
-
-
-        //       $area = AreaMean::where('instrument_program_id', $id)->first();
-
-
-        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean]);
     }
 
     public function showProgramHead($id){

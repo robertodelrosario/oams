@@ -219,8 +219,4 @@ class AccreditorController extends Controller
         }
         return response()->json(['areas'=>$instrument_array]);
     }
-
-    public function saveAreaMean($id){
-        $area_mean = AreaMean::where('instrument_program_id', $id)->get();
-    }
 }
