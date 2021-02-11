@@ -141,7 +141,7 @@ class UserController extends Controller
             $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
             for($x=0;$x < 10; $x++){
                 if($area_number->area_number == $x+1){
-                    $sar_external->push(['area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
+                    $sar_external->push(['area_number' => $area_number->area_number,'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
                     break;
                 }
             }
@@ -153,7 +153,7 @@ class UserController extends Controller
             $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
             for($x=0;$x < 10; $x++){
                 if($area_number->area_number == $x+1){
-                    $sar_internal->push(['area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
+                    $sar_internal->push(['area_number' => $area_number->area_number,'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
                     break;
                 }
             }
