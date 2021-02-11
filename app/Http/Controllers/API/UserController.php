@@ -114,9 +114,38 @@ class UserController extends Controller
         }
 
         $instruments = AssignedUser::where('app_program_id', $app_prog)->get();
+        $area_mean_external = array();
+        $area_mean_internal = array();
 
+        foreach($instruments as $instrument){
+            if(Str::contains($instrument->role, 'leader')){
+                $score = AreaMean::where([
+                    ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
+                ])->first();
+                $area_mean_external = Arr::prepend($area_mean_external,$score);
+            }
+            elseif( $instrument->role == 'internal accreditor' ){
+                $score = AreaMean::where([
+                    ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
+                ])->first();
+                if(!(is_null($score))) $area_mean_internal = Arr::prepend($area_mean_internal,$score);
+            }
+        }
+        $sum = 0;
+        foreach ($area_mean_external as $mean){
+            $sum += $mean->area_mean;
+        }
+        if(count($area_mean_external) != 0) $program_mean_external = $sum/count($area_mean_external);
+        else $program_mean_external = 0;
 
-        return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role ]);
+        $sum = 0;
+        foreach ($area_mean_internal as $mean){
+            $sum += $mean->area_mean;
+        }
+        if(count($area_mean_internal) != 0) $program_mean_internal = $sum/count($area_mean_internal);
+        else $program_mean_internal = 0;
+
+        return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role, 'area_mean_external' => $area_mean_external, 'area_mean_internal' => $area_mean_internal, 'program_mean_external' =>$program_mean_external, 'program_mean_internal' => $program_mean_internal]);
     }
 
     public function showParameter($id, $app_prog){
