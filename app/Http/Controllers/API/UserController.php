@@ -113,7 +113,7 @@ class UserController extends Controller
             $instrument_array = Arr::prepend($instrument_array,$instrument);
         }
 
-        //$instruments = AssignedUser::where('app_program_id', $app_prog)->get();
+        $instruments = AssignedUser::where('app_program_id', $app_prog)->get();
 
 
         return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role ]);
@@ -149,12 +149,16 @@ class UserController extends Controller
             else $gap = $parameter->acceptable_score_gap;
             $diff = 0;
             $sum = 0;
+            $count = 0;
             foreach ($mean_array as $mean){
-                $diff = abs($diff - $mean->parameter_mean);
-                $sum = $sum + $mean->parameter_mean;
+                if($mean->program_parameter_id == $parameter->id){
+                    $diff = abs($diff - $mean->parameter_mean);
+                    $sum = $sum + $mean->parameter_mean;
+                    $count++;
+                }
             }
-            if(count($mean_array) <= 1) $diff = 0;
-            if(count($mean_array) !=null) $average = $sum/count($mean_array);
+            if($count <= 1) $diff = 0;
+            if($count == 0) $average = $sum/$count;
             else $average = $sum;
             if ($diff >= $gap) {
                 $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
