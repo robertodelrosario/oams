@@ -176,10 +176,11 @@ class UserController extends Controller
                 if($mean_item->program_parameter_id == $parameter->id){
                     $diff_internal = abs($diff_internal - $mean_item->parameter_mean);
                     $sum_internal = $sum_internal + $mean_item->parameter_mean;
+                    $count++;
                 }
             }
             if($count <= 1) $diff_internal = 0;
-            if($count != 0 ) $average_internal = $sum_internal/count($mean_array_internal);
+            if($count != 0 ) $average_internal = $sum_internal/$count;
             else $average_internal = $sum_internal;
             if ($diff_internal >= $gap) {
                 $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average_internal, 'difference' => $diff_internal, 'status' => 'unaccepted']);
