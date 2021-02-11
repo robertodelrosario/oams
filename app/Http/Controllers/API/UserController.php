@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\ApplicationProgram;
+use App\AreaInstrument;
 use App\AreaMean;
 use App\AssignedUser;
 use App\AssignedUserHead;
@@ -118,34 +119,93 @@ class UserController extends Controller
         $area_mean_internal = array();
 
         foreach($instruments as $instrument){
-            if(Str::contains($instrument->role, 'leader')){
+            if(Str::contains($instrument->role, 'leader') || Str::contains($instrument->role, 'area 7')){
                 $score = AreaMean::where([
                     ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
                 ])->first();
                 $area_mean_external = Arr::prepend($area_mean_external,$score);
             }
-            elseif( $instrument->role == 'internal accreditor' ){
+            elseif($instrument->role == 'internal accreditor'){
                 $score = AreaMean::where([
                     ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
                 ])->first();
                 if(!(is_null($score))) $area_mean_internal = Arr::prepend($area_mean_internal,$score);
             }
         }
-        $sum = 0;
-        foreach ($area_mean_external as $mean){
-            $sum += $mean->area_mean;
-        }
-        if(count($area_mean_external) != 0) $program_mean_external = $sum/count($area_mean_external);
-        else $program_mean_external = 0;
 
-        $sum = 0;
-        foreach ($area_mean_internal as $mean){
-            $sum += $mean->area_mean;
-        }
-        if(count($area_mean_internal) != 0) $program_mean_internal = $sum/count($area_mean_internal);
-        else $program_mean_internal = 0;
+        $weight = array(0,8,8,8,5,4,5,3,4,5);
 
-        return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role, 'area_mean_external' => $area_mean_external, 'area_mean_internal' => $area_mean_internal, 'program_mean_external' =>$program_mean_external, 'program_mean_internal' => $program_mean_internal]);
+        $sar_external = new Collection();
+        foreach ($area_mean_external as $area){
+            $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
+            $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+            for($x=0;$x < 10; $x++){
+                if($area_number->area_number == $x+1){
+                    $sar_external->push(['instrument_program_id' => $area->instrument_program_id, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
+                    break;
+                }
+            }
+        }
+
+        $sar_internal = new Collection();
+        foreach ($area_mean_internal as $area){
+            $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
+            $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+            for($x=0;$x < 10; $x++){
+                if($area_number->area_number == $x+1){
+                    $sar_internal->push(['instrument_program_id' => $area->instrument_program_id, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
+                    break;
+                }
+            }
+        }
+
+        $result_external = new Collection();
+
+        $total_weight = 0;
+        $total_area_mean = 0;
+        $total_weighted_mean = 0;
+        foreach ($sar_external as $sar){
+            $total_weight += $sar['weight'];
+            $total_area_mean += $sar['area_mean'];
+            $total_weighted_mean += $sar['weighted_mean'];
+        }
+        $grand_mean = 0;
+        if(count($sar_external) > 0) $grand_mean  = $total_area_mean/count($sar_external);
+        $result_external->push(['total_weight' => $total_weight, 'total_area_mean' => $total_area_mean, 'total_weighted_mean' => $total_weighted_mean, 'grand_mean' => $grand_mean]);
+
+        $result_internal = new Collection();
+
+        $total_weight = 0;
+        $total_area_mean = 0;
+        $total_weighted_mean = 0;
+        foreach ($sar_internal as $sar){
+            $total_weight += $sar['weight'];
+            $total_area_mean += $sar['area_mean'];
+            $total_weighted_mean += $sar['weighted_mean'];
+        }
+
+        $grand_mean = 0;
+        if(count($sar_internal) > 0) $grand_mean  = $total_area_mean/count($sar_internal);
+        $result_internal->push(['total_weight' => $total_weight, 'total_area_mean' => $total_area_mean, 'total_weighted_mean' => $total_weighted_mean, 'grand_mean' => $grand_mean]);
+
+
+
+
+//        $sum = 0;
+//        foreach ($area_mean_external as $mean){
+//            $sum += $mean->area_mean;
+//        }
+//        if(count($area_mean_external) != 0) $program_mean_external = $sum/count($area_mean_external);
+//        else $program_mean_external = 0;
+//
+//        $sum = 0;
+//        foreach ($area_mean_internal as $mean){
+//            $sum += $mean->area_mean;
+//        }
+//        if(count($area_mean_internal) != 0) $program_mean_internal = $sum/count($area_mean_internal);
+//        else $program_mean_internal = 0;
+
+        return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role, 'area_mean_external' => $sar_external, 'area_mean_internal' => $sar_internal, 'result_external' =>$result_external, 'program_mean_internal' => $result_internal]);
     }
 
     public function showParameter($id, $app_prog){
@@ -228,7 +288,7 @@ class UserController extends Controller
         $area_mean_internal->push(['total' => $total_internal,'area_mean' => $mean_internal]);
 
         foreach($mean_array as $arr){
-            if(Str::contains($arr->role, 'leader')){
+            if(Str::contains($arr->role, 'leader') || Str::contains($arr->role, 'area 7')){
                 $mean = AreaMean::where([
                     ['instrument_program_id',$id], ['assigned_user_id', $arr->assigned_user_id]
                 ])->first();
