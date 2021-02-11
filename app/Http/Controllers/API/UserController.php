@@ -158,7 +158,7 @@ class UserController extends Controller
                 }
             }
             if($count <= 1) $diff = 0;
-            if($count == 0) $average = $sum/$count;
+            if($count != 0) $average = $sum/$count;
             else $average = $sum;
             if ($diff >= $gap) {
                 $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
@@ -171,12 +171,15 @@ class UserController extends Controller
 
             $diff_internal = 0;
             $sum_internal = 0;
+            $count = 0;
             foreach ($mean_array_internal as $mean_item){
-                $diff_internal = abs($diff_internal - $mean_item->parameter_mean);
-                $sum_internal = $sum_internal + $mean_item->parameter_mean;
+                if($mean_item->program_parameter_id == $parameter->id){
+                    $diff_internal = abs($diff_internal - $mean_item->parameter_mean);
+                    $sum_internal = $sum_internal + $mean_item->parameter_mean;
+                }
             }
-            if(count($mean_array_internal) <= 1) $diff_internal = 0;
-            if(count($mean_array_internal) !=null ) $average_internal = $sum_internal/count($mean_array_internal);
+            if($count <= 1) $diff_internal = 0;
+            if($count != 0 ) $average_internal = $sum_internal/count($mean_array_internal);
             else $average_internal = $sum_internal;
             if ($diff_internal >= $gap) {
                 $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average_internal, 'difference' => $diff_internal, 'status' => 'unaccepted']);
