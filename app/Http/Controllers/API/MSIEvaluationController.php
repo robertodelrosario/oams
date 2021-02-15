@@ -11,6 +11,7 @@ use App\InstrumentScore;
 use App\ParameterMean;
 use App\Recommendation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class MSIEvaluationController extends Controller
@@ -65,11 +66,11 @@ class MSIEvaluationController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted practice']);
     }
 
-    public function saveBestPractice(request $request, $id){
+    public function saveRecommendation(request $request, $id){
         foreach($request->recommendations as $recommendation){
             $recom = new Recommendation();
             $recom->recommendation = $recommendation;
-            $recom->v = $id;
+            $recom->assigned_user_id = $id;
             $recom->save();
         }
         return response()->json(['status' => true, 'message' => 'Successfully added recommendations.']);
@@ -89,10 +90,13 @@ class MSIEvaluationController extends Controller
     }
 
     public function showAllRecommendation($id){
-        $recommendations = AssignedUser::where('app_program_id', $id)->get();
-        foreach ($recommendations as $recommendation){
-            
+        $users = AssignedUser::where('app_program_id', $id)->get();
+        $recommendation_array = array();
+        foreach ($users as $user){
+            $recommendations = Recommendation::where('assigned_user_id',$user->id)->get();
+            foreach ($recommendations as $recommendation) $recommendation_array = Arr::prepend($recommendation_array,$recommendation);
         }
+        return response()->json($recommendation_array);
     }
 
     public function deleteRecommendation($id){

@@ -42,5 +42,9 @@ class ReportController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added report documents!']);
     }
 
+    public function generateAreaSAR($id){
+        $task = AssignedUser::where('id', $id)->first();
+
+    }
 
 }

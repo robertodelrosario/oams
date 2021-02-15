@@ -211,5 +211,12 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showBestPractice/{id}/{assignedUserId}', 'MSIEvaluationController@showBestPractice');
     Route::put('/editBestPractice/{id}', 'MSIEvaluationController@editBestPractice');
     Route::delete('/deleteBestPractice/{id}', 'MSIEvaluationController@deleteBestPractice');
+
+    Route::post('/saveRecommendation/{id}', 'MSIEvaluationController@saveBestPractice');
+    Route::put('/editRecommendation/{id}', 'MSIEvaluationController@editRecommendation');
+    Route::get('/showRecommendation/{id}', 'MSIEvaluationController@showRecommendation');
+    Route::get('/showAllRecommendation/{id}', 'MSIEvaluationController@showAllRecommendation');
+    Route::delete('/deleteRecommendation/{id}', 'MSIEvaluationController@deleteRecommendation');
+
 });
 
