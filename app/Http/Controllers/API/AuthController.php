@@ -238,11 +238,13 @@ class AuthController extends Controller
             $user->contact_no = $request->contact_no;
             $user->status = 'active';
             $user->save();
+
             $role = Role::where('role', $request->role)->first();
             if($role->id == 8){
                 $region = new AccreditorProfile();
                 $region->user_id = $user->id;
                 $region->region = $request->region;
+                if ($request->campus_id != null) $region->campus_id = $request->campus_id;
                 $region->save();
 
                 $specialization = new AccreditorSpecialization();

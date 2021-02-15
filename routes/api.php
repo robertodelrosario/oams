@@ -48,6 +48,7 @@ Route::group([
 Route::group(['prefix' => '/suc'], function() {
     Route::post('/addCampus/{id}', 'CampusController@addCampus');
     Route::get('/showCampus/{id}', 'CampusController@showCampus');
+    Route::get('/showAllCampus', 'CampusController@showAllCampus');
 //    Route::delete('/deleteCampus/{id}', 'CampusController@deleteCampus');
     Route::put('/editCampus/{id}', 'CampusController@editCampus');
 

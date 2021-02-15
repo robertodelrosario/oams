@@ -63,6 +63,10 @@ class CampusController extends Controller
         return response()->json($campus);
     }
 
+    public function showAllCampus(){
+        return response()->json(Campus::all());
+    }
+
 //    public function deleteCampus($id){
 //        $campus = Campus::where('id', $id);
 //        $campus->delete();
