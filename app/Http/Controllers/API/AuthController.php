@@ -293,6 +293,7 @@ class AuthController extends Controller
                 ->join('users', 'users.id', '=', 'users_roles.user_id')
                 ->join('accreditors_profiles', 'accreditors_profiles.user_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+                ->join('campuses', 'campuses.id', '=','accreditors_profiles.campus_id' )
                 ->where('users_roles.role_id', 8)
                 ->where('accreditors_profiles.campus_id', $campus->id)
                 ->get();
