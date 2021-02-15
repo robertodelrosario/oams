@@ -15,6 +15,10 @@ class CreateRecommendationsTable extends Migration
     {
         Schema::create('recommendations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('assigned_user_id');
+            $table->foreign('assigned_user_id')->references('id')->on('assigned_users')
+                ->onUpdate( 'cascade' )->onDelete( 'cascade' );
+            $table->string('recommendation');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AssignedUser;
 use App\BestPractice;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
@@ -62,6 +63,42 @@ class MSIEvaluationController extends Controller
         $bestPractice->best_practice = $request->best_practice;
         $bestPractice->save();
         return response()->json(['status' => true, 'message' => 'Successfully deleted practice']);
+    }
+
+    public function saveBestPractice(request $request, $id){
+        foreach($request->recommendations as $recommendation){
+            $recom = new Recommendation();
+            $recom->recommendation = $recommendation;
+            $recom->v = $id;
+            $recom->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully added recommendations.']);
+    }
+
+    public function editRecommendation(request $request,$id){
+        $recommendation = Recommendation::where('id', $id)->first();
+        $recommendation->recommendation = $request->recommendation;
+        $recommendation->save();
+        return response()->json(['status' => true, 'message' => 'Successfully edited recommendation.']);
+
+    }
+
+    public function showRecommendation($id){
+        $recommendation = Recommendation::where('assigned_user_id', $id)->get();
+        return response()->json($recommendation);
+    }
+
+    public function showAllRecommendation($id){
+        $recommendations = AssignedUser::where('app_program_id', $id)->get();
+        foreach ($recommendations as $recommendation){
+            
+        }
+    }
+
+    public function deleteRecommendation($id){
+        $recommendation = Recommendation::where('id', $id)->first();
+        $recommendation->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully deleted recommendation.']);
     }
 
 }
