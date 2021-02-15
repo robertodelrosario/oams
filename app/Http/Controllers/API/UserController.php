@@ -7,6 +7,7 @@ use App\AreaInstrument;
 use App\AreaMean;
 use App\AssignedUser;
 use App\AssignedUserHead;
+use App\BestPractice;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\ParameterMean;
@@ -188,23 +189,6 @@ class UserController extends Controller
         if(count($sar_internal) > 0) $grand_mean  = $total_area_mean/count($sar_internal);
         $result_internal->push(['total_weight' => $total_weight, 'total_area_mean' => $total_area_mean, 'total_weighted_mean' => $total_weighted_mean, 'grand_mean' => $grand_mean]);
 
-
-
-
-//        $sum = 0;
-//        foreach ($area_mean_external as $mean){
-//            $sum += $mean->area_mean;
-//        }
-//        if(count($area_mean_external) != 0) $program_mean_external = $sum/count($area_mean_external);
-//        else $program_mean_external = 0;
-//
-//        $sum = 0;
-//        foreach ($area_mean_internal as $mean){
-//            $sum += $mean->area_mean;
-//        }
-//        if(count($area_mean_internal) != 0) $program_mean_internal = $sum/count($area_mean_internal);
-//        else $program_mean_internal = 0;
-
         return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role, 'area_mean_external' => $sar_external, 'area_mean_internal' => $sar_internal, 'result_external' =>$result_external, 'program_mean_internal' => $result_internal]);
     }
 
@@ -218,6 +202,8 @@ class UserController extends Controller
             ->get();
         $mean_array = array();
         $mean_array_internal = array();
+        $best_practice = array();
+        $best_practice_internal = array();
         foreach ($parameters as $parameter){
             $means = DB::table('parameters_means')
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
@@ -227,8 +213,20 @@ class UserController extends Controller
                 ->select('parameters_means.*', 'assigned_users.user_id','assigned_users.role' ,'users.first_name','users.last_name')
                 ->get();
             foreach ($means as $mean){
-                if(Str::contains($mean->role, 'external accreditor')) $mean_array = Arr::prepend($mean_array,$mean);
-                else $mean_array_internal = Arr::prepend($mean_array_internal,$mean);
+                if(Str::contains($mean->role, 'external accreditor')){
+                    $mean_array = Arr::prepend($mean_array,$mean);
+                    $best_practices = BestPractice::where([
+                        ['program_parameter_id', $mean->program_parameter_id],['assigned_user_id', $mean->assigned_user_id]
+                    ])->get();
+                    foreach ($best_practices as $practice) $best_practice = Arr::prepend($best_practice,$practice);
+                }
+                else{
+                    $mean_array_internal = Arr::prepend($mean_array_internal,$mean);
+                    $best_practices = BestPractice::where([
+                        ['program_parameter_id', $mean->program_parameter_id],['assigned_user_id', $mean->assigned_user_id]
+                    ])->get();
+                    foreach ($best_practices as $practice) $best_practice_internal = Arr::prepend($best_practice_internal,$practice);
+                }
             }
         }
         $total = 0;
@@ -308,7 +306,7 @@ class UserController extends Controller
             }
         }
 
-        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean, 'means_internal' => $mean_array_internal, 'result_internal'=> $collections_internal, 'area_mean_internal' => $area_mean_internal]);
+        return response()->json(['parameters'=>$parameters, 'means' => $mean_array, 'result'=> $collections, 'area_mean' => $area_mean,'best_practice' => $best_practice, 'means_internal' => $mean_array_internal, 'result_internal'=> $collections_internal, 'area_mean_internal' => $area_mean_internal, 'best_practice_internal' => $best_practice_internal]);
     }
 
     public function showProgramHead($id){
