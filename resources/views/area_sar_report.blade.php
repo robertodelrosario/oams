@@ -13,11 +13,21 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($data as $score)
+        @foreach($parameters as $parameter)
             <tr>
-                <th scope="row">{{ $score->parameter }}</th>
-                <td>{{ $score->statement }}</td>
-                <td>{{ $score->remark }}</td>
+                <th scope="row">{{ $parameter->parameter }}</th>
+                <td>
+                    @foreach($means as $mean)
+                        @if($mean->program_parameter_id == $parameter->id) <br>{{ $mean->first_name }} {{ $mean->last_name }} : {{$mean->parameter_mean}}
+                        @endif
+                    @endforeach
+                </td>
+                <td>
+                    @foreach($results as $result)
+                        @if($result['program_parameter_id'] == $parameter->id) {{ $result['average_mean'] }} ({{$result['status']}})
+                        @endif
+                    @endforeach
+                </td>
             </tr>
         @endforeach
         </tbody>

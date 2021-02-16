@@ -156,6 +156,10 @@ Route::group(['prefix' => '/notification'], function() {
     Route::delete('/deleteNotification/{id}', 'NotificationController@deleteNotification');
 });
 
+Route::group(['prefix' => '/report'], function() {
+    Route::get('/generateAreaSAR/{id}/{app_prog}', 'ReportController@generateAreaSAR');
+});
+
 Route::group(['prefix' => '/application'], function() {
     Route::post('/createApplication/{sucID}/{userID}', 'ApplicationController@createApplication');
     Route::post('/submitApplication/{id}/{sucID}', 'ApplicationController@submitApplication');
@@ -212,11 +216,10 @@ Route::group(['prefix' => '/application'], function() {
     Route::put('/editBestPractice/{id}', 'MSIEvaluationController@editBestPractice');
     Route::delete('/deleteBestPractice/{id}', 'MSIEvaluationController@deleteBestPractice');
 
-    Route::post('/saveRecommendation/{id}', 'MSIEvaluationController@saveBestPractice');
+    Route::post('/saveRecommendation/{id}', 'MSIEvaluationController@saveRecommendation');
     Route::put('/editRecommendation/{id}', 'MSIEvaluationController@editRecommendation');
     Route::get('/showRecommendation/{id}', 'MSIEvaluationController@showRecommendation');
     Route::get('/showAllRecommendation/{id}', 'MSIEvaluationController@showAllRecommendation');
     Route::delete('/deleteRecommendation/{id}', 'MSIEvaluationController@deleteRecommendation');
-
 });
 

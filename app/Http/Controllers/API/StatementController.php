@@ -8,6 +8,7 @@ use App\InstrumentStatement;
 use App\Parameter;
 use App\ParameterStatement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
