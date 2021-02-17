@@ -158,6 +158,7 @@ Route::group(['prefix' => '/notification'], function() {
 
 Route::group(['prefix' => '/report'], function() {
     Route::get('/generateAreaSAR/{id}/{app_prog}', 'ReportController@generateAreaSAR');
+    Route::get('/generateAreaSARInternal/{id}/{app_prog}', 'ReportController@generateAreaSARInternal');
 });
 
 Route::group(['prefix' => '/application'], function() {
@@ -219,7 +220,8 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/saveRecommendation/{id}', 'MSIEvaluationController@saveRecommendation');
     Route::put('/editRecommendation/{id}', 'MSIEvaluationController@editRecommendation');
     Route::get('/showRecommendation/{id}', 'MSIEvaluationController@showRecommendation');
-    Route::get('/showAllRecommendation/{id}', 'MSIEvaluationController@showAllRecommendation');
     Route::delete('/deleteRecommendation/{id}', 'MSIEvaluationController@deleteRecommendation');
+
+    Route::get('/showSFRData/{id}', 'MSIEvaluationController@showSFRData');
 });
 

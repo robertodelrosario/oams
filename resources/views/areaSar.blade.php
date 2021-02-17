@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>SUMMARY OF RATINGS</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -12,15 +12,15 @@
 <body>
 
 <div class="container">
-    <h2>Bordered Table</h2>
-    <p>The .table-bordered class adds borders on all sides of the table and the cells:</p>
+    <h3 style="text-align: center">SUMMARY OF RATINGS</h3>
+    <p class="font-weight-bold" style="text-align: center">{{ $program['program_name'] }} <br> {{ $area['area_name'] }}</p>
     <table class="table table-bordered" >
         <thead>
             <tr>
-                <th scope="col" class="small" style="text-align: center; font-size: 12px"><div class="font-weight-bold">PARAMETER</div></th>
-                <th scope="col" class="small" style="text-align: center; font-size: 12px"><div class="font-weight-bold">ACCREDITOR RATING</div></th>
-                <th scope="col" class="small" style="text-align: center; font-size: 12px"><div class="font-weight-bold">AVERAGE RATING</div></th>
-                <th scope="col" class="small" style="text-align: center; font-size: 12px"><div class="font-weight-bold">DESCRIPTIVE RATING</div></th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">PARAMETER</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">ACCREDITOR RATING</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">AVERAGE RATING</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">DESCRIPTIVE RATING</th>
             </tr>
         </thead>
         <tbody>
@@ -29,17 +29,17 @@
                 <th scope="row" class="small">{{ $parameter->parameter }}</th>
                 <td class="small">
                     @foreach($means as $mean)
-                        @if($mean->program_parameter_id == $parameter->id) {{ $mean->first_name }} {{ $mean->last_name }} : {{$mean->parameter_mean}}<br>
+                        @if($mean->program_parameter_id == $parameter->id) {{ $mean->last_name }} : {{$mean->parameter_mean}}<br>
                         @endif
                     @endforeach
                 </td>
-                <td class="small">
+                <td class="small" style="text-align: center">
                     @foreach($results as $result)
-                        @if($result['program_parameter_id'] == $parameter->id) {{ $result['average_mean'] }} ({{$result['status']}})
+                        @if($result['program_parameter_id'] == $parameter->id) {{ $result['average_mean'] }} @if($result['status'] != 'accepted') ({{$result['status']}})@endif
                         @endif
                     @endforeach
                 </td>
-                <td class="small">
+                <td class="small" style="text-align: center">
                     @foreach($results as $result)
                         @if($result['program_parameter_id'] == $parameter->id) {{ $result['descriptive_rating'] }}
                         @endif
@@ -47,6 +47,36 @@
                 </td>
             </tr>
         @endforeach
+        <tr>
+            <th scope="row" class="small"></th>
+            <td class="small" style="text-align: right">
+                <div class="font-weight-bold">Total</div>
+            </td>
+            <td class="small" style="text-align: center">
+                {{ $area_mean[0]['total'] }}
+            </td>
+            <td class="small" style="text-align: center">
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="small"></th>
+            <td class="small" style="text-align: right">
+                <div class="font-weight-bold">Mean</div>
+            </td>
+            <td class="small" style="text-align: center">
+                {{ $area_mean[0]['area_mean'] }}
+            </td>
+            <td class="small" style="text-align: center">
+                @foreach($area_mean as $am)
+                    @if($area_mean[0]['area_mean'] < 1.50) Poor
+                    @elseif ($area_mean[0]['area_mean'] < 2.50) Fair
+                    @elseif ($area_mean[0]['area_mean'] < 3.50) Satisfactory
+                    @elseif ($area_mean[0]['area_mean'] < 4.50) Very Satisfactory
+                    @else Excellent
+                    @endif
+                @endforeach
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
