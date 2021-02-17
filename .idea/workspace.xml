@@ -22,10 +22,6 @@
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/MSIEvaluationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/MSIEvaluationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/areaSar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/areaSar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -323,7 +319,7 @@
       <workItem from="1613352077910" duration="15731000" />
       <workItem from="1613379239868" duration="171000" />
       <workItem from="1613437949776" duration="22111000" />
-      <workItem from="1613521870774" duration="5522000" />
+      <workItem from="1613521870774" duration="7152000" />
     </task>
     <servers />
   </component>

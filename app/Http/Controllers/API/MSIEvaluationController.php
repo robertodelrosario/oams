@@ -54,64 +54,40 @@ class MSIEvaluationController extends Controller
         return response()->json($bestPractices);
     }
 
-    public function showSFRData($id){
-        $users = AssignedUser::where('app_program_id', $id)->get();
-        $bestpractice_array_external = array();
-        $remark_array_external = array();
-        $recommendation_array_external = array();
-        $bestpractice_array_internal = array();
-        $remark_array_internal = array();
-        $recommendation_array_internal = array();
-        foreach ($users as $user){
-            if(Str::contains($user->role, 'external accreditor'))
-            {
-                $bestpractices = DB::table('assigned_users')
-                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->join('best_practices', 'best_practices.assigned_user_id','=', 'assigned_users.id')
-                    ->where('assigned_users.id', $user->id)
-                    ->get();
-                foreach ($bestpractices as $bestpractice) $bestpractice_array_external = Arr::prepend($bestpractice_array_external,$bestpractice);
-
-                $remarks = DB::table('assigned_users')
-                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->join('instruments_scores', 'instruments_scores.assigned_user_id', '=', 'assigned_users.id')
-                    ->where('assigned_users.id', $user->id)
-                    ->where('instruments_scores.remark', '!=', null)
-                    ->get();
-                foreach ($remarks as $remark) $remark_array_external = Arr::prepend($remark_array_external, $remark);
-
-                $recommendations = DB::table('assigned_users')
-                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->join('recommendations', 'assigned_users.id', '=', 'recommendations.assigned_user_id')
-                    ->where('assigned_users.id', $user->id)
-                    ->get();
-                foreach ($recommendations as $recommendation) $recommendation_array_external = Arr::prepend($recommendation_array_external,$recommendation);
-            }
-            elseif($user->role == 'internal accreditor'){
-                $bestpractices = DB::table('assigned_users')
-                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->join('best_practices', 'best_practices.assigned_user_id','=', 'assigned_users.id')
-                    ->where('assigned_users.id', $user->id)
-                    ->get();
-                foreach ($bestpractices as $bestpractice) $bestpractice_array_internal = Arr::prepend($bestpractice_array_internal,$bestpractice);
-
-                $remarks = DB::table('assigned_users')
-                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->join('instruments_scores', 'instruments_scores.assigned_user_id', '=', 'assigned_users.id')
-                    ->where('assigned_users.id', $user->id)
-                    ->where('instruments_scores.remark', '!=', null)
-                    ->get();
-                foreach ($remarks as $remark) $remark_array_internal = Arr::prepend($remark_array_internal, $remark);
-
-                $recommendations = DB::table('assigned_users')
-                    ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                    ->join('recommendations', 'assigned_users.id', '=', 'recommendations.assigned_user_id')
-                    ->where('assigned_users.id', $user->id)
-                    ->get();
-                foreach ($recommendations as $recommendation) $recommendation_array_internal = Arr::prepend($recommendation_array_internal,$recommendation);
-            }
+    public function showSFRData(request $request, $id){
+        $users = array();
+        $assignedUsers = AssignedUser::where('app_program_id', $id)->get();
+        foreach ($assignedUsers as $assignedUser){
+            if(Str::contains($assignedUser->role, $request->role)) $users = Arr::prepend($users, $assignedUser);
         }
-        return response()->json(['bestpractice_external' => $bestpractice_array_external, 'bestpractice_internal' => $bestpractice_array_internal, 'remark_external' => $remark_array_external, 'remark_internal' => $remark_array_internal, 'recommendation_internal' => $recommendation_array_internal, 'recommendation_external' => $recommendation_array_external]);
+        $bestpractice_array = array();
+        $remark_array = array();
+        $recommendation_array = array();
+        foreach ($users as $user){
+            $bestpractices = DB::table('assigned_users')
+                ->join('users', 'users.id', '=', 'assigned_users.user_id')
+                ->join('best_practices', 'best_practices.assigned_user_id','=', 'assigned_users.id')
+                ->where('assigned_users.id', $user->id)
+                ->get();
+            foreach ($bestpractices as $bestpractice) $bestpractice_array = Arr::prepend($bestpractice_array,$bestpractice);
+
+            $remarks = DB::table('assigned_users')
+                ->join('users', 'users.id', '=', 'assigned_users.user_id')
+                ->join('instruments_scores', 'instruments_scores.assigned_user_id', '=', 'assigned_users.id')
+                ->where('assigned_users.id', $user->id)
+                ->where('instruments_scores.remark', '!=', null)
+                ->get();
+            foreach ($remarks as $remark) $remark_array = Arr::prepend($remark_array, $remark);
+
+            $recommendations = DB::table('assigned_users')
+                ->join('users', 'users.id', '=', 'assigned_users.user_id')
+                ->join('recommendations', 'assigned_users.id', '=', 'recommendations.assigned_user_id')
+                ->where('assigned_users.id', $user->id)
+                ->get();
+            foreach ($recommendations as $recommendation) $recommendation_array = Arr::prepend($recommendation_array,$recommendation);
+
+        }
+        return response()->json(['best_practice' => $bestpractice_array, 'remark' => $remark_array, 'recommendation' => $recommendation_array]);
     }
 
     public function deleteBestPractice($id){
