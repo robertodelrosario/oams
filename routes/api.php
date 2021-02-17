@@ -222,6 +222,6 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showRecommendation/{id}', 'MSIEvaluationController@showRecommendation');
     Route::delete('/deleteRecommendation/{id}', 'MSIEvaluationController@deleteRecommendation');
 
-    Route::get('/showSFRData/{id}', 'MSIEvaluationController@showSFRData');
+    Route::get('/showSFRData/{id}/{role}', 'MSIEvaluationController@showSFRData');
 });
 

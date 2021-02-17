@@ -54,11 +54,13 @@ class MSIEvaluationController extends Controller
         return response()->json($bestPractices);
     }
 
-    public function showSFRData(request $request, $id){
+    public function showSFRData($id, $role){
         $users = array();
         $assignedUsers = AssignedUser::where('app_program_id', $id)->get();
+        if($role == 0) $role_str = 'internal accreditor';
+        if($role == 1) $role_str = 'external accreditor';
         foreach ($assignedUsers as $assignedUser){
-            if(Str::contains($assignedUser->role, $request->role)) $users = Arr::prepend($users, $assignedUser);
+            if(Str::contains($assignedUser->role, $role_str)) $users = Arr::prepend($users, $assignedUser);
         }
         $bestpractice_array = array();
         $remark_array = array();
