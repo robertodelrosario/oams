@@ -195,13 +195,14 @@ class ApplicationController extends Controller
         $fileName = $file->getClientOriginalName();
         $filePath = $file->storeAs('application/files', $fileName);
         $applied_program->certificate = $filePath;
-        $applied_program->save();
+
 
         $assigned_users = AssignedUser::where('app_program_id', $id)->get();
         $sum = 0;
         $weight = array(0,8,8,8,5,4,5,3,4,5);
         $scores = new Collection();
 
+        if(count($assigned_users) < 1) return response()->json(['status' => false, 'message' => 'Application is not yet done.']);
         foreach ($assigned_users as $assigned_user){
             $assigned_user->status = 'done';
             $assigned_user->save();
@@ -237,6 +238,7 @@ class ApplicationController extends Controller
         $program->rating_obtained = $program_mean;
         $program->save();
 
+        $applied_program->save();
         return response()->json(['status' => true, 'message' => 'Successfully accredited the program.']);
     }
 
