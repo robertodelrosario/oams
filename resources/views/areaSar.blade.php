@@ -79,6 +79,40 @@
         </tr>
         </tbody>
     </table>
+
+    <br><br>
+    <p class="font-weight-bold" style="text-align: left">Accreditor/s:</p>
+    <br><br>
+    <table class="table-borderless">
+        <thead>
+            <tr>
+                @foreach($accreditors as $accreditor)
+                    @if($accreditor['role'] == '[leader] external accreditor' || $accreditor['role'] == '[leader] external accreditor - area 7')
+                        <th scope="col"  style=" text-decoration: underline ;text-align: center; font-size: 14px; width: 265px">{{ $accreditor['name'] }}</th>
+                    @endif
+                @endforeach
+                @foreach($accreditors as $accreditor)
+                        @if($accreditor['role'] == 'external accreditor' || $accreditor['role'] == 'external accreditor - area 7' || $accreditor['role'] == 'internal accreditor')
+                            <th scope="col"  style="text-decoration: underline  ;text-align: center; font-size: 14px; width: 265px">{{ $accreditor['name'] }}</th>
+                        @endif
+                    @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach($accreditors as $accreditor)
+                    @if($accreditor['role'] == '[leader] external accreditor' || $accreditor['role'] == '[leader] external accreditor - area 7')
+                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 100%" >Lead Accreditor</th>
+                    @endif
+                @endforeach
+                    @foreach($accreditors as $accreditor)
+                        @if($accreditor['role'] == 'external accreditor' || $accreditor['role'] == 'external accreditor - area 7' || $accreditor['role'] == 'internal accreditor')
+                            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 100%;">Accreditor</th>
+                        @endif
+                    @endforeach
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

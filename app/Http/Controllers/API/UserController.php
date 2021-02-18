@@ -170,9 +170,8 @@ class UserController extends Controller
             $total_area_mean += $sar['area_mean'];
             $total_weighted_mean += $sar['weighted_mean'];
         }
-        $grand_mean = 0;
-        if(count($sar_external) > 0) $grand_mean  = $total_area_mean/count($sar_external);
-        $result_external->push(['total_weight' => $total_weight, 'total_area_mean' => $total_area_mean, 'total_weighted_mean' => $total_weighted_mean, 'grand_mean' => $grand_mean]);
+        $grand_mean  = $total_weighted_mean/$total_weight;
+        $result_external->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2)]);
 
         $result_internal = new Collection();
 
@@ -185,9 +184,8 @@ class UserController extends Controller
             $total_weighted_mean += $sar['weighted_mean'];
         }
 
-        $grand_mean = 0;
-        if(count($sar_internal) > 0) $grand_mean  = $total_area_mean/count($sar_internal);
-        $result_internal->push(['total_weight' => $total_weight, 'total_area_mean' => $total_area_mean, 'total_weighted_mean' => $total_weighted_mean, 'grand_mean' => $grand_mean]);
+        $grand_mean  = $total_weighted_mean/$total_weight;
+        $result_internal->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2)]);
 
         return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role, 'area_mean_external' => $sar_external, 'area_mean_internal' => $sar_internal, 'result_external' =>$result_external, 'program_mean_internal' => $result_internal]);
     }

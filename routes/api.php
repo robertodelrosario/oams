@@ -172,6 +172,9 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteFile/{id}', 'ApplicationController@deleteFile');
     Route::get('/viewFile/{id}', 'ApplicationController@viewFile');
 
+    Route::post('/approvedApplication/{id}', 'ApplicationController@approvedApplication');
+    Route::post('/disapprovedApplication/{id}', 'ApplicationController@disapprovedApplication');
+
     Route::post('/program', 'AppliedProgramController@program');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');
     Route::put('/edit/{id}', 'AppliedProgramController@edit');
@@ -223,5 +226,6 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteRecommendation/{id}', 'MSIEvaluationController@deleteRecommendation');
 
     Route::get('/showSFRData/{id}/{role}', 'MSIEvaluationController@showSFRData');
+
 });
 

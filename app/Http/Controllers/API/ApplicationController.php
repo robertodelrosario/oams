@@ -5,11 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Application;
 use App\ApplicationFile;
 use App\ApplicationProgram;
+use App\AreaInstrument;
+use App\AreaMean;
+use App\AssignedUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Mail\ApplicationNotification;
 use App\Program;
 use App\SUC;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -131,23 +135,6 @@ class ApplicationController extends Controller
         return response()->json(['applications' => $applications, 'files' => $file_arr]);
     }
 
-//    public function showSubmittedApplication($id){
-//        $applications = DB::table('applications')
-//            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
-//            ->join('users', 'users.id', '=','applications.sender_id')
-//            ->where('applications.status','!=' ,'under preparation')
-//            ->where('applications.suc_id', $id)
-//            ->select('applications.*', 'sucs.institution_name','sucs.address', 'sucs.email','sucs.contact_no', 'users.first_name', 'users.last_name')
-//            ->get();
-//        $file_arr = array();
-//        foreach ($applications as $application){
-//            $files = ApplicationFile::where('application_id',$application->id)->get();
-//            foreach ($files as $file){
-//                $file_arr = Arr::prepend($file_arr,$file);
-//            }
-//        }
-//        return response()->json(['applications' => $applications, 'files' => $file_arr]);
-//    }
 
     public function uploadFile(Request $request, $id)
     {
@@ -189,5 +176,79 @@ class ApplicationController extends Controller
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function approvedApplication(request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'filename' => 'required',
+            'end_of_validity' => 'required'
+        ]);
+        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required inputs.']);
+
+        $date = new Carbon();
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        if($applied_program->status == 'done')  return response()->json(['status' => false, 'message' => 'Application was already approved.']);
+        $applied_program->status = 'done';
+        $applied_program->result = 'accredited';
+        $applied_program->date_granted = $date;
+        $file = $request->file('filename');
+        $fileName = $file->getClientOriginalName();
+        $filePath = $file->storeAs('application/files', $fileName);
+        $applied_program->certificate = $filePath;
+        $applied_program->save();
+
+        $assigned_users = AssignedUser::where('app_program_id', $id)->get();
+        $sum = 0;
+        $weight = array(0,8,8,8,5,4,5,3,4,5);
+        $scores = new Collection();
+
+        foreach ($assigned_users as $assigned_user){
+            $assigned_user->status = 'done';
+            $assigned_user->save();
+            $area_mean = AreaMean::where('assigned_user_id', $assigned_users->id)->first();
+            if(count($area_mean) >= 1){
+                $instrument = InstrumentProgram::where('id', $area_mean->instrument_program_id)->first();
+                $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+                for($x=0;$x < 10; $x++){
+                    if($area_number->area_number == $x+1){
+                        $scores->push(['weight' => $weight[$x], 'area_mean' => $area_mean->area_mean, 'weighted_mean' => $area_mean->area_mean * $weight[$x]]);
+                        break;
+                    }
+                }
+            }
+        }
+        $total_weight = 0;
+        foreach ($scores as $score){
+            $sum += $score['weighted_mean'];
+            $total_weight += $score['weight'];
+        }
+        $program_mean = $sum/$total_weight;
+
+
+
+        $program = Program::where('id',$applied_program->program_id)->first();
+        if($applied_program->level == 'Level I') $program->accreditation_status = 'Level I Accredited';
+        elseif ($applied_program->level == 'Level II') $program->accreditation_status = 'Level II Re-accredited';
+        elseif ($applied_program->level == 'Level III, Phase 1') $program->accreditation_status = 'Level II Re-accredited';
+        elseif ($applied_program->level == 'Level III, Phase 2') $program->accreditation_status = 'Level III Re-accredited';
+        elseif ($applied_program->level == 'Level IV, Phase 1') $program->accreditation_status = 'Level III Re-accredited';
+        elseif ($applied_program->level == 'Level IV, Phase 2') $program->accreditation_status = 'Level IV Re-accredited';
+        $program->latest_applied_level = $applied_program->level;
+        $program->rating_obtained = $program_mean;
+        $program->save();
+
+        return response()->json(['status' => true, 'message' => 'Successfully accredited the program.']);
+    }
+
+    public function disapprovedApplication($id){
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        $applied_program->result = 'unaccredited';
+        $applied_program->save();
+        $assigned_users = AssignedUser::where('app_program_id', $id)->get();
+        foreach ($assigned_users as $assigned_user){
+            $assigned_user->status = 'done';
+            $assigned_user->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Unaccredited the program.']);
     }
 }

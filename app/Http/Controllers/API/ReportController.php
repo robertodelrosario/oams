@@ -41,13 +41,19 @@ class ReportController extends Controller
 
     public function generateAreaSAR($id, $app_prog){
         $collections = new Collection();
-        $collections_internal = new Collection();
+        $count = 0;
+        $checks = AssignedUser::where('app_program_id', $app_prog)->get();
+        foreach ($checks as $check){
+            if(Str::contains($check->role, 'external accreditor')) $count++;
+        }
+        if($count < 1)   return response()->json(['status' => false, 'message' => 'Empty']);
         $parameters = DB::table('parameters')
             ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
             ->select('parameters_programs.*', 'parameters.parameter')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
         $mean_array = array();
+        $accreditor = array();
         foreach ($parameters as $parameter){
             $means = DB::table('parameters_means')
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
@@ -59,6 +65,7 @@ class ReportController extends Controller
             foreach ($means as $mean) {
                 if (Str::contains($mean->role, 'external accreditor')) {
                     $mean_array = Arr::prepend($mean_array, $mean);
+                    if(!(in_array($mean->last_name, $accreditor))) $accreditor = Arr::prepend($accreditor, ['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
                 }
             }
         }
@@ -117,19 +124,25 @@ class ReportController extends Controller
         $instrument = InstrumentProgram::where('id', $id)->first();
         $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
         $program = Program::where('id', $instrument->program_id)->first();
-        $pdf = PDF::loadView('areaSar', ['parameters'=>$parameters, 'means' => $mean_array, 'results'=> $collections, 'area_mean' => $area_mean, 'area' => $area, 'program' => $program]);
+        $pdf = PDF::loadView('areaSar', ['accreditors' =>$accreditor,'parameters'=>$parameters, 'means' => $mean_array, 'results'=> $collections, 'area_mean' => $area_mean, 'area' => $area, 'program' => $program]);
         return $pdf->download('sar.pdf');
     }
 
     public function generateAreaSARInternal($id, $app_prog){
         $collections = new Collection();
-        $collections_internal = new Collection();
+        $count = 0;
+        $checks = AssignedUser::where('app_program_id', $app_prog)->get();
+        foreach ($checks as $check){
+            if(Str::contains($check->role, 'internal accreditor')) $count++;
+        }
+        if($count < 1)   return response()->json(['status' => false, 'message' => 'Empty']);
         $parameters = DB::table('parameters')
             ->join('parameters_programs', 'parameters_programs.parameter_id','=','parameters.id')
             ->select('parameters_programs.*', 'parameters.parameter')
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
         $mean_array = array();
+        $accreditor = array();
         foreach ($parameters as $parameter){
             $means = DB::table('parameters_means')
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
@@ -141,6 +154,7 @@ class ReportController extends Controller
             foreach ($means as $mean) {
                 if ($mean->role ==  'internal accreditor') {
                     $mean_array = Arr::prepend($mean_array, $mean);
+                    if(!(in_array($mean->last_name, $accreditor))) $accreditor = Arr::prepend($accreditor, ['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
                 }
             }
         }
@@ -199,11 +213,11 @@ class ReportController extends Controller
         $instrument = InstrumentProgram::where('id', $id)->first();
         $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
         $program = Program::where('id', $instrument->program_id)->first();
-        $pdf = PDF::loadView('areaSar', ['parameters'=>$parameters, 'means' => $mean_array, 'results'=> $collections, 'area_mean' => $area_mean, 'area' => $area, 'program' => $program]);
+        $pdf = PDF::loadView('areaSar', ['accreditors' =>$accreditor,'parameters'=>$parameters, 'means' => $mean_array, 'results'=> $collections, 'area_mean' => $area_mean, 'area' => $area, 'program' => $program]);
         return $pdf->download('sar.pdf');
     }
 
     public function generateProgramSAR($id, $app_prog){
-
+        
     }
 }
