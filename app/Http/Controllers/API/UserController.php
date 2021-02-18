@@ -166,24 +166,20 @@ class UserController extends Controller
         $total_area_mean = 0;
         $total_weighted_mean = 0;
         foreach ($sar_external as $sar){
-            $total_weight += $sar['weight'];
             $total_area_mean += $sar['area_mean'];
             $total_weighted_mean += $sar['weighted_mean'];
         }
-        $weight_total=0;
         foreach ($weight as $w){
-            $weight_total += $w;
+            $total_weight += $w;
         }
-        $grand_mean  = $total_weighted_mean/50;
+        $grand_mean  = $total_weighted_mean/$total_weight;
         $result_external->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2)]);
 
         $result_internal = new Collection();
 
-        $total_weight = 0;
         $total_area_mean = 0;
         $total_weighted_mean = 0;
         foreach ($sar_internal as $sar){
-            $total_weight += $sar['weight'];
             $total_area_mean += $sar['area_mean'];
             $total_weighted_mean += $sar['weighted_mean'];
         }
