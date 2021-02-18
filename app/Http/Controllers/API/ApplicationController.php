@@ -201,13 +201,12 @@ class ApplicationController extends Controller
         $sum = 0;
         $weight = array(0,8,8,8,5,4,5,3,4,5);
         $scores = new Collection();
-
         if(count($assigned_users) < 1) return response()->json(['status' => false, 'message' => 'Application is not yet done.']);
         foreach ($assigned_users as $assigned_user){
             $assigned_user->status = 'done';
             $assigned_user->save();
-            $area_mean = AreaMean::where('assigned_user_id', $assigned_users->id)->first();
-            if(count($area_mean) >= 1){
+            $area_mean = AreaMean::where('assigned_user_id', $assigned_user->id)->first();
+            if(!(is_null($area_mean))){
                 $instrument = InstrumentProgram::where('id', $area_mean->instrument_program_id)->first();
                 $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
                 for($x=0;$x < 10; $x++){
