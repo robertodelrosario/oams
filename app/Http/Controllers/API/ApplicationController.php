@@ -205,7 +205,7 @@ class ApplicationController extends Controller
         foreach ($assigned_users as $assigned_user){
             $assigned_user->status = 'done';
             $assigned_user->save();
-            $area_mean = AreaMean::where('assigned_user_id', $assigned_user->id)->first();
+            $area_mean = AreaMean::where('assigned_user_id', $assigned_user  ->id)->first();
             if(!(is_null($area_mean))){
                 $instrument = InstrumentProgram::where('id', $area_mean->instrument_program_id)->first();
                 $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
