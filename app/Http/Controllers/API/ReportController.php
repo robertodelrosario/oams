@@ -218,6 +218,6 @@ class ReportController extends Controller
     }
 
     public function generateProgramSAR($id, $app_prog){
-        
+
     }
 }

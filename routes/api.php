@@ -172,8 +172,8 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteFile/{id}', 'ApplicationController@deleteFile');
     Route::get('/viewFile/{id}', 'ApplicationController@viewFile');
 
-    Route::post('/approvedApplication/{id}', 'ApplicationController@approvedApplication');
-    Route::post('/disapprovedApplication/{id}', 'ApplicationController@disapprovedApplication');
+    Route::post('/approveApplication/{id}', 'ApplicationController@approveApplication');
+    Route::post('/disapproveApplication/{id}', 'ApplicationController@disapproveApplication');
 
     Route::post('/program', 'AppliedProgramController@program');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');

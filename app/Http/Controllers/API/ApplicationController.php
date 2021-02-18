@@ -178,7 +178,7 @@ class ApplicationController extends Controller
         return $response;
     }
 
-    public function approvedApplication(request $request, $id){
+    public function approveApplication(request $request, $id){
         $validator = Validator::make($request->all(), [
             'filename' => 'required',
             'end_of_validity' => 'required'
@@ -240,7 +240,7 @@ class ApplicationController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully accredited the program.']);
     }
 
-    public function disapprovedApplication($id){
+    public function disapproveApplication($id){
         $applied_program = ApplicationProgram::where('id', $id)->first();
         $applied_program->result = 'unaccredited';
         $applied_program->save();
