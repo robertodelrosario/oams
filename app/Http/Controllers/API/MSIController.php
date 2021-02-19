@@ -85,7 +85,7 @@ class MSIController extends Controller
             }
         }
         else{
-            $area = InstrumentProgram::where('id', $task->transaction_id)->first();
+            $area = InstrumentProgram::where('id', $transactionID)->first();
             $instrumentStatements = DB::table('programs_statements')
                 ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
                 ->join('parameters_programs', 'parameters_programs.id', '=', 'programs_statements.program_parameter_id')
