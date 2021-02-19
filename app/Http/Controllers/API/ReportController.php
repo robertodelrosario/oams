@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Program;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -218,6 +219,129 @@ class ReportController extends Controller
     }
 
     public function generateProgramSAR($id, $app_prog){
+        $check = ApplicationProgram::where('id', $app_prog)->first();
+        $program = Program::where('id', $check->program_id)->first();
 
+        $area = AssignedUser::where([
+            ['app_program_id', $app_prog], ['user_id', $id]
+        ])->first();
+
+        $areas = AssignedUser::where([
+            ['app_program_id', $app_prog], ['user_id', $id]
+        ])->get();
+        $instrument_array = array();
+        $role = null;
+        foreach ($areas as $area){
+            $instrument = DB::table('instruments_programs')
+                ->join('programs', 'programs.id', '=', 'instruments_programs.program_id')
+                ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
+                ->where('instruments_programs.id', $area->transaction_id)
+                ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program_id', 'area_instruments.area_number', 'area_instruments.area_name')
+                ->first();
+            $role = $area->role;
+            $instrument_array = Arr::prepend($instrument_array,$instrument);
+        }
+
+        $instruments = AssignedUser::where('app_program_id', $app_prog)->get();
+        $area_mean_external = array();
+        $area_mean_internal = array();
+
+        foreach($instruments as $instrument){
+            if(Str::contains($instrument->role, 'leader') || Str::contains($instrument->role, 'area 7')){
+                $score = AreaMean::where([
+                    ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
+                ])->first();
+                $area_mean_external = Arr::prepend($area_mean_external,$score);
+            }
+            elseif($instrument->role == 'internal accreditor'){
+                $score = AreaMean::where([
+                    ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
+                ])->first();
+                if(!(is_null($score))) $area_mean_internal = Arr::prepend($area_mean_internal,$score);
+            }
+        }
+
+        $weight = array(0,8,8,8,5,4,5,3,4,5);
+        $sars = new Collection();
+        $result= new Collection();
+
+        $total_weight = 0;
+        $total_area_mean = 0;
+        $total_weighted_mean = 0;
+
+        foreach ($weight as $w){
+            $total_weight += $w;
+        }
+
+        if(Str::contains($role, 'external accreditor')){
+
+            foreach ($area_mean_external as $area){
+                $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
+                $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+                for($x=0;$x < 10; $x++){
+                    if($area_number->area_number == $x+1){
+                        $sars->push(['instrument_program_id' => $instrument->id,'area_number' => $area_number->area_number,'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
+                        break;
+                    }
+                }
+            }
+
+            foreach ($sars as $sar){
+                $total_area_mean += $sar['area_mean'];
+                $total_weighted_mean += $sar['weighted_mean'];
+            }
+
+            $grand_mean  = $total_weighted_mean/$total_weight;
+
+            if($grand_mean < 1.50) $descriptive_result = 'Poor';
+            elseif ($grand_mean < 2.50) $descriptive_result ='Fair';
+            elseif ($grand_mean < 3.50) $descriptive_result ='Satisfactory';
+            elseif ($grand_mean < 4.50) $descriptive_result ='Very Satisfactory';
+            else $descriptive_result ='Excellent';
+            $result->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2), 'descriptive_result' => $descriptive_result]);
+
+        }
+        elseif (Str::contains($role, 'internal accreditor')){
+            foreach ($area_mean_internal as $area){
+                $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
+                $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+                for($x=0;$x < 10; $x++){
+                    if($area_number->area_number == $x+1){
+                        $sars->push(['instrument_program_id' => $instrument->id,'area_number' => $area_number->area_number,'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x] ]);
+                        break;
+                    }
+                }
+            }
+            $total_area_mean = 0;
+            $total_weighted_mean = 0;
+            foreach ($sars as $sar){
+                $total_area_mean += $sar['area_mean'];
+                $total_weighted_mean += $sar['weighted_mean'];
+            }
+
+            $grand_mean  = $total_weighted_mean/$total_weight;
+
+            if($grand_mean < 1.50) $descriptive_result = 'Poor';
+            elseif ($grand_mean < 2.50) $descriptive_result ='Fair';
+            elseif ($grand_mean < 3.50) $descriptive_result ='Satisfactory';
+            elseif ($grand_mean < 4.50) $descriptive_result ='Very Satisfactory';
+            else $descriptive_result ='Excellent';
+            $result->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2), 'descriptive_result' => $descriptive_result]);
+
+        }
+
+        $program_sar = new Collection();
+        for($x = 1; $x<=10 ; $x++){
+            foreach ($sars as $sar){
+                if($x == $sar['area_number']){
+                    $program_sar->push(['area' => $sar['area'], 'weight' => $sar['weight'], 'mean' => $sar['area_mean'], 'weighted_mean' => $sar['weighted_mean']]);
+                }
+            }
+        }
+
+
+        $pdf = PDF::loadView('programSar', ['program' => $program,'areas' => $program_sar,'result' =>$result]);
+        return $pdf->download('program_SAR.pdf');
+        return response()->json(['program' => $program,'areas' => $program_sar,'result' =>$result]);
     }
 }

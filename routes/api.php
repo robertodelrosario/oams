@@ -159,6 +159,7 @@ Route::group(['prefix' => '/notification'], function() {
 Route::group(['prefix' => '/report'], function() {
     Route::get('/generateAreaSAR/{id}/{app_prog}', 'ReportController@generateAreaSAR');
     Route::get('/generateAreaSARInternal/{id}/{app_prog}', 'ReportController@generateAreaSARInternal');
+    Route::get('/generateProgramSAR/{id}/{app_prog}', 'ReportController@generateProgramSAR');
 });
 
 Route::group(['prefix' => '/application'], function() {
