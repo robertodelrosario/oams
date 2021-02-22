@@ -7,12 +7,11 @@ use App\ApplicationProgramFile;
 use App\AreaInstrument;
 use App\AreaMean;
 use App\AssignedUser;
-use App\BestPractice;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Program;
+use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -222,10 +221,6 @@ class ReportController extends Controller
         $check = ApplicationProgram::where('id', $app_prog)->first();
         $program = Program::where('id', $check->program_id)->first();
 
-        $area = AssignedUser::where([
-            ['app_program_id', $app_prog], ['user_id', $id]
-        ])->first();
-
         $areas = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->get();
@@ -339,9 +334,100 @@ class ReportController extends Controller
             }
         }
 
-
         $pdf = PDF::loadView('programSar', ['program' => $program,'areas' => $program_sar,'result' =>$result]);
-        return $pdf->download('program_SAR.pdf');
+        return $pdf->download($program->program_name. '_SAR.pdf');
         return response()->json(['program' => $program,'areas' => $program_sar,'result' =>$result]);
+    }
+
+    public function generateProgramSFR($id, $role){
+        $assignedUsers = AssignedUser::where('app_program_id', $id)->get();
+        if($role == 0) $role_str = 'internal accreditor';
+        elseif($role == 1) $role_str = 'external accreditor';
+        $transactions = array();
+        foreach ($assignedUsers as $assignedUser){
+            $tran = DB::table('area_instruments')
+                ->join('instruments_programs', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
+                ->where('instruments_programs.id', $assignedUser->transaction_id)
+                ->first();
+            if(!(in_array($tran, $transactions))) $transactions= Arr::prepend($transactions,$tran);
+        }
+        $program = "";
+        $bestpractice_array = array();
+        $remark_strength_array = array();
+        $remark_weakness_array = array();
+        $recommendation_array = array();
+        $empty = array();
+
+        $collection_user = new Collection();
+        $test = array();
+        foreach ($transactions as $transaction){
+            $tasks = AssignedUser::where([
+                ['transaction_id', $transaction->id], ['app_program_id', $id]
+            ])->get();
+
+            $area = DB::table('area_instruments')
+                ->join('instruments_programs', 'area_instruments.id','=', 'instruments_programs.area_instrument_id')
+                ->where('instruments_programs.id',$transaction->id)
+                ->first();
+
+            $program = Program::where('id', $area->program_id)->first();
+            foreach ($tasks as $task){
+                if(Str::contains($task->role, $role_str))
+                {
+                    $test= Arr::prepend($test,$task);
+                    $user = User::where('id', $task->user_id)->first();
+                    $bestpractices = DB::table('assigned_users')
+                        ->join('best_practices', 'best_practices.assigned_user_id','=', 'assigned_users.id')
+                        ->where('assigned_users.id', $task->id)
+                        ->get();
+                    foreach ($bestpractices as $bestpractice) $bestpractice_array = Arr::prepend($bestpractice_array,$bestpractice->best_practice);
+
+                    $remarks = DB::table('assigned_users')
+                        ->join('instruments_scores', 'instruments_scores.assigned_user_id', '=', 'assigned_users.id')
+                        ->where('assigned_users.id', $task->id)
+                        ->where('instruments_scores.remark', '!=', null)
+                        ->get();
+                    if(count($remarks) > 0)
+                        foreach ($remarks as $remark)
+                        {
+                            if($remark->remark_type == 'Strength') $remark_strength_array = Arr::prepend($remark_strength_array, $remark->remark);
+                            elseif($remark->remark_type == 'Weakness') $remark_weakness_array = Arr::prepend($remark_weakness_array, $remark->remark);
+                        }
+
+                    $recommendations = DB::table('assigned_users')
+                        ->join('recommendations', 'assigned_users.id', '=', 'recommendations.assigned_user_id')
+                        ->where('assigned_users.id', $task->id)
+                        ->get();
+                    foreach ($recommendations as $recommendation) $recommendation_array = Arr::prepend($recommendation_array,$recommendation->recommendation);
+
+                    $collection_user->push([
+                        'instrument_program_id' => $area->id,
+                        'area_name' => $area->area_name,
+                        'user_name' => $user->first_name. " ".$user->last_name,
+                        'best_practices' => $bestpractice_array,
+                        'strength_remarks' => $remark_strength_array,
+                        'weakness_remarks' => $remark_weakness_array,
+                        'recommendations' => $recommendation_array
+                    ]);
+                    $bestpractice_array = $empty;
+                    $remark_strength_array = $empty;
+                    $remark_weakness_array= $empty;
+                    $recommendation_array= $empty;
+                }
+            }
+        }
+
+        $program_sfr = new Collection();
+        for($x = 1; $x<=10 ; $x++){
+            foreach ($transactions as $transaction){
+                if($x == $transaction->area_number){
+                    $program_sfr->push(['id' => $transaction->id, 'area_number' => $transaction->area_number, 'area_name' => $transaction->area_name]);
+                }
+            }
+        }
+//        return response()->view('programSFR', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
+        $pdf = PDF::loadView('programSFR', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user])->setPaper('a4', 'landscape');
+        return $pdf->download($program->program_name. '_SFR.pdf');
+        return response()->json(['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
     }
 }

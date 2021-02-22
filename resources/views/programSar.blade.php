@@ -13,7 +13,7 @@
 
 <div class="container">
     <h3 style="text-align: center">SUMMARY OF RATINGS</h3>
-    <p class="font-weight-bold" style="text-align: center">{{ $program['program_name'] }}</p>
+    <p class="font-weight-bold" style="text-align: center">{{ $program->program_name }}</p>
     <table class="table table-bordered" >
         <thead>
         <tr>

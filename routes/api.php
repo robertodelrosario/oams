@@ -160,6 +160,7 @@ Route::group(['prefix' => '/report'], function() {
     Route::get('/generateAreaSAR/{id}/{app_prog}', 'ReportController@generateAreaSAR');
     Route::get('/generateAreaSARInternal/{id}/{app_prog}', 'ReportController@generateAreaSARInternal');
     Route::get('/generateProgramSAR/{id}/{app_prog}', 'ReportController@generateProgramSAR');
+    Route::get('/generateProgramSFR/{id}/{role}', 'ReportController@generateProgramSFR');
 });
 
 Route::group(['prefix' => '/application'], function() {
