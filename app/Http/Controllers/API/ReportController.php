@@ -191,10 +191,7 @@ class ReportController extends Controller
             if ($collections->count() != 0) $mean_ext = $total / $collections->count();
             else $mean_ext = 0;
         }
-
-        foreach ($collections as $collection)
-            if($collection['status'] == 'unaccepted') return response()->json(['status' => false, 'message' => 'An average paramenter mean is unacceptable with a difference of ' .$collection['difference']]);
-
+        
         $area_mean = new Collection();
         $area_mean->push(['total' => $total,'area_mean' => $mean_ext]);
 
