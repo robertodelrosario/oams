@@ -38,7 +38,7 @@ class CampusController extends Controller
             $campus->municipality = $request->municipality;
             $campus->email = $request->email;
             $campus->contact_no = $request->contact_no;
-            $campus->save();
+
 
             $user = new User;
             $user->first_name = $request->first_name;
@@ -47,6 +47,7 @@ class CampusController extends Controller
             $user->contact_no = $request->user_contact_no;
             $user->password = bcrypt($request->input('password'));
             $user->status = 'active';
+            $campus->save();
             $user->save();
             $campus= Campus::where('id',$campus->id)->first();
             $user->campuses()->attach($campus);

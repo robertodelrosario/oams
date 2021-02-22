@@ -78,6 +78,12 @@ class ProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully edited program name', 'suc' => $program]);
     }
 
+    public function deleteSelectedInstrument(){
+        $instruments = InstrumentProgram::All();
+        $instruments->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully deleted']);
+    }
+
     public function selectInstrument($programID, $intendedProgramID){
         $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
         foreach ($areas as $area){
