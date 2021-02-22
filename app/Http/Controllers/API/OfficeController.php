@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Document;
 use App\Http\Controllers\Controller;
 use App\Office;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Comment\Doc;
 
 class OfficeController extends Controller
 {
@@ -39,7 +41,8 @@ class OfficeController extends Controller
 
     public function deleteOffice($id){
         $office = Office::where('id', $id)->first();
-
+        $count = Document::where('office_id', $office->id)->get();
+        if($count > 0) return response()->json(['status' => false, 'message' => 'Office contains document/s.']);
         $office->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted!']);
     }
