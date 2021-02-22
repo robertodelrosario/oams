@@ -13,7 +13,7 @@
 
 <div class="container">
     <h4 style="text-align: center">SUMMARY OF FINDINGS AND RECOMMENDATIONS</h4>
-    <p class="font-weight-bold" style="text-align: center">{{ $program['program_name'] }}</p>
+    <p class="font-weight-bold" style="text-align: center">{{ $program->program_name }}</p>
     <br>
     @foreach($instrument_programs as $instrument_program)
         <p class="font-weight-bold" style="text-align: left">{{ $instrument_program['area_name'] }}</p>
