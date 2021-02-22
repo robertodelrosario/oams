@@ -423,8 +423,7 @@ class ReportController extends Controller
                 }
             }
         }
-//        return response()->view('programSFR', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
-        $pdf = PDF::loadView('programSFR', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user])->setPaper('a4', 'landscape');
+        $pdf = PDF::loadView('program_sfr', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
         return $pdf->download($program->program_name. '_SFR.pdf');
         return response()->json(['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
     }

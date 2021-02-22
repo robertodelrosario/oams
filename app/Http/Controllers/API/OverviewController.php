@@ -2,28 +2,80 @@
 
 namespace App\Http\Controllers\API;
 
+use App\ApplicationProgram;
+use App\AreaInstrument;
+use App\AreaMean;
 use App\AssignedUser;
 use App\Http\Controllers\Controller;
+use App\InstrumentProgram;
+use App\Program;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OverviewController extends Controller
 {
-    public function showInstrument($id){
-        $instruments = AssignedUser::where('app_program_id', $id)->get();
-        $instrument_ids = array();
-        foreach ($instruments as $instrument){
-            if(!(in_array($instrument->transaction_id, $instrument_ids))) $instrument_ids = Arr::prepend($instrument->transaction_id,$instrument_ids);
+    public function showProgramSAR($app_prog, $role){
+        $check = ApplicationProgram::where('id', $app_prog)->first();
+        $program = Program::where('id', $check->program_id)->first();
+
+        $transactions = array();
+        if($role == 0)  //internal accreditor
+        {
+            $areas = AssignedUser::where([
+                ['app_program_id', $app_prog], ['role', 'internal accreditor']
+            ])->get();
         }
-        $areas = array();
-        foreach ($instrument_ids as $instrument_id){
-            $instrument = DB::table('instruments_programs')
-                ->join('area_instruments', 'area_instruments.id', '=', 'instruments_programs.area_instrument_id')
-                ->where('instruments_programs.id', $instrument_id)
-                ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program_id', 'area_instruments.area_number', 'area_instruments.area_name')
-                ->first();
-            $areas = Arr::prepend($areas,$instrument);
+        else{       //external accreditor
+            $areas = array();
+            $areas_list = AssignedUser::where('app_program_id', $app_prog)->get();
+            foreach ($areas_list as $area_list){
+                if(Str::contains($area_list->role, 'external accreditor')){
+                    $areas = Arr::prepend($areas, $area_list);
+                }
+            }
         }
+
+        foreach ($areas as $area){
+            if(!(in_array($area->transaction_id, $transactions))) $transactions= Arr::prepend($transactions,$area->transaction_id);
+        }
+
+        $weight = array(0,8,8,8,5,4,5,3,4,5);
+        $sar = new Collection();
+        foreach ($areas as $area) {
+            $mean_score = AreaMean::where('assigned_user_id', $area->id)->first();
+            {
+                if (!(is_null($mean_score))) {
+                    for ($x = 0; $x < 10; $x++) {
+                        $instrument = InstrumentProgram::where('id', $area->transaction_id)->first();
+                        $area_instrument = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+                        if($area_instrument->area_number == $x+1){
+                            $sar->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number, 'area' => $area_instrument->area_name, 'weight' => $weight[$x], 'area_mean' => $mean_score->area_mean, 'weighted_mean' => $mean_score->area_mean * $weight[$x]]);
+                        }
+
+                    }
+                }
+            }
+        }
+        $result = new Collection();
+
+        $total_weight = 0;
+        $total_area_mean = 0;
+        $total_weighted_mean = 0;
+        foreach ($sar as $s){
+            $total_area_mean += $s['area_mean'];
+            $total_weighted_mean += $s['weighted_mean'];
+        }
+        foreach ($weight as $w){
+            $total_weight += $w;
+        }
+        $grand_mean  = $total_weighted_mean/$total_weight;
+        $result->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2)]);
+
+
+        return response()->json(['program' => $program,'areas' => $sar, 'result' => $result]);
     }
 }
