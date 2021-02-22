@@ -154,14 +154,14 @@ class ReportController extends Controller
             foreach ($means as $mean) {
                 if ($mean->role ==  'internal accreditor') {
                     $mean_array = Arr::prepend($mean_array, $mean);
-                    if(!(in_array($mean->last_name, $accreditor))) $accreditor = Arr::prepend($accreditor, ['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
+                    if(!(in_array($mean->first_name .' '. $mean->last_name, $accreditor))) $accreditor = Arr::prepend($accreditor, ['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
                 }
             }
         }
         $total = 0;
         foreach ($parameters as $parameter) {
-            if ($parameter->acceptable_score_gap == null) $gap = 0;
-            else $gap = $parameter->acceptable_score_gap;
+//            if ($parameter->acceptable_score_gap == null) $gap = 0;
+//            else $gap = $parameter->acceptable_score_gap;
             $diff = 0;
             $sum = 0;
             $count = 0;
@@ -182,16 +182,17 @@ class ReportController extends Controller
             elseif ($average < 4.50) $rating = 'Very Satisfactory';
             else $rating = 'Excellent';
 
-            if ($diff >= $gap) {
-                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted', 'descriptive_rating' => $rating]);
-            } else {
-                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted', 'descriptive_rating'  => $rating]);
-            }
+            $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted', 'descriptive_rating'  => $rating]);
+//            if ($diff >= $gap) {
+//                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted', 'descriptive_rating' => $rating]);
+//            } else {
+//                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted', 'descriptive_rating'  => $rating]);
+//            }
             $total = $total + $average;
             if ($collections->count() != 0) $mean_ext = $total / $collections->count();
             else $mean_ext = 0;
         }
-        
+
         $area_mean = new Collection();
         $area_mean->push(['total' => $total,'area_mean' => $mean_ext]);
 
