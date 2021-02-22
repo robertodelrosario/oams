@@ -65,7 +65,7 @@ class ReportController extends Controller
             foreach ($means as $mean) {
                 if (Str::contains($mean->role, 'external accreditor')) {
                     $mean_array = Arr::prepend($mean_array, $mean);
-                    if(!(in_array($mean->last_name, $accreditor))) $accreditor = Arr::prepend($accreditor, ['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
+                    if(!(in_array($mean->first_name .' '. $mean->last_name, $accreditor))) $accreditor = Arr::prepend($accreditor, ['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
                 }
             }
         }
@@ -142,7 +142,7 @@ class ReportController extends Controller
             ->where('parameters_programs.program_instrument_id', $id)
             ->get();
         $mean_array = array();
-        $accreditor = array();
+        $accreditor = new Collection();
         foreach ($parameters as $parameter){
             $means = DB::table('parameters_means')
                 ->join('assigned_users', 'assigned_users.id', '=','parameters_means.assigned_user_id')
@@ -154,7 +154,7 @@ class ReportController extends Controller
             foreach ($means as $mean) {
                 if ($mean->role ==  'internal accreditor') {
                     $mean_array = Arr::prepend($mean_array, $mean);
-                    if(!(in_array($mean->first_name .' '. $mean->last_name, $accreditor))) $accreditor = Arr::prepend($accreditor, ['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
+                    if(!($accreditor->contains( 'name', $mean->first_name .' '. $mean->last_name))) $accreditor->push(['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
                 }
             }
         }
