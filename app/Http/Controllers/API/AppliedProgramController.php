@@ -12,6 +12,7 @@ use App\AssignedUserHead;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
+use App\ProgramInstrument;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -189,7 +190,7 @@ class AppliedProgramController extends Controller
         $instrumentPrograms = DB::table('instruments_programs')
             ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
             ->where('instruments_programs.program_id', $id)
-            ->select('instruments_programs.*', 'area_instruments.area_number', 'area_instruments.area_name', 'area_instruments.version')
+            ->select('instruments_programs.*','area_instruments.intended_program_id','area_instruments.area_number', 'area_instruments.area_name', 'area_instruments.version')
             ->get();
         if(is_null($instrumentPrograms)) return response()->json(['status' => false, 'message' => 'Do not have instruments']);
         $users = array();
@@ -201,8 +202,9 @@ class AppliedProgramController extends Controller
             foreach($assigned_users as $assigned_user){
                 if ($assigned_user != null) $users = Arr::prepend($users, $assigned_user);
             }
+            $intended_program = ProgramInstrument::where('id',$instrumentProgram->intended_program_id)->first();
         }
-        return response()->json(['instruments' => $instrumentPrograms, 'users' => $users]);
+        return response()->json(['instruments' => $instrumentPrograms, 'users' => $users, 'intended_program' => $intended_program->type_of_instrument]);
     }
 
     public function showStatementDocument($id)
