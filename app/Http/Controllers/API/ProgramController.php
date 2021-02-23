@@ -92,8 +92,7 @@ class ProgramController extends Controller
         {
             $instrument = InstrumentProgram::where('program_id', $programID);
             $instrument->delete();
-//        }
-//        if(count($status) <= 0){
+
             $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
             foreach ($areas as $area){
                 $instrumentProgram = new InstrumentProgram();
