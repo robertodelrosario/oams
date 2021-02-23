@@ -98,6 +98,7 @@ class ProgramController extends Controller
                 $instrumentProgram->save();
 
                 $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                if(count($instrumentParamenters) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have parameters']);
                 foreach ($instrumentParamenters as $instrumentParamenter){
                     $parameter = new ParameterProgram();
                     $parameter->program_instrument_id = $instrumentProgram->id;
@@ -105,6 +106,7 @@ class ProgramController extends Controller
                     $parameter->save();
 
                     $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                    if(count($statements) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have statements']);
                     foreach ($statements as $statement){
                         $programStatement = new ProgramStatement();
                         $programStatement->program_parameter_id = $parameter->id;
@@ -123,7 +125,7 @@ class ProgramController extends Controller
                 ])->first();
 
                 $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-
+                if(count($instrumentParamenters) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have parameters']);
                 foreach ($instrumentParamenters as $instrumentParamenter){
                     $parameter = ParameterProgram::where([
                         ['program_instrument_id', $instrumentProgram->id], ['parameter_id', $instrumentParamenter->parameter_id]
@@ -137,6 +139,7 @@ class ProgramController extends Controller
                     }
 
                     $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                    if(count($statements) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have statements']);
                     foreach ($statements as $statement){
 
                         $programStatement = ProgramStatement::where([
