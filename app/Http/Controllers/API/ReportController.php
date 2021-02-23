@@ -499,6 +499,16 @@ class ReportController extends Controller
                     }
                 }
             }
+
+            $section->addPageBreak();
+            $section->addText(
+                "SUMMARY OF FINDINGS AND RECOMMENDATIONS",array('bold' => true, 'size' => 10),
+                $styleFont
+            );
+            $section->addText(
+                $program->program_name,array('bold' => true, 'size' => 10),
+                $styleFont
+            );
         }
 
 
