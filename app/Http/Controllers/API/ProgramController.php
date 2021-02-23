@@ -80,16 +80,6 @@ class ProgramController extends Controller
 
     public function selectInstrument($programID, $intendedProgramID){
 
-//        $status = ApplicationProgram::where('program_id', $programID)->get();
-//        foreach ($status as $st){
-//            if($st->status == )
-//        }
-
-//        if(!(is_null($instrumentProgram)))
-//        {
-//            $instrumentProgram->delete();
-//        }
-
         $status = InstrumentProgram::where('program_id', $programID)->get();
 
         foreach ($status as $s){
@@ -100,7 +90,6 @@ class ProgramController extends Controller
             }
         }
         if(count($status) < 0){
-            $status->delete();
             $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
             foreach ($areas as $area){
                 $instrumentProgram = new InstrumentProgram();
