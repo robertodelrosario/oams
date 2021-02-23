@@ -85,7 +85,7 @@ class ProgramController extends Controller
         foreach ($status as $s){
             $program = AreaInstrument::where('id', $s->area_instrument_id)->first();
             if($program->intended_program_id != $intendedProgramID){
-                $status->delete();
+                foreach ($status as $s) $s->delete();
                 break;
             }
         }
