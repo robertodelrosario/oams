@@ -424,6 +424,7 @@ class ReportController extends Controller
             }
         }
 
+        require_once 'vendor/autoload.php';
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
 
