@@ -79,17 +79,21 @@ class ProgramController extends Controller
     }
 
     public function selectInstrument($programID, $intendedProgramID){
+        $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
 
-        $status = InstrumentProgram::where('program_id', $programID)->get();
-
-        foreach ($status as $s){
-            $program = AreaInstrument::where('id', $s->area_instrument_id)->first();
-            if($program->intended_program_id != $intendedProgramID){
-                foreach ($status as $s) $s->delete();
-                break;
-            }
+        $count = 0;
+        foreach ($areas as $area){
+            $check = InstrumentProgram::where([
+                ['program_id', $programID], ['area_instrument_id',$area->id]
+            ])->first();
+            if(!(is_null($check))) $count++;
         }
-        if(count($status) < 0){
+        if($count == 0)
+        {
+            $instrument = InstrumentProgram::where('program_id', $programID);
+            $instrument->delete();
+//        }
+//        if(count($status) <= 0){
             $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
             foreach ($areas as $area){
                 $instrumentProgram = new InstrumentProgram();
@@ -98,66 +102,77 @@ class ProgramController extends Controller
                 $instrumentProgram->save();
 
                 $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-                if(count($instrumentParamenters) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have parameters']);
-                foreach ($instrumentParamenters as $instrumentParamenter){
-                    $parameter = new ParameterProgram();
-                    $parameter->program_instrument_id = $instrumentProgram->id;
-                    $parameter->parameter_id = $instrumentParamenter->parameter_id;
-                    $parameter->save();
-
-                    $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
-                    if(count($statements) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have statements']);
-                    foreach ($statements as $statement){
-                        $programStatement = new ProgramStatement();
-                        $programStatement->program_parameter_id = $parameter->id;
-                        $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
-                        $programStatement->parent_statement_id = $statement->parent_statement_id;
-                        $programStatement->save();
-                    }
-                }
-            }
-        }
-        else{
-            $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
-            foreach ($areas as $area){
-                $instrumentProgram = InstrumentProgram::where([
-                    ['program_id', $programID], ['area_instrument_id',$area->id]
-                ])->first();
-
-                $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-                if(count($instrumentParamenters) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have parameters']);
-                foreach ($instrumentParamenters as $instrumentParamenter){
-                    $parameter = ParameterProgram::where([
-                        ['program_instrument_id', $instrumentProgram->id], ['parameter_id', $instrumentParamenter->parameter_id]
-                    ])->first();
-
-                    if(is_null($parameter)){
+                if(count($instrumentParamenters) != 0){
+                    foreach ($instrumentParamenters as $instrumentParamenter){
                         $parameter = new ParameterProgram();
                         $parameter->program_instrument_id = $instrumentProgram->id;
                         $parameter->parameter_id = $instrumentParamenter->parameter_id;
                         $parameter->save();
-                    }
 
-                    $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
-                    if(count($statements) < 0) return response()->json(['status' => false, 'message' => 'Instrument does not have statements']);
-                    foreach ($statements as $statement){
-
-                        $programStatement = ProgramStatement::where([
-                            ['program_parameter_id', $parameter->id], ['benchmark_statement_id', $statement->benchmark_statement_id]
-                        ])->first();
-                        if(is_null($programStatement)){
-                            $programStatement = new ProgramStatement();
-                            $programStatement->program_parameter_id = $parameter->id;
-                            $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
-                            $programStatement->parent_statement_id = $statement->parent_statement_id;
-                            $programStatement->save();
+                        $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                        if(count($statements) != 0){
+                            foreach ($statements as $statement){
+                                $programStatement = new ProgramStatement();
+                                $programStatement->program_parameter_id = $parameter->id;
+                                $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                $programStatement->save();
+                            }
                         }
                     }
                 }
+
             }
+            return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
+        }
+        else{
+            $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
+            foreach ($areas as $area){
+
+                $instrumentProgram = InstrumentProgram::where([
+                    ['program_id', $programID], ['area_instrument_id',$area->id]
+                ])->first();
+
+                $instrumentParameters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+
+                if(count($instrumentParameters) != 0){
+                    foreach ($instrumentParameters as $instrumentParameter){
+                        $parameter = ParameterProgram::where([
+                            ['program_instrument_id', $instrumentProgram->id], ['parameter_id', $instrumentParameter->parameter_id]
+                        ])->first();
+
+
+                        if(is_null($parameter)){
+                            $parameter = new ParameterProgram();
+                            $parameter->program_instrument_id = $instrumentProgram->id;
+                            $parameter->parameter_id = $instrumentParameter->parameter_id;
+                            $parameter->save();
+                        }
+
+                        $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParameter->id)->get();
+                        if(count($statements) != 0){
+                            foreach ($statements as $statement){
+
+                                $programStatement = ProgramStatement::where([
+                                    ['program_parameter_id', $parameter->id], ['benchmark_statement_id', $statement->benchmark_statement_id]
+                                ])->first();
+                                if(is_null($programStatement)){
+                                    $programStatement = new ProgramStatement();
+                                    $programStatement->program_parameter_id = $parameter->id;
+                                    $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                    $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                    $programStatement->save();
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            return response()->json(['status' => true, 'message' => 'Successfully updated instrument!']);
         }
 
-        return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
+
     }
 
     public function showInstrumentProgram($id){
