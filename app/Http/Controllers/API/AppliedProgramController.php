@@ -203,8 +203,10 @@ class AppliedProgramController extends Controller
                 if ($assigned_user != null) $users = Arr::prepend($users, $assigned_user);
             }
             $intended_program = ProgramInstrument::where('id',$instrumentProgram->intended_program_id)->first();
+            if(!(is_null($intended_program))) $program = $intended_program->type_of_instrument;
+            else $program = "No attached instrument.";
         }
-        return response()->json(['instruments' => $instrumentPrograms, 'users' => $users, 'intended_program' => $intended_program->type_of_instrument]);
+        return response()->json(['instruments' => $instrumentPrograms, 'users' => $users, 'intended_program' => $program]);
     }
 
     public function showStatementDocument($id)
