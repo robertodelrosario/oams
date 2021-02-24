@@ -361,8 +361,9 @@ class AuthController extends Controller
 
     public function deleteUser($id){
         $user = User::where('id', $id)->first();
-        $user->status = 'inactive';
-        $user->save();
+        $user->delete();
+//        $user->status = 'inactive';
+//        $user->save();
         return response()->json(['status' => true, 'message' => 'Successfully disabled user account']);
     }
 
