@@ -245,9 +245,9 @@ class UserController extends Controller
             if($count != 0) $average = $sum/$count;
             else $average = $sum;
             if ($diff >= $gap) {
-                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted']);
+                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => round($average, 2), 'difference' => $diff, 'status' => 'unaccepted']);
             } else {
-                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted']);
+                $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => round($average,2), 'difference' => $diff, 'status' => 'accepted']);
             }
             $total = $total + $average;
             if ($collections->count() != 0) $mean_ext = $total/$collections->count();
@@ -267,9 +267,9 @@ class UserController extends Controller
             if($count != 0 ) $average_internal = $sum_internal/$count;
             else $average_internal = $sum_internal;
             if ($diff_internal >= $gap) {
-                $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average_internal, 'difference' => $diff_internal, 'status' => 'unaccepted']);
+                $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => round($average_internal,2), 'difference' => $diff_internal, 'status' => 'unaccepted']);
             } else {
-                $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average_internal, 'difference' => $diff_internal, 'status' => 'accepted']);
+                $collections_internal->push(['program_parameter_id' => $parameter->id, 'average_mean' => round($average_internal,2), 'difference' => $diff_internal, 'status' => 'accepted']);
             }
             $total_internal = $total_internal + $average_internal;
             if ($collections_internal->count() != 0) $mean_internal = $total_internal/$collections_internal->count();
@@ -277,10 +277,10 @@ class UserController extends Controller
         }
 
         $area_mean = new Collection();
-        $area_mean->push(['total' => $total,'area_mean' => $mean_ext]);
+        $area_mean->push(['total' => $total,'area_mean' => round($mean_ext, 2)]);
 
         $area_mean_internal = new Collection();
-        $area_mean_internal->push(['total' => $total_internal,'area_mean' => $mean_internal]);
+        $area_mean_internal->push(['total' => $total_internal,'area_mean' => round($mean_internal,2)]);
 
         foreach($mean_array as $arr){
             if(Str::contains($arr->role, 'leader') || Str::contains($arr->role, 'area 7')){

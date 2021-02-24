@@ -424,100 +424,100 @@ class ReportController extends Controller
             }
         }
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection();
+//        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+//        $section = $phpWord->addSection();
+//
+//        $styleFont = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
+//        $styleFont1 = array('space' => array('before' => 300, 'after' => 100));
+//        $styleFont2 = array('space' => array('before' => 1000, 'after' => 100));
+//        $styleFont3 = array('indentation' => array('left' => 540, 'right' => 120), 'space' => array('before' => 360, 'after' => 280));
+//        $styleFont4 = array('indentation' => array('left' => 1000, 'right' => 120));
+//
+//        $section->addText(
+//            "SUMMARY OF FINDINGS AND RECOMMENDATIONS",array('bold' => true, 'size' => 14),
+//            $styleFont
+//        );
+//        $section->addText(
+//            $program->program_name,array('bold' => true, 'size' => 14),
+//            $styleFont
+//        );
+//
+//        foreach ($program_sfr as $prog){
+//            $section->addText(
+//                $prog['area_name'],array('bold' => true),
+//                $styleFont2
+//            );
+//            foreach ($collection_user as $u){
+//                if($prog['id'] == $u['instrument_program_id']){
+//                    $section->addText(
+//                        $u['user_name'],array('bold' => true),
+//                        $styleFont1
+//                    );
+//                    $x = 1;
+//                    $section->addText(
+//                        'Best Practice/s',[],
+//                        $styleFont3
+//                    );
+//                    foreach($u['best_practices'] as $bp){
+//                        $section->addText(
+//                            $x.'. '. $bp,[],
+//                            $styleFont4
+//                        );
+//                    }
+//                    $x = 1;
+//                    $section->addText(
+//                        'Strength/s',[],
+//                        $styleFont3
+//                    );
+//                    foreach($u['strength_remarks'] as $s){
+//                        $section->addText(
+//                            $x.'. '. $s,[],
+//                            $styleFont4
+//                        );
+//                    }
+//                    $x = 1;
+//                    $section->addText(
+//                        'Weakness/s',[],
+//                        $styleFont3
+//                    );
+//                    foreach($u['weakness_remarks'] as $w){
+//                        $section->addText(
+//                            $x.'. '. $w,[],
+//                            $styleFont4
+//                        );
+//                    }
+//                    $x = 1;
+//                    $section->addText(
+//                        'Recommendation/s',[],
+//                        $styleFont3
+//                    );
+//                    foreach($u['recommendations'] as $r){
+//                        $section->addText(
+//                            $x.'. '. $r,[],
+//                            $styleFont4
+//                        );
+//                    }
+//                }
+//            }
+//
+//            $section->addPageBreak();
+//            $section->addText(
+//                "SUMMARY OF FINDINGS AND RECOMMENDATIONS",array('bold' => true, 'size' => 10),
+//                $styleFont
+//            );
+//            $section->addText(
+//                $program->program_name,array('bold' => true, 'size' => 10),
+//                $styleFont
+//            );
+//        }
+//
+//
+//        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+//        $objWriter->save('helloWorld.docx');
+//        return response()->download(public_path('helloWorld.docx'));
 
-        $styleFont = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
-        $styleFont1 = array('space' => array('before' => 300, 'after' => 100));
-        $styleFont2 = array('space' => array('before' => 1000, 'after' => 100));
-        $styleFont3 = array('indentation' => array('left' => 540, 'right' => 120), 'space' => array('before' => 360, 'after' => 280));
-        $styleFont4 = array('indentation' => array('left' => 1000, 'right' => 120));
-
-        $section->addText(
-            "SUMMARY OF FINDINGS AND RECOMMENDATIONS",array('bold' => true, 'size' => 14),
-            $styleFont
-        );
-        $section->addText(
-            $program->program_name,array('bold' => true, 'size' => 14),
-            $styleFont
-        );
-
-        foreach ($program_sfr as $prog){
-            $section->addText(
-                $prog['area_name'],array('bold' => true),
-                $styleFont2
-            );
-            foreach ($collection_user as $u){
-                if($prog['id'] == $u['instrument_program_id']){
-                    $section->addText(
-                        $u['user_name'],array('bold' => true),
-                        $styleFont1
-                    );
-                    $x = 1;
-                    $section->addText(
-                        'Best Practice/s',[],
-                        $styleFont3
-                    );
-                    foreach($u['best_practices'] as $bp){
-                        $section->addText(
-                            $x.'. '. $bp,[],
-                            $styleFont4
-                        );
-                    }
-                    $x = 1;
-                    $section->addText(
-                        'Strength/s',[],
-                        $styleFont3
-                    );
-                    foreach($u['strength_remarks'] as $s){
-                        $section->addText(
-                            $x.'. '. $s,[],
-                            $styleFont4
-                        );
-                    }
-                    $x = 1;
-                    $section->addText(
-                        'Weakness/s',[],
-                        $styleFont3
-                    );
-                    foreach($u['weakness_remarks'] as $w){
-                        $section->addText(
-                            $x.'. '. $w,[],
-                            $styleFont4
-                        );
-                    }
-                    $x = 1;
-                    $section->addText(
-                        'Recommendation/s',[],
-                        $styleFont3
-                    );
-                    foreach($u['recommendations'] as $r){
-                        $section->addText(
-                            $x.'. '. $r,[],
-                            $styleFont4
-                        );
-                    }
-                }
-            }
-
-            $section->addPageBreak();
-            $section->addText(
-                "SUMMARY OF FINDINGS AND RECOMMENDATIONS",array('bold' => true, 'size' => 10),
-                $styleFont
-            );
-            $section->addText(
-                $program->program_name,array('bold' => true, 'size' => 10),
-                $styleFont
-            );
-        }
-
-
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save('helloWorld.docx');
-        return response()->download(public_path('helloWorld.docx'));
-
-//        $pdf = PDF::loadView('program_sfr', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
-//        return $pdf->download($program->program_name. '_SFR.pdf');
-//        return response()->json(['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
+        $pdf = PDF::loadView('program_sfr', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
+        return $pdf->download($program->program_name. '_SFR.pdf');
+        return response()->json(['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
     }
 }
