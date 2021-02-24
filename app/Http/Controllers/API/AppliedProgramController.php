@@ -98,7 +98,7 @@ class AppliedProgramController extends Controller
 
     public function deleteProgramFile($id, $user_id){
         $file = ApplicationProgramFile::where('id', $id)->first();
-        $user = User::where('id', $user_id)->first();
+        $user = User::where('id', $file->uploader_id)->first();
         if($file->uploader_id != $user_id) return response()->json(['status' => false, 'message' => 'Only '.$user->first_name." ".$user->last_name." can remove the file."]);
         File::delete(storage_path("app/".$file->file));
         $file->delete();
