@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\ProgramInstrument;
 use App\Transaction;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -95,8 +96,10 @@ class AppliedProgramController extends Controller
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
     }
 
-    public function deleteProgramFile($id){
+    public function deleteProgramFile($id, $user_id){
         $file = ApplicationProgramFile::where('id', $id)->first();
+        $user = User::where('id', $user_id)->get();
+        if($file->uploader_id != $user_id) return response()->json(['status' => false, 'message' => 'Only '.$user->first_name." ".$user->last_name." can remove the file."]);
         File::delete(storage_path("app/".$file->file));
         $file->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted file!']);

@@ -186,7 +186,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');
 
     Route::post('/uploadFile/{id}/{userID}', 'AppliedProgramController@uploadFile');
-    Route::delete('/deleteProgramFile/{id}', 'AppliedProgramController@deleteProgramFile');
+    Route::delete('/deleteProgramFile/{id}/{user_id}', 'AppliedProgramController@deleteProgramFile');
     Route::get('/viewProgramFile/{id}', 'AppliedProgramController@viewProgramFile');
     Route::get('/showProgramFile/{id}', 'AppliedProgramController@showProgramFile');
 
