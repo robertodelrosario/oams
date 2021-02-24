@@ -280,7 +280,7 @@ class UserController extends Controller
         $area_mean->push(['total' => round($total,2),'area_mean' => round($mean_ext, 2)]);
 
         $area_mean_internal = new Collection();
-        $area_mean_internal->push(['total' => $total_internal,'area_mean' => round($mean_internal,2)]);
+        $area_mean_internal->push(['total' => round($total_internal,2),'area_mean' => round($mean_internal,2)]);
 
         foreach($mean_array as $arr){
             if(Str::contains($arr->role, 'leader') || Str::contains($arr->role, 'area 7')){
