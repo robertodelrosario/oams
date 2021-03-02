@@ -189,7 +189,9 @@ class DocumentController extends Controller
 
     public function showOwnDocument($id){
         $document_collection = new Collection();
-        $documents = Document::where('uploader_id', $id)->get();
+        $documents = Document::where([
+            ['uploader_id', $id], ['office_id', null]
+        ])->get();
         foreach ($documents as $document){
             $tags = Tag::where('document_id', $document->id)->get();
             $document_collection->push(['document' => $document, 'tags' => $tags]);

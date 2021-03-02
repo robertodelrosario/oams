@@ -44,7 +44,7 @@ class UserProfileController extends Controller
         $user->school_name = $request->school_name;
         $user->level = $request->level;
         $user->started_at = $request->started_at;
-        $user->started_at = $request->started_at;
+        $user->graduated_at = $request->graduated_at;
         $user->honor = $request->honor;
         $user->course = $request->course;
         $user->units_earned = $request->units_earned;
