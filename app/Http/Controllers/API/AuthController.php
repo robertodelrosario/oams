@@ -162,64 +162,64 @@ class AuthController extends Controller
         return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
 
-    public function registerLocalAccreditor(Request $request, $id){
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'password' => 'required|min:6',
-            'contact_no' => 'required',
-        ]);
-
-        if ($validator->fails())
-            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
-
-        $check = User::where('email', $request->email)->first();
-        if(is_null($check)){
-            $user = new User;
-            $user->first_name = $request->first_name;
-            $user->last_name = $request->last_name;
-            $user->email = $request->email;
-            $user->contact_no = $request->contact_no;
-            $user->password = bcrypt($request->input('password'));
-            $user->status = 'active';
-            $user->save();
-            $campus= Campus::where('id',$id)->first();
-            $user->campuses()->attach($campus);
-            $role = Role::where('role', $request->role)->first();
-            $role->users()->attach($user->id);
-
-            $region = new AccreditorProfile();
-            $region->user_id = $user->id;
-            $region->region = $request->region;
-            $region->campus_id = $id;
-            $region->save();
-
-            $specialization = new AccreditorSpecialization();
-            $specialization->accreditor_id = $user->id;
-            $specialization->specialization = $request->specialization;
-            $specialization->save();
-
-            $roles = DB::table('users_roles')
-                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
-                ->where('user_id', $user->id)
-                ->get();
-            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
-        }
-        else{
-
-            $region = AccreditorProfile::where('user_id',$check->id )->first();
-            $region->region = $request->region;
-            $region->campus_id = $id;
-            $region->save();
-
-            $specialization = AccreditorSpecialization::where('accreditor_id', $check->id)->first();
-            $specialization->specialization = $request->specialization;
-            $specialization->save();
-
-            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $check]);
-        }
-    }
+//    public function registerLocalAccreditor(Request $request, $id){
+//        $validator = Validator::make($request->all(), [
+//            'first_name' => 'required',
+//            'last_name' => 'required',
+//            'email' => 'required',
+//            'password' => 'required|min:6',
+//            'contact_no' => 'required',
+//        ]);
+//
+//        if ($validator->fails())
+//            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
+//
+//        $check = User::where('email', $request->email)->first();
+//        if(is_null($check)){
+//            $user = new User;
+//            $user->first_name = $request->first_name;
+//            $user->last_name = $request->last_name;
+//            $user->email = $request->email;
+//            $user->contact_no = $request->contact_no;
+//            $user->password = bcrypt($request->input('password'));
+//            $user->status = 'active';
+//            $user->save();
+//            $campus= Campus::where('id',$id)->first();
+//            $user->campuses()->attach($campus);
+//            $role = Role::where('role', $request->role)->first();
+//            $role->users()->attach($user->id);
+//
+//            $region = new AccreditorProfile();
+//            $region->user_id = $user->id;
+//            $region->region = $request->region;
+//            $region->campus_id = $id;
+//            $region->save();
+//
+//            $specialization = new AccreditorSpecialization();
+//            $specialization->accreditor_id = $user->id;
+//            $specialization->specialization = $request->specialization;
+//            $specialization->save();
+//
+//            $roles = DB::table('users_roles')
+//                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+//                ->where('user_id', $user->id)
+//                ->get();
+//            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
+//        }
+//        else{
+//
+//            $region = AccreditorProfile::where('user_id',$check->id )->first();
+//            $region->region = $request->region;
+//            $region->campus_id = $id;
+//            $region->save();
+//
+//            $specialization = AccreditorSpecialization::where('accreditor_id', $check->id)->first();
+//            $specialization->specialization = $request->specialization;
+//            $specialization->save();
+//
+//            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $check]);
+//        }
+//    }
 
     public function addToOffice($id, $office_id){
         $user = CampusUser::where('id', $id)->first();
@@ -264,6 +264,7 @@ class AuthController extends Controller
                 $region = new AccreditorProfile();
                 $region->user_id = $user->id;
                 $region->region = $request->region;
+                $region->accreditor_status = $request->accreditor_status;
                 if ($request->campus_id != null) $region->campus_id = $request->campus_id;
                 $region->save();
 

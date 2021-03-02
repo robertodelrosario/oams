@@ -143,6 +143,7 @@ class UserProfileController extends Controller
 
     public function editAccreditorProfile(request $request, $id){
         $user = AccreditorProfile::where('user_id', $id)->first();
+
         $user->academic_rank = $request->academic_rank;
         $user->designation = $request->designation;
         $user->region = $request->region;
