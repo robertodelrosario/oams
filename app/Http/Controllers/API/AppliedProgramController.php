@@ -89,6 +89,15 @@ class AppliedProgramController extends Controller
                 $applicationProgram->type = $request->type;
                 $applicationProgram->application_program_id = $id;
                 $applicationProgram->uploader_id = $userID;
+                $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+                $area = null;
+                for($x=0; $x < 10; $x++){
+                    if($x+1 == $request->area_number) {
+                        $area = $area_name[$x];
+                        break;
+                    }
+                }
+                $applicationProgram->area = $area;
                 $applicationProgram->save();
             }
             return response()->json(['status' => true, 'message' => 'Successfully added files!']);
