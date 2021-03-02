@@ -142,6 +142,8 @@ Route::group(['prefix' => '/document'], function() {
     Route::put('/editDocumentName/{id}', 'DocumentController@editDocumentName');
     Route::post('/addTag/{id}', 'DocumentController@addTag');
     Route::delete('/deleteTag/{id}', 'DocumentController@deleteTag');
+    Route::post('/uploadOwnDocument/{id}', 'DocumentController@uploadOwnDocument');
+    Route::get('/showOwnDocument/{id}', 'DocumentController@showOwnDocument');
 
 });
 

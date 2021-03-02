@@ -164,12 +164,15 @@ class DocumentController extends Controller
             $document = new Document();
             $fileName = $request->document->getClientOriginalName();
             $filePath = $request->file('document')->storeAs('document/files', $fileName);
+            $document->document_name = $fileName;
             $document->link = $filePath;
             $document->uploader_id = $id;
             $document->type = $request->type;
             $document->save();
         }
         else{
+            $document = new Document();
+            $document->document_name = $request->document_name;
             $document->link = $request->link;
             $document->uploader_id = $id;
             $document->type = $request->type;
@@ -182,5 +185,15 @@ class DocumentController extends Controller
             $tag->save();
         }
         return response()->json(['status' => true, 'message' => 'Successfully added document', 'document' =>$document]);
+    }
+
+    public function showOwnDocument($id){
+        $document_collection = new Collection();
+        $documents = Document::where('uploader_id', $id)->get();
+        foreach ($documents as $document){
+            $tags = Tag::where('document_id', $document->id)->get();
+            $document_collection->push(['document' => $document, 'tags' => $tags]);
+        }
+        return response()->json(['documents' =>$document_collection]);
     }
 }
