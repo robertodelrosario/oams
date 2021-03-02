@@ -12,7 +12,7 @@ use App\UserEducation;
 use App\UserOtherInformation;
 use App\UserWorkExperience;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Collection;
+use Illuminate\Support\Collection;
 
 class UserProfileController extends Controller
 {
