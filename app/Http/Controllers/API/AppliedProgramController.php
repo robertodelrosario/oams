@@ -206,6 +206,7 @@ class AppliedProgramController extends Controller
             ->get();
         if(count($instrumentPrograms) < 0 ) return response()->json(['status' => false, 'message' => 'Do not have instruments']);
         $users = array();
+        $program= null;
         foreach ($instrumentPrograms as $instrumentProgram){
             $assigned_users = DB::table('assigned_users')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')

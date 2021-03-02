@@ -130,6 +130,14 @@ class UserProfileController extends Controller
 
     public function showOtherInformation($id){
         $user = UserOtherInformation::where('user_id', $id)->first();
+        if(is_null($user)){
+            $user = new UserOtherInformation();
+            $user->user_id = $id;
+            $user->skill_hobby = null;
+            $user->distribution_recognition = null;
+            $user->association_organization = null;
+            $user->save();
+        }
         return response()->json(['user' => $user]);
     }
 
