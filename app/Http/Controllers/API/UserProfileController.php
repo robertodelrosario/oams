@@ -4,12 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\AccreditorProfile;
 use App\AccreditorSpecialization;
+use App\Campus;
 use App\Http\Controllers\Controller;
+use App\SUC;
 use App\User;
 use App\UserEducation;
 use App\UserOtherInformation;
 use App\UserWorkExperience;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Collection;
 
 class UserProfileController extends Controller
 {
@@ -143,17 +146,48 @@ class UserProfileController extends Controller
 
     public function editAccreditorProfile(request $request, $id){
         $user = AccreditorProfile::where('user_id', $id)->first();
-
         $user->academic_rank = $request->academic_rank;
         $user->designation = $request->designation;
         $user->region = $request->region;
+        $user->campus_id = $request->campus_id;
         $user->save();
         return response()->json(['status' => true, 'message' => 'Successfully saved accreditor information.', 'accreditor' => $user]);
     }
 
     public function showAccreditorProfile($id){
+        $collection = new Collection();
         $user = AccreditorProfile::where('user_id', $id)->first();
-        return response()->json(['accreditor' => $user]);
+        if($user->campus_id == null){
+            $collection->push([
+                'usc_name' => null,
+                'campus_name' => null,
+                'campus_id' => null,
+                'campus_region' => null,
+                'user_id' => $user->user_id,
+                'academic_rank' => $user->academic_rank,
+                'designation' => $user->designation,
+                'region' => $user->region,
+                'status' => $user->status,
+                'accreditor_status' => $user->accreditor_status
+            ]);
+        }
+        else{
+            $campus = Campus::where('id',$user->campus_id)->first();
+            $suc = SUC::where('id', $campus->suc_id)->first();
+            $collection->push([
+                'usc_name' => $suc->institution_name,
+                'campus_name' => $campus->campus_name,
+                'campus_id' => $campus->id,
+                'campus_region' => $campus->region,
+                'user_id' => $user->user_id,
+                'academic_rank' => $user->academic_rank,
+                'designation' => $user->designation,
+                'region' => $user->region,
+                'status' => $user->status,
+                'accreditor_status' => $user->accreditor_status
+            ]);
+        }
+        return response()->json(['accreditor' => $collection]);
     }
 
     public function addAccreditorSpecialization(request $request, $id){
