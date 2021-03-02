@@ -158,4 +158,29 @@ class DocumentController extends Controller
         $document->save();
         return response()->json(['status' => true, 'message' => 'Successfully edited document name/']);
     }
+
+    public function uploadOwnDocument(request $request, $id){
+        if($request->type == 'file'){
+            $document = new Document();
+            $fileName = $request->document->getClientOriginalName();
+            $filePath = $request->file('document')->storeAs('document/files', $fileName);
+            $document->link = $filePath;
+            $document->uploader_id = $id;
+            $document->type = $request->type;
+            $document->save();
+        }
+        else{
+            $document->link = $request->link;
+            $document->uploader_id = $id;
+            $document->type = $request->type;
+            $document->save();
+        }
+        foreach ($request->tag as $key){
+            $tag = new Tag();
+            $tag->tag = $key;
+            $tag->document_id = $document->id;
+            $tag->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully added document', 'document' =>$document]);
+    }
 }

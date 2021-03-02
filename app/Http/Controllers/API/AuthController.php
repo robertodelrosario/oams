@@ -8,16 +8,14 @@ use App\Campus;
 use App\CampusUser;
 use App\Office;
 use App\Role;
-use App\SUC;
 use App\UserRole;
-use App\UserSuc;
-use Doctrine\DBAL\Schema\Table;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -104,6 +102,28 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    public function changePassword(request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required|min:6',
+            'new_password' => 'required|min:6',
+            'confirm_password' => 'required|min:6'
+        ]);
+        if ($validator->fails())
+            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
+
+        $current_user = User::where('id', $id)->first();
+        if(Hash::check($request->current_password, $current_user->password)){
+            if($request->confirm_password == $request->new_password){
+                $current_user->update(['password'=> bcrypt($request->new_password)]);
+                return response()->json(['status' => true, 'message' => 'Successfully changed the password.']);
+            }
+            else return response()->json(['status' => false, 'message' => 'New and confirm password does not match!']);
+        }
+        else{
+            return response()->json(['status' => false, 'message' => 'Old password does not match!']);
+        }
     }
 
     public function registerSucUser(Request $request, $id)

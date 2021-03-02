@@ -25,6 +25,7 @@ Route::group([
 
 ], function ($router) {
     Route::post('login', 'AuthController@login');
+    Route::post('changePassword/{id}', 'AuthController@changePassword');
     Route::post('registerSucUser/{id}', 'AuthController@registerSucUser');
     Route::post('registerLocalAccreditor/{id}', 'AuthController@registerLocalAccreditor');
     Route::post('registerAaccupAccreditor', 'AuthController@registerAaccupAccreditor');
@@ -42,6 +43,30 @@ Route::group([
     Route::delete('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::put('/activateUser/{id}', 'AuthController@activateUser');
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
+
+    Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id
+    Route::get('showPersonalInfo/{id}', 'UserProfileController@showPersonalInfo'); //id is user_id
+
+    Route::post('createEducationInfo/{id}', 'UserProfileController@createEducationInfo'); //id is user_id
+    Route::get('showEducationInfo/{id}', 'UserProfileController@showEducationInfo'); //id is user_id
+    Route::put('editEducationInfo/{id}', 'UserProfileController@editEducationInfo'); //id is user_education_id
+    Route::delete('deleteEducationInfo/{id}', 'UserProfileController@deleteEducationInfo'); //id is user_education_id
+
+    Route::post('createWorkExperience/{id}', 'UserProfileController@createWorkExperience');//id is user_id
+    Route::get('showWorkExperience/{id}', 'UserProfileController@showWorkExperience');//id is user_id
+    Route::put('editWorkExperience/{id}', 'UserProfileController@editWorkExperience');//id is user_work_experience_id
+    Route::delete('deleteWorkExperience/{id}', 'UserProfileController@deleteWorkExperience');//id is user_work_experience_id
+
+    Route::get('showOtherInformation/{id}', 'UserProfileController@showOtherInformation');//id is user_id
+    Route::put('editOtherInformation/{id}', 'UserProfileController@editOtherInformation');//id is user_id
+
+    Route::get('showAccreditorProfile/{id}', 'UserProfileController@showAccreditorProfile');//id is user_id
+    Route::put('editAccreditorProfile/{id}', 'UserProfileController@editAccreditorProfile');//id is user_id
+
+    Route::post('addAccreditorSpecialization/{id}', 'UserProfileController@addAccreditorSpecialization');//id is user_id
+    Route::get('showAccreditorSpecialization/{id}', 'UserProfileController@showAccreditorSpecialization');//id is user_id
+    Route::delete('deleteAccreditorSpecialization/{id}', 'UserProfileController@deleteAccreditorSpecialization');//id is user_specialization_id
+
 
 });
 
