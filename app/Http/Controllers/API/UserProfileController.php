@@ -159,7 +159,7 @@ class UserProfileController extends Controller
         $user = AccreditorProfile::where('user_id', $id)->first();
         if($user->campus_id == null){
             $collection->push([
-                'usc_name' => null,
+                'suc_name' => null,
                 'campus_name' => null,
                 'campus_id' => null,
                 'campus_region' => null,
@@ -175,7 +175,7 @@ class UserProfileController extends Controller
             $campus = Campus::where('id',$user->campus_id)->first();
             $suc = SUC::where('id', $campus->suc_id)->first();
             $collection->push([
-                'usc_name' => $suc->institution_name,
+                'suc_name' => $suc->institution_name,
                 'campus_name' => $campus->campus_name,
                 'campus_id' => $campus->id,
                 'campus_region' => $campus->region,
