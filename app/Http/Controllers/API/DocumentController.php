@@ -159,7 +159,7 @@ class DocumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully edited document name/']);
     }
 
-    public function uploadOwnDocument(request $request, $id,$statementID){
+    public function uploadOwnDocument(request $request, $id, $statementID){
         if($request->type == 'file'){
             $document = new Document();
             $fileName = $request->document->getClientOriginalName();
@@ -186,7 +186,7 @@ class DocumentController extends Controller
         }
 
         $supportDocument = new AttachedDocument();
-        $supportDocument->statement_id = $id;
+        $supportDocument->statement_id = $statementID;
         $supportDocument->document_id = $document->id;
         $supportDocument->save();
 
