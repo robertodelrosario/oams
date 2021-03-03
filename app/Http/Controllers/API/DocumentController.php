@@ -194,14 +194,22 @@ class DocumentController extends Controller
     }
 
     public function showOwnDocument($id){
-        $document_collection = new Collection();
+//        $document_collection = new Collection();
         $documents = Document::where([
             ['uploader_id', $id], ['office_id', null]
         ])->get();
-        foreach ($documents as $document){
+//        foreach ($documents as $document){
+//            $tags = Tag::where('document_id', $document->id)->get();
+//            $document_collection->push(['document' => $document, 'tags' => $tags]);
+//        }
+        $tag = array();
+        foreach ($documents as $document)
+        {
             $tags = Tag::where('document_id', $document->id)->get();
-            $document_collection->push(['document' => $document, 'tags' => $tags]);
+            foreach ($tags as $key){
+                $tag = Arr::prepend($tag, $key);
+            }
         }
-        return response()->json(['documents' =>$document_collection]);
+        return response()->json(['documents' =>$documents, 'tags' => $tag]);
     }
 }
