@@ -34,7 +34,7 @@ class MSIAttachmentController extends Controller
     }
 
     public function removeSupportDocument($id){
-        $document = AttachedDocument::where('id', $id)->first();
+        $document = AttachedDocument::where('id', $id);
         $document->delete();
         return response()->json(['status' => true, 'message' => 'Successfully removed document']);
     }
