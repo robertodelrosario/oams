@@ -13,6 +13,7 @@ use App\ProgramStatement;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
@@ -45,15 +46,20 @@ class MSIAttachmentController extends Controller
             ->join('users', 'users.id', '=', 'documents.uploader_id')
             ->select('documents.*', 'offices.office_name', 'users.first_name', 'users.last_name', 'users.email')
             ->get();
-
-        $tag = array();
-        foreach ($documents as $document)
-        {
+        $document_collection = new Collection();
+        foreach ($documents as $document){
             $tags = Tag::where('document_id', $document->id)->get();
-            foreach ($tags as $key){
-                $tag = Arr::prepend($tag, $key);
-            }
+            $document_collection->push(['document' => $document, 'tags' => $tags]);
         }
-        return response()->json(['documents' =>$documents, 'tags' => $tag]);
+
+//        $tag = array();
+//        foreach ($documents as $document)
+//        {
+//            $tags = Tag::where('document_id', $document->id)->get();
+//            foreach ($tags as $key){
+//                $tag = Arr::prepend($tag, $key);
+//            }
+//        }
+        return response()->json(['documents' => $document_collection]);
     }
 }
