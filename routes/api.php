@@ -40,7 +40,7 @@ Route::group([
     Route::get('/showAccreditor', 'AuthController@showAccreditor');
     Route::get('/showLocalAccreditor/{id}', 'AuthController@showAccreditor');
     Route::get('/showAllUser', 'AuthController@showAllUser');
-    Route::delete('/deleteUser/{id}', 'AuthController@deleteUser');
+    Route::put('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::put('/activateUser/{id}', 'AuthController@activateUser');
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
 
