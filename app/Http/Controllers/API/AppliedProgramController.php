@@ -76,7 +76,7 @@ class AppliedProgramController extends Controller
             'filename' => 'required',
             'filename.*' => 'mimes:doc,pdf,docx,zip,png,jpg'   //
         ]);
-        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required Application Letter!']);
+        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required File!']);
 
 
         if ($request->hasfile('filename')) {
@@ -139,6 +139,7 @@ class AppliedProgramController extends Controller
 
     public function showFileTF($id,$Userid){
         $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+
         $areas = AssignedUser::where([
             ['app_program_id', $id], ['user_id', $Userid]
         ])->get();

@@ -129,8 +129,9 @@ class StatementController extends Controller
                     'type'=>$check->type,
                     'parent_statement_id'=>$instrumentStatement->parent_statement_id
                 ]);
+                return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
             }
-            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
+            return response()->json(['status' => false, 'message' => 'Statement is already added.']);
         }
     }
 
