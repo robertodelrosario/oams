@@ -119,6 +119,8 @@ class AppliedProgramController extends Controller
         return response()->json($files);
     }
 
+    public function show
+
     public function viewProgramFile($id){
         $file_link = ApplicationProgramFile::where('id', $id)->first();
         $file = File::get(storage_path("app/".$file_link->file));

@@ -75,13 +75,13 @@ class StatementController extends Controller
 //        return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $check]);
 //    }
 
-
     public function createStatement(request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'statement' => 'required',
             'type' => 'required',
         ]);
+
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process statement. Required data']);
 
         $check = BenchmarkStatement::where('statement', $request->statement)->first();
@@ -102,13 +102,13 @@ class StatementController extends Controller
             $collections = new Collection();
             $collections->push([
                 'id'=>$benchmarkStatement->id,
+                'instrument_parameter_id' => $id,
                 'statement'=>$benchmarkStatement->statement,
                 'type'=>$benchmarkStatement->type,
                 'parent_statement_id'=>$instrumentStatement->parent_statement_id
             ]);
             return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
         }
-
         else{
             $test = InstrumentStatement::where([
                 ['instrument_parameter_id', $id], ['benchmark_statement_id', $check->id]
@@ -120,10 +120,18 @@ class StatementController extends Controller
                 $instrumentStatement->benchmark_statement_id = $check->id;
                 $instrumentStatement->parent_statement_id = $request->statement_parent;
                 $instrumentStatement->save();
-            }
-            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $check]);
-        }
 
+                $collections = new Collection();
+                $collections->push([
+                    'id'=>$check->id,
+                    'instrument_parameter_id' => $id,
+                    'statement'=>$check->statement,
+                    'type'=>$check->type,
+                    'parent_statement_id'=>$instrumentStatement->parent_statement_id
+                ]);
+            }
+            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
+        }
     }
 
 //    public function showStatement($id){

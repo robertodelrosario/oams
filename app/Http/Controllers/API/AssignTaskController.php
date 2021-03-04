@@ -41,6 +41,11 @@ class AssignTaskController extends Controller
 
         if(!(is_null($check)) && $check->role != $request->role) return response()->json(['status' => false, 'message' => 'You are already assigned as '.$check->role]);
 
+        $check_1 = AssignedUser::where([
+            ['transaction_id', $id], ['user_id', $request->user_id]
+        ])->first();
+        if(!(is_null($check_1))) return response()->json(['status' => false, 'message' => 'You are already assigned as to this area.']);
+
         $assignUser = new AssignedUser();
         $assignUser->transaction_id = $id;
         $assignUser->user_id = $request->user_id;
