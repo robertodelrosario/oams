@@ -35,7 +35,8 @@ class MSIEvaluationController extends Controller
         $parameter_mean = ParameterMean::where([
             ['program_parameter_id', $id], ['assigned_user_id', $assignedUserId]
         ])->first();
-        $parameter_mean->parameter_mean = $request->parameter_mean;
+        if($request->parameter_mean != null) $parameter_mean->parameter_mean = $request->parameter_mean;
+        else $parameter_mean->parameter_mean = 0;
         $parameter_mean->save();
 
         if(!(is_null($request->best_practices))){

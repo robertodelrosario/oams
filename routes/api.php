@@ -45,6 +45,7 @@ Route::group([
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
 
     Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id
+    Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id
     Route::get('showPersonalInfo/{id}', 'UserProfileController@showPersonalInfo'); //id is user_id
 
     Route::post('createEducationInfo/{id}', 'UserProfileController@createEducationInfo'); //id is user_id
@@ -216,6 +217,10 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteProgramFile/{id}/{user_id}', 'AppliedProgramController@deleteProgramFile');
     Route::get('/viewProgramFile/{id}', 'AppliedProgramController@viewProgramFile');
     Route::get('/showProgramFile/{id}', 'AppliedProgramController@showProgramFile');
+    Route::get('/showFileTFH/{id}', 'AppliedProgramController@showFileTFH');
+    Route::get('/showFileQA/{id}', 'AppliedProgramController@showFileQA');
+    Route::get('/showFileIA/{id}/{userID}', 'AppliedProgramController@showFileIA');
+    Route::get('/showFileTF/{id}/{userID}', 'AppliedProgramController@showFileTF');
 
     Route::post('/uploadPPP/{id}', 'AppliedProgramController@uploadPPP');
     Route::post('/uploadCompliance/{id}', 'AppliedProgramController@uploadCompliance');
