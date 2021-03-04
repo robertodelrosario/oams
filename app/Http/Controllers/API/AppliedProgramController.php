@@ -120,16 +120,21 @@ class AppliedProgramController extends Controller
     }
 
     public function showFileTFH($id){
+        $report = array();
         $compliance = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Compliance Report']
             ])->get();
+        foreach ($compliance as $c) $report = Arr::prepend($report,$c);
         $ppp = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'PPP']
         ])->get();
+        foreach ($ppp as $p) $report = Arr::prepend($report,$p);
         $narrative = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Narrative Report']
         ])->get();
-        return response()->json(['compliance' => $compliance, 'ppp' => $ppp, 'narrative' =>$narrative]);
+        foreach ($narrative as $n) $report = Arr::prepend($report,$n);
+
+        return response()->json($report);
     }
 
     public function showFileTF($id,$Userid){
@@ -137,9 +142,7 @@ class AppliedProgramController extends Controller
         $areas = AssignedUser::where([
             ['app_program_id', $id], ['user_id', $Userid]
         ])->get();
-        $compliance_array = array();
-        $ppp_array = array();
-        $narrative_array = array();
+        $report = array();
         foreach ($areas as $area){
             $instrument = InstrumentProgram::where('id', $area->transaction_id)->first();
             $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
@@ -147,17 +150,17 @@ class AppliedProgramController extends Controller
             $compliance = ApplicationProgramFile::where([
                 ['application_program_id', $id], ['type', 'Compliance Report'], ['area', $area_name[$area_number->area_number-1]]
             ])->get();
-            foreach ($compliance as $c) $compliance_array = Arr::prepend($compliance_array,$c);
+            foreach ($compliance as $c) $report = Arr::prepend($report,$c);
             $ppp = ApplicationProgramFile::where([
                 ['application_program_id', $id], ['type', 'PPP', ['area', $area_name[$area_number->area_number-1]]]
             ])->get();
-            foreach ($ppp as $p) $ppp_array = Arr::prepend($ppp_array,$p);
+            foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
                 ['application_program_id', $id], ['type', 'Narrative Report', ['area', $area_name[$area_number->area_number-1]]]
             ])->get();
-            foreach ($narrative as $n) $ppp_array = Arr::prepend($narrative_array,$n);
+            foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
-        return response()->json(['compliance' => $compliance_array, 'ppp' => $ppp_array, 'narrative' =>$narrative_array]);
+        return response()->json($report);
     }
 
     public function showFileIA($id,$Userid){
@@ -166,9 +169,7 @@ class AppliedProgramController extends Controller
             ['app_program_id', $id], ['user_id', $Userid]
         ])->get();
 
-        $compliance_array = array();
-        $ppp_array = array();
-        $narrative_array = array();
+        $report = array();
         foreach ($areas as $area){
             $instrument = InstrumentProgram::where('id', $area->transaction_id)->first();
             $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
@@ -176,42 +177,50 @@ class AppliedProgramController extends Controller
             $compliance = ApplicationProgramFile::where([
                 ['application_program_id', $id], ['type', 'Compliance Report'], ['area', $area_name[$area_number->area_number-1]]
             ])->get();
-            foreach ($compliance as $c) $compliance_array = Arr::prepend($compliance_array,$c);
+            foreach ($compliance as $c) $report = Arr::prepend($report,$c);
             $ppp = ApplicationProgramFile::where([
                 ['application_program_id', $id], ['type', 'PPP', ['area', $area_name[$area_number->area_number-1]]]
             ])->get();
-            foreach ($ppp as $p) $ppp_array = Arr::prepend($ppp_array,$p);
+            foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
                 ['application_program_id', $id], ['type', 'Narrative Report', ['area', $area_name[$area_number->area_number-1]]]
             ])->get();
-            foreach ($narrative as $n) $ppp_array = Arr::prepend($narrative_array,$n);
+            foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
         $sar = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Internal SAR']
         ])->get();
+        foreach ($sar as $s) $report = Arr::prepend($report,$s);
         $sfr = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Internal SFR']
         ])->get();
-        return response()->json(['compliance' => $compliance_array, 'ppp' => $ppp_array, 'narrative' =>$narrative_array, 'sar' => $sar, 'sfr'=>$sfr]);
+        foreach ($sfr as $s) $report = Arr::prepend($report,$s);
+        return response()->json($report);
     }
 
     public function showFileQA($id){
+        $report = array();
         $compliance = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Compliance Report']
         ])->get();
+        foreach ($compliance as $c) $report = Arr::prepend($report,$c);
         $ppp = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'PPP']
         ])->get();
+        foreach ($ppp as $p) $report = Arr::prepend($report,$p);
         $narrative = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Narrative Report']
         ])->get();
+        foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         $sar = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Internal SAR']
         ])->get();
+        foreach ($sar as $s) $report = Arr::prepend($report,$s);
         $sfr = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Internal SFR']
         ])->get();
-        return response()->json(['compliance' => $compliance, 'ppp' => $ppp, 'narrative' =>$narrative, 'sar' => $sar, 'sfr'=>$sfr]);
+        foreach ($sfr as $s) $report = Arr::prepend($report,$s);
+        return response()->json($report);
     }
 
     public function viewProgramFile($id){
