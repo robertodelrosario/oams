@@ -131,7 +131,7 @@ class StatementController extends Controller
                 ]);
                 return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
             }
-            return response()->json(['status' => false, 'message' => 'Statement is already added.']);
+            return response()->json(['status' => false, 'message' => 'Statement was already added.']);
         }
     }
 
