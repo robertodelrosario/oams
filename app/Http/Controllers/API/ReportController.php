@@ -10,6 +10,8 @@ use App\AssignedUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Program;
+use App\ProgramInstrument;
+use App\SFRInformation;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -519,5 +521,63 @@ class ReportController extends Controller
         $pdf = PDF::loadView('program_sfr', ['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
         return $pdf->download($program->program_name. '_SFR.pdf');
         return response()->json(['program' => $program, 'instrument_programs' => $program_sfr, 'collections' => $collection_user]);
+    }
+
+    public function saveSFR(request $request, $programID,$instrumentID){
+        foreach($request->sfr as $sfr){
+            $check = SFRInformation::where([
+                ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['remark',$sfr->remark], ['remark_type', $sfr->type]
+            ])->first();
+            if(is_null($check)){
+                $remark = new SFRInformation();
+                $remark->application_program_id = $programID;
+                $remark->instrument_program_id = $instrumentID;
+                $remark->remark = $sfr->remark;
+                $remark->remark_type = $sfr->type;
+                $remark->save();
+            }
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully saved remarks.']);
+    }
+
+    public function showSFR($id){
+        $collection = new Collection();
+        $strengths = array();
+        $weaknesses = array();
+        $recommendations = array();
+        $empty = array();
+        $program = ApplicationProgram::where('id',$id)->first();
+        $prog = Program::where('id', $program->program_id)->first();
+        $instruments = InstrumentProgram::where('program_id', $program->program_id)->get();
+        foreach ($instruments as $instrument){
+            $remarks = SFRInformation::where([
+                ['application_program_id', $id], ['instrument_program_id', $instrument->id]
+            ])->get();
+            foreach ($remarks as $remark){
+                if($remark->remark_type == 'Strength'){
+                    $strengths = Arr::prepend($strengths,$remark->remark);
+                }
+                elseif($remark->remark_type == 'Weakness'){
+                    $weaknesses = Arr::prepend($weaknesses,$remark->remark);
+                }
+                elseif($remark->remark_type == 'Recommendation'){
+                    $recommendations = Arr::prepend($recommendations,$remark->remark);
+                }
+            }
+            $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+            $collection->push([
+                'area_number' => $area->area_number,
+                'area_name' => $area->area_name,
+                'strengths' => $strengths,
+                'weaknesses' => $weaknesses,
+                'recommendations' => $recommendations,
+            ]);
+            $strengths = $empty;
+            $weaknesses = $empty;
+            $recommendations = $empty;
+        }
+
+        $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
+        return $pdf->download($program->program_name. '_SFR.pdf');
     }
 }

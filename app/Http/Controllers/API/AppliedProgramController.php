@@ -144,6 +144,7 @@ class AppliedProgramController extends Controller
             ['app_program_id', $id], ['user_id', $Userid]
         ])->get();
         $report = array();
+
         foreach ($areas as $area){
             $instrument = InstrumentProgram::where('id', $area->transaction_id)->first();
             $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
@@ -153,11 +154,11 @@ class AppliedProgramController extends Controller
             ])->get();
             foreach ($compliance as $c) $report = Arr::prepend($report,$c);
             $ppp = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'PPP', ['area', $area_name[$area_number->area_number-1]]]
+                ['application_program_id', $id], ['type', 'PPP'], ['area', $area_name[$area_number->area_number-1]]
             ])->get();
             foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'Narrative Report', ['area', $area_name[$area_number->area_number-1]]]
+                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1]]
             ])->get();
             foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
@@ -180,11 +181,11 @@ class AppliedProgramController extends Controller
             ])->get();
             foreach ($compliance as $c) $report = Arr::prepend($report,$c);
             $ppp = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'PPP', ['area', $area_name[$area_number->area_number-1]]]
+                ['application_program_id', $id], ['type', 'PPP'], ['area', $area_name[$area_number->area_number-1]]
             ])->get();
             foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'Narrative Report', ['area', $area_name[$area_number->area_number-1]]]
+                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1]]
             ])->get();
             foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
