@@ -582,6 +582,6 @@ class ReportController extends Controller
         }
 
         $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
-        return $pdf->download($program->program_name. '_SFR.pdf');
+        return $pdf->download($prog->program_name. '_SFR.pdf');
     }
 }
