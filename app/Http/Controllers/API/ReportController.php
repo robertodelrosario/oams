@@ -555,7 +555,7 @@ class ReportController extends Controller
         $instruments = InstrumentProgram::where('program_id', $program->program_id)->get();
         foreach ($instruments as $instrument){
             $remarks = SFRInformation::where([
-                ['application_program_id', $id], ['instrument_program_id', $instrument->id], ['type' => $role_str]
+                ['application_program_id', $id], ['instrument_program_id', $instrument->id], ['type', $role_str]
             ])->get();
             foreach ($remarks as $remark){
                 if($remark->remark_type == 'Strength'){
