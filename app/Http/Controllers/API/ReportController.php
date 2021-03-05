@@ -524,23 +524,27 @@ class ReportController extends Controller
     }
 
     public function saveSFR(request $request, $programID,$instrumentID){
-        foreach($request->sfr as $sfr){
+        foreach($request->sfr as $s){
             $check = SFRInformation::where([
-                ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['remark',$sfr->remark], ['remark_type', $sfr->type]
+                ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['remark',$s['remark']], ['remark_type', $s['type']], ['type', $request->role]
             ])->first();
             if(is_null($check)){
                 $remark = new SFRInformation();
                 $remark->application_program_id = $programID;
                 $remark->instrument_program_id = $instrumentID;
-                $remark->remark = $sfr->remark;
-                $remark->remark_type = $sfr->type;
+                $remark->remark = $s['remark'];
+                $remark->remark_type = $s['type'];
+                $remark->type = $request->role;
                 $remark->save();
             }
         }
         return response()->json(['status' => true, 'message' => 'Successfully saved remarks.']);
     }
 
-    public function showSFR($id){
+    public function showSFR($id, $role){
+
+        if($role == 0) $role_str = 'Internal';
+        elseif($role == 1) $role_str = 'External';
         $collection = new Collection();
         $strengths = array();
         $weaknesses = array();
@@ -551,7 +555,7 @@ class ReportController extends Controller
         $instruments = InstrumentProgram::where('program_id', $program->program_id)->get();
         foreach ($instruments as $instrument){
             $remarks = SFRInformation::where([
-                ['application_program_id', $id], ['instrument_program_id', $instrument->id]
+                ['application_program_id', $id], ['instrument_program_id', $instrument->id], ['type' => $role_str]
             ])->get();
             foreach ($remarks as $remark){
                 if($remark->remark_type == 'Strength'){

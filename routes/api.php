@@ -190,7 +190,7 @@ Route::group(['prefix' => '/report'], function() {
     Route::get('/generateProgramSAR/{id}/{app_prog}', 'ReportController@generateProgramSAR');
     Route::get('/generateProgramSFR/{id}/{role}', 'ReportController@generateProgramSFR');
     Route::post('/saveSFR/{programID}/{instrumentID}', 'ReportController@saveSFR');
-    Route::get('/showSFR/{id}', 'ReportController@showSFR');
+    Route::get('/showSFR/{id}/{role}', 'ReportController@showSFR');
 });
 
 Route::group(['prefix' => '/application'], function() {
