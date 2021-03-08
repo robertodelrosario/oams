@@ -90,7 +90,7 @@ class ProgramController extends Controller
 //                break;
 //            }
 //        }
-//        $count = 0;
+        $count = 0;
         foreach ($areas as $area){
             $check = InstrumentProgram::where([
                 ['program_id', $programID], ['area_instrument_id',$area->id]
