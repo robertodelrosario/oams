@@ -93,7 +93,7 @@ class ReportController extends Controller
             elseif ($average < 2.50) $rating = 'Fair';
             elseif ($average < 3.50) $rating = 'Satisfactory';
             elseif ($average < 4.50) $rating = 'Very Satisfactory';
-            else $rating = 'Excellent';
+            elseif ($average >= 4.50) $rating = 'Excellent';
 
             if ($diff >= $gap) {
                 $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'unaccepted', 'descriptive_rating' => $rating]);
@@ -182,7 +182,7 @@ class ReportController extends Controller
             elseif ($average < 2.50) $rating = 'Fair';
             elseif ($average < 3.50) $rating = 'Satisfactory';
             elseif ($average < 4.50) $rating = 'Very Satisfactory';
-            else $rating = 'Excellent';
+            elseif($average >= 4.50) $rating = 'Excellent';
 
             $collections->push(['program_parameter_id' => $parameter->id, 'average_mean' => $average, 'difference' => $diff, 'status' => 'accepted', 'descriptive_rating'  => $rating]);
 //            if ($diff >= $gap) {
@@ -292,7 +292,7 @@ class ReportController extends Controller
             elseif ($grand_mean < 2.50) $descriptive_result ='Fair';
             elseif ($grand_mean < 3.50) $descriptive_result ='Satisfactory';
             elseif ($grand_mean < 4.50) $descriptive_result ='Very Satisfactory';
-            else $descriptive_result ='Excellent';
+            elseif ($grand_mean >= 4.50) $descriptive_result ='Excellent';
             $result->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2), 'descriptive_result' => $descriptive_result]);
 
         }
@@ -320,7 +320,7 @@ class ReportController extends Controller
             elseif ($grand_mean < 2.50) $descriptive_result ='Fair';
             elseif ($grand_mean < 3.50) $descriptive_result ='Satisfactory';
             elseif ($grand_mean < 4.50) $descriptive_result ='Very Satisfactory';
-            else $descriptive_result ='Excellent';
+            elseif($grand_mean >= 4.5) $descriptive_result = 'Excellent';
             $result->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2), 'descriptive_result' => $descriptive_result]);
 
         }
