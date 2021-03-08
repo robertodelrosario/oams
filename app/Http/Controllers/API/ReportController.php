@@ -541,6 +541,17 @@ class ReportController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully saved remarks.']);
     }
 
+    public function viewSFR($programID, $instrumentID, $role){
+        if($role == 0) $role_str = 'Internal';
+        elseif($role == 1) $role_str = 'External';
+        $collection = new Collection();
+        $remarks = SFRInformation::where([
+            ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['type', $role_str]
+        ])->get();
+        foreach ($remarks as $remark) $collection->push(['remark' => $remark->remark, 'type' => $remark->remark_type]);
+        return response()->json($collection);
+    }
+
     public function showSFR($id, $role){
 
         if($role == 0) $role_str = 'Internal';
