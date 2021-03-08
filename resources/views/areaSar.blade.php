@@ -19,7 +19,7 @@
             <tr>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">PARAMETER</th>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">ACCREDITOR RATING</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">AVERAGE RATING</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">RATING</th>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">DESCRIPTIVE RATING</th>
             </tr>
         </thead>

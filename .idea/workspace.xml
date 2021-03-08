@@ -23,6 +23,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProgramController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/areaSar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/areaSar.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,7 +333,7 @@
       <workItem from="1614730226863" duration="16742000" />
       <workItem from="1614819047234" duration="11523000" />
       <workItem from="1614909993186" duration="9535000" />
-      <workItem from="1615168151723" duration="3982000" />
+      <workItem from="1615168151723" duration="8196000" />
     </task>
     <servers />
   </component>
