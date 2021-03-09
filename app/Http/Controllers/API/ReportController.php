@@ -600,7 +600,6 @@ class ReportController extends Controller
         $section = $phpWord->addSection();
 
         $styleFont = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
-        $styleFont1 = array('space' => array('before' => 300, 'after' => 100));
         $styleFont2 = array('space' => array('before' => 1000, 'after' => 100));
         $styleFont3 = array('indentation' => array('left' => 540, 'right' => 120), 'space' => array('before' => 360, 'after' => 280));
         $styleFont4 = array('indentation' => array('left' => 1000, 'right' => 120));
