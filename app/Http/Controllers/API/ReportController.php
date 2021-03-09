@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\ApplicationProgram;
-use App\ApplicationProgramFile;
 use App\AreaInstrument;
 use App\AreaMean;
 use App\AssignedUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Program;
-use App\ProgramInstrument;
 use App\SFRInformation;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -597,7 +595,7 @@ class ReportController extends Controller
             $recommendations = $empty;
         }
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new \PhpOffice\PhpWord\Phpword();
         $section = $phpWord->addSection();
 
         $styleFont = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
