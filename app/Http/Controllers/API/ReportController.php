@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 require_once '/var/www/html/oams/vendor/autoload.php';
+use PhpOffice\PhpWord\PhpWord;
 
 class ReportController extends Controller
 {
@@ -595,7 +596,7 @@ class ReportController extends Controller
             $recommendations = $empty;
         }
 
-        $phpWord = new \PhpOffice\PhpWord\Phpword();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
         $styleFont = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
