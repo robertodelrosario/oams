@@ -19,7 +19,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-require_once 'C:/laragon/www/oams/vendor/autoload.php';
+require_once '/usr/share/php/oams/vendor/autoload.php';
 
 class ReportController extends Controller
 {
