@@ -665,12 +665,12 @@ class ReportController extends Controller
             );
         }
 
-//
-//        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-//        $objWriter->save($prog->program_name. '_SFR.docx');
-//        return response()->download(public_path($prog->program_name. '_SFR.docx'));
 
-        $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
-        return $pdf->stream($prog->program_name. '_SFR.pdf');
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($prog->program_name. '_SFR.docx');
+        return response()->download(public_path($prog->program_name. '_SFR.docx'));
+//
+//        $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
+//        return $pdf->stream($prog->program_name. '_SFR.pdf');
     }
 }
