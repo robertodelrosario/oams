@@ -19,7 +19,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once '/var/www/html/oams/vendor/autoload.php';
 
 class ReportController extends Controller
 {
