@@ -525,10 +525,10 @@ class ReportController extends Controller
     }
 
     public function saveSFR(request $request, $programID,$instrumentID){
-        $remarks = SFRInformation::where([
-            ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['type', $request->role]
-        ])->get();
-        $remarks->delete();
+//        $remarks = SFRInformation::where([
+//            ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['type', $request->role]
+//        ])->get();
+//        $remarks->delete();
         foreach($request->sfr as $s){
             $check = SFRInformation::where([
                 ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['remark',$s['remark']], ['remark_type', $s['type']], ['type', $request->role]
@@ -630,6 +630,7 @@ class ReportController extends Controller
                     $x.'. '. $s,[],
                     $styleFont4
                 );
+                $x++;
             }
             $x = 1;
             $section->addText(
@@ -641,6 +642,7 @@ class ReportController extends Controller
                     $x.'. '. $w,[],
                     $styleFont4
                 );
+                $x++;
             }
             $x = 1;
             $section->addText(
@@ -652,6 +654,7 @@ class ReportController extends Controller
                     $x.'. '. $r,[],
                     $styleFont4
                 );
+                $x++;
             }
 
             $section->addPageBreak();
