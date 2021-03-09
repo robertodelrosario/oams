@@ -596,7 +596,81 @@ class ReportController extends Controller
             $recommendations = $empty;
         }
 
-        $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
-        return $pdf->stream($prog->program_name. '_SFR.pdf');
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+
+        $styleFont = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
+        $styleFont1 = array('space' => array('before' => 300, 'after' => 100));
+        $styleFont2 = array('space' => array('before' => 1000, 'after' => 100));
+        $styleFont3 = array('indentation' => array('left' => 540, 'right' => 120), 'space' => array('before' => 360, 'after' => 280));
+        $styleFont4 = array('indentation' => array('left' => 1000, 'right' => 120));
+
+        $section->addText(
+            "SUMMARY OF FINDINGS AND RECOMMENDATIONS",array('bold' => true, 'size' => 14),
+            $styleFont
+        );
+        $section->addText(
+            $prog->program_name,array('bold' => true, 'size' => 14),
+            $styleFont
+        );
+
+        foreach ($collection as $c){
+            $section->addText(
+                $c['area_name'],array('bold' => true),
+                $styleFont2
+            );
+
+            $x = 1;
+            $section->addText(
+                'Strength/s',[],
+                $styleFont3
+            );
+            foreach($c['strengths'] as $s){
+                $section->addText(
+                    $x.'. '. $s,[],
+                    $styleFont4
+                );
+            }
+            $x = 1;
+            $section->addText(
+                'Areas Needing Improvement',[],
+                $styleFont3
+            );
+            foreach($c['weaknesses'] as $w){
+                $section->addText(
+                    $x.'. '. $w,[],
+                    $styleFont4
+                );
+            }
+            $x = 1;
+            $section->addText(
+                'Recommendation/s',[],
+                $styleFont3
+            );
+            foreach($c['recommendations'] as $r){
+                $section->addText(
+                    $x.'. '. $r,[],
+                    $styleFont4
+                );
+            }
+
+            $section->addPageBreak();
+            $section->addText(
+                "SUMMARY OF FINDINGS AND RECOMMENDATIONS",array('bold' => true, 'size' => 10),
+                $styleFont
+            );
+            $section->addText(
+                $program->program_name,array('bold' => true, 'size' => 10),
+                $styleFont
+            );
+        }
+
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($prog->program_name. '_SFR.docx');
+        return response()->download(public_path($prog->program_name. '_SFR.docx'));
+
+//        $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
+//        return $pdf->stream($prog->program_name. '_SFR.pdf');
     }
 }

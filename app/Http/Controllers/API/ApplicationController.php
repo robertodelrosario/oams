@@ -178,6 +178,17 @@ class ApplicationController extends Controller
         return $response;
     }
 
+    public function viewFileStream($id){
+        $file_link = ApplicationFile::where('id', $id)->first();
+        $file = File::get(storage_path("app/".$file_link->file));
+        $type = File::mimeType(storage_path("app/".$file_link->file));
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
+    }
+
+
     public function approveApplication(request $request, $id){
         $validator = Validator::make($request->all(), [
             'filename' => 'required',
