@@ -18,7 +18,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 require_once '/var/www/html/oams/vendor/autoload.php';
-use PhpOffice\PhpWord\PhpWord;
+//require_once 'C:\laragon\www\online_accreditation_management_system\vendor/autoload.php';
+use  \PhpOffice\PhpWord\PhpWord;
 
 class ReportController extends Controller
 {
@@ -669,7 +670,7 @@ class ReportController extends Controller
         $objWriter->save($prog->program_name. '_SFR.docx');
         return response()->download(public_path($prog->program_name. '_SFR.docx'));
 
-//        $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
-//        return $pdf->stream($prog->program_name. '_SFR.pdf');
+        $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
+        return $pdf->stream($prog->program_name. '_SFR.pdf');
     }
 }
