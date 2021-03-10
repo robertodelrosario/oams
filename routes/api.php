@@ -132,6 +132,7 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::put('/editAcceptableScoreGap', 'AaccupController@editAcceptableScoreGap');
     Route::delete('/removeAcceptableScoreGap/{id}', 'AaccupController@removeAcceptableScoreGap');
 
+    Route::post('/saveRequiredRating', 'AaccupController@saveRequiredRating');
     Route::put('/setRequiredRating', 'AaccupController@setRequiredRating');
     Route::get('/showRequiredRating', 'AaccupController@showRequiredRating');
 });

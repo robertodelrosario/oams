@@ -298,7 +298,7 @@ class AaccupController extends Controller
         return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);
     }
 
-    public function setRequiredRating(request $request){
+    public function saveRequiredRating(request $request){
         foreach ($request->ratings as $rating){
             $required_rating = RequiredRating::where('id', $rating['id'])->first();
             $required_rating->accreditation_status = $rating['accreditation_status'];
@@ -309,6 +309,16 @@ class AaccupController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully saved required ratings per accreditation status' ]);
     }
 
+    public function setRequiredRating(request $request){
+        foreach ($request->ratings as $rating){
+            $required_rating = new RequiredRating();
+            $required_rating->accreditation_status = $rating['accreditation_status'];
+            $required_rating->grand_mean = $rating['grand_mean'];
+            $required_rating->area_mean = $rating['area_mean'];
+            $required_rating->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully saved required ratings per accreditation status' ]);
+    }
     public function showRequiredRating(){
         return response()->json(RequiredRating::all());
     }
