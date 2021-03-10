@@ -106,10 +106,10 @@ class AssignTaskController extends Controller
     public function updateInternalRole(request $request,$id){
         foreach($request->users as $user){
             $areas = AssignedUser::where([
-                ['app_program_id', $id], ['user_id', $user->user_id]
+                ['app_program_id', $id], ['user_id', $user['user_id']]
             ])->get();
             foreach ($areas as $area){
-                $area->role = $user->role; //'internal accreditor - lead'
+                $area->role = $user['role']; //'internal accreditor - lead'
                 $area->save();
             }
         }

@@ -155,7 +155,7 @@ class ReportController extends Controller
                 ->select('parameters_means.*', 'assigned_users.user_id','assigned_users.role' ,'users.first_name','users.last_name')
                 ->get();
             foreach ($means as $mean) {
-                if ($mean->role ==  'internal accreditor') {
+                if (Str::contains($mean->role, 'internal accreditor')) {
                     $mean_array = Arr::prepend($mean_array, $mean);
                     if(!($accreditor->contains( 'name', $mean->first_name .' '. $mean->last_name))) $accreditor->push(['role' => $mean->role, 'name' => $mean->first_name .' '. $mean->last_name]);
                 }
@@ -249,7 +249,7 @@ class ReportController extends Controller
                 ])->first();
                 $area_mean_external = Arr::prepend($area_mean_external,$score);
             }
-            elseif($instrument->role == 'internal accreditor'){
+            elseif(Str::contains($instrument->role, 'internal accreditor')){
                 $score = AreaMean::where([
                     ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
                 ])->first();
