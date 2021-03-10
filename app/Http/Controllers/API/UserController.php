@@ -14,11 +14,9 @@ use App\ParameterMean;
 use App\ParameterProgram;
 use App\Program;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-//use phpDocumentor\Reflection\Types\Collection;
 use Illuminate\Support\Collection;
 
 class UserController extends Controller
@@ -47,7 +45,7 @@ class UserController extends Controller
                     $index1 = Arr::prepend($index1,$app_prog->id);
                 }
             }
-            else if($task->role == 'internal accreditor'){
+            else if(Str::contains($task->role, 'internal accreditor')){
                 $app_prog = DB::table('applications_programs')
                     ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                     ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
@@ -125,7 +123,7 @@ class UserController extends Controller
                 ])->first();
                 $area_mean_external = Arr::prepend($area_mean_external,$score);
             }
-            elseif($instrument->role == 'internal accreditor'){
+            elseif(Str::contains($instrument->role, 'internal accreditor')){
                 $score = AreaMean::where([
                     ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
                 ])->first();
