@@ -14,6 +14,7 @@ use App\Notification;
 use App\NotificationContent;
 use App\NotificationProgram;
 use App\ParameterProgram;
+use App\RequiredRating;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -296,4 +297,20 @@ class AaccupController extends Controller
         $parameter->save();
         return response()->json(['status' => true, 'message' => 'Successful', 'gap' => $parameter]);
     }
+
+    public function setRequiredRating(request $request){
+        foreach ($request->ratings as $rating){
+            $required_rating = RequiredRating::where('id', $rating['id'])->first();
+            $required_rating->accreditation_status = $rating['accreditation_status'];
+            $required_rating->grand_mean = $rating['grand_mean'];
+            $required_rating->area_mean = $rating['area_mean'];
+            $required_rating->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully saved required ratings per accreditation status' ]);
+    }
+
+    public function showRequiredRating(){
+        return response()->json(RequiredRating::all());
+    }
+
 }
