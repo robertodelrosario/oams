@@ -119,6 +119,7 @@ class AppliedProgramController extends Controller
         return response()->json($files);
     }
 
+
     public function showFileTFH($id){
         $report = array();
         $compliance = ApplicationProgramFile::where([
@@ -233,6 +234,14 @@ class AppliedProgramController extends Controller
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function showFile($id){
+        $file_link = ApplicationProgramFile::where('id', $id)->first();
+        $file = File::get(storage_path("app/".$file_link->file));
+        $type = File::mimeType(storage_path("app/".$file_link->file));
+        $path = storage_path("app/".$file_link->file);
+        return response()->json(['link' =>$path, 'type' => $type]);
     }
 
     public function programList($id){

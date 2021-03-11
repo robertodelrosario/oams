@@ -225,6 +225,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteProgramFile/{id}/{user_id}', 'AppliedProgramController@deleteProgramFile');
     Route::get('/viewProgramFile/{id}', 'AppliedProgramController@viewProgramFile');
     Route::get('/showProgramFile/{id}', 'AppliedProgramController@showProgramFile');
+    Route::get('/showFile/{id}', 'AppliedProgramController@showFile');
     Route::get('/showFileTFH/{id}', 'AppliedProgramController@showFileTFH');
     Route::get('/showFileQA/{id}', 'AppliedProgramController@showFileQA');
     Route::get('/showFileIA/{id}/{userID}', 'AppliedProgramController@showFileIA');
