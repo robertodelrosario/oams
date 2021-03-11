@@ -9,6 +9,7 @@ use App\AssignedUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Program;
+use App\RequiredRating;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -76,6 +77,34 @@ class OverviewController extends Controller
         $result->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2)]);
 
 
-        return response()->json(['program' => $program,'areas' => $sar, 'result' => $result]);
+        if($check->level == 'Candidate'){
+            $required_rating = RequiredRating::where('accreditation_status', 'Candidate')->first();
+        }
+        elseif ($check->level == 'Level I')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level I')->first();
+        }
+        elseif ($check->level == 'Level II')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
+        }
+        elseif ($check->level == 'Level III, Phase 1')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
+        }
+        elseif ($check->level == 'Level III, Phase 2')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
+        }
+        elseif ($check->level == 'Level IV, Phase 1')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
+        }
+        elseif ($check->level == 'Level IV, Phase 2')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level IV')->first();
+        }
+
+        return response()->json(['program' => $program,'areas' => $sar, 'result' => $result, 'require_ratings' => $required_rating]);
     }
 }
