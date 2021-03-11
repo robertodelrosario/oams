@@ -323,4 +323,38 @@ class AaccupController extends Controller
         return response()->json(RequiredRating::all());
     }
 
+    public function showRequiredProgramRating($id){
+        $program = ApplicationProgram::where('id', $id)->first();
+        if(is_null($program)) return response()->json(['status' => false, 'message' => 'Invalid ID.' ]);
+        if($program->level == 'Candidate'){
+            $required_rating = RequiredRating::where('accreditation_status', 'Candidate')->first();
+        }
+        elseif ($program->level == 'Level I')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level I')->first();
+        }
+        elseif ($program->level == 'Level II')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
+        }
+        elseif ($program->level == 'Level III, Phase 1')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
+        }
+        elseif ($program->level == 'Level III, Phase 2')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
+        }
+        elseif ($program->level == 'Level IV, Phase 1')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
+        }
+        elseif ($program->level == 'Level IV, Phase 2')
+        {
+            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level IV')->first();
+        }
+
+        return response()->json($required_rating);
+    }
+
 }

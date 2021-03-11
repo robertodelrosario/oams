@@ -135,6 +135,7 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::put('/saveRequiredRating', 'AaccupController@saveRequiredRating');
     Route::post('/setRequiredRating', 'AaccupController@setRequiredRating');
     Route::get('/showRequiredRating', 'AaccupController@showRequiredRating');
+    Route::get('/showRequiredProgramRating/{id}', 'AaccupController@showRequiredProgramRating');
 });
 
 Route::group(['prefix' => '/document'], function() {
