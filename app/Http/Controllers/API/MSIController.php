@@ -18,7 +18,7 @@ class MSIController extends Controller
             ['transaction_id', $transactionID], ['user_id', $id]
         ])->first();
         if(!(is_null($task))){
-            if($task->role == 'internal accreditor' || Str::contains($task->role, 'external accreditor')){
+            if(Str::contains($task->role, 'internal accreditor') || Str::contains($task->role, 'external accreditor')){
                 $area = InstrumentProgram::where('id', $task->transaction_id)->first();
                 $instrumentStatements = DB::table('programs_statements')
                     ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
