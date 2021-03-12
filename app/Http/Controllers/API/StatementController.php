@@ -168,7 +168,8 @@ class StatementController extends Controller
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $statement = BenchmarkStatement::where('statement', $request->statement)->first();
+
+        $statement = BenchmarkStatement::whereRaw('statement', $request->statement)->first();
 
         $instruStatement = InstrumentStatement::where([
             ['instrument_parameter_id',$request->instrument_parameter_id], ['benchmark_statement_id', $request->id]
