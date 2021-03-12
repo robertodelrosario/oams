@@ -27,7 +27,7 @@ class OverviewController extends Controller
         if($role == 0)  //internal accreditor
         {
             $areas = AssignedUser::where([
-                ['app_program_id', $app_prog], ['role', 'internal accreditor']
+                ['app_program_id', $app_prog], ['role', 'like', 'internal accreditor%']
             ])->get();
         }
         else{       //external accreditor
