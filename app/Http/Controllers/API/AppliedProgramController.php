@@ -240,6 +240,7 @@ class AppliedProgramController extends Controller
         $file_link = ApplicationProgramFile::where('id', $id)->first();
         $file = File::get(storage_path("app/".$file_link->file));
         $type = File::mimeType(storage_path("app/".$file_link->file));
+        
         $path = storage_path("app/".$file_link->file);
         return response()->json(['link' =>$path, 'type' => $type]);
     }

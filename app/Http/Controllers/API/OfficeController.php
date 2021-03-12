@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\CampusUser;
 use App\Document;
 use App\Http\Controllers\Controller;
 use App\Office;
@@ -43,6 +44,10 @@ class OfficeController extends Controller
         $office = Office::where('id', $id)->first();
         $docs = Document::where('office_id', $office->id)->get();
         if(count($docs) > 0) return response()->json(['status' => false, 'message' => 'Office contains document/s.']);
+        $campus_users = CampusUser::where('office_id',$id)->get();
+        foreach ($campus_users as $campus_user){
+            $campus_user->office_id = null;
+        }
         $office->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted!']);
     }
