@@ -177,7 +177,7 @@ class StatementController extends Controller
         if(is_null($instruStatement)) return response()->json(['status' => false, 'message' => 'Statement in instrument does not exist']);
         $instruStatement->delete();
 
-        if($statement['statement'] != $request->statement){
+        if($statement->statement != $request->statement){
             $benchmarkStatement = new BenchmarkStatement();
             $benchmarkStatement->statement = $request->statement;
             $benchmarkStatement->type = $request->type;
