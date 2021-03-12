@@ -177,7 +177,26 @@ class StatementController extends Controller
         if(is_null($instruStatement)) return response()->json(['status' => false, 'message' => 'Statement in instrument does not exist']);
         $instruStatement->delete();
 
-        if($statement['statement'] != $request->statement){
+        if(is_null($statement)){
+            $benchmarkStatement = new BenchmarkStatement();
+            $benchmarkStatement->statement = $request->statement;
+            $benchmarkStatement->type = $request->type;
+            $benchmarkStatement->save();
+
+            $instrumentStatement = new InstrumentStatement();
+            $instrumentStatement->instrument_parameter_id = $request->instrument_parameter_id;
+            $instrumentStatement->benchmark_statement_id = $benchmarkStatement->id;
+            $instrumentStatement->parent_statement_id = $request->parent_statement_id;
+            $instrumentStatement->save();
+
+            $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
+            foreach ($parents as $parent){
+                $parent->parent_statement_id = $benchmarkStatement->id;
+                $parent->save();
+            }
+            return response()->json(['status' => true, 'message' => 'Updated successfully [1]', 'statement' => $benchmarkStatement]);
+        }
+        elseif ($statement->statement != $request->statement){
             $benchmarkStatement = new BenchmarkStatement();
             $benchmarkStatement->statement = $request->statement;
             $benchmarkStatement->type = $request->type;
