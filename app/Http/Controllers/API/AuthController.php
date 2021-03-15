@@ -166,8 +166,9 @@ class AuthController extends Controller
                 }
             }
             $role->users()->attach($user->id);
+            dd($user->id);
             $user_office = CampusUser::where('user_id', $user->id)->first();
-            dd($user_office);
+
             $user_office->office_id = $request->office_id;
             $user_office->save();
 
