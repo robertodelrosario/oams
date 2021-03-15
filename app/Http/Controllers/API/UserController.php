@@ -117,7 +117,7 @@ class UserController extends Controller
         $area_mean_internal = array();
 
         foreach($instruments as $instrument){
-            if(Str::contains($instrument->role, 'leader') || Str::contains($instrument->role, 'area 7')){
+            if(Str::contains($instrument->role, '[leader]') || Str::contains($instrument->role, 'area 7')){
                 $score = AreaMean::where([
                     ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
                 ])->first();
