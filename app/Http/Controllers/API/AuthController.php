@@ -152,7 +152,24 @@ class AuthController extends Controller
             $campus= Campus::where('id',$id)->first();
             $user->campuses()->attach($campus);
             $role = Role::where('role', $request->role)->first();
+            if($request->role == 'support head'){
+                $users = CampusUser::where('office_id',  $request->office_id)->get();
+                foreach ($users as $user)
+                {
+                    $user_role = UserRole::where([
+                        ['user_id', $user->user_id], ['role_id', 3]
+                    ])->first();
+                    if(!(is_null($user_role))){
+                        $role = Role::where('role', 'support staff')->first();
+                        break;
+                    }
+                }
+            }
             $role->users()->attach($user->id);
+            $user_office = CampusUser::where('user_id', $user->id)->first();
+            $user_office->office_id = $request->office_id;
+            $user_office->save();
+
             $roles = DB::table('users_roles')
                 ->join('roles', 'roles.id', '=', 'users_roles.role_id')
                 ->where('user_id', $user->id)
@@ -396,18 +413,22 @@ class AuthController extends Controller
 
     public function setRole(request $request,$userID){
         $role = Role::where('role', $request->role)->first();
-
-        $user_office = CampusUser::where('user_id', $userID)->first();
-        if(!(is_null($user_office)) && $request->role == 'support head'){
-            $users = CampusUser::where('office_id', $user_office->office_id)->get();
+        if($request->role == 'support head'){
+            $users = CampusUser::where('office_id',  $request->office_id)->get();
             foreach ($users as $user)
             {
                 $user_role = UserRole::where([
                     ['user_id', $user->user_id], ['role_id', 3]
                 ])->first();
-                if(!(is_null($user_role))) return response()->json(['status' => false, 'message' => 'Office has already a Support Head Officer']);
+                if(!(is_null($user_role))){
+                    $role = Role::where('role', 'support staff')->first();
+                    break;
+                }
             }
         }
+        $user_office = CampusUser::where('user_id', $userID)->first();
+        $user_office->office_id = $request->office_id;
+        $user_office->save();
 
         $check = UserRole::where([
             ['user_id', $userID], ['role_id', $role->id]
@@ -431,11 +452,11 @@ class AuthController extends Controller
             ['user_id', $userID], ['role_id', $roleID]
         ]);
         $role->delete();
-        if($roleID == 3 || $roleID == 4){
-            $user = CampusUser::where('user_id', $userID)->first();
-            $user->office_id = null;
-            $user->save();
-        }
+//        if($roleID == 3 || $roleID == 4){
+//            $user = CampusUser::where('user_id', $userID)->first();
+//            $user->office_id = null;
+//            $user->save();
+//        }
         return response()->json(['status' => true, 'message' => 'Successfully remove role']);
     }
 }
