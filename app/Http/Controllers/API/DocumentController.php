@@ -53,12 +53,15 @@ class DocumentController extends Controller
             $document->type = $request->type;
             $document->save();
         }
-        foreach ($request->tag as $key){
-            $tag = new Tag();
-            $tag->tag = $key;
-            $tag->document_id = $document->id;
-            $tag->save();
+        if(count($request->tag) > 0){
+            foreach ($request->tag as $key){
+                $tag = new Tag();
+                $tag->tag = $key;
+                $tag->document_id = $document->id;
+                $tag->save();
+            }
         }
+
         return response()->json(['status' => true, 'message' => 'Successfully added document', 'document' =>$document]);
     }
 
