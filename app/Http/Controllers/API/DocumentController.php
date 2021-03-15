@@ -53,9 +53,8 @@ class DocumentController extends Controller
             $document->type = $request->type;
             $document->save();
         }
-        dd(count($request->tag));
-        if(count($request->tag) > 0){
-            foreach ($request->tag as $key){
+        foreach ($request->tag as $key){
+            if(!(is_null($key))){
                 $tag = new Tag();
                 $tag->tag = $key;
                 $tag->document_id = $document->id;
