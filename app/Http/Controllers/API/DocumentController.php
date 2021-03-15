@@ -54,7 +54,7 @@ class DocumentController extends Controller
             $document->save();
         }
         foreach ($request->tag as $key){
-            if(!(is_null($key))){
+            if($key == null){
                 $tag = new Tag();
                 $tag->tag = $key;
                 $tag->document_id = $document->id;
