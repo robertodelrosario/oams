@@ -396,6 +396,19 @@ class AuthController extends Controller
 
     public function setRole(request $request,$userID){
         $role = Role::where('role', $request->role)->first();
+
+        $user_office = CampusUser::where('user_id', $userID)->first();
+        if(!(is_null($user_office)) && $request->role == 'support head'){
+            $users = CampusUser::where('office_id', $user_office->office_id)->get();
+            foreach ($users as $user)
+            {
+                $user_role = UserRole::where([
+                    ['user_id', $user->user_id], ['role_id', 3]
+                ])->first();
+                if(!(is_null($user_role))) return response()->json(['status' => false, 'message' => 'Office has already a Support Head Officer']);
+            }
+        }
+
         $check = UserRole::where([
             ['user_id', $userID], ['role_id', $role->id]
         ])->first();
