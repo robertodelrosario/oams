@@ -429,7 +429,12 @@ class AuthController extends Controller
     public function deleteSetRole($userID, $roleID){
         $role = UserRole::where([
             ['user_id', $userID], ['role_id', $roleID]
-        ]);
+        ])->first();
+        if($roleID == 3 || $roleID == 4){
+            $user = CampusUser::where('user_id', $userID)->first();
+            $user->office_id = null;
+            $user->save();
+        }
         $role->delete();
         return response()->json(['status' => true, 'message' => 'Successfully remove role']);
     }
