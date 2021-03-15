@@ -149,15 +149,16 @@ class AuthController extends Controller
             $user->password = bcrypt($request->input('password'));
             $user->status = 'active';
             $user->save();
+            dd($user->id);
             $campus= Campus::where('id',$id)->first();
             $user->campuses()->attach($campus);
             $role = Role::where('role', $request->role)->first();
             if($request->role == 'support head'){
                 $users = CampusUser::where('office_id',  $request->office_id)->get();
-                foreach ($users as $user)
+                foreach ($users as $u)
                 {
                     $user_role = UserRole::where([
-                        ['user_id', $user->user_id], ['role_id', 3]
+                        ['user_id', $u->user_id], ['role_id', 3]
                     ])->first();
                     if(!(is_null($user_role))){
                         $role = Role::where('role', 'support staff')->first();
@@ -166,7 +167,7 @@ class AuthController extends Controller
                 }
             }
             $role->users()->attach($user->id);
-            dd($user->id);
+
             $user_office = CampusUser::where('user_id', $user->id)->first();
 
             $user_office->office_id = $request->office_id;
