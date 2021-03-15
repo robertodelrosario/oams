@@ -43,6 +43,7 @@ Route::group([
     Route::put('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::put('/activateUser/{id}', 'AuthController@activateUser');
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
+    Route::delete('/removeUser/{id}', 'AuthController@removeUser');
 
     Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id
     Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id

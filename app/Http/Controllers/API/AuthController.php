@@ -459,4 +459,10 @@ class AuthController extends Controller
 //        }
         return response()->json(['status' => true, 'message' => 'Successfully remove role']);
     }
+
+    public function removeUser($id){
+        $user_office = CampusUser::where('id', $id)->first();
+        $user = User::where('id',$user_office->user_id);
+        $user->delete();
+    }
 }
