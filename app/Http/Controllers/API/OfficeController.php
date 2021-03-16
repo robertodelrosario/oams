@@ -68,6 +68,7 @@ class OfficeController extends Controller
         $campus_users = CampusUser::where('office_id',$id)->get();
         foreach ($campus_users as $campus_user){
             $campus_user->office_id = null;
+            $campus_user->save();
         }
         $office->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted!']);
