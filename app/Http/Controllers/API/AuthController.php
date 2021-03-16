@@ -383,6 +383,7 @@ class AuthController extends Controller
             ->join('accreditors_profiles', 'accreditors_profiles.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
             ->where('users_roles.role_id', 8)
+            ->where('accreditors_profiles.accreditor_status', 'Registered')
             ->get();
 
         $specializations = array();
@@ -401,6 +402,16 @@ class AuthController extends Controller
             }
         }
         return response()->json(['users' => $accreditors, 'specializations' => $specializations, 'degrees' => $degrees_arr]);
+    }
+
+    public function changeAccreditorStatus(request $request, $id){
+        $accreditor = AccreditorProfile::where('user_id', $id)->first();
+        if(!(is_null($accreditor))){
+            $accreditor->accreditor_status = $request->status;
+            $accreditor->save();
+            return response()->json(['status' => true, 'message' => 'Successfully changed status.']);
+        }
+        return response()->json(['status' => false, 'message' => 'Id as accreditor does not exist!']);
     }
 
     public function showAllUser(){

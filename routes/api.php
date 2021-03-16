@@ -44,6 +44,7 @@ Route::group([
     Route::put('/activateUser/{id}', 'AuthController@activateUser');
     Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
     Route::delete('/removeUser/{id}', 'AuthController@removeUser');
+    Route::put('/changeAccreditorStatus/{id}', 'AuthController@changeAccreditorStatus');
 
     Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id
     Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id
