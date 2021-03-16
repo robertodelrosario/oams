@@ -93,7 +93,7 @@ class InstrumentController extends Controller
 
     public function editInstrument(request $request, $id){
         $instrument = AreaInstrument::where('id',$id)->first();
-        $instrument->instrument = $request->instrument;
+        $instrument->area_name = $request->instrument;
         $instrument->save();
         return response()->json(['status' => true, 'message' => 'Successfully updated the instrument!']);
     }
