@@ -7,6 +7,7 @@ use App\AccreditorSpecialization;
 use App\Campus;
 use App\CampusUser;
 use App\Office;
+use App\Program;
 use App\Role;
 use App\UserRole;
 use Illuminate\Http\Request;
@@ -285,7 +286,13 @@ class AuthController extends Controller
                 $region->user_id = $user->id;
                 $region->region = $request->region;
                 $region->accreditor_status = $request->accreditor_status;
-                if ($request->campus_id != null) $region->campus_id = $request->campus_id;
+                if ($request->campus_id != null){
+                    $region->campus_id = $request->campus_id;
+                    $campus_user = new CampusUser();
+                    $campus_user->campus_id = $request->campus_id;
+                    $campus_user->user_id = $user->id;
+                    $campus_user->save();
+                }
                 $region->save();
 
                 $specialization = new AccreditorSpecialization();
@@ -467,6 +474,17 @@ class AuthController extends Controller
         $user_office = CampusUser::where('id', $id)->first();
         $user = User::where('id',$user_office->user_id);
         $user->delete();
+    }
+
+
+    public function addToCampus($id){
+        $accreditors = AccreditorProfile::where('campus_id', $id)->get();
+        foreach ($accreditors as $accreditor){
+            $campus_user = new CampusUser();
+            $campus_user->campus_id = $id;
+            $campus_user->user_id = $accreditor->user_id;
+            $campus_user->save();
+        }
     }
 
 }
