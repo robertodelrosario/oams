@@ -22,7 +22,7 @@ class InstrumentController extends Controller
     }
 */
 
-    //CREATE INSTRUMENT FUNTION
+    //CREATE INSTRUMENT FUNCTION
     public function createInstrument(request $request){
         $validator = Validator::make($request->all(), [
             'intended_program' => 'required',
@@ -89,6 +89,13 @@ class InstrumentController extends Controller
         $intendedProgram->type_of_instrument = $request->type_of_instrument;
         $intendedProgram->save();
         return response()->json(['status' => true, 'message' => 'Successfully updated the instrument!', 'instrument' => $intendedProgram]);
+    }
+
+    public function editInstrument(request $request, $id){
+        $instrument = AreaInstrument::where('id',$id)->first();
+        $instrument->instrument = $request->instrument;
+        $instrument->save();
+        return response()->json(['status' => true, 'message' => 'Successfully updated the instrument!']);
     }
 
     public function cloneInstrument(request $request,$id){

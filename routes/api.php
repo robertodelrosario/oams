@@ -180,6 +180,7 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::delete('/deleteStatement/{instrumentID}/{statementID}', 'StatementController@deleteStatement');
     Route::put('/editStatement', 'StatementController@editStatement');
     Route::put('/editProgram/{id}', 'InstrumentController@editProgram');
+    Route::put('/editInstrument/{id}', 'InstrumentController@editInstrument');
     Route::put('/editParameter/{id}', 'ParameterController@editParameter');
 
 });
