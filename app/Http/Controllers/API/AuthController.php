@@ -383,7 +383,6 @@ class AuthController extends Controller
             ->join('accreditors_profiles', 'accreditors_profiles.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'users_roles.role_id')
             ->where('users_roles.role_id', 8)
-            ->where('accreditors_profiles.accreditor_status', 'Registered')
             ->get();
 
         $specializations = array();
