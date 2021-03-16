@@ -20,6 +20,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AssignTaskController extends Controller
 {
@@ -39,8 +40,12 @@ class AssignTaskController extends Controller
             ['app_program_id', $app_prog_id], ['user_id', $request->user_id]
         ])->first();
 
-        if(!(is_null($check)) && $check->role != $request->role) return response()->json(['status' => false, 'message' => 'You are already assigned as '.$check->role]);
-
+        $initial_role = null;
+        if(!(is_null($check)) && $check->role == 'internal accreditor - leader' && $request->role == 'internal accreditor')
+            $initial_role = $check->role;
+        elseif(!(is_null($check)) && $check->role != $request->role)
+            return response()->json(['status' => false, 'message' => 'You are already assigned as '.$check->role]);
+        else $initial_role = $request->role;
         $check_1 = AssignedUser::where([
             ['transaction_id', $id], ['user_id', $request->user_id]
         ])->first();
@@ -50,11 +55,11 @@ class AssignTaskController extends Controller
         $assignUser->transaction_id = $id;
         $assignUser->user_id = $request->user_id;
         $assignUser->app_program_id = $app_prog_id;
-        $assignUser->role = $request->role;
+        $assignUser->role = $initial_role;
         $assignUser->save();
 
         $check = AssignedUser::where([
-            ['app_program_id', $app_prog_id], ['transaction_id', $id], ['role', 'internal accreditor']
+            ['app_program_id', $app_prog_id], ['transaction_id', $id], ['role','like' ,'internal accreditor%']
         ])->get();
         if(count($check) <= 1 )
         {
@@ -67,7 +72,7 @@ class AssignTaskController extends Controller
 
         $user = User::where('id', $assignUser->user_id)->first();
 
-        if ($request->role == 'internal accreditor'){
+        if (Str::contains($initial_role, 'internal accreditor')){
             $parameters = ParameterProgram::where('program_instrument_id',$id)->get();
             foreach ($parameters as $parameter){
                 $item = new ParameterMean();
