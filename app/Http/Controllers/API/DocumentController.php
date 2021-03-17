@@ -152,7 +152,7 @@ class DocumentController extends Controller
 
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
-        return $response->stream();
+        return $response;
     }
 
     public function editDocumentName(request $request, $id){
