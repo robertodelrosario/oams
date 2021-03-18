@@ -321,7 +321,32 @@ class AuthController extends Controller
                     ->get();
                 return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
             }
+
+            $roles = UserRole::where('user_id', $check->id)->get();
+            foreach ($roles as $role){
+                if($role->role_id == 8){
+                    $accreditor = AccreditorProfile::where('user_id', $role->user_id)->first();
+                    if($accreditor->accreditor_status == 'Unregistered'){
+                        return response()->json(['status' => false, 'message' => 'Unregistered', 'user' => $check]);
+                    }
+                    else
+                        return response()->json(['status' => false, 'message' => 'Already registered as accreditor.']);
+                }
+            }
+
             return response()->json(['status' => false, 'message' => 'User already registered']);
+        }
+        $roles = UserRole::where('user_id', $check->id)->get();
+        foreach ($roles as $role){
+            if($role->role_id == 8){
+                $accreditor = AccreditorProfile::where('user_id', $role->user_id)->first();
+                if($accreditor->accreditor_status == 'Unregistered'){
+                    return response()->json(['status' => false, 'message' => 'Unregistered', 'user' => $check]);
+                }
+                else
+                    return response()->json(['status' => false, 'message' => 'Already registered as accreditor.']);
+            }
+
         }
         return response()->json(['status' => false, 'message' => 'Email already registered']);
     }
