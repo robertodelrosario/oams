@@ -330,7 +330,7 @@ class AuthController extends Controller
                         return response()->json(['status' => false, 'message' => 'Unregistered', 'user' => $check]);
                     }
                     else
-                        return response()->json(['status' => false, 'message' => 'Already registered as accreditor.']);
+                        return response()->json(['status' => false, 'message' => 'Registered']);
                 }
             }
 
@@ -536,6 +536,11 @@ class AuthController extends Controller
             $campus_user->user_id = $accreditor->user_id;
             $campus_user->save();
         }
+    }
+
+    public function showAllCampusUser(){
+        $users = CampusUser::all();
+        return response()->json($users);
     }
 
 }

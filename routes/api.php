@@ -71,6 +71,7 @@ Route::group([
     Route::delete('deleteAccreditorSpecialization/{id}', 'UserProfileController@deleteAccreditorSpecialization');//id is user_specialization_id
 
     Route::post('addToCampus/{id}', 'AuthController@addToCampus');//id is user_id
+    Route::get('showAllCampusUser', 'AuthController@showAllCampusUser');//id is user_id
 });
 
 Route::group(['prefix' => '/suc'], function() {
