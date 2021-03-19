@@ -87,7 +87,7 @@ class CampusController extends Controller
                         'created_at' => $campus->created_at,
                         'first_name' => $u->first_name,
                         'last_name' =>$u->last_name,
-                        'user_email' =>$u->user_email
+                        'user_email' =>$u->email
                     ]);
                 }
             }
