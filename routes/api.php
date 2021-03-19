@@ -70,7 +70,7 @@ Route::group([
     Route::get('showAccreditorSpecialization/{id}', 'UserProfileController@showAccreditorSpecialization');//id is user_id
     Route::delete('deleteAccreditorSpecialization/{id}', 'UserProfileController@deleteAccreditorSpecialization');//id is user_specialization_id
 
-    Route::post('addToCampus/{id}', 'AuthController@addToCampus');//id is user_id
+    Route::post('addToCampus/{campusID}/{userID}', 'AuthController@addToCampus');//id is user_id
     Route::get('showAllCampusUser', 'AuthController@showAllCampusUser');//id is user_id
 });
 
