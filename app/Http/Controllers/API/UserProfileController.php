@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\AccreditorProfile;
 use App\AccreditorSpecialization;
 use App\Campus;
+use App\CampusUser;
 use App\Http\Controllers\Controller;
 use App\SUC;
 use App\User;
@@ -145,6 +146,11 @@ class UserProfileController extends Controller
     }
 
     public function editAccreditorProfile(request $request, $id){
+        $campus_user = CampusUser::where('user_id', $id)->first();
+        if(!(is_null($campus_user))){
+            $campus_user->campus_id = $request->campus_id;
+            $campus_user->save();
+        }
         $user = AccreditorProfile::where('user_id', $id)->first();
         $user->academic_rank = $request->academic_rank;
         $user->designation = $request->designation;
