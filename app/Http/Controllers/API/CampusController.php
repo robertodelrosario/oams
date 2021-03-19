@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use App\CampusUser;
 use App\Http\Controllers\Controller;
 use App\Campus;
 use App\Role;
 use App\User;
+use App\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Collection;
 
 class CampusController extends Controller
 {
@@ -60,8 +63,36 @@ class CampusController extends Controller
     }
 
     public function showCampus($id){
-        $campus = Campus::where('suc_id', $id)->get();
-        return response()->json($campus);
+        $collection = new Collection();
+        $campuses = Campus::where('suc_id', $id)->get();
+        foreach($campuses as $campus){
+            $users = CampusUser::where('campus_id', $campus->id)->get();
+            foreach($users as $user){
+                $role = UserRole::where([
+                    ['user_id', $user->user_id], ['role_id', 5]
+                ])->first();
+                if(!(is_null($role))){
+                    $u = User::where('id', $user->user_id)->first();
+                    $collection->push([
+                        'id' => $campus->id,
+                        'suc_id' => $campus->suc_id,
+                        'campus_name' => $campus->campus_name,
+                        'address' => $campus->address,
+                        'region' => $campus->region,
+                        'province' => $campus->province,
+                        'municipality' => $campus->municipality,
+                        'email' => $campus->email,
+                        'contact_no' => $campus->contact_no,
+                        'created_at' => $campus->created_at,
+                        'created_at' => $campus->created_at,
+                        'first_name' => $u->first_name,
+                        'last_name' =>$u->last_name,
+                        'user_email' =>$u->user_email
+                    ]);
+                }
+            }
+        }
+        return response()->json($collection);
     }
 
     public function showAllCampus(){
