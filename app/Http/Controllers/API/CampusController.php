@@ -43,9 +43,22 @@ class CampusController extends Controller
             $campus->contact_no = $request->contact_no;
 
 
+            $check = User::where('email', $request->email)->first();
+            if(!(is_null($check))){
+                $campus->save();
+                return response()->json(['status' => false, 'message' => 'User already exist']);
+            }
+            $check = User::where([
+                ['first_name', $request->first_name],['last_name', $request->last_name], ['name_extension', $request->name_extension]
+            ])->first();
+            if(!(is_null($check))){
+                $campus->save();
+                return response()->json(['status' => false, 'message' => 'User already exist']);
+            }
             $user = new User;
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
+            $user->name_extension = $request->name_extension;
             $user->email = $request->user_email;
             $user->contact_no = $request->user_contact_no;
             $user->password = bcrypt($request->input('password'));
@@ -90,6 +103,24 @@ class CampusController extends Controller
                         'user_email' =>$u->email
                     ]);
                 }
+            }
+            if(!($collection->contains('id', $campus->id))){
+                $collection->push([
+                    'id' => $campus->id,
+                    'suc_id' => $campus->suc_id,
+                    'campus_name' => $campus->campus_name,
+                    'address' => $campus->address,
+                    'region' => $campus->region,
+                    'province' => $campus->province,
+                    'municipality' => $campus->municipality,
+                    'email' => $campus->email,
+                    'contact_no' => $campus->contact_no,
+                    'created_at' => $campus->created_at,
+                    'created_at' => $campus->created_at,
+                    'first_name' => null,
+                    'last_name' =>null,
+                    'user_email' =>null
+                ]);
             }
         }
         return response()->json($collection);

@@ -12,6 +12,7 @@ use App\AssignedUserHead;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
+use App\Program;
 use App\ProgramInstrument;
 use App\Transaction;
 use App\User;
@@ -240,7 +241,7 @@ class AppliedProgramController extends Controller
         $file_link = ApplicationProgramFile::where('id', $id)->first();
         $file = File::get(storage_path("app/".$file_link->file));
         $type = File::mimeType(storage_path("app/".$file_link->file));
-        
+
         $path = storage_path("app/".$file_link->file);
         return response()->json(['link' =>$path, 'type' => $type]);
     }
@@ -366,5 +367,15 @@ class AppliedProgramController extends Controller
             ->orderBy('users.id')
             ->get();
         return response()->json(['statements' => $instrumentStatement, 'documents' => $statementDocument, 'scores' => $scores]);
+    }
+
+    public function lockSelfSurvey(request $request,$id){
+        $program = ApplicationProgram::where('id', $id)->first();
+        $program->self_survey_status = $request->status;
+        $program->save();
+
+        $prog = Program::where('id', $program->program_id)->first();
+        if($request->status == 0) return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully unlocked."]);
+        elseif($request->status == 1) return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully locked."]);
     }
 }
