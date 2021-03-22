@@ -309,7 +309,7 @@ class AppliedProgramController extends Controller
                 'attachment_status' => $status,
                 'program_name' =>$program->program_name,
                 'campus_name' =>$program->campus_name,
-                'self_survey_status' => $program->self_survey_statuss
+                'self_survey_status' => $program->self_survey_status
             ]);
         }
         return response()->json(['programs' =>$collection, 'users' => $users, 'files' => $attach_files]);
