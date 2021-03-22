@@ -46,14 +46,14 @@ class CampusController extends Controller
             $check = User::where('email', $request->email)->first();
             if(!(is_null($check))){
                 $campus->save();
-                return response()->json(['status' => false, 'message' => 'User already exist']);
+                return response()->json(['status' => false, 'message' => 'User already exist', 'suc' => $campus]);
             }
             $check = User::where([
                 ['first_name', $request->first_name],['last_name', $request->last_name], ['name_extension', $request->name_extension]
             ])->first();
             if(!(is_null($check))){
                 $campus->save();
-                return response()->json(['status' => false, 'message' => 'User already exist']);
+                return response()->json(['status' => false, 'message' => 'User already exist', 'suc' => $campus]);
             }
             $user = new User;
             $user->first_name = $request->first_name;

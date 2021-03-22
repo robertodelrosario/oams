@@ -174,7 +174,6 @@ class AuthController extends Controller
                     }
                 }
                 $role->users()->attach($user->id);
-
                 $user_office = CampusUser::where('user_id', $user->id)->first();
                 $user_office->office_id = $request->office_id;
                 $user_office->save();
@@ -184,7 +183,7 @@ class AuthController extends Controller
                     ->get();
                 return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
             }
-            
+
             $user_role = UserRole::where([
                 ['user_id', $check->id],['role_id', 8]
             ])->first();
