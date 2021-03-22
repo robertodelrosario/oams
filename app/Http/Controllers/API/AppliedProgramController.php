@@ -371,7 +371,8 @@ class AppliedProgramController extends Controller
 
     public function lockSelfSurvey(request $request,$id){
         $program = ApplicationProgram::where('id', $id)->first();
-        $program->self_survey_status = $request->status;
+        if($request->status == true) $program->self_survey_status = 1;
+        else $program->self_survey_status = 0;
         $program->save();
 
         $prog = Program::where('id', $program->program_id)->first();
