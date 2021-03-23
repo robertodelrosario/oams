@@ -184,7 +184,7 @@ class DocumentController extends Controller
         foreach ($request->tag as $key){
             $tag = new Tag();
             $tag->tag = $key;
-            $tag->document_id = $id;
+            $tag->container_id = $id;
             $tag->save();
             $tags = Arr::prepend($tags,$tag);
         }
