@@ -156,7 +156,6 @@ class AuthController extends Controller
                 $user->middle_initial = $request->middle_initial;
                 $user->name_extension = $request->name_extension;
                 $user->save();
-//            dd($user->id);
                 $campus= Campus::where('id',$id)->first();
                 $user->campuses()->attach($campus);
                 $role = Role::where('role', $request->role)->first();

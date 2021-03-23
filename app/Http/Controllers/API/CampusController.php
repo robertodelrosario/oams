@@ -149,4 +149,88 @@ class CampusController extends Controller
         $campus->save();
         return response()->json(['status' => true, 'message' => 'Successfully edited campus', 'suc' => $campus]);
     }
+
+    public function registerQA(request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'contact_no' => 'required',
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails())
+            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
+
+        $check = User::where('email', $request->email)->first();
+        if(is_null($check)){
+            $check = User::where([
+                ['first_name', $request->first_name],['last_name', $request->last_name], ['name_extension', $request->name_extension]
+            ])->first();
+            if(is_null($check)){
+                $user = new User;
+                $user->first_name = $request->first_name;
+                $user->last_name = $request->last_name;
+                $user->email = $request->email;
+                $user->contact_no = $request->contact_no;
+                $user->password = bcrypt($request->input('password'));
+                $user->status = 'active';
+                $user->middle_initial = $request->middle_initial;
+                $user->name_extension = $request->name_extension;
+                $user->save();
+                $campus= Campus::where('id',$id)->first();
+                $user->campuses()->attach($campus);
+                $role = Role::where('id', 5)->first();
+                $role->users()->attach($user->id);
+                $user_office = CampusUser::where('user_id', $user->id)->first();
+                $user_office->office_id = $request->office_id;
+                $user_office->save();
+                return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user]);
+            }
+
+            else{
+                $campus_user = CampusUser::where([
+                    ['user_id', $check->id], ['campus_id', $id]
+                ])->first();
+                if(is_null($campus_user)){
+                    return response()->json(['status' => false, 'message' => 'User belongs to other campus.']);
+                }
+                else{
+                    $user_role = UserRole::where([
+                        ['user_id', $check->id], ['role_id', 5]
+                    ])->first();
+                    if(is_null($user_role)){
+                        $assign_role = new UserRole();
+                        $assign_role->user_id = $check->id;
+                        $assign_role->role_id = 5;
+                        $assign_role->save();
+                        return response()->json(['status' => true, 'message' => 'Successfully assigned as QA Director', 'user' => $check]);
+                    }
+                    else return response()->json(['status' => false, 'message' => 'User is already a QA Director']);
+                }
+            }
+
+        }
+        else{
+            $campus_user = CampusUser::where([
+                ['user_id', $check->id], ['campus_id', $id]
+            ])->first();
+            if(is_null($campus_user)){
+                return response()->json(['status' => false, 'message' => 'User belongs to other campus.']);
+            }
+            else{
+                $user_role = UserRole::where([
+                    ['user_id', $check->id], ['role_id', 5]
+                ])->first();
+                if(is_null($user_role)){
+                    $assign_role = new UserRole();
+                    $assign_role->user_id = $check->id;
+                    $assign_role->role_id = 5;
+                    $assign_role->save();
+                    return response()->json(['status' => true, 'message' => 'Successfully assigned as QA Director', 'user' => $check]);
+                }
+                else return response()->json(['status' => false, 'message' => 'User is already a QA Director']);
+            }
+        }
+    }
 }

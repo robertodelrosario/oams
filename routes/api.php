@@ -139,6 +139,9 @@ Route::group(['prefix' => '/aaccup'], function() {
     Route::post('/setRequiredRating', 'AaccupController@setRequiredRating');
     Route::get('/showRequiredRating', 'AaccupController@showRequiredRating');
     Route::get('/showRequiredProgramRating/{id}', 'AaccupController@showRequiredProgramRating');
+
+    Route::post('/registerQA/{id}', 'CampusController@registerQA');
+
 });
 
 Route::group(['prefix' => '/document'], function() {
