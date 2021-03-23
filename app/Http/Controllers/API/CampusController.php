@@ -189,47 +189,31 @@ class CampusController extends Controller
             }
 
             else{
-                $campus_user = CampusUser::where([
-                    ['user_id', $check->id], ['campus_id', $id]
-                ])->first();
+                $campus_user = CampusUser::where('user_id', $check->id)->first();
                 if(is_null($campus_user)){
-                    return response()->json(['status' => false, 'message' => 'User belongs to other campus.']);
-                }
-                else{
-                    $user_role = UserRole::where([
-                        ['user_id', $check->id], ['role_id', 5]
-                    ])->first();
-                    if(is_null($user_role)){
-                        $assign_role = new UserRole();
-                        $assign_role->user_id = $check->id;
-                        $assign_role->role_id = 5;
-                        $assign_role->save();
-                        return response()->json(['status' => true, 'message' => 'Successfully assigned as QA Director', 'user' => $check]);
-                    }
-                    else return response()->json(['status' => false, 'message' => 'User is already a QA Director']);
-                }
-            }
-
-        }
-        else{
-            $campus_user = CampusUser::where([
-                ['user_id', $check->id], ['campus_id', $id]
-            ])->first();
-            if(is_null($campus_user)){
-                return response()->json(['status' => false, 'message' => 'User belongs to other campus.']);
-            }
-            else{
-                $user_role = UserRole::where([
-                    ['user_id', $check->id], ['role_id', 5]
-                ])->first();
-                if(is_null($user_role)){
                     $assign_role = new UserRole();
                     $assign_role->user_id = $check->id;
                     $assign_role->role_id = 5;
                     $assign_role->save();
                     return response()->json(['status' => true, 'message' => 'Successfully assigned as QA Director', 'user' => $check]);
                 }
-                else return response()->json(['status' => false, 'message' => 'User is already a QA Director']);
+                else{
+                    return response()->json(['status' => false, 'message' => 'User is already registered to other campus']);
+                }
+            }
+
+        }
+        else{
+            $campus_user = CampusUser::where('user_id', $check->id)->first();
+            if(is_null($campus_user)){
+                $assign_role = new UserRole();
+                $assign_role->user_id = $check->id;
+                $assign_role->role_id = 5;
+                $assign_role->save();
+                return response()->json(['status' => true, 'message' => 'Successfully assigned as QA Director', 'user' => $check]);
+            }
+            else{
+               return response()->json(['status' => false, 'message' => 'User is already registered to other campus']);
             }
         }
     }

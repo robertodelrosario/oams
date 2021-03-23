@@ -190,7 +190,9 @@ class AuthController extends Controller
                 $campus_user = CampusUser::where([
                     ['campus_id', $id], ['user_id',$user_role->user_id]
                 ])->first();
-                if(is_null($campus_user)) return response()->json(['status' => false, 'message' => 'Accreditor was not registered to this campus.']);
+                if(is_null($campus_user)){
+                    return response()->json(['status' => false, 'message' => 'Accreditor was not registered to this campus.']);
+                }
                 return response()->json(['status' => true, 'message' => 'Accreditor', 'user' => $check]);
             }
             return response()->json(['status' => false, 'message' => 'User already registered']);
@@ -267,6 +269,7 @@ class AuthController extends Controller
 //            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $check]);
 //        }
 //    }
+
 
     public function addToOffice($id, $office_id){
         $user = CampusUser::where('id', $id)->first();
@@ -527,6 +530,18 @@ class AuthController extends Controller
     }
 
     public function deleteSetRole($userID, $roleID){
+        if($roleID == 5){
+            $campus_user = CampusUser::where('user_id', $userID)->first();
+            $users = CampusUser::where('campus_id', $campus_user->campus_id)->get();
+            $count = 0;
+            foreach ($users as $user){
+                $role = UserRole::where([
+                    ['user_id', $user->user_id], ['role_id', 5]
+                ])->first();
+                if(!(is_null($role))) $count++;
+            }
+            if($count == 1) return response()->json(['status' => false, 'message' => 'Cannot delete role. Need to assign another QA Director first.']);
+        }
         $role = UserRole::where([
             ['user_id', $userID], ['role_id', $roleID]
         ]);

@@ -23,7 +23,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/CampusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CampusController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,7 +347,7 @@
       <workItem from="1616119920241" duration="7403000" />
       <workItem from="1616326816777" duration="1541000" />
       <workItem from="1616379246643" duration="9100000" />
-      <workItem from="1616466320505" duration="1008000" />
+      <workItem from="1616466320505" duration="3581000" />
     </task>
     <servers />
   </component>
