@@ -146,6 +146,7 @@ Route::group(['prefix' => '/aaccup'], function() {
 
 Route::group(['prefix' => '/document'], function() {
     Route::post('/uploadDocument/{userID}/{id}', 'DocumentController@uploadDocument');
+    Route::get('/showContainer/{id}', 'DocumentController@showContainer');
     Route::get('/showDocument/{id}', 'DocumentController@showDocument');
     Route::delete('/deleteDocument/{id}', 'DocumentController@deleteDocument');
     Route::put('/removeDocument/{id}', 'DocumentController@removeDocument');
@@ -156,7 +157,7 @@ Route::group(['prefix' => '/document'], function() {
     Route::delete('/deleteTag/{id}', 'DocumentController@deleteTag');
     Route::post('/uploadOwnDocument/{id}/{statementID}', 'DocumentController@uploadOwnDocument');
     Route::get('/showOwnDocument/{id}', 'DocumentController@showOwnDocument');
-
+    Route::delete('/deleteAllDocument', 'DocumentController@deleteAllDocument');
 });
 
 Route::group(['prefix' => '/accreditor'], function() {
