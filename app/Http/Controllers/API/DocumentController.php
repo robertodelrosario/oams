@@ -93,7 +93,7 @@ class DocumentController extends Controller
 
     public function showAllContainer(){
         $collection = new Collection();
-        $containers = DocumentContainer::all();
+        $containers = DocumentContainer::where('office_id', '!=' , null)->get();
         foreach ($containers as $container){
             $tags = Tag::where('container_id', $container->id)->get();
             $collection->push(['container' => $container, 'tags' => $tags]);
