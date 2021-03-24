@@ -64,7 +64,6 @@ class DocumentController extends Controller
                 $document->type = $request->type;
                 $document->container_id = $id;
                 $document->save();
-                echo($document);
             }
             return response()->json(['status' => true, 'message' => 'Successfully added files!']);
         }
