@@ -280,6 +280,16 @@ class AuthController extends Controller
             ->join('campuses_users', 'campuses_users.office_id', '=', 'offices.id')
             ->where('campuses_users.id', $id)
             ->first();
+
+        $user_role = UserRole::where([
+            ['user_id', $user->user_id], ['role_id', 4]
+        ])->first();
+        if(is_null($user_role)){
+            $user = new UserRole();
+            $user->user_id = $user->user_id;
+            $user->role_id = 4;
+            $user->save();
+        }
         return response()->json(['status' => true, 'message' => 'Successfully added to office', 'office' => $office]);
     }
 
