@@ -38,7 +38,7 @@ class DocumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added to list']);
     }
 
-    public function uploadDocument(Request $request, $userID, $id){
+    public function uploadDocument(request $request, $userID, $id){
         if($request->type == 'file'){
             if ($request->hasfile('documents')) {
                 foreach ($files = $request->file('documents') as $file) {
@@ -56,9 +56,7 @@ class DocumentController extends Controller
             }
         }
         elseif($request->type == 'link'){
-            $files = $request->files;
-            dd($files);
-            foreach($request->files as $file){
+            foreach($request->documents as $file){
                 $document = new Document();
                 $document->document_name = $file->filename;
                 $document->link = $file->link;
