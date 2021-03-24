@@ -147,6 +147,9 @@ Route::group(['prefix' => '/aaccup'], function() {
 Route::group(['prefix' => '/document'], function() {
     Route::post('/uploadDocument/{userID}/{id}', 'DocumentController@uploadDocument');
     Route::get('/showContainer/{id}', 'DocumentController@showContainer');
+    Route::get('/showAllContainer', 'DocumentController@showAllContainer');
+    Route::delete('/deleteContainer/{id}', 'DocumentController@deleteContainer');
+    Route::put('/editContainer/{id}', 'DocumentController@editContainer');
     Route::get('/showDocument/{id}', 'DocumentController@showDocument');
     Route::delete('/deleteDocument/{id}', 'DocumentController@deleteDocument');
     Route::put('/removeDocument/{id}', 'DocumentController@removeDocument');

@@ -90,6 +90,34 @@ class DocumentController extends Controller
         }
         return response()->json(['documents' =>$collection]);
     }
+
+    public function showAllContainer(){
+        $collection = new Collection();
+        $containers = DocumentContainer::all();
+        foreach ($containers as $container){
+            $tags = Tag::where('container_id', $container->id)->get();
+            $collection->push(['container' => $container, 'tags' => $tags]);
+        }
+        return response()->json(['documents' =>$collection]);
+    }
+
+    public function deleteContainer($id){
+        $documents = Document::where('container_id', $id)->get();
+        if(count($documents) == 0){
+            $container = DocumentContainer::where('id', $id);
+            $container->delete();
+            return response()->json(['status' => true, 'message' => 'Successfully deleted container']);
+        }
+        else return response()->json(['status' => false, 'message' => 'Container has document/s, unable to delete.']);
+    }
+
+    public function editContainer(request $request, $id){
+        $container = DocumentContainer::where('id', $id)->first();
+        $container->container_name = $request->container_name;
+        $container->save();
+        return response()->json(['status' => true, 'message' => 'Successfully edited container']);
+    }
+
     public function showDocument($id){
         $collection = new Collection();
         $documents = Document::where('container_id', $id)->get();
@@ -170,12 +198,20 @@ class DocumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted file']);
     }
 
+
+
     public function removeDocument($id){
-        $document = Document::where('id', $id)->first();
-        $document->link = 'none';
-        $document->uploader_id = null;
-        $document->save();
-        return response()->json(['status' => true, 'message' => 'Successfully removed file']);
+        $attached_document = AttachedDocument::where('document_id', $id)->get();
+        if(count($attached_document) == 0){
+            $document = Document::where('id', $id)->first();
+            if ($document->type == 'file'){
+                File::delete(storage_path("app/".$document->link));
+                $document->delete();
+            }
+            else $document->delete();
+            return response()->json(['status' => true, 'message' => 'Successfully removed file']);
+        }
+        return response()->json(['status' => false, 'message' => 'Document was already used from a transaction.']);
     }
 
     public function addTag(request $request, $id){
