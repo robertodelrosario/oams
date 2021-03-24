@@ -297,6 +297,10 @@ class AuthController extends Controller
         $user = CampusUser::where('id', $id)->first();
         $user->office_id = null;
         $user->save();
+        $user_role = UserRole::where([
+            ['user_id', $user->user_id], ['role_id', 4]
+        ])->first();
+        $user_role->delete();
         return response()->json(['status' => true, 'message' => 'Successfully remove from office']);
     }
     public function registerAaccupAccreditor(request $request){
