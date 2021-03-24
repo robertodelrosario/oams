@@ -58,8 +58,8 @@ class DocumentController extends Controller
         elseif($request->type == 'link'){
             foreach($request->file as $file){
                 $document = new Document();
-                $document->document_name = $file->filename;
-                $document->link = $file->link;
+                $document->document_name = $file['filename'];
+                $document->link = $file['link'];
                 $document->uploader_id = $userID;
                 $document->type = $request->type;
                 $document->container_id = $id;
