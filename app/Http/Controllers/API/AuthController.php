@@ -285,10 +285,10 @@ class AuthController extends Controller
             ['user_id', $user->user_id], ['role_id', 4]
         ])->first();
         if(is_null($user_role)){
-            $user = new UserRole();
-            $user->user_id = $user->user_id;
-            $user->role_id = 4;
-            $user->save();
+            $u = new UserRole();
+            $u->user_id = $user->user_id;
+            $u->role_id = 4;
+            $u->save();
         }
         return response()->json(['status' => true, 'message' => 'Successfully added to office', 'office' => $office]);
     }
