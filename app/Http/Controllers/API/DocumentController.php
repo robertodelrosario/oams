@@ -56,6 +56,7 @@ class DocumentController extends Controller
             }
         }
         elseif($request->type == 'link'){
+            dd($request->files);
             foreach($request->files as $file){
                 $document = new Document();
                 $document->document_name = $file->filename;
