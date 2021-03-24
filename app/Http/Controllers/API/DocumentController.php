@@ -56,14 +56,16 @@ class DocumentController extends Controller
             }
         }
         elseif($request->type == 'link'){
-            foreach($request->links as $link){
-                $document = new Document();
-                $document->document_name = $link->filename;
-                $document->link = $link->link;
-                $document->uploader_id = $userID;
-                $document->type = $request->type;
-                $document->container_id = $id;
-                $document->save();
+            if ($request->hasfile('files')) {
+                foreach($request->files as $file){
+                    $document = new Document();
+                    $document->document_name = $file->filename;
+                    $document->link = $file->link;
+                    $document->uploader_id = $userID;
+                    $document->type = $request->type;
+                    $document->container_id = $id;
+                    $document->save();
+                }
                 return response()->json(['status' => true, 'message' => 'Successfully added files!']);
             }
             return response()->json(['status' => false, 'message' => 'Unsuccessfully added files![1]']);
