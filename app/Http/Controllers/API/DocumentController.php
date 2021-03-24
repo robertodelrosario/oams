@@ -38,7 +38,7 @@ class DocumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added to list']);
     }
 
-    public function uploadDocument(request $request, $userID, $id){
+    public function uploadDocument(Request $request, $userID, $id){
         if($request->type == 'file'){
             if ($request->hasfile('documents')) {
                 foreach ($files = $request->file('documents') as $file) {
