@@ -569,8 +569,7 @@ class AuthController extends Controller
     }
 
     public function removeUser($id){
-        $user_office = CampusUser::where('id', $id)->first();
-        $user = User::where('id',$user_office->user_id);
+        $user = User::where('id', $id);
         $user->delete();
     }
 
