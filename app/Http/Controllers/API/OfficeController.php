@@ -46,13 +46,13 @@ class OfficeController extends Controller
         $offices = Office::where('campus_id', $id)->get();
         foreach ($offices as $office){
             $campus_users = CampusUser::where('office_id', $office->id)->get();
+            $parent_office = Office::where('id', $office->parent_office_id)->first();
             foreach($campus_users as $campus_user){
                 $user = UserRole::where([
                     ['user_id', $campus_user->user_id], ['role_id', 3]
                 ])->first();
                 if(!(is_null($user))){
                     $user_credentials = User::where('id', $user->user_id)->first();
-                    $parent_office = Office::where('id', $office->parent_office_id)->first();
                     $collection->push([
                         'id' => $office->id,
                         'office_name'=> $office->office_name,
@@ -67,7 +67,7 @@ class OfficeController extends Controller
                 }
             }
             if(!($collection->contains('id', $office->id))){
-                $collection->push(['id' => $office->id, 'office_name'=> $office->office_name, 'contact' => $office->contact, 'email' => $office->email, 'user_id' => null, 'first_name' => null, 'last_name'=> null]);
+                $collection->push(['id' => $office->id, 'office_name'=> $office->office_name, 'contact' => $office->contact, 'email' => $office->email,'parent_office_id' => $office->parent_office_id,'parent_office_name' => $parent_office->office_name, 'user_id' => null, 'first_name' => null, 'last_name'=> null]);
             }
         }
 
