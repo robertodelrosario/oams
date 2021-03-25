@@ -144,9 +144,17 @@ class DocumentController extends Controller
         $collection = new Collection();
         $documents = Document::where('container_id', $id)->get();
         foreach ($documents as $document){
-            $user = User::where('id', $document->uploader_id)->first();
-            $first_name = $user->first_name;
-            $last_name = $user->last_name;
+            if($document->uploader_id != null)
+            {
+                $user = User::where('id', $document->uploader_id)->first();
+                $first_name = $user->first_name;
+                $last_name = $user->last_name;
+            }
+            else{
+                $first_name = null;
+                $last_name = null;
+            }
+            
             $collection->push([
                 'id' => $document->id,
                 'document_name' => $document->document_name,
