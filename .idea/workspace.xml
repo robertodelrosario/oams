@@ -20,7 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/DocumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/DocumentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/OfficeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/OfficeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_23_074313_add_user_id_from_document_containers_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_23_074313_add_user_id_from_document_containers_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,7 +350,8 @@
       <workItem from="1616326816777" duration="1541000" />
       <workItem from="1616379246643" duration="9100000" />
       <workItem from="1616466320505" duration="13406000" />
-      <workItem from="1616552416030" duration="11910000" />
+      <workItem from="1616552416030" duration="12507000" />
+      <workItem from="1616637982789" duration="2711000" />
     </task>
     <servers />
   </component>

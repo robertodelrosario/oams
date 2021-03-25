@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\ApplicationFile;
 use App\AttachedDocument;
+use App\Campus;
+use App\CampusUser;
 use App\Document;
 use App\DocumentContainer;
 use App\Http\Controllers\Controller;
+use App\Office;
 use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
@@ -91,13 +94,32 @@ class DocumentController extends Controller
         return response()->json(['documents' =>$collection]);
     }
 
-    public function showAllContainer(){
+    public function showAllContainer($userID,$id){
         $collection = new Collection();
-        $containers = DocumentContainer::where('office_id', '!=' , null)->get();
+        $campuses = Campus::where('suc_id', $id)->get();
+        $user_office = CampusUser::where('user_id', $userID)->first();
+        foreach ($campuses as $campus){
+            $offices = Office::where([
+                ['campus_id', $campus->id], ['parent_office_id', null]
+            ])->get();
+            foreach ($offices as $office){
+                $containers = DocumentContainer::where('office_id', $office->id)->get();
+                foreach ($containers as $container){
+                    $tags = Tag::where('container_id', $container->id)->get();
+                    $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'main']);
+                }
+            }
+        }
+        $containers = DocumentContainer::where('office_id', $user_office->office_id)->get();
         foreach ($containers as $container){
             $tags = Tag::where('container_id', $container->id)->get();
-            $collection->push(['container' => $container, 'tags' => $tags]);
+            $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'department']);
         }
+//        $containers = DocumentContainer::where('office_id', '!=' , null)->get();
+//        foreach ($containers as $container){
+//            $tags = Tag::where('container_id', $container->id)->get();
+//            $collection->push(['container' => $container, 'tags' => $tags]);
+//        }
         return response()->json(['documents' =>$collection]);
     }
 

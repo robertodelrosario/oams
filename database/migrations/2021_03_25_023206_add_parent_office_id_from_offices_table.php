@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserIdFromDocumentContainersTable extends Migration
+class AddParentOfficeIdFromOfficesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddUserIdFromDocumentContainersTable extends Migration
      */
     public function up()
     {
-        Schema::table('document_containers', function (Blueprint $table) {
-            $table->foreignId('user_id')->nullable();
-            $table->foreign("user_id")->references("id")->on("users")
+        Schema::table('offices', function (Blueprint $table) {
+            $table->foreignId('parent_office_id')->nullable();
+            $table->foreign("parent_office_id")->references("id")->on("offices")
                 ->onUpdate( 'cascade' )->onDelete( 'cascade' );
         });
     }
@@ -27,8 +27,8 @@ class AddUserIdFromDocumentContainersTable extends Migration
      */
     public function down()
     {
-        Schema::table('document_containers', function (Blueprint $table) {
-            $table->dropColumn('user_id');
+        Schema::table('offices', function (Blueprint $table) {
+            $table->dropColumn('parent_office_id');
         });
     }
 }

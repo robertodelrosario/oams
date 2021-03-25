@@ -33,6 +33,8 @@ class OfficeController extends Controller
             $office->email = $request->email;
             $office->contact = $request->contact;
             $office->campus_id = $id;
+            if($request->office_id != null) $office->parent_office_id = $request->office_id;
+            else $office->parent_office_id == null;
             $office->save();
             return response()->json(['status' => true, 'message' => 'Successfully created office', 'office' => $office]);
         }
@@ -50,7 +52,18 @@ class OfficeController extends Controller
                 ])->first();
                 if(!(is_null($user))){
                     $user_credentials = User::where('id', $user->user_id)->first();
-                    $collection->push(['id' => $office->id, 'office_name'=> $office->office_name, 'contact' => $office->contact, 'email' => $office->email, 'user_id' => $user->user_id, 'first_name' => $user_credentials->first_name, 'last_name'=> $user_credentials->last_name]);
+                    $parent_office = Office::where('id', $office->parent_office_id)->first();
+                    $collection->push([
+                        'id' => $office->id,
+                        'office_name'=> $office->office_name,
+                        'contact' => $office->contact,
+                        'email' => $office->email,
+                        'parent_office_id' => $office->parent_office_id,
+                        'parent_office_name' => $parent_office->office_name,
+                        'user_id' => $user->user_id,
+                        'first_name' => $user_credentials->first_name,
+                        'last_name'=> $user_credentials->last_name
+                    ]);
                 }
             }
             if(!($collection->contains('id', $office->id))){
@@ -79,6 +92,7 @@ class OfficeController extends Controller
         $office->office_name = $request->office_name;
         $office->email = $request->email;
         $office->contact = $request->contact;
+        if($request->office_id != null) $office->parent_office_id = $request->office_id;
         $office->save();
         return response()->json(['status' => true, 'message' => 'Successfully Edited!', 'office' => $office]);
     }
