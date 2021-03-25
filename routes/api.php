@@ -163,6 +163,7 @@ Route::group(['prefix' => '/document'], function() {
     Route::get('/showOwnDocument/{id}', 'DocumentController@showOwnDocument');
     Route::get('/showOwnContainer/{id}', 'DocumentController@showOwnContainer');
     Route::delete('/deleteAllDocument', 'DocumentController@deleteAllDocument');
+    Route::get('/showAllDocument', 'DocumentController@showAllDocument');
 });
 
 Route::group(['prefix' => '/accreditor'], function() {

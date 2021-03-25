@@ -147,7 +147,6 @@ class DocumentController extends Controller
             $user = User::where('id', $document->uploader_id)->first();
             $first_name = $user->first_name;
             $last_name = $user->last_name;
-
             $collection->push([
                 'id' => $document->id,
                 'document_name' => $document->document_name,
@@ -350,5 +349,9 @@ class DocumentController extends Controller
             ]);
         }
         return response()->json(['documents' =>$documents]);
+    }
+
+    public function showAllDocument(){
+        return response()->json(Document::all());
     }
 }
