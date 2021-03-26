@@ -154,7 +154,7 @@ class DocumentController extends Controller
                 $first_name = null;
                 $last_name = null;
             }
-            
+
             $collection->push([
                 'id' => $document->id,
                 'document_name' => $document->document_name,
@@ -216,18 +216,16 @@ class DocumentController extends Controller
             $document->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted files']);
     }
-    public function deleteDocument($id){
-        $document = Document::where('id', $id)->first();
-        if($document->link != 'none') return response()->json(['status' => false, 'message' => 'Document is attached.']);
-        if ($document->type == 'file'){
-            File::delete(storage_path("app/".$document->link));
-            $document->delete();
-        }
-        else $document->delete();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted file']);
-    }
-
-
+//    public function deleteDocument($id){
+//        $document = AttachedDocument::where('document_id', $id)->first();
+//        if(!(is_null($document))) return response()->json(['status' => false, 'message' => 'Document was already used.']);
+//        if ($document->type == 'file'){
+//            File::delete(storage_path("app/".$document->link));
+//            $document->delete();
+//        }
+//        else $document->delete();
+//        return response()->json(['status' => true, 'message' => 'Successfully deleted file']);
+//    }
 
     public function removeDocument($id){
         $attached_document = AttachedDocument::where('document_id', $id)->get();
