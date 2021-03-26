@@ -84,6 +84,7 @@ class OfficeController extends Controller
 
     public function deleteOffice($id){
         $office = Office::where('id', $id)->first();
+        dd($office);
         $docs = Document::where('office_id', $office->id)->get();
         dd(count($docs));
         if(count($docs) > 0) return response()->json(['status' => false, 'message' => 'Office contains document/s.']);
