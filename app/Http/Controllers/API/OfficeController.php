@@ -109,4 +109,9 @@ class OfficeController extends Controller
         $office->save();
         return response()->json(['status' => true, 'message' => 'Successfully Edited!', 'office' => $office]);
     }
+
+    public function showDepartment($id){
+        $offices = Office::where('parent_office_id', $id)->get();
+        return response()->json($offices);
+    }
 }

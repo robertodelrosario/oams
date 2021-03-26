@@ -83,6 +83,7 @@ Route::group(['prefix' => '/suc'], function() {
 
     Route::post('/createOffice/{id}', 'OfficeController@createOffice');
     Route::get('/showOffice/{id}', 'OfficeController@showOffice');
+    Route::get('/showDepartment/{id}', 'OfficeController@showDepartment');
     Route::delete('/deleteOffice/{id}', 'OfficeController@deleteOffice');
     Route::put('/editOffice/{id}', 'OfficeController@editOffice');
 
