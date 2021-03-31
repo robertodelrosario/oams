@@ -29,6 +29,7 @@ Route::group([
     Route::post('registerSucUser/{id}', 'AuthController@registerSucUser');
     Route::post('registerLocalAccreditor/{id}', 'AuthController@registerLocalAccreditor');
     Route::post('registerAaccupAccreditor', 'AuthController@registerAaccupAccreditor');
+    Route::put('editUser/{id}', 'AuthController@editUser');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');

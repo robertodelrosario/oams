@@ -605,4 +605,12 @@ class AuthController extends Controller
         return response()->json($users);
     }
 
+    public function editUser(request $request, $id){
+        $user = User::where('id', $id)->first();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->save();
+        return response()->json(["status" => true, "message" => "Successfully edited user info."]);
+    }
 }

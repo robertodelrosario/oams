@@ -88,8 +88,9 @@ class DocumentController extends Controller
         $collection = new Collection();
         $containers = DocumentContainer::where('office_id', $id)->get();
         foreach ($containers as $container){
+            $documents = Document::where('container_id', $container->id)->get();
             $tags = Tag::where('container_id', $container->id)->get();
-            $collection->push(['container' => $container, 'tags' => $tags]);
+            $collection->push(['container' => $container, 'tags' => $tags, 'number' => count($documents)]);
         }
         return response()->json(['documents' =>$collection]);
     }
