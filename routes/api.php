@@ -33,9 +33,6 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('/addToOffice/{id}/{office_id}', 'AuthController@addToOffice');
-    Route::put('/removeFromOffice/{id}', 'AuthController@removeFromOffice');
-    Route::post('setRole/{userID}', 'AuthController@setRole');
     Route::get('/showCampusUser/{id}', 'AuthController@showCampusUser');
     Route::get('/showAaccup', 'AuthController@showAaccup');
     Route::get('/showAccreditor', 'AuthController@showAccreditor');
@@ -43,9 +40,14 @@ Route::group([
     Route::get('/showAllUser', 'AuthController@showAllUser');
     Route::put('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::put('/activateUser/{id}', 'AuthController@activateUser');
-    Route::delete('/deleteSetRole/{userID}/{roleID}', 'AuthController@deleteSetRole');
     Route::delete('/removeUser/{id}', 'AuthController@removeUser');
     Route::put('/changeAccreditorStatus/{id}', 'AuthController@changeAccreditorStatus');
+
+    Route::post('setRole/{userID}', 'UserRoleController@setRole');
+    Route::delete('/deleteSetRole/{userID}/{roleID}', 'UserRoleController@deleteSetRole');
+
+    Route::post('/addToOffice/{id}/{role_id}/{office_id}', 'OfficeUserController@addToOffice');
+    Route::delete('/removeFromOffice/{id}', 'OfficeUserController@removeFromOffice');
 
     Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id
     Route::put('savePersonalInfo/{id}', 'UserProfileController@savePersonalInfo'); //id is user_id

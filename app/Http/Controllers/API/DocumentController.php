@@ -71,17 +71,6 @@ class DocumentController extends Controller
             return response()->json(['status' => true, 'message' => 'Successfully added files!']);
         }
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
-//
-////        foreach ($request->tag as $key){
-////            if($key == null){
-////                $tag = new Tag();
-////                $tag->tag = $key;
-////                $tag->document_id = $document->id;
-////                $tag->save();
-////            }
-////        }
-//
-//        return response()->json(['status' => true, 'message' => 'Successfully added document', 'document' =>$document]);
     }
 
     public function showContainer($id){
