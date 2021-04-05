@@ -309,11 +309,13 @@ class UserController extends Controller
             ['user_id', $id], ['status', null]
         ])->get();
         $program_task_force = array();
+        $college_task_force_coordinator = array();
         $program_internal_accreditor = array();
         $program_external_accreditor = array();
         $index1 = array();
         $index2 = array();
         $index3 = array();
+        $index4 = array();
         foreach ($tasks as $task){
             if($task->role == 'accreditation task force head'){
                 $app_prog = DB::table('applications_programs')
@@ -354,8 +356,21 @@ class UserController extends Controller
                     $index3 = Arr::prepend($index3,$app_prog->id);
                 }
             }
+            elseif($task->role == 'accreditation task force head coordinator'){
+                $app_prog = DB::table('applications_programs')
+                    ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
+                    ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+                    ->where('applications_programs.id', $task->application_program_id)
+                    ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
+                    ->first();
+                if(!in_array($app_prog->id,$index4))
+                {
+                    $college_task_force_coordinator = Arr::prepend($college_task_force_coordinator,$app_prog);
+                    $index4 = Arr::prepend($index4,$app_prog->id);
+                }
+            }
         }
-        return response()->json(['program_task_force_head'=>$program_task_force, 'program_internal_accreditor_head' => $program_internal_accreditor, 'program_external_accreditor_head' => $program_external_accreditor]);
+        return response()->json(['program_task_force_head'=>$program_task_force,'college_task_force_head'=>$college_task_force_coordinator, 'program_internal_accreditor_head' => $program_internal_accreditor, 'program_external_accreditor_head' => $program_external_accreditor]);
 
 
 
