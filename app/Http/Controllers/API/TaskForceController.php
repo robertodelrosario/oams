@@ -8,7 +8,7 @@ use App\AssignedUserHead;
 use App\Campus;
 use App\Http\Controllers\Controller;
 use App\Program;
-use http\Client\Curl\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
