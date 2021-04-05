@@ -427,7 +427,7 @@ class AuthController extends Controller
 
     public function showCampusUser($id){
         $collection = new Collection();
-        $campus_users = CampusUser::where('id', $id)->get();
+        $campus_users = CampusUser::where('campus_id', $id)->get();
         foreach ($campus_users as $campus_user){
             $collection_1 = new Collection();
             $user = User::where('id', $campus_user->user_id)->first();
