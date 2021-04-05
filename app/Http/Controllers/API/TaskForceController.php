@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class TaskForceController extends Controller
 {
@@ -52,22 +53,30 @@ class TaskForceController extends Controller
         $tasks = AssignedUserHead::where([
             ['user_id', $id], ['status', null], ['role', $request->role]
         ])->get();
+
+        $coordinator = new Collection();
         $program = array();
         $index = array();
-        foreach ($tasks as $task){
-            $app_prog = DB::table('applications_programs')
-                ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
-                ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-                ->where('applications_programs.id', $task->application_program_id)
-                ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
-                ->first();
-            if(!in_array($app_prog->id,$index))
-            {
-                $program = Arr::prepend($program,$app_prog);
-                $index = Arr::prepend($index,$app_prog->id);
+        if($request->role == 'accreditation task force head') {
+            foreach ($tasks as $task) {
+                $app_prog = DB::table('applications_programs')
+                    ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
+                    ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
+                    ->where('applications_programs.id', $task->application_program_id)
+                    ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
+                    ->first();
+                if (!in_array($app_prog->id, $index)) {
+                    $program = Arr::prepend($program, $app_prog);
+                    $index = Arr::prepend($index, $app_prog->id);
+                }
             }
         }
-        return response()->json(['programs'=>$program]);
+        else{
+            foreach ($tasks as $task) {
+
+            }
+        }
+        return response()->json(['programs'=>$program, 'coordinator' => $coordinator]);
     }
 
     public function showInstrumentHead($id, $app_prog){
