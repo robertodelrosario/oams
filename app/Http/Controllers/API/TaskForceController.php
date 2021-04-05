@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\ApplicationProgram;
 use App\AssignedUser;
+use App\Campus;
 use App\Http\Controllers\Controller;
+use App\Program;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -73,7 +77,34 @@ class TaskForceController extends Controller
         }
         else{
             foreach ($tasks as $task) {
-
+                $applied_program = ApplicationProgram::where('id', $task->application_program_id)->first();
+                $program = Program::where('id', $applied_program->program_id)->first();
+                $campus = Campus::where('id', $program->campus_id)->first();
+                $task_force_head = AssignedUserHead::where([
+                    ['application_program_id', $task->application_program_id], ['role', 'accreditation task force head']
+                ])->first();
+                $user = User::where('id',$task_force_head->user_id)->first();
+                $coordinator->push([
+                    'id' =>  $applied_program->id,
+                    'application_id' =>  $applied_program->application_id,
+                    'program_id' =>  $applied_program->program_id,
+                    'level' =>  $applied_program->level,
+                    'preferred_start_date' =>  $applied_program->preferred_start_date,
+                    'preferred_end_date' =>  $applied_program->preferred_end_date,
+                    'approved_start_date' =>  $applied_program->approved_start_date,
+                    'approved_end_date' =>  $applied_program->approved_end_date,
+                    'status' =>  $applied_program->status,
+                    'result' =>  $applied_program->result,
+                    'date_granted' =>  $applied_program->date_granted,
+                    'certificate' =>  $applied_program->certificate,
+                    'created_at' =>  $applied_program->created_at,
+                    'updated_at' =>  $applied_program->updated_at,
+                    'self_survey_status' =>  $applied_program->self_survey_status,
+                    'program_name' =>  $program->program_name,
+                    'campus_name' =>  $campus->campus_name,
+                    'first_name' =>  $user->first_name,
+                    'last_name' =>  $user->last_name,
+                ]);
             }
         }
         return response()->json(['programs'=>$program, 'coordinator' => $coordinator]);

@@ -7,6 +7,7 @@ use App\AccreditorSpecialization;
 use App\Campus;
 use App\CampusUser;
 use App\Office;
+use App\OfficeUser;
 use App\OtherOfficeUser;
 use App\Program;
 use App\Role;
@@ -183,22 +184,24 @@ class AuthController extends Controller
                 $user->campuses()->attach($campus);
                 $role = Role::where('role', $request->role)->first();
                 if($request->role == 'support head'){
-                    $users = CampusUser::where('office_id',  $request->office_id)->get();
+                    $users = OfficeUser::where('office_id',  $request->office_id)->get();
                     foreach ($users as $u)
                     {
-                        $user_role = UserRole::where([
-                            ['user_id', $u->user_id], ['role_id', 3]
-                        ])->first();
-                        if(!(is_null($user_role))){
+                        $user_role = UserRole::where('id', $u->user_role_id)->first();
+                        if($user_role->role_id == 3){
                             $role = Role::where('role', 'support staff')->first();
                             break;
                         }
                     }
                 }
                 $role->users()->attach($user->id);
-                $user_office = CampusUser::where('user_id', $user->id)->first();
-                $user_office->office_id = $request->office_id;
-                $user_office->save();
+                $userRole = UserRole::where([
+                    ['user_id', $user->id], ['role_id', $role->id]
+                ])->first();
+                $office_user = new OfficeUser();
+                $office_user->user_role_id = $userRole->id;
+                $office_user->office_id = $request->office_id;
+                $office_user->save();
                 $roles = DB::table('users_roles')
                     ->join('roles', 'roles.id', '=', 'users_roles.role_id')
                     ->where('user_id', $user->id)
@@ -445,6 +448,16 @@ class AuthController extends Controller
                         'office_user_id' => $office->id,
                         'office_id' => $office->office_id,
                         'office_name' => $office->office_name
+                    ]);
+                }
+                if($role->role_id == 7 || $role->role_id == 8){
+                    $collection_1->push([
+                        'user_role_id' => $role->id,
+                        'role_id' => $role->role_id,
+                        'role' => $role->role,
+                        'office_user_id' => null,
+                        'office_id' => null,
+                        'office_name' => null
                     ]);
                 }
             }
