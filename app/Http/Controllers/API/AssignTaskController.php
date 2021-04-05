@@ -121,21 +121,21 @@ class AssignTaskController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully updated role.']);
     }
 
-    public function assignHeadTaskCoordinator(request $request, $id){
-        $head = new AssignedUserHead();
-        $head->application_program_id = $id;
-        $head->user_id = $request->user_id;
-        $head->role = $request->role;
-        $head->save();
-
-        $user = User::where('id', $head->user_id)->first();
-        return response()->json(['status' => true, 'message' => 'Successfully added task!', 'users' => $head, 'details' => $user]);
-    }
-    public function deleteAssignedHeadUserCoordinator($userID, $transactionID){
-        $user = AssignedUserHead::where([
-            ['application_program_id', $transactionID], ['user_id', $userID]
-        ])->first();
-        $user->delete();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted']);
-    }
+//    public function assignHeadTaskCoordinator(request $request, $id){
+//        $head = new AssignedUserHead();
+//        $head->application_program_id = $id;
+//        $head->user_id = $request->user_id;
+//        $head->role = $request->role;
+//        $head->save();
+//
+//        $user = User::where('id', $head->user_id)->first();
+//        return response()->json(['status' => true, 'message' => 'Successfully added task!', 'users' => $head, 'details' => $user]);
+//    }
+//    public function deleteAssignedHeadUserCoordinator($userID, $transactionID){
+//        $user = AssignedUserHead::where([
+//            ['application_program_id', $transactionID], ['user_id', $userID]
+//        ])->first();
+//        $user->delete();
+//        return response()->json(['status' => true, 'message' => 'Successfully deleted']);
+//    }
 }

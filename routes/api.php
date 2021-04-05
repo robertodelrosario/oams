@@ -75,6 +75,8 @@ Route::group([
 
     Route::post('addToCampus/{campusID}/{userID}', 'AuthController@addToCampus');//id is user_id
     Route::get('showAllCampusUser', 'AuthController@showAllCampusUser');//id is user_id
+
+    Route::get('showTF/{id}', 'AuthController@showTF');//id is user_id
 });
 
 Route::group(['prefix' => '/suc'], function() {

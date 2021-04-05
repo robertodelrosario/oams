@@ -497,6 +497,61 @@ class AuthController extends Controller
 //        return response()->json(['users' => $users,'office' =>  $office,'roles' => $user_roles]);
     }
 
+    public function showTF($id){
+        $collection = new Collection();
+        $office = Office::where('id', $id)->first();
+        $office_users = OfficeUser::where('office_id', $id)->get();
+        $role = null;
+        foreach ($office_users as $office_user){
+            $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+            if($user_role->role_id == 2){
+                foreach ($office_users as $officeUser){
+                    $user_role = UserRole::where('id', $officeUser->user_role_id)->first();
+                    $user = User::where('id', $user_role->user_id)->first();
+                    if($user->status == 'active') {
+                        $collection->push([
+                            'user_id' => $user->id,
+                            'first_name' => $user->first_name,
+                            'last_name' => $user->last_name,
+                            'role_id' => $user_role->role_id,
+                            'office' => $office->office_name
+                        ]);
+                    }
+                }
+            }
+            elseif($user_role->role_id == 11 ){
+                $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+                $user = User::where('id', $user_role->user_id)->first();
+                if($user->status == 'active') {
+                    $collection->push([
+                        'user_id' => $user->id,
+                        'first_name' => $user->first_name,
+                        'last_name' => $user->last_name,
+                        'role_id' => $user_role->role_id,
+                        'office' => $office->office_name
+                    ]);
+                }
+                $offices = Office::where('parent_office_id', $office->id)->get();
+                foreach ($offices as $office) {
+                    $office_users = OfficeUser::where('office_id', $office->id)->get();
+                    foreach ($office_users as $office_user){
+                        $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+                        $user = User::where('id', $user_role->user_id)->first();
+                        if($user->status == 'active') {
+                            $collection->push([
+                                'user_id' => $user->id,
+                                'first_name' => $user->first_name,
+                                'last_name' => $user->last_name,
+                                'role_id' => $user_role->role_id,
+                                'office' => $office->office_name
+                            ]);
+                        }
+                }
+            }
+            }
+        }
+        return response()->json(['users' => $collection]);
+    }
     public function showLocalAccreditor($id){
         $campuses = Campus::where('suc_id', $id)->get();
         $accreditor_array = array();
