@@ -76,14 +76,16 @@ class AuthController extends Controller
                     ->join('offices_users', 'offices_users.office_id', '=', 'offices.id')
                     ->where('offices_users.user_role_id', $user_role->id)
                     ->first();
-                $collection_1->push([
-                    'user_role_id' => $user_role->id,
-                    'role_id' => $user_role->role_id,
-                    'role' => $user_role->role,
-                    'office_user_id' => $office->id,
-                    'office_id' => $office->office_id,
-                    'office_name' => $office->office_name
-                ]);
+                if(!(is_null($office))) {
+                    $collection_1->push([
+                        'user_role_id' => $user_role->id,
+                        'role_id' => $user_role->role_id,
+                        'role' => $user_role->role,
+                        'office_user_id' => $office->id,
+                        'office_id' => $office->office_id,
+                        'office_name' => $office->office_name
+                    ]);
+                }
             }
         }
         return response()->json(['user' => auth()->user(), 'role' => $roles, 'campus'=>$campus, 'office' => $collection_1]);
