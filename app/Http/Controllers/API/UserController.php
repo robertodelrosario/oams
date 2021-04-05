@@ -371,10 +371,6 @@ class UserController extends Controller
             }
         }
         return response()->json(['program_task_force_head'=>$program_task_force,'college_task_force_head'=>$college_task_force_coordinator, 'program_internal_accreditor_head' => $program_internal_accreditor, 'program_external_accreditor_head' => $program_external_accreditor]);
-
-
-
-
 //        $tasks = DB::table('assigned_user_heads')
 //            ->join('applications_programs', 'applications_programs.id', '=', 'assigned_user_heads.application_program_id')
 //            ->join('programs', 'applications_programs.program_id', '=', 'programs.id')

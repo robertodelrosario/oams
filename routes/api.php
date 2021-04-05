@@ -114,6 +114,7 @@ Route::group(['prefix' => '/task'], function() {
     Route::get('/showParameterInternal/{id}/', 'UserController@showParameterInternal');
     Route::get('/showProgramHead/{id}', 'UserController@showProgramHead');
     Route::get('/showInstrumentHead/{app_prog}', 'UserController@showInstrumentHead');
+    Route::get('/showCollegeCoordinator/{id}', 'UserController@showCollegeCoordinator');
 });
 
 Route::group(['prefix' => '/aaccup'], function() {

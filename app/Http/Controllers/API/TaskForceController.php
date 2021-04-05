@@ -53,61 +53,51 @@ class TaskForceController extends Controller
         return response()->json(['areas'=>$instrument_array]);
     }
 
-    public function showProgramHead(request $request, $id){
-        $tasks = AssignedUserHead::where([
-            ['user_id', $id], ['status', null], ['role', $request->role]
-        ])->get();
-
+    public function showCollegeCoordinator($id){
         $coordinator = new Collection();
-        $program = array();
-        $index = array();
-        if($request->role == 'accreditation task force head') {
-            foreach ($tasks as $task) {
-                $app_prog = DB::table('applications_programs')
-                    ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
-                    ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
-                    ->where('applications_programs.id', $task->application_program_id)
-                    ->select('applications_programs.*', 'programs.program_name', 'campuses.campus_name')
-                    ->first();
-                if (!in_array($app_prog->id, $index)) {
-                    $program = Arr::prepend($program, $app_prog);
-                    $index = Arr::prepend($index, $app_prog->id);
-                }
+        $tasks = AssignedUserHead::where([
+            ['user_id', $id], ['status', null], ['role', 'accreditation task force head coordinator']
+        ])->get();
+        foreach ($tasks as $task) {
+            $applied_program = ApplicationProgram::where('id', $task->application_program_id)->first();
+            $program = Program::where('id', $applied_program->program_id)->first();
+            $campus = Campus::where('id', $program->campus_id)->first();
+            $task_force_head = AssignedUserHead::where([
+                ['application_program_id', $task->application_program_id], ['role', 'accreditation task force head']
+            ])->first();
+            if(is_null($task_force_head))
+            {
+                $first_name = null;
+                $last_name = null;
             }
-        }
-        else{
-            foreach ($tasks as $task) {
-                $applied_program = ApplicationProgram::where('id', $task->application_program_id)->first();
-                $program = Program::where('id', $applied_program->program_id)->first();
-                $campus = Campus::where('id', $program->campus_id)->first();
-                $task_force_head = AssignedUserHead::where([
-                    ['application_program_id', $task->application_program_id], ['role', 'accreditation task force head']
-                ])->first();
+            else{
                 $user = User::where('id',$task_force_head->user_id)->first();
-                $coordinator->push([
-                    'id' =>  $applied_program->id,
-                    'application_id' =>  $applied_program->application_id,
-                    'program_id' =>  $applied_program->program_id,
-                    'level' =>  $applied_program->level,
-                    'preferred_start_date' =>  $applied_program->preferred_start_date,
-                    'preferred_end_date' =>  $applied_program->preferred_end_date,
-                    'approved_start_date' =>  $applied_program->approved_start_date,
-                    'approved_end_date' =>  $applied_program->approved_end_date,
-                    'status' =>  $applied_program->status,
-                    'result' =>  $applied_program->result,
-                    'date_granted' =>  $applied_program->date_granted,
-                    'certificate' =>  $applied_program->certificate,
-                    'created_at' =>  $applied_program->created_at,
-                    'updated_at' =>  $applied_program->updated_at,
-                    'self_survey_status' =>  $applied_program->self_survey_status,
-                    'program_name' =>  $program->program_name,
-                    'campus_name' =>  $campus->campus_name,
-                    'first_name' =>  $user->first_name,
-                    'last_name' =>  $user->last_name,
+                $first_name = $user->first_name;
+                $last_name = $user->last_name;
+            }
+            $coordinator->push([
+                'id' =>  $applied_program->id,
+                'application_id' =>  $applied_program->application_id,
+                'program_id' =>  $applied_program->program_id,
+                'level' =>  $applied_program->level,
+                'preferred_start_date' =>  $applied_program->preferred_start_date,
+                'preferred_end_date' =>  $applied_program->preferred_end_date,
+                'approved_start_date' =>  $applied_program->approved_start_date,
+                'approved_end_date' =>  $applied_program->approved_end_date,
+                'status' =>  $applied_program->status,
+                'result' =>  $applied_program->result,
+                'date_granted' =>  $applied_program->date_granted,
+                'certificate' =>  $applied_program->certificate,
+                'created_at' =>  $applied_program->created_at,
+                'updated_at' =>  $applied_program->updated_at,
+                'self_survey_status' =>  $applied_program->self_survey_status,
+                'program_name' =>  $program->program_name,
+                'campus_name' =>  $campus->campus_name,
+                'first_name' =>  $first_name,
+                'last_name' =>  $last_name,
                 ]);
             }
-        }
-        return response()->json(['programs'=>$program, 'coordinator' => $coordinator]);
+        return response()->json(['tasks' => $coordinator]);
     }
 
     public function showInstrumentHead($id, $app_prog){
