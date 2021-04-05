@@ -67,11 +67,13 @@ class TaskForceController extends Controller
             ])->first();
             if(is_null($task_force_head))
             {
+                $user_id = null;
                 $first_name = null;
                 $last_name = null;
             }
             else{
                 $user = User::where('id',$task_force_head->user_id)->first();
+                $user_id = $user->id;
                 $first_name = $user->first_name;
                 $last_name = $user->last_name;
             }
@@ -93,6 +95,7 @@ class TaskForceController extends Controller
                 'self_survey_status' =>  $applied_program->self_survey_status,
                 'program_name' =>  $program->program_name,
                 'campus_name' =>  $campus->campus_name,
+                'user_id' =>  $user_id,
                 'first_name' =>  $first_name,
                 'last_name' =>  $last_name,
                 ]);
