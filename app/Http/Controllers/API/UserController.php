@@ -317,7 +317,7 @@ class UserController extends Controller
         $index3 = array();
         $index4 = array();
         foreach ($tasks as $task){
-            if($task->role == 'accreditation task force head'){
+            if($task->role == 'program task force chair'){
                 $app_prog = DB::table('applications_programs')
                     ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                     ->join('campuses', 'campuses.id', '=', 'programs.campus_id')
@@ -356,7 +356,7 @@ class UserController extends Controller
                     $index3 = Arr::prepend($index3,$app_prog->id);
                 }
             }
-            elseif($task->role == 'accreditation task force head coordinator'){
+            elseif($task->role == 'college task force head'){
                 $app_prog = DB::table('applications_programs')
                     ->join('programs', 'applications_programs.program_id', '=', 'programs.id')
                     ->join('campuses', 'campuses.id', '=', 'programs.campus_id')

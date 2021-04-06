@@ -57,14 +57,14 @@ class TaskForceController extends Controller
     public function showCollegeCoordinator($id){
         $coordinator = new Collection();
         $tasks = AssignedUserHead::where([
-            ['user_id', $id], ['status', null], ['role', 'accreditation task force head coordinator']
+            ['user_id', $id], ['status', null], ['role', 'college task force head']
         ])->get();
         foreach ($tasks as $task) {
             $applied_program = ApplicationProgram::where('id', $task->application_program_id)->first();
             $program = Program::where('id', $applied_program->program_id)->first();
             $campus = Campus::where('id', $program->campus_id)->first();
             $task_force_head = AssignedUserHead::where([
-                ['application_program_id', $task->application_program_id], ['role', 'accreditation task force head']
+                ['application_program_id', $task->application_program_id], ['role', 'program task force chair']
             ])->first();
             if(is_null($task_force_head))
             {

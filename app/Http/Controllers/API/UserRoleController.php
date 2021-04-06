@@ -34,7 +34,7 @@ class UserRoleController extends Controller
                     $user_role = UserRole::where('id', $user->user_role_id)->first();
                     if ($user_role->role_id == 11) {
                         $office = Office::where('id', $request->office_id)->first();
-                        return response()->json(['status' => false, 'message' => 'Office ' . $office->name . ' has already an Accreditation Task Force Head Coordinator.']);
+                        return response()->json(['status' => false, 'message' => 'Office ' . $office->name . ' has already a College Task Force Head.']);
                     }
                 }
             } elseif ($role->id == 2) {
