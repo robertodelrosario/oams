@@ -70,10 +70,9 @@ class UserRoleController extends Controller
         $check_office = OfficeUser::where([
             ['user_role_id', $check->id], ['office_id',$request->office_id]
         ])->first();
-        dd($check_office);
         if(is_null($check_office)){
             $office_user = new OfficeUser();
-            $office_user->user_role_id = $check_office->id;
+            $office_user->user_role_id = $check->id;
             $office_user->office_id = $request->office_id;
             $office_user->save();
             return response()->json(['status' => true, 'message' => 'Office added to User']);
