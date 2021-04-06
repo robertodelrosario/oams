@@ -10,8 +10,10 @@ use App\Document;
 use App\DocumentContainer;
 use App\Http\Controllers\Controller;
 use App\Office;
+use App\OfficeUser;
 use App\Tag;
 use App\User;
+use App\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -88,6 +90,8 @@ class DocumentController extends Controller
         $collection = new Collection();
         $campuses = Campus::where('suc_id', $id)->get();
         $user_office = CampusUser::where('user_id', $userID)->first();
+        $user_role = UserRole::where('user_id', $userID)->first();
+        $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
         foreach ($campuses as $campus){
             $offices = Office::where([
                 ['campus_id', $campus->id], ['parent_office_id', null]
@@ -100,7 +104,7 @@ class DocumentController extends Controller
                 }
             }
         }
-        $containers = DocumentContainer::where('office_id', $user_office->office_id)->get();
+        $containers = DocumentContainer::where('office_id', $office_user->office_id)->get();
         foreach ($containers as $container){
             $tags = Tag::where('container_id', $container->id)->get();
             $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'department']);
