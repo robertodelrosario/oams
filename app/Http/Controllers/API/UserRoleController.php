@@ -17,41 +17,34 @@ class UserRoleController extends Controller
 {
     public function setRole(request $request,$userID){
         $role = Role::where('role', $request->role)->first();
-//        $user_r = UserRole::where([
-//            ['user_id', $userID], ['role_id', $role->id]
-//        ])->first();
-//        $users = OfficeUser::where('office_id',  $request->office_id)->get();
-        if($role->id == 3){
-            $users = OfficeUser::where('office_id',  $request->office_id)->get();
-            foreach ($users as $user)
-            {
-                $user_role = UserRole::where('id', $user->user_role_id)->first();
-                if($user_role->role_id == 3) {
-                    $role = Role::where('role', 'support staff')->first();
-                    break;
+        $users = OfficeUser::where('office_id',  $request->office_id)->get();
+        if(count($users) > 0) {
+            if ($role->id == 3) {
+                $users = OfficeUser::where('office_id', $request->office_id)->get();
+                foreach ($users as $user) {
+                    $user_role = UserRole::where('id', $user->user_role_id)->first();
+                    if ($user_role->role_id == 3) {
+                        $role = Role::where('role', 'support staff')->first();
+                        break;
+                    }
                 }
-            }
-        }
-        elseif($role->id == 11){
-            $users = OfficeUser::where('office_id',  $request->office_id)->get();
-            foreach ($users as $user)
-            {
-                $user_role = UserRole::where('id', $user->user_role_id)->first();
-                if($user_role->role_id == 11)
-                {
-                    $office = Office::where('id', $request->office_id)->first();
-                    return response()->json(['status' => false, 'message' => 'Office ' .$office->name. ' has already an Accreditation Task Force Head Coordinator.']);
+            } elseif ($role->id == 11) {
+                $users = OfficeUser::where('office_id', $request->office_id)->get();
+                foreach ($users as $user) {
+                    $user_role = UserRole::where('id', $user->user_role_id)->first();
+                    if ($user_role->role_id == 11) {
+                        $office = Office::where('id', $request->office_id)->first();
+                        return response()->json(['status' => false, 'message' => 'Office ' . $office->name . ' has already an Accreditation Task Force Head Coordinator.']);
+                    }
                 }
-            }
-        }
-        elseif($role->id == 2){
-            $users = OfficeUser::where('office_id',  $request->office_id)->get();
-            foreach ($users as $user)
-            {
-                $user_role = UserRole::where('id', $user->user_role_id)->first();
-                if($user_role->role_id == 2) {
-                    $role = Role::where('role', 'accreditation task force')->first();
-                    break;
+            } elseif ($role->id == 2) {
+                $users = OfficeUser::where('office_id', $request->office_id)->get();
+                foreach ($users as $user) {
+                    $user_role = UserRole::where('id', $user->user_role_id)->first();
+                    if ($user_role->role_id == 2) {
+                        $role = Role::where('role', 'accreditation task force')->first();
+                        break;
+                    }
                 }
             }
         }
