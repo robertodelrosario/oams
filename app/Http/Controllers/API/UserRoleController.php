@@ -51,7 +51,6 @@ class UserRoleController extends Controller
         $check = UserRole::where([
             ['user_id', $userID], ['role_id', $role->id]
         ])->first();
-        dd($check);
         if (is_null($check)){
             $user = User::where('id', $userID)->first();
             if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
@@ -71,6 +70,7 @@ class UserRoleController extends Controller
         $check_office = OfficeUser::where([
             ['user_role_id', $check->id], ['office_id',$request->office_id]
         ])->first();
+        dd($check_office);
         if(is_null($check_office)){
             $office_user = new OfficeUser();
             $office_user->user_role_id = $check_office->id;
