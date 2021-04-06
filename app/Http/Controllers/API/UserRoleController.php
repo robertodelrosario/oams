@@ -17,7 +17,6 @@ class UserRoleController extends Controller
 {
     public function setRole(request $request,$userID){
         $role = Role::where('role', $request->role)->first();
-        dd($role);
         $users = OfficeUser::where('office_id',  $request->office_id)->get();
         if(count($users) > 0) {
             if ($role->id == 3) {
@@ -52,7 +51,7 @@ class UserRoleController extends Controller
         $check = UserRole::where([
             ['user_id', $userID], ['role_id', $role->id]
         ])->first();
-
+        dd($check);
         if (is_null($check)){
             $user = User::where('id', $userID)->first();
             if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
