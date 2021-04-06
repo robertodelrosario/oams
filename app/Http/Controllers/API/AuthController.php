@@ -475,8 +475,6 @@ class AuthController extends Controller
             ]);
         }
         return response()->json(['users' => $collection]);
-
-
 //        $users = DB::table('campuses_users')
 //            ->join('users', 'users.id', '=', 'campuses_users.user_id')
 //            ->where('campuses_users.campus_id', $id)

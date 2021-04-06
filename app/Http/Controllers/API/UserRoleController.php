@@ -17,7 +17,10 @@ class UserRoleController extends Controller
 {
     public function setRole(request $request,$userID){
         $role = Role::where('role', $request->role)->first();
-        $users = OfficeUser::where('office_id',  $request->office_id)->get();
+//        $user_r = UserRole::where([
+//            ['user_id', $userID], ['role_id', $role->id]
+//        ])->first();
+//        $users = OfficeUser::where('office_id',  $request->office_id)->get();
         if($role->id == 3){
             $users = OfficeUser::where('office_id',  $request->office_id)->get();
             foreach ($users as $user)
@@ -71,6 +74,16 @@ class UserRoleController extends Controller
                 $office_user->save();
             }
             return response()->json(['status' => true, 'message' => 'Role successfully added to User']);
+        }
+        $check_office = OfficeUser::where([
+            ['user_role_id', $check->id], ['office_id',$request->office_id]
+        ])->first();
+        if(is_null($check_office)){
+            $office_user = new OfficeUser();
+            $office_user->user_role_id = $check_office->id;
+            $office_user->office_id = $request->office_id;
+            $office_user->save();
+            return response()->json(['status' => true, 'message' => 'Office added to User']);
         }
         return response()->json(['status' => false, 'message' => 'Role already added to User']);
     }
