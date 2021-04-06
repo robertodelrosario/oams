@@ -116,5 +116,15 @@ class UserRoleController extends Controller
             $role->save();
             return response()->json(['status' => true, 'message' => 'Successfully added role']);
         }
+        return response()->json(['status' => false, 'message' => 'role already added']);
+    }
+
+    public function showRole(){
+        return response()->json(Role::all());
+    }
+    public function deleteRole($id){
+        $role = Role::where('id', $id);
+        $role->delete();
+        return response()->json(['status' => true, 'message' => 'Deleted role']);
     }
 }
