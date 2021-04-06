@@ -48,6 +48,7 @@ Route::group([
     Route::post('addRole', 'UserRoleController@addRole');
     Route::get('showRole', 'UserRoleController@showRole');
     Route::delete('deleteRole/{id}', 'UserRoleController@deleteRole');
+    Route::put('editRole/{id}', 'UserRoleController@editRole');
 
     Route::post('/addToOffice/{id}/{role_id}/{office_id}', 'OfficeUserController@addToOffice');
     Route::delete('/removeFromOffice/{id}', 'OfficeUserController@removeFromOffice');

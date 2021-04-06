@@ -119,4 +119,11 @@ class UserRoleController extends Controller
         $role->delete();
         return response()->json(['status' => true, 'message' => 'Deleted role']);
     }
+
+    public function editRole(request $request, $id){
+        $role = Role::where('id', $id)->first();
+        $role->role = $request->role;
+        $role->save();
+        return response()->json(['status' => true, 'message' => 'Successfully edited role']);
+    }
 }
