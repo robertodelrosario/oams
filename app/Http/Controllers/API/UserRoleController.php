@@ -18,6 +18,7 @@ class UserRoleController extends Controller
     public function setRole(request $request,$userID){
         $role = Role::where('role', $request->role)->first();
         $users = OfficeUser::where('office_id',  $request->office_id)->get();
+        dd(count($users));
         if(count($users) > 0) {
             if ($role->id == 3) {
                 $users = OfficeUser::where('office_id', $request->office_id)->get();
