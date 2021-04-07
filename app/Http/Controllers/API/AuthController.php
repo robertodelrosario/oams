@@ -752,6 +752,8 @@ class AuthController extends Controller
         $user = User::where('id', $id)->first();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
+        $user->middle_initial = $request->middle_initial;
+        $user->name_extension = $request->name_extension;
         $user->email = $request->email;
         $user->save();
         return response()->json(["status" => true, "message" => "Successfully edited user info."]);
