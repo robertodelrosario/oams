@@ -26,6 +26,7 @@ Route::group([
 ], function ($router) {
     Route::post('login', 'AuthController@login');
     Route::post('changePassword/{id}', 'AuthController@changePassword');
+    Route::put('resetPassword/{id}', 'AuthController@resetPassword');
     Route::post('registerSucUser/{id}', 'AuthController@registerSucUser');
     Route::post('registerLocalAccreditor/{id}', 'AuthController@registerLocalAccreditor');
     Route::post('registerAaccupAccreditor', 'AuthController@registerAaccupAccreditor');

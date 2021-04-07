@@ -758,4 +758,13 @@ class AuthController extends Controller
         $user->save();
         return response()->json(["status" => true, "message" => "Successfully edited user info."]);
     }
+
+    public function resetPassword($id){
+        $user = User::where('id', $id)->first();
+        if(!(is_null($user))){
+            $user->update(['password'=> bcrypt('password')]);
+            return response()->json(['status' => true, 'message' => 'Your password has successfully reset to default.']);
+        }
+        return response()->json(['status' => false, 'message' => 'User not found.']);
+    }
 }
