@@ -146,7 +146,6 @@ class ApplicationController extends Controller
                 'campus_name' => $campus->campus_name
             ]);
         }
-        dd($collections);
 //        $applications = DB::table('applications')
 //            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
 //            ->join('users', 'users.id', '=','applications.sender_id')
@@ -155,7 +154,7 @@ class ApplicationController extends Controller
 //            ->get();
         $file_arr = array();
         foreach ($collections as $collection){
-            $files = ApplicationFile::where('application_id',$collection->id)->get();
+            $files = ApplicationFile::where('application_id',$collection['id'])->get();
             foreach ($files as $file){
                 $file_arr = Arr::prepend($file_arr,$file);
             }
