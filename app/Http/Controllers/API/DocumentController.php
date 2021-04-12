@@ -229,6 +229,24 @@ class DocumentController extends Controller
         $attached_document = AttachedDocument::where('document_id', $id)->get();
         if(count($attached_document) == 0){
             $document = Document::where('id', $id)->first();
+            $container = DocumentContainer::where('id', $document->container_id)->first();
+            if($document->uploader_id != auth()->user()->id) {
+                $user_roles = UserRole::where('user_id', auth()->user()->id)->get();
+                foreach ($user_roles as $user_role){
+                    if($user_role->role_id == 2 ||$user_role->role_id == 3){
+                        $office_user = OfficeUser::where('user_role_id',$user_role->id)->first();
+                        if($container->office_id == $office_user->office_id){
+                            if ($document->type == 'file'){
+                                File::delete(storage_path("app/".$document->link));
+                                $document->delete();
+                            }
+                            else $document->delete();
+                            return response()->json(['status' => true, 'message' => 'Successfully removed file']);
+                        }
+                    }
+                }
+                return response()->json(['status' => false, 'message' => 'Cannot delete file. You are not the uploader nor the Head of the office.']);
+            }
             if ($document->type == 'file'){
                 File::delete(storage_path("app/".$document->link));
                 $document->delete();
