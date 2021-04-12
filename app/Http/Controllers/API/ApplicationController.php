@@ -8,12 +8,15 @@ use App\ApplicationProgram;
 use App\AreaInstrument;
 use App\AreaMean;
 use App\AssignedUser;
+use App\Campus;
+use App\CampusUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Mail\ApplicationNotification;
 use App\Program;
 use App\SUC;
 use Carbon\Carbon;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -119,20 +122,44 @@ class ApplicationController extends Controller
 
     public function showApplication($id){
         //$applications = Application::where('suc_id', $id)->get();
-        $applications = DB::table('applications')
-            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
-            ->join('users', 'users.id', '=','applications.sender_id')
-            ->where('applications.suc_id', $id)
-            ->select('applications.*', 'sucs.institution_name', 'sucs.address', 'sucs.email', 'sucs.contact_no', 'users.first_name', 'users.last_name')
-            ->get();
-        $file_arr = array();
+        $collections = new Collection();
+        $applications = Application::where('suc_id', $id)->get();
         foreach ($applications as $application){
-            $files = ApplicationFile::where('application_id',$application->id)->get();
+            $suc = SUC::where('id', $application->suc_id)->first();
+            $user = User::where('id', $application->sender_id)->first();
+            $campus_user = CampusUser::where('user_id', $user->id)->first();
+            $campus = Campus::where('id', $campus_user->campus_id)->first();
+            $collections->push([
+                'id' => $application->id,
+                'suc_id' => $application->suc_id,
+                'title' => $application->title,
+                'sender_id' => $application->sender_id,
+                'status' => $application->status,
+                'created_at' => $application->created_at,
+                'updated_at' => $application->updated_at,
+                'institution_name' => $suc->institution_name,
+                'address' => $suc->address,
+                'email' => $suc->email,
+                'contact_no' => $suc->contact_no,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'campus_name' => $campus->campus_name
+            ]);
+        }
+//        $applications = DB::table('applications')
+//            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
+//            ->join('users', 'users.id', '=','applications.sender_id')
+//            ->where('applications.suc_id', $id)
+//            ->select('applications.*', 'sucs.institution_name', 'sucs.address', 'sucs.email', 'sucs.contact_no', 'users.first_name', 'users.last_name')
+//            ->get();
+        $file_arr = array();
+        foreach ($collections as $collection){
+            $files = ApplicationFile::where('application_id',$collection->id)->get();
             foreach ($files as $file){
                 $file_arr = Arr::prepend($file_arr,$file);
             }
         }
-        return response()->json(['applications' => $applications, 'files' => $file_arr]);
+        return response()->json(['applications' => $collections, 'files' => $file_arr]);
     }
 
 

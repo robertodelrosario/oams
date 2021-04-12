@@ -12,10 +12,13 @@ use App\AssignedUserHead;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
+use App\Office;
+use App\OfficeUser;
 use App\Program;
 use App\ProgramInstrument;
 use App\Transaction;
 use App\User;
+use App\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -51,6 +54,35 @@ class AppliedProgramController extends Controller
                 ['application_id', $request->application_id], ['program_id', $request->program_id]
             ])->first();
 
+            $prog = Program::where('id', $request->program_id)->first();
+            if($prog->office_id != null){
+                $office_users = OfficeUser::where('office_id', $prog->office_id)->get();
+                foreach($office_users as $office_user){
+                    $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+                    if($user_role->role_id == 2){
+                        $task = new AssignedUserHead();
+                        $task->application_program_id = $program->id;
+                        $task->user_id = $user_role->user_id;
+                        $task->role = 'program task force chair';
+                        $task->save();
+                    }
+                }
+                $office = Office::where('id', $prog->office_id)->first();
+                $parent_office = Office::where('id', $office->parent_office_id)->first();
+                if(!(is_null($parent_office))){
+                    $office_users = OfficeUser::where('office_id', $parent_office->id)->get();
+                    foreach($office_users as $office_user){
+                        $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+                        if($user_role->role_id == 11){
+                            $task = new AssignedUserHead();
+                            $task->application_program_id = $program->id;
+                            $task->user_id = $user_role->user_id;
+                            $task->role = 'college task force head';
+                            $task->save();
+                        }
+                    }
+                }
+            }
             return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
         }
         return response()->json(['status' => false, 'message' => 'program already applied!']);

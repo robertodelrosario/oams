@@ -101,6 +101,8 @@ Route::group(['prefix' => '/suc'], function() {
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');
     Route::delete('/deleteProgram/{id}', 'ProgramController@deleteProgram');
     Route::put('/editProgram/{id}', 'ProgramController@editProgram');
+    Route::put('/addOffice/{id}/{office_id}', 'ProgramController@addOffice');
+    Route::put('/deleteOffice/{id}', 'ProgramController@deleteOffice');
 
     Route::post('/selectInstrument/{programID}/{intendedProgramID}', 'ProgramController@selectInstrument');
     Route::get('/showInstrumentProgram/{id}', 'ProgramController@showInstrumentProgram');

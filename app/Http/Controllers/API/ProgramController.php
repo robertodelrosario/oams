@@ -8,10 +8,12 @@ use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
 use App\InstrumentProgram;
 use App\InstrumentStatement;
+use App\Office;
 use App\ParameterProgram;
 use App\Program;
 use App\ProgramStatement;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -60,8 +62,29 @@ class ProgramController extends Controller
     }
 
     public function showProgram($id){
-        $program = Program::where('campus_id', $id)->get();
-        return response()->json($program);
+        $collection = new Collection();
+        $programs = Program::where('campus_id', $id)->get();
+        foreach ($programs as $program){
+            $office_name = null;
+            if($program->office_id != null){
+                $office = Office::where('id',$program->office_id)->first();
+                $office_name = $office->office_name;
+            }
+            $collection->push([
+                'id' => $program->id,
+                'program_name' => $program->program_name,
+                'rating_obtained' => $program->rating_obtained,
+                'accreditation_status' => $program->accreditation_status,
+                'latest_applied_level' => $program->latest_applied_level,
+                'duration_of_validity' => $program->duration_of_validity,
+                'campus_id' => $program->campus_id,
+                'created_at' => $program->created_at,
+                'updated_at' => $program->updated_at,
+                'office_id' => $program->office_id,
+                'office_name' => $office_name
+            ]);
+        }
+        return response()->json($collection);
     }
 
     public function deleteProgram($id){
@@ -77,6 +100,20 @@ class ProgramController extends Controller
         $program->program_name = $request->program_name;
         $program->save();
         return response()->json(['status' => true, 'message' => 'Successfully edited program name', 'suc' => $program]);
+    }
+
+    public function addOffice($id, $office_id){
+        $program = Program::where('id', $id)->first();
+        $program->office_id = $office_id;
+        $program->save();
+        return response()->json(['status' => true, 'message' => 'Successfully assigned a program to office!']);
+    }
+
+    public function deleteOffice($id){
+        $program = Program::where('id', $id)->first();
+        $program->office_id = null;
+        $program->save();
+        return response()->json(['status' => true, 'message' => 'Successfully program a program to office!']);
     }
 
     public function selectInstrument($programID, $intendedProgramID){

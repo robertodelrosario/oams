@@ -32,6 +32,7 @@ class DocumentController extends Controller
             $document->container_name = $list['document_title'];
             $document->office_id = $id;
             $document->user_id = null;
+            $document->type = $request->type;
             $document->save();
             foreach ($list['area'] as $area){
                 $tag = new Tag();
@@ -132,6 +133,7 @@ class DocumentController extends Controller
     public function editContainer(request $request, $id){
         $container = DocumentContainer::where('id', $id)->first();
         $container->container_name = $request->container_name;
+        $container->type = $request->type;
         $container->save();
         return response()->json(['status' => true, 'message' => 'Successfully edited container']);
     }
