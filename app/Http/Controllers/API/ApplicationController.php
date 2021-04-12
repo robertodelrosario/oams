@@ -124,7 +124,6 @@ class ApplicationController extends Controller
         //$applications = Application::where('suc_id', $id)->get();
         $collections = new Collection();
         $applications = Application::where('suc_id', $id)->get();
-        dd($applications);
         foreach ($applications as $application){
             $suc = SUC::where('id', $application->suc_id)->first();
             $user = User::where('id', $application->sender_id)->first();
@@ -147,6 +146,7 @@ class ApplicationController extends Controller
                 'campus_name' => $campus->campus_name
             ]);
         }
+        dd($collections);
 //        $applications = DB::table('applications')
 //            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
 //            ->join('users', 'users.id', '=','applications.sender_id')
