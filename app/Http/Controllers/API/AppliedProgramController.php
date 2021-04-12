@@ -65,6 +65,7 @@ class AppliedProgramController extends Controller
                         $task->user_id = $user_role->user_id;
                         $task->role = 'program task force chair';
                         $task->save();
+                        break;
                     }
                 }
                 $office = Office::where('id', $prog->office_id)->first();
@@ -316,8 +317,8 @@ class AppliedProgramController extends Controller
             $user = DB::table('assigned_user_heads')
                 ->join('users', 'users.id', '=', 'assigned_user_heads.user_id')
                 ->where('assigned_user_heads.application_program_id', $program->id)
-                ->first();
-            if ($user != null) $users = Arr::prepend($users, $user);
+                ->get();
+            foreach ($user as $u) $users = Arr::prepend($users, $u);
             $files = ApplicationProgramFile::where('application_program_id', $program->id)->get();
             foreach ($files as $file) $attach_files = Arr::prepend($attach_files, $file);
             $status = 'missing';
