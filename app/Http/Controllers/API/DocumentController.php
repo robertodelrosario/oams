@@ -90,7 +90,6 @@ class DocumentController extends Controller
     public function showAllContainer($userID,$id){
         $collection = new Collection();
         $campuses = Campus::where('suc_id', $id)->get();
-//        $user_office = CampusUser::where('user_id', $userID)->first();
         $user_role = UserRole::where('user_id', $userID)->first();
         $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
         foreach ($campuses as $campus){
@@ -100,23 +99,22 @@ class DocumentController extends Controller
             foreach ($offices as $office){
                 $containers = DocumentContainer::where('office_id', $office->id)->get();
                 foreach ($containers as $container){
+                    $office = Office::where('id', $container->office_id)->first();
+                    $campus =Campus::where('id', $office->campus_id)->first();
                     $tags = Tag::where('container_id', $container->id)->get();
                     $documents = Document::where('container_id', $container->id)->get();
-                    $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'main', 'number' => count($documents)]);
+                    $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'main', 'number' => count($documents), 'campus_name' =>$campus->campus_name, 'office_name' => $office->office_name]);
                 }
             }
         }
         $containers = DocumentContainer::where('office_id', $office_user->office_id)->get();
         foreach ($containers as $container){
+            $office = Office::where('id', $container->office_id)->first();
+            $campus =Campus::where('id', $office->campus_id)->first();
             $tags = Tag::where('container_id', $container->id)->get();
             $documents = Document::where('container_id', $container->id)->get();
-            $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'department', 'number' => count($documents)]);
+            $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'department', 'number' => count($documents), 'campus_name' =>$campus->campus_name, 'office_name' => $office->office_name]);
         }
-//        $containers = DocumentContainer::where('office_id', '!=' , null)->get();
-//        foreach ($containers as $container){
-//            $tags = Tag::where('container_id', $container->id)->get();
-//            $collection->push(['container' => $container, 'tags' => $tags]);
-//        }
         return response()->json(['documents' =>$collection]);
     }
 
