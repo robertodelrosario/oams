@@ -133,6 +133,7 @@ class ApplicationController extends Controller
             if(is_null($campus_user)) dd($campus_user);
             $campus = Campus::where('id', $campus_user->campus_id)->first();
             if(is_null($campus)) dd($campus);
+            dd($collections);
             $collections->push([
                 'id' => $application['id'],
                 'suc_id' => $application['suc_id'],
@@ -149,7 +150,6 @@ class ApplicationController extends Controller
                 'last_name' => $user->last_name,
                 'campus_name' => $campus->campus_name
             ]);
-            dd($collections);
         }
 //        $applications = DB::table('applications')
 //            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
