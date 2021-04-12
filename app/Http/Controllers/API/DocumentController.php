@@ -132,6 +132,7 @@ class DocumentController extends Controller
 
     public function editContainer(request $request, $id){
         $container = DocumentContainer::where('id', $id)->first();
+        dd($container);
         $container->container_name = $request->container_name;
         $container->type = $request->type;
         $container->save();
