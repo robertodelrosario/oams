@@ -124,6 +124,7 @@ class ApplicationController extends Controller
         //$applications = Application::where('suc_id', $id)->get();
         $collections = new Collection();
         $applications = Application::where('suc_id', $id)->get();
+        dd($applications);
         foreach ($applications as $application){
             $suc = SUC::where('id', $application->suc_id)->first();
             $user = User::where('id', $application->sender_id)->first();
