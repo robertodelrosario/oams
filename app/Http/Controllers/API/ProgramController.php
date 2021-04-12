@@ -109,7 +109,7 @@ class ProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully assigned a program to office!']);
     }
 
-    public function deleteOffice($id){
+    public function deleteProgramOffice($id){
         $program = Program::where('id', $id)->first();
         $program->office_id = null;
         $program->save();
