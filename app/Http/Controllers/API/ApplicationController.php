@@ -134,13 +134,13 @@ class ApplicationController extends Controller
             $campus = Campus::where('id', $campus_user->campus_id)->first();
             if(is_null($campus)) dd($campus);
             $collections->push([
-                'id' => $application->id,
-                'suc_id' => $application->suc_id,
-                'title' => $application->title,
-                'sender_id' => $application->sender_id,
-                'status' => $application->status,
-                'created_at' => $application->created_at,
-                'updated_at' => $application->updated_at,
+                'id' => $application['id'],
+                'suc_id' => $application['suc_id'],
+                'title' => $application['title'],
+                'sender_id' => $application['sender_id'],
+                'status' => $application['status'],
+                'created_at' => $application['created_at'],
+                'updated_at' => $application['updated_at'],
                 'institution_name' => $suc->institution_name,
                 'address' => $suc->address,
                 'email' => $suc->email,
@@ -150,7 +150,6 @@ class ApplicationController extends Controller
                 'campus_name' => $campus->campus_name
             ]);
         }
-        dd($collections);
 //        $applications = DB::table('applications')
 //            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
 //            ->join('users', 'users.id', '=','applications.sender_id')
