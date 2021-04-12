@@ -66,7 +66,7 @@ class AuthController extends Controller
             ->first();
         $office = null;
         $roles = UserRole::where('user_id', auth()->user()->id)->get();
-        echo $roles;
+        echo $campus;
         if(!(is_null($campus))) {
             $collection_1 = new Collection();
             $user_roles = DB::table('roles')
