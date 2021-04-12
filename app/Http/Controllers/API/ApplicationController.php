@@ -127,9 +127,13 @@ class ApplicationController extends Controller
         foreach ($applications as $application){
             echo $application;
             $suc = SUC::where('id', $application->suc_id)->first();
+            echo $suc;
             $user = User::where('id', $application->sender_id)->first();
+            echo $user;
             $campus_user = CampusUser::where('user_id', $user->id)->first();
+            echo $campus_user;
             $campus = Campus::where('id', $campus_user->campus_id)->first();
+            echo $campus;
             $collections->push([
                 'id' => $application['id'],
                 'suc_id' => $application['suc_id'],
