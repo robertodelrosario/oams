@@ -149,6 +149,7 @@ class ApplicationController extends Controller
                 'last_name' => $user->last_name,
                 'campus_name' => $campus->campus_name
             ]);
+            dd($collections);
         }
 //        $applications = DB::table('applications')
 //            ->join('sucs', 'sucs.id', '=', 'applications.suc_id')
