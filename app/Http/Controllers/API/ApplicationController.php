@@ -16,7 +16,7 @@ use App\Mail\ApplicationNotification;
 use App\Program;
 use App\SUC;
 use Carbon\Carbon;
-use http\Client\Curl\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -125,15 +125,11 @@ class ApplicationController extends Controller
         $collections = new Collection();
         $applications = Application::where('suc_id', $id)->get();
         foreach ($applications as $application){
-            echo $application;
             $suc = SUC::where('id', $application->suc_id)->first();
-            echo $suc;
             $user = User::where('id', $application->sender_id)->first();
             echo $user;
             $campus_user = CampusUser::where('user_id', $application->sender_id)->first();
-            echo $campus_user;
             $campus = Campus::where('id', $campus_user->campus_id)->first();
-            echo $campus;
             $collections->push([
                 'id' => $application['id'],
                 'suc_id' => $application['suc_id'],
