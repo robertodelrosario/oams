@@ -130,7 +130,7 @@ class ApplicationController extends Controller
             echo $suc;
             $user = User::where('id', $application->sender_id)->first();
             echo $user;
-            $campus_user = CampusUser::where('user_id', $user->id)->first();
+            $campus_user = CampusUser::where('user_id', $application->sender_id)->first();
             echo $campus_user;
             $campus = Campus::where('id', $campus_user->campus_id)->first();
             echo $campus;
