@@ -80,6 +80,7 @@ class AuthController extends Controller
                     echo $campus_office->office_id . " ";
                     echo $office_user->office_id . " ";
                     if($campus_office->office_id == $office_user->office_id){
+                        dd($collection_1);
                         $collection_1->push([
                             'campus_id' => $campus_office->campus_id,
                             'user_role_id' => $user_role->id,
