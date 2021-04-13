@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\CampusOffice;
 use App\CampusUser;
 use App\Document;
 use App\DocumentContainer;
@@ -113,5 +114,16 @@ class OfficeController extends Controller
     public function showDepartment($id){
         $offices = Office::where('parent_office_id', $id)->get();
         return response()->json($offices);
+    }
+
+    public function transferOffice($id){
+        $offices = Office::where('campus_id', $id)->get();
+        foreach ($offices as $office){
+            $campus_office = new CampusOffice();
+            $campus_office->office_id = $office->id;
+            $campus_office->campus_id = $id;
+            $campus_office->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully transfered offices']);
     }
 }
