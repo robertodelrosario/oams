@@ -39,6 +39,11 @@ class OfficeController extends Controller
             if($request->office_id != null) $office->parent_office_id = $request->office_id;
             else $office->parent_office_id == null;
             $office->save();
+
+            $cam_off = new CampusOffice();
+            $cam_off->office_id = $office->id;
+            $cam_off->campus_id = $id;
+            $cam_off->save();
             return response()->json(['status' => true, 'message' => 'Successfully created office', 'office' => $office]);
         }
         else{
