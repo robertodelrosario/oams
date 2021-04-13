@@ -85,7 +85,7 @@ class AuthController extends Controller
                             'office_user_id' => $office->id,
                             'office_id' => $office->office_id,
                             'office_name' => $office->office_name,
-                            'campus_id' => $campus_office->campus_id
+//                            'campus_id' => $campus_office->campus_id
                         ]);
                     }
                 }
