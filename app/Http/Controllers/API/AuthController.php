@@ -76,6 +76,7 @@ class AuthController extends Controller
                 ->get();
             foreach ($user_roles as $user_role){
                 $campus_offices = CampusOffice::where('campus_id', $campus->campus_id)->get();
+                dd($campus_offices);
                 foreach ($campus_offices as $campus_office){
                     $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
                     if($campus_office->office_id == $office_user->office_id){
