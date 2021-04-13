@@ -45,9 +45,10 @@ class OfficeController extends Controller
 
     public function showOffice($id){
         $collection = new Collection();
-        $offices = Office::where('campus_id', $id)->get();
-        foreach ($offices as $office){
-            $campus_users = CampusUser::where('office_id', $office->id)->get();
+        $offices = CampusOffice::where('campus_id', $id)->get();
+        foreach ($offices as $o){
+            $campus_users = CampusUser::where('office_id', $o->office_id)->get();
+            $office = Office::where('id', $o->office_id)->first();
             if ($office->parent_office_id != null){
                 $parent_office = Office::where('id', $office->parent_office_id)->first();
                 $parent_office_id = $office->parent_office_id;
