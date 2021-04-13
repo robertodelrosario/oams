@@ -26,9 +26,10 @@ class OfficeController extends Controller
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $office = Office::where([
-            ['campus_id', $id], [strtolower('office_name'), strtolower($request->office_name)]
-        ])->first();
+//        $office = Office::where([
+//            ['campus_id', $id], [strtolower('office_name'), strtolower($request->office_name)]
+//        ])->first();
+        $office = Office::where(strtolower('office_name'), strtolower($request->office_name))->first();
         if(is_null($office)){
             $office = new Office();
             $office->office_name = $request->office_name;
@@ -40,7 +41,19 @@ class OfficeController extends Controller
             $office->save();
             return response()->json(['status' => true, 'message' => 'Successfully created office', 'office' => $office]);
         }
-        return response()->json(['status' => false, 'message' => 'Office already exist!']);
+        else{
+            $campus_office = CampusOffice::where([
+                ['campus_id', $id], ['office_id', $office->id]
+            ])->first();
+            if(is_null($campus_office)){
+                $cam_off = new CampusOffice();
+                $cam_off->office_id = $office->id;
+                $cam_off->campus_id = $id;
+                $cam_off->save();
+                return response()->json(['status' => true, 'message' => 'Successfully created office', 'office' => $office]);
+            }
+            return response()->json(['status' => false, 'message' => 'Office already exist!']);
+        }
     }
 
     public function showOffice($id){
