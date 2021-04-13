@@ -79,13 +79,13 @@ class AuthController extends Controller
                     $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
                     if($campus_office->office_id == $office_user->office_id){
                         $collection_1->push([
-                            'campus_id' => $campus_office['campus_id'],
                             'user_role_id' => $user_role->id,
                             'role_id' => $user_role->role_id,
                             'role' => $user_role->role,
                             'office_user_id' => $office->id,
                             'office_id' => $office->office_id,
-                            'office_name' => $office->office_name
+                            'office_name' => $office->office_name,
+                            'campus_id' => $campus_office->campus_id
                         ]);
                     }
                 }
