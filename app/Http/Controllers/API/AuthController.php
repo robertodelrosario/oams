@@ -74,7 +74,7 @@ class AuthController extends Controller
                 ->where('users_roles.user_id', auth()->user()->id)
                 ->get();
             foreach ($user_roles as $user_role){
-                $campus_offices = CampusOffice::where('campus_id', $campus->id)->get();
+                $campus_offices = CampusOffice::where('campus_id', $campus->campus_id)->get();
                 echo $campus_offices;
                 foreach ($campus_offices as $campus_office){
                     $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
