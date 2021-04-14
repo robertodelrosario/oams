@@ -66,7 +66,6 @@ class OfficeController extends Controller
     public function showOffice($id){
         $collection = new Collection();
         $campus_offices = CampusOffice::where('campus_id', $id)->get();
-//        $campus_users = CampusUser::where('campus_id', $id)->get();
         foreach($campus_offices as $campus_office){
             $office = Office::where('id', $campus_office->office_id)->first();
             if ($office->parent_office_id != null){
@@ -79,6 +78,7 @@ class OfficeController extends Controller
                 $office_name = null;
             }
             $office_users = OfficeUser::where('office_id', $campus_office->office_id)->get();
+            echo $office_users;
             foreach ($office_users as $office_user){
                 $user_role = UserRole::where('id', $office_user->user_role_id)->first();
                 if($user_role->user_role == 3){
@@ -192,10 +192,15 @@ class OfficeController extends Controller
     public function transferOffice($id){
         $offices = Office::where('campus_id', $id)->get();
         foreach ($offices as $office){
-            $campus_office = new CampusOffice();
-            $campus_office->office_id = $office->id;
-            $campus_office->campus_id = $id;
-            $campus_office->save();
+            $campus_office = CampusOffice::where([
+                ['campus_id', $id], ['office_id', $office->id]
+            ])->first();
+            if(is_null($campus_office)) {
+                $campus_office = new CampusOffice();
+                $campus_office->office_id = $office->id;
+                $campus_office->campus_id = $id;
+                $campus_office->save();
+            }
         }
         return response()->json(['status' => true, 'message' => 'Successfully transfered offices']);
     }
