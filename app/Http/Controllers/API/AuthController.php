@@ -295,7 +295,22 @@ class AuthController extends Controller
             $specialization->save();
             return response()->json(['status' => true, 'message' => 'Accreditor successfully registered']);
         }
-        return response()->json(['status' => false, 'message' => 'User already registered']);
+        $campus_users = CampusUser::where('user_id', $check->id)->get();
+        $collection = new Collection();
+        if(count($campus_users) > 0) {
+            foreach ($campus_users as $campus_user) {
+                $campus_1 = Campus::where('id', $campus_user->campus_id)->first();
+                $campus_2 = Campus::where('id', $id)->first();
+                if ($campus_1->suc_id == $campus_2->suc_id) {
+                    if ($campus_1->id == $campus_2->id) return response()->json(['status' => false, 'message' => 'already registered to this campus']);
+                    else $collection->push([
+                        'campus_name' => $campus_1->campus_name
+                    ]);
+                } else return response()->json(['status' => false, 'message' => 'User was registered to other SUC']);
+            }
+            return response()->json(['status' => false, 'message' => 'campus', 'campuses' => $collection]);
+        }
+        return response()->json(['status' => false, 'message' => 'User is not affiliated to any SUC']);
     }
 
 //    public function registerSucUser(Request $request, $id)
