@@ -91,8 +91,13 @@ class AppliedProgramController extends Controller
 
     public function delete($id){
         $program = ApplicationProgram::where('id',$id);
-        $program->delete();
-        return response()->json(['status' => true, 'message' => 'Successfully deleted applied program!']);
+        $application = Application::where('id', $program->application_id)->first();
+        if($application->sender_id == auth()->user()->id){
+            $program->delete();
+            return response()->json(['status' => true, 'message' => 'Successfully deleted applied program!']);
+        }
+        $user = User::where('id', auth()->user()->id)->first();
+        return response()->json(['status' => false, 'message' => 'Only '.$user->first_name. ' '.$user->last_name. ' can delete the program']);
     }
 
     public function edit(request $request, $id){
