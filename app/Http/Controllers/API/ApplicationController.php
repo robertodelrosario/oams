@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Program;
 use App\SUC;
+use App\UserRole;
 use Carbon\Carbon;
 use App\User;
 use Illuminate\Http\Request;
@@ -111,11 +112,15 @@ class ApplicationController extends Controller
 
     public function deleteApplication($id){
         $application = Application::where('id', $id)->first();
-        if($application->status == 'under preparation' || $application->status == 'done'){
-            $application->delete();
-            return response()->json(['status' => true, 'message' => 'Application successfully deleted!']);
+        if($application->sender_id == auth()->user()->id){
+            if($application->status == 'under preparation' || $application->status == 'done'){
+                $application->delete();
+                return response()->json(['status' => true, 'message' => 'Application successfully deleted!']);
+            }
+            return response()->json(['status' => false, 'message' => 'Application is on going.']);
         }
-        return response()->json(['status' => false, 'message' => 'Application is on going.']);
+        $user = User::where('id', auth()->user()->id)->first();
+        return response()->json(['status' => false, 'message' => 'Only '.$user->first_name. ' '.$user->last_name. ' can delete the application']);
     }
 
     public function showApplication($id){
