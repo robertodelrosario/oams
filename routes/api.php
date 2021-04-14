@@ -116,7 +116,7 @@ Route::group(['prefix' => '/suc'], function() {
 
     Route::post('/acceptDeclineReschedule/{id}/{userID}', 'QuasController@acceptDeclineReschedule');
 
-    Route::post('addCampusUser', 'AuthController@addCampusUser');
+    Route::post('addCampusUser', 'CampusController@addCampusUser');
 });
 
 Route::group(['prefix' => '/task'], function() {
