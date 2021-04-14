@@ -220,12 +220,11 @@ class CampusController extends Controller
     }
     public function addCampusUser(Request $request){
         $campus_user = CampusUser::where([
-            ['user_id', $request->user_id], ['campus_id', $request->id]
+            ['user_id', $request->user_id], ['campus_id', $request->campus_id]
         ])->first();
-        echo $campus_user;
         if(is_null($campus_user)){
             $campus_user = new CampusUser();
-            $campus_user->campus_id = $request->id;
+            $campus_user->campus_id = $request->campus_id;
             $campus_user->user_id = $request->user_id;
             $campus_user->save();
 
