@@ -80,6 +80,7 @@ Route::group([
 
     Route::post('addToCampus/{campusID}/{userID}', 'AuthController@addToCampus');//id is user_id
     Route::get('showAllCampusUser', 'AuthController@showAllCampusUser');//id is user_id
+    Route::post('addToOtherCampus/{id}/{userID}', 'AuthController@addToOtherCampus');
 
     Route::get('showTF/{id}', 'AuthController@showTF');//id is user_id
 });
