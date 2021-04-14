@@ -92,6 +92,7 @@ Route::group(['prefix' => '/suc'], function() {
     Route::get('/showAllCampus', 'CampusController@showAllCampus');
     Route::delete('/deleteCampus/{id}', 'CampusController@deleteCampus');
     Route::put('/editCampus/{id}', 'CampusController@editCampus');
+    Route::get('/showCampusUser/{id}', 'CampusController@showCampusUser');
 
     Route::post('/createOffice/{id}', 'OfficeController@createOffice');
     Route::get('/showOffice/{id}', 'OfficeController@showOffice');

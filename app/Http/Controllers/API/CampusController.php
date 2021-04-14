@@ -217,4 +217,19 @@ class CampusController extends Controller
             }
         }
     }
+
+    public function showCampusUser($id){
+        $collection = new Collection();
+        $campus_users = CampusUser::where('campus_id', $id)->get();
+        foreach($campus_users as $campus_user){
+            $user = User::where('id', $campus_user->user_id)->first();
+            $collection->push([
+               'campus_id' =>  $campus_user->campus_id,
+                'user_id' => $campus_user->user_id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name
+            ]);
+        }
+        return response()->json($collection);
+    }
 }
