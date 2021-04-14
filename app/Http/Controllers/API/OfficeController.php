@@ -95,7 +95,9 @@ class OfficeController extends Controller
                     ]);
                 }
             }
-            if(!($collection->contains('id', $office->id))){
+            if($collection->contains('id', $office->id)){
+            }
+            else{
                 $collection->push([
                     'id' => $office->id,
                     'office_name'=> $office->office_name,
@@ -105,7 +107,8 @@ class OfficeController extends Controller
                     'parent_office_name' => $office_name,
                     'user_id' => null,
                     'first_name' => null,
-                    'last_name'=> null]);
+                    'last_name'=> null
+                ]);
             }
         }
 //        foreach ($offices as $o){
