@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\CampusUser;
 use App\Http\Controllers\Controller;
 use App\Campus;
+use App\OfficeUser;
 use App\Role;
 use App\User;
 use App\UserRole;
@@ -217,7 +218,41 @@ class CampusController extends Controller
             }
         }
     }
+    public function  addCampusUser(Request $request){
+        dd($request->id);
+        $campus_user = CampusUser::where([
+            ['user_id', $request->user_id], ['campus_id', $id]
+        ])->first();
+        echo $campus_user;
+        if(is_null($campus_user)){
+            $campus_user = new CampusUser();
+            $campus_user->campus_id = $id;
+            $campus_user->user_id = $request->user_id;
+            $campus_user->save();
 
+            $role = Role::where('role', $request->role)->first();
+            $user_role = UserRole::where([
+                ['role_id',$role->id], ['user_id', $userID]
+            ])->first();
+            if(is_null($user_role)){
+                $user_role = new UserRole();
+                $user_role->user_id = $userID;
+                $user_role->role_id = $role->id;
+                $user_role->save();
+            }
+            $office_user = OfficeUser::where([
+                ['office_id', $request->office_id], ['user_role_id', $user_role->id]
+            ])->first();
+            if(is_null($office_user)){
+                $office_user = new OfficeUser();
+                $office_user->office_id = $request->office_id;
+                $office_user->user_role_id = $user_role->id;
+                $office_user->save();
+            }
+            return response()->json(['status' => true, 'message' => 'Successfully added user.']);
+        }
+        return response()->json(['status' => false, 'message' => 'User was registered to other campus']);
+    }
     public function showCampusUser($id){
         $collection = new Collection();
         $campus_users = CampusUser::where('campus_id', $id)->get();

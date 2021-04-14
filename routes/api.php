@@ -82,7 +82,7 @@ Route::group([
     Route::post('addToCampus/{campusID}/{userID}', 'AuthController@addToCampus');//id is user_id
     Route::get('showAllCampusUser', 'AuthController@showAllCampusUser');//id is user_id
     Route::post('addToOtherCampus/{id}/{userID}', 'AuthController@addToOtherCampus');
-    Route::post('addCampusUser', 'AuthController@addCampusUser');
+
 
     Route::get('showTF/{id}', 'AuthController@showTF');//id is user_id
 });
@@ -116,7 +116,7 @@ Route::group(['prefix' => '/suc'], function() {
 
     Route::post('/acceptDeclineReschedule/{id}/{userID}', 'QuasController@acceptDeclineReschedule');
 
-
+    Route::post('addCampusUser', 'AuthController@addCampusUser');
 });
 
 Route::group(['prefix' => '/task'], function() {
