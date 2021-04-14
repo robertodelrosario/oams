@@ -314,6 +314,8 @@ class AuthController extends Controller
     }
 
     public function addToOtherCampus(request $request, $id, $userID){
+        echo $id;
+        echo $userID;
         $campus_user = CampusUser::where([
             ['campus_id', $id], ['user_id', $userID]
         ])->first();
