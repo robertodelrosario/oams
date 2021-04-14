@@ -375,14 +375,19 @@ class AuthController extends Controller
                     ->where('offices_users.user_role_id', $role->id)
                     ->first();
                 if(!(is_null($office))) {
-                    $collection_1->push([
-                        'user_role_id' => $role->id,
-                        'role_id' => $role->role_id,
-                        'role' => $role->role,
-                        'office_user_id' => $office->id,
-                        'office_id' => $office->office_id,
-                        'office_name' => $office->office_name
-                    ]);
+                    $campus_office = CampusOffice::where([
+                        ['campus_id', $id], ['office_id', $office->office_id]
+                    ])->first();
+                    if(!(is_null($campus_office))) {
+                        $collection_1->push([
+                            'user_role_id' => $role->id,
+                            'role_id' => $role->role_id,
+                            'role' => $role->role,
+                            'office_user_id' => $office->id,
+                            'office_id' => $office->office_id,
+                            'office_name' => $office->office_name
+                        ]);
+                    }
                 }
                 if($role->role_id == 7 || $role->role_id == 8){
                     $collection_1->push([
