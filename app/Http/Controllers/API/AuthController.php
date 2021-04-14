@@ -92,45 +92,8 @@ class AuthController extends Controller
                         }
                     }
                 }
-//                $office = DB::table('offices')
-//                    ->join('offices_users', 'offices_users.office_id', '=', 'offices.id')
-//                    ->where('offices_users.user_role_id', $user_role->id)
-//                    ->first();
-//                if(!(is_null($office))) {
-//                    $collection_1->push([
-//                        'user_role_id' => $user_role->id,
-//                        'role_id' => $user_role->role_id,
-//                        'role' => $user_role->role,
-//                        'office_user_id' => $office->id,
-//                        'office_id' => $office->office_id,
-//                        'office_name' => $office->office_name
-//                    ]);
-//                }
             }
         }
-//
-//        if(count($campuses) > 0) {
-//            $user_roles = DB::table('roles')
-//                ->join('users_roles', 'users_roles.role_id', '=', 'roles.id')
-//                ->where('users_roles.user_id', auth()->user()->id)
-//                ->get();
-//            foreach ($user_roles as $user_role){
-//                $office = DB::table('offices')
-//                    ->join('offices_users', 'offices_users.office_id', '=', 'offices.id')
-//                    ->where('offices_users.user_role_id', $user_role->id)
-//                    ->first();
-//                if(!(is_null($office))) {
-//                    $collection_1->push([
-//                        'user_role_id' => $user_role->id,
-//                        'role_id' => $user_role->role_id,
-//                        'role' => $user_role->role,
-//                        'office_user_id' => $office->id,
-//                        'office_id' => $office->office_id,
-//                        'office_name' => $office->office_name
-//                    ]);
-//                }
-//            }
-//        }
         return response()->json(['user' => auth()->user(), 'role' => $roles, 'campus'=>$campuses, 'office' => $collection_1]);
     }
     /**
@@ -311,6 +274,41 @@ class AuthController extends Controller
             return response()->json(['status' => true, 'message' => 'campus', 'campuses' => $collection, 'user' => $check]);
         }
         return response()->json(['status' => false, 'message' => 'User is not affiliated to any SUC']);
+    }
+
+    public function  addCampusUser(Request $request, $id, $userID){
+        $campus_user = CampusUser::where([
+            ['user_id', $userID], ['campus_id', $id]
+        ])->first();
+        echo $campus_user;
+        if(is_null($campus_user)){
+            $campus_user = new CampusUser();
+            $campus_user->campus_id = $id;
+            $campus_user->user_id = $userID;
+            $campus_user->save();
+
+            $role = Role::where('role', $request->role)->first();
+            $user_role = UserRole::where([
+                ['role_id',$role->id], ['user_id', $userID]
+            ])->first();
+            if(is_null($user_role)){
+                $user_role = new UserRole();
+                $user_role->user_id = $userID;
+                $user_role->role_id = $role->id;
+                $user_role->save();
+            }
+            $office_user = OfficeUser::where([
+                ['office_id', $request->office_id], ['user_role_id', $user_role->id]
+            ])->first();
+            if(is_null($office_user)){
+                $office_user = new OfficeUser();
+                $office_user->office_id = $request->office_id;
+                $office_user->user_role_id = $user_role->id;
+                $office_user->save();
+            }
+            return response()->json(['status' => true, 'message' => 'Successfully added user.']);
+        }
+        return response()->json(['status' => false, 'message' => 'User was registered to other campus']);
     }
 
     public function addToOtherCampus(Request $request, $id, $userID){
