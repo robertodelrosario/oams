@@ -313,7 +313,7 @@ class AuthController extends Controller
         return response()->json(['status' => false, 'message' => 'User is not affiliated to any SUC']);
     }
 
-    public function addToOtherCampus(request $request, $id, $userID){
+    public function addToOtherCampus(Request $request, $id, $userID){
         $campus_user = CampusUser::where([
             ['user_id', $userID], ['campus_id', $id]
         ])->first();
