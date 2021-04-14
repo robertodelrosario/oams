@@ -82,22 +82,22 @@ class OfficeController extends Controller
                 $user_role = UserRole::where('id', $office_user->user_role_id)->first();
                 if($user_role->role_id == 3){
                     $user_credentials = User::where('id', $user_role->user_id)->first();
-                    $collection->push([
-                        'id' => $office->id,
-                        'office_name'=> $office->office_name,
-                        'contact' => $office->contact,
-                        'email' => $office->email,
-                        'parent_office_id' => $parent_office_id,
-                        'parent_office_name' => $office_name,
-                        'user_id' => $user_credentials->id,
-                        'first_name' => $user_credentials->first_name,
-                        'last_name'=> $user_credentials->last_name
-                    ]);
+                    if($collection->contains('id', $office->id)) {
+                        $collection->push([
+                            'id' => $office->id,
+                            'office_name' => $office->office_name,
+                            'contact' => $office->contact,
+                            'email' => $office->email,
+                            'parent_office_id' => $parent_office_id,
+                            'parent_office_name' => $office_name,
+                            'user_id' => $user_credentials->id,
+                            'first_name' => $user_credentials->first_name,
+                            'last_name' => $user_credentials->last_name
+                        ]);
+                    }
                 }
             }
             if($collection->contains('id', $office->id)){
-            }
-            else{
                 $collection->push([
                     'id' => $office->id,
                     'office_name'=> $office->office_name,
