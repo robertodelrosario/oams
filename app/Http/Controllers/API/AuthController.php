@@ -316,7 +316,7 @@ class AuthController extends Controller
     public function addToOtherCampus(request $request, $id, $userID){
         dd($id);
         $campus_user = CampusUser::where([
-            ['campus_id', $id], ['user_id', $userID]
+            ['user_id', $userID], ['campus_id', $id]
         ])->first();
         echo $campus_user;
         if(is_null($campus_user)){
@@ -349,197 +349,7 @@ class AuthController extends Controller
         return response()->json(['status' => false, 'message' => 'User was registered to other campus']);
     }
 
-//    public function registerSucUser(Request $request, $id)
-//    {
-//        $validator = Validator::make($request->all(), [
-//            'first_name' => 'required',
-//            'last_name' => 'required',
-//            'email' => 'required',
-//            'contact_no' => 'required',
-//            'password' => 'required|min:6',
-//        ]);
-//
-//        if ($validator->fails())
-//            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
-//
-//        $check = User::where('email', $request->email)->first();
-//        if(is_null($check)){
-//            $check = User::where([
-//                ['first_name', $request->first_name],['last_name', $request->last_name], ['name_extension', $request->name_extension]
-//            ])->first();
-//            if(is_null($check)){
-//                $user = new User;
-//                $user->first_name = $request->first_name;
-//                $user->last_name = $request->last_name;
-//                $user->email = $request->email;
-//                $user->contact_no = $request->contact_no;
-//                $user->password = bcrypt($request->input('password'));
-//                $user->status = 'active';
-//                $user->middle_initial = $request->middle_initial;
-//                $user->name_extension = $request->name_extension;
-//                $user->save();
-//                $campus= Campus::where('id',$id)->first();
-//                $user->campuses()->attach($campus);
-//                $role = Role::where('role', $request->role)->first();
-//                if($request->role == 'support head'){
-//                    $users = OfficeUser::where('office_id',  $request->office_id)->get();
-//                    foreach ($users as $u)
-//                    {
-//                        $user_role = UserRole::where('id', $u->user_role_id)->first();
-//                        if($user_role->role_id == 3){
-//                            $role = Role::where('role', 'support staff')->first();
-//                            break;
-//                        }
-//                    }
-//                }
-//                $role->users()->attach($user->id);
-//                $userRole = UserRole::where([
-//                    ['user_id', $user->id], ['role_id', $role->id]
-//                ])->first();
-//                $office_user = new OfficeUser();
-//                $office_user->user_role_id = $userRole->id;
-//                $office_user->office_id = $request->office_id;
-//                $office_user->save();
-//                $roles = DB::table('users_roles')
-//                    ->join('roles', 'roles.id', '=', 'users_roles.role_id')
-//                    ->where('user_id', $user->id)
-//                    ->get();
-//                return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
-//            }
-//
-//            $user_role = UserRole::where([
-//                ['user_id', $check->id],['role_id', 8]
-//            ])->first();
-//            if(!(is_null($user_role))){
-//                $campus_user = CampusUser::where([
-//                    ['campus_id', $id], ['user_id',$user_role->user_id]
-//                ])->first();
-//                if(is_null($campus_user)){
-//                    return response()->json(['status' => false, 'message' => 'Accreditor was not registered to this campus.']);
-//                }
-//                return response()->json(['status' => true, 'message' => 'Accreditor', 'user' => $check]);
-//            }
-//            return response()->json(['status' => false, 'message' => 'User already registered']);
-//        }
-//
-//        $user_role = UserRole::where([
-//            ['user_id', $check->id],['role_id', 8]
-//        ])->first();
-//        if(!(is_null($user_role))){
-//            $campus_user = CampusUser::where([
-//                ['campus_id', $id], ['user_id',$user_role->user_id]
-//            ])->first();
-//            if(is_null($campus_user)) return response()->json(['status' => false, 'message' => 'Accreditor was not registered to this campus.']);
-//            return response()->json(['status' => true, 'message' => 'Accreditor', 'user' => $check]);
-//        }
-//        return response()->json(['status' => false, 'message' => 'Email already registered']);
-//    }
 
-//    public function registerLocalAccreditor(Request $request, $id){
-//        $validator = Validator::make($request->all(), [
-//            'first_name' => 'required',
-//            'last_name' => 'required',
-//            'email' => 'required',
-//            'password' => 'required|min:6',
-//            'contact_no' => 'required',
-//        ]);
-//
-//        if ($validator->fails())
-//            return response()->json(['status' => false, 'message' => 'Invalid value inputs!'], 254);
-//
-//        $check = User::where('email', $request->email)->first();
-//        if(is_null($check)){
-//            $user = new User;
-//            $user->first_name = $request->first_name;
-//            $user->last_name = $request->last_name;
-//            $user->email = $request->email;
-//            $user->contact_no = $request->contact_no;
-//            $user->password = bcrypt($request->input('password'));
-//            $user->status = 'active';
-//            $user->save();
-//            $campus= Campus::where('id',$id)->first();
-//            $user->campuses()->attach($campus);
-//            $role = Role::where('role', $request->role)->first();
-//            $role->users()->attach($user->id);
-//
-//            $region = new AccreditorProfile();
-//            $region->user_id = $user->id;
-//            $region->region = $request->region;
-//            $region->campus_id = $id;
-//            $region->save();
-//
-//            $specialization = new AccreditorSpecialization();
-//            $specialization->accreditor_id = $user->id;
-//            $specialization->specialization = $request->specialization;
-//            $specialization->save();
-//
-//            $roles = DB::table('users_roles')
-//                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
-//                ->where('user_id', $user->id)
-//                ->get();
-//            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $user, 'roles' => $roles]);
-//        }
-//        else{
-//
-//            $region = AccreditorProfile::where('user_id',$check->id )->first();
-//            $region->region = $request->region;
-//            $region->campus_id = $id;
-//            $region->save();
-//
-//            $specialization = AccreditorSpecialization::where('accreditor_id', $check->id)->first();
-//            $specialization->specialization = $request->specialization;
-//            $specialization->save();
-//
-//            return response()->json(['status' => true, 'message' => 'Successfully added to User', 'user' => $check]);
-//        }
-//    }
-
-
-//    public function addToOffice($id, $office_id){
-//        $check_office = Office::where('id', $office_id)->first();
-////        if($check_office->parent_office_id == null){
-////            $user = CampusUser::where('id', $id)->first();
-////            $user->office_id = $office_id;
-////            $user->save();
-////        }
-////        else{
-////            $user = new OtherOfficeUser();
-////            $user->office_id = $office_id;
-////
-////        }
-//
-//            $user = CampusUser::where('id', $id)->first();
-//            $user->office_id = $office_id;
-//            $user->save();
-//
-//
-//        $office = DB::table('offices')
-//            ->join('campuses_users', 'campuses_users.office_id', '=', 'offices.id')
-//            ->where('campuses_users.id', $id)
-//            ->first();
-//
-//        $user_role = UserRole::where([
-//            ['user_id', $user->user_id], ['role_id', 4]
-//        ])->first();
-//        if(is_null($user_role)){
-//            $u = new UserRole();
-//            $u->user_id = $user->user_id;
-//            $u->role_id = 4;
-//            $u->save();
-//        }
-//        return response()->json(['status' => true, 'message' => 'Successfully added to office', 'office' => $office]);
-//    }
-//
-//    public function removeFromOffice($id){
-//        $user = CampusUser::where('id', $id)->first();
-//        $user->office_id = null;
-//        $user->save();
-//        $user_role = UserRole::where([
-//            ['user_id', $user->user_id], ['role_id', 4]
-//        ]);
-//        $user_role->delete();
-//        return response()->json(['status' => true, 'message' => 'Successfully remove from office']);
-//    }
     public function registerAaccupAccreditor(request $request){
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
@@ -848,66 +658,6 @@ class AuthController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully activated user account']);
     }
 
-//    public function setRole(request $request,$userID){
-//        $role = Role::where('role', $request->role)->first();
-//        if($request->role == 'support head'){
-//            $users = CampusUser::where('office_id',  $request->office_id)->get();
-//            foreach ($users as $user)
-//            {
-//                $user_role = UserRole::where([
-//                    ['user_id', $user->user_id], ['role_id', 3]
-//                ])->first();
-//                if(!(is_null($user_role))){
-//                    $role = Role::where('role', 'support staff')->first();
-//                    break;
-//                }
-//            }
-//        }
-//        $user_office = CampusUser::where('user_id', $userID)->first();
-//        $user_office->office_id = $request->office_id;
-//        $user_office->save();
-//
-//        $check = UserRole::where([
-//            ['user_id', $userID], ['role_id', $role->id]
-//        ])->first();
-//        if (is_null($check)){
-//            $user = User::where('id', $userID)->first();
-//            if(is_null($user)) return response()->json(['status' => false, 'message' => 'Profile not found']);
-//            $role = Role::where('id', $role->id)->first();
-//            $role->users()->attach($user->id);
-//            $roles = DB::table('users_roles')
-//                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
-//                ->where('user_id', $userID)
-//                ->get();
-//            return response()->json(['status' => true, 'message' => 'Role successfully added to User', 'roles' => $roles]);
-//        }
-//        return response()->json(['status' => false, 'message' => 'Role already added to User']);
-//    }
-
-//    public function deleteSetRole($userID, $roleID){
-//        if($roleID == 5){
-//            $campus_user = CampusUser::where('user_id', $userID)->first();
-//            $users = CampusUser::where('campus_id', $campus_user->campus_id)->get();
-//            $count = 0;
-//            foreach ($users as $user){
-//                $role = UserRole::where([
-//                    ['user_id', $user->user_id], ['role_id', 5]
-//                ])->first();
-//                if(!(is_null($role))) $count++;
-//            }
-//            if($count == 1) return response()->json(['status' => false, 'message' => 'Cannot delete role. Need to assign another QA Director first.']);
-//        }
-//        $role = UserRole::where([
-//            ['user_id', $userID], ['role_id', $roleID]
-//        ]);
-//        $role->delete();
-////        if($roleID == 3 || $roleID == 4){
-////            $user = CampusUser::where('user_id', $userID)->first();
-////            $user->office_id = null;
-////            $user->save();
-////        }
-//        return response()->json(['status' => true, 'message' => 'Successfully remove role']);
-//    }
 
     public function removeUser($id){
         $user = User::where('id', $id);
@@ -926,7 +676,7 @@ class AuthController extends Controller
 
     public function addToCampus($campusID, $userID){
         $campus_user = CampusUser::where([
-            ['user_id', $userID], ['campus_ID', $campusID]
+            ['user_id', $userID], ['campus_id', $campusID]
         ])->first();
 
         if(!(is_null($campus_user))) return response()->json(['status' => false, 'message' => 'Already added to this campus.']);
