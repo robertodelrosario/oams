@@ -308,7 +308,7 @@ class AuthController extends Controller
                     ]);
                 } else return response()->json(['status' => false, 'message' => 'User was registered to other SUC']);
             }
-            return response()->json(['status' => false, 'message' => 'campus', 'campuses' => $collection, 'user' => $check]);
+            return response()->json(['status' => true, 'message' => 'campus', 'campuses' => $collection, 'user' => $check]);
         }
         return response()->json(['status' => false, 'message' => 'User is not affiliated to any SUC']);
     }
