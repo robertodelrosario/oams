@@ -218,7 +218,7 @@ class CampusController extends Controller
             }
         }
     }
-    public function  addCampusUser(Request $request){
+    public function addCampusUser(Request $request){
         dd($request->id);
         $campus_user = CampusUser::where([
             ['user_id', $request->user_id], ['campus_id', $id]
