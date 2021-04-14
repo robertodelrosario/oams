@@ -249,7 +249,7 @@ class CampusController extends Controller
             }
             return response()->json(['status' => true, 'message' => 'Successfully added user.']);
         }
-        return response()->json(['status' => false, 'message' => 'User was registered to other campus']);
+        return response()->json(['status' => false, 'message' => 'User was already registered to this campus']);
     }
     public function showCampusUser($id){
         $collection = new Collection();
