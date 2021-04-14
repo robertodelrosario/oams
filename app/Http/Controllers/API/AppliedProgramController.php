@@ -90,7 +90,7 @@ class AppliedProgramController extends Controller
     }
 
     public function delete($id){
-        $program = ApplicationProgram::where('id',$id);
+        $program = ApplicationProgram::where('id',$id)->first();
         $application = Application::where('id', $program->application_id)->first();
         if($application->sender_id == auth()->user()->id){
             $program->delete();
