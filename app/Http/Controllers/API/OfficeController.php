@@ -8,6 +8,8 @@ use App\Document;
 use App\DocumentContainer;
 use App\Http\Controllers\Controller;
 use App\Office;
+use App\OfficeUser;
+use App\Program;
 use App\User;
 use App\UserRole;
 use Illuminate\Http\Request;
@@ -63,10 +65,10 @@ class OfficeController extends Controller
 
     public function showOffice($id){
         $collection = new Collection();
-        $offices = CampusOffice::where('campus_id', $id)->get();
-        foreach ($offices as $o){
-            $campus_users = CampusUser::where('office_id', $o->office_id)->get();
-            $office = Office::where('id', $o->office_id)->first();
+        $campus_offices = CampusOffice::where('campus_id', $id)->get();
+//        $campus_users = CampusUser::where('campus_id', $id)->get();
+        foreach($campus_offices as $campus_office){
+            $office = Office::where('id', $campus_office->office_id)->first();
             if ($office->parent_office_id != null){
                 $parent_office = Office::where('id', $office->parent_office_id)->first();
                 $parent_office_id = $office->parent_office_id;
@@ -76,12 +78,11 @@ class OfficeController extends Controller
                 $parent_office_id = null;
                 $office_name = null;
             }
-            foreach($campus_users as $campus_user){
-                $user = UserRole::where([
-                    ['user_id', $campus_user->user_id], ['role_id', 3]
-                ])->first();
-                if(!(is_null($user))){
-                    $user_credentials = User::where('id', $user->user_id)->first();
+            $office_users = OfficeUser::where('office_id', $campus_office->office_id)->get();
+            foreach ($office_users as $office_user){
+                $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+                if($user_role->user_role == 3){
+                    $user_credentials = User::where('id', $user_role->user_id)->first();
                     $collection->push([
                         'id' => $office->id,
                         'office_name'=> $office->office_name,
@@ -89,16 +90,69 @@ class OfficeController extends Controller
                         'email' => $office->email,
                         'parent_office_id' => $parent_office_id,
                         'parent_office_name' => $office_name,
-                        'user_id' => $user->user_id,
+                        'user_id' => $user_credentials->id,
                         'first_name' => $user_credentials->first_name,
                         'last_name'=> $user_credentials->last_name
                     ]);
                 }
             }
             if(!($collection->contains('id', $office->id))){
-                $collection->push(['id' => $office->id, 'office_name'=> $office->office_name, 'contact' => $office->contact, 'email' => $office->email,'parent_office_id' => $parent_office_id,'parent_office_name' => $office_name, 'user_id' => null, 'first_name' => null, 'last_name'=> null]);
+                $collection->push([
+                    'id' => $office->id,
+                    'office_name'=> $office->office_name,
+                    'contact' => $office->contact,
+                    'email' => $office->email,
+                    'parent_office_id' => $parent_office_id,
+                    'parent_office_name' => $office_name,
+                    'user_id' => null,
+                    'first_name' => null,
+                    'last_name'=> null]);
             }
         }
+//        foreach ($offices as $o){
+//            $campus_users = CampusUser::where('office_id', $o->office_id)->get();
+//            $office = Office::where('id', $o->office_id)->first();
+//            if ($office->parent_office_id != null){
+//                $parent_office = Office::where('id', $office->parent_office_id)->first();
+//                $parent_office_id = $office->parent_office_id;
+//                $office_name = $parent_office->office_name;
+//            }
+//            else{
+//                $parent_office_id = null;
+//                $office_name = null;
+//            }
+//            foreach($campus_users as $campus_user){
+//                $user = UserRole::where([
+//                    ['user_id', $campus_user->user_id], ['role_id', 3]
+//                ])->first();
+//                if(!(is_null($user))){
+//                    $user_credentials = User::where('id', $user->user_id)->first();
+//                    $collection->push([
+//                        'id' => $office->id,
+//                        'office_name'=> $office->office_name,
+//                        'contact' => $office->contact,
+//                        'email' => $office->email,
+//                        'parent_office_id' => $parent_office_id,
+//                        'parent_office_name' => $office_name,
+//                        'user_id' => $user->user_id,
+//                        'first_name' => $user_credentials->first_name,
+//                        'last_name'=> $user_credentials->last_name
+//                    ]);
+//                }
+//            }
+//            if(!($collection->contains('id', $office->id))){
+//                $collection->push([
+//                    'id' => $office->id,
+//                    'office_name'=> $office->office_name,
+//                    'contact' => $office->contact,
+//                    'email' => $office->email,
+//                    'parent_office_id' => $parent_office_id,
+//                    'parent_office_name' => $office_name,
+//                    'user_id' => null,
+//                    'first_name' => null,
+//                    'last_name'=> null]);
+//            }
+//        }
 
         return response()->json(['office' => $collection]);
     }

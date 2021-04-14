@@ -599,8 +599,22 @@ class AuthController extends Controller
         $campus_user = CampusUser::where([
             ['campus_id', $campusID],['user_id', $userID]
         ])->first();
+        $user_roles = UserRole::where('user_id', $userID)->get();
+        foreach ($user_roles as $user_role){
+           $office_users = OfficeUser::where('user_role_id', $user_role->id)->get();
+           foreach ($office_users as $office_user){
+               $campus_office = CampusOffice::where([
+                   ['campus_id', $campusID], ['office_id', $office_user->office_id]
+               ])->first();
+               if(!(is_null($campus_office))){
+                   $officeUser= OfficeUser::where('id', $office_user->id);
+                   $officeUser->delete();
+               }
+           }
+       }
         if(!(is_null($campus_user))){
             $campus_user->delete();
+            return response()->json(['status' => true, 'message' => 'Successfully removed user to this campus']);
         }
     }
 
