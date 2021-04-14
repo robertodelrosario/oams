@@ -145,4 +145,8 @@ class OfficeController extends Controller
         }
         return response()->json(['status' => true, 'message' => 'Successfully transfered offices']);
     }
+
+    function showAllOffice(){
+
+    }
 }

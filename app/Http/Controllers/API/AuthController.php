@@ -344,7 +344,7 @@ class AuthController extends Controller
             }
             return response()->json(['status' => true, 'message' => 'Successfully added user.']);
         }
-        return response()->json(['status' => false, 'message' => 'User was registered to other SUC']);
+        return response()->json(['status' => false, 'message' => 'User was registered to other campus']);
     }
 
 //    public function registerSucUser(Request $request, $id)
@@ -910,6 +910,15 @@ class AuthController extends Controller
     public function removeUser($id){
         $user = User::where('id', $id);
         $user->delete();
+    }
+
+    public function removeToCampus($campusID, $userID){
+        $campus_user = CampusUser::where([
+            ['campus_id', $campusID],['user_id', $userID]
+        ])->first();
+        if(!(is_null($campus_user))){
+            $campus_user->delete();
+        }
     }
 
 
