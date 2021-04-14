@@ -76,8 +76,8 @@ class AuthController extends Controller
             foreach ($user_roles as $user_role){
                 $campus_offices = CampusOffice::where('campus_id', $campus->campus_id)->get();
                 foreach ($campus_offices as $campus_office){
-                    $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
-                    if(!(is_null($office_user))) {
+                    $office_users = OfficeUser::where('user_role_id', $user_role->id)->get();
+                    foreach ($office_users as $office_user){
                         if ($campus_office->office_id == $office_user->office_id) {
                             $office = Office::where('id', $office_user->office_id)->first();
                             if(!($collection_1->contains('id',$office_user->id ))) {
@@ -94,6 +94,24 @@ class AuthController extends Controller
                             }
                         }
                     }
+//                    $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
+//                    if(!(is_null($office_user))) {
+//                        if ($campus_office->office_id == $office_user->office_id) {
+//                            $office = Office::where('id', $office_user->office_id)->first();
+//                            if(!($collection_1->contains('id',$office_user->id ))) {
+//                                $collection_1->push([
+//                                    'id' => $office_user->id,
+//                                    'user_role_id' => $user_role->id,
+//                                    'role_id' => $user_role->role_id,
+//                                    'role' => $user_role->role,
+//                                    'office_user_id' => $office->id,
+//                                    'office_id' => $office->id,
+//                                    'office_name' => $office->office_name,
+//                                    'campus_id' => $campus_office->campus_id
+//                                ]);
+//                            }
+//                        }
+//                    }
                 }
             }
         }
@@ -373,11 +391,11 @@ class AuthController extends Controller
                 ->where('users_roles.user_id', $user->id)
                 ->get();
             foreach ($roles as $role){
-                $office = DB::table('offices')
+                $offices = DB::table('offices')
                     ->join('offices_users', 'offices_users.office_id', '=', 'offices.id')
                     ->where('offices_users.user_role_id', $role->id)
-                    ->first();
-                if(!(is_null($office))) {
+                    ->get();
+                foreach ($offices as $office) {
                     $campus_office = CampusOffice::where([
                         ['campus_id', $id], ['office_id', $office->office_id]
                     ])->first();
@@ -402,6 +420,35 @@ class AuthController extends Controller
                         'office_name' => null
                     ]);
                 }
+//                $office = DB::table('offices')
+//                    ->join('offices_users', 'offices_users.office_id', '=', 'offices.id')
+//                    ->where('offices_users.user_role_id', $role->id)
+//                    ->first();
+//                if(!(is_null($office))) {
+//                    $campus_office = CampusOffice::where([
+//                        ['campus_id', $id], ['office_id', $office->office_id]
+//                    ])->first();
+//                    if(!(is_null($campus_office))) {
+//                        $collection_1->push([
+//                            'user_role_id' => $role->id,
+//                            'role_id' => $role->role_id,
+//                            'role' => $role->role,
+//                            'office_user_id' => $office->id,
+//                            'office_id' => $office->office_id,
+//                            'office_name' => $office->office_name
+//                        ]);
+//                    }
+//                }
+//                if($role->role_id == 7 || $role->role_id == 8){
+//                    $collection_1->push([
+//                        'user_role_id' => $role->id,
+//                        'role_id' => $role->role_id,
+//                        'role' => $role->role,
+//                        'office_user_id' => null,
+//                        'office_id' => null,
+//                        'office_name' => null
+//                    ]);
+//                }
             }
             $collection->push([
                 'id' =>  $campus_user->id,
@@ -417,24 +464,6 @@ class AuthController extends Controller
             ]);
         }
         return response()->json(['users' => $collection]);
-//        $users = DB::table('campuses_users')
-//            ->join('users', 'users.id', '=', 'campuses_users.user_id')
-//            ->where('campuses_users.campus_id', $id)
-//            ->select('campuses_users.id','campuses_users.user_id', 'users.first_name', 'users.last_name', 'users.email', 'users.password', 'users.status', 'users.contact_no')
-//            ->get();
-//        $office = DB::table('campuses_users')
-//            ->join('offices', 'offices.id', '=', 'campuses_users.office_id')
-//            ->where('campuses_users.campus_id', $id)
-//            ->get();
-//        $user_roles =array();
-//        foreach($users as $user){
-//            $roles = UserRole::where('user_id', $user->user_id)->get();
-//            foreach ($roles as $role){
-//                $rol = Role::where('id', $role->role_id)->first();
-//                $user_roles = Arr::prepend($user_roles,['user_id' => $user->user_id, 'role_id' => $role->role_id, 'role' => $rol->role]);
-//            }
-//        }
-//        return response()->json(['users' => $users,'office' =>  $office,'roles' => $user_roles]);
     }
 
     public function showTF($id){
