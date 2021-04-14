@@ -78,10 +78,9 @@ class OfficeController extends Controller
                 $office_name = null;
             }
             $office_users = OfficeUser::where('office_id', $campus_office->office_id)->get();
-            echo $office_users;
             foreach ($office_users as $office_user){
                 $user_role = UserRole::where('id', $office_user->user_role_id)->first();
-                if($user_role->user_role == 3){
+                if($user_role->role_id == 3){
                     $user_credentials = User::where('id', $user_role->user_id)->first();
                     $collection->push([
                         'id' => $office->id,
