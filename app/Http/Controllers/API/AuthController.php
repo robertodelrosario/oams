@@ -317,6 +317,7 @@ class AuthController extends Controller
         $campus_user = CampusUser::where([
             ['campus_id', $id], ['user_id', $userID]
         ])->first();
+        echo $campus_user;
         if(is_null($campus_user)){
             $campus_user = new CampusUser();
             $campus_user->campus_id = $id;
