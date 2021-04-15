@@ -119,7 +119,7 @@ class ApplicationController extends Controller
             }
             return response()->json(['status' => false, 'message' => 'Application is on going.']);
         }
-        $user = User::where('id', auth()->user()->id)->first();
+        $user = User::where('id', $application->sender_id)->first();
         return response()->json(['status' => false, 'message' => 'Only '.$user->first_name. ' '.$user->last_name. ' can delete the application']);
     }
 
