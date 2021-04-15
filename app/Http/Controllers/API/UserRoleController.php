@@ -97,7 +97,7 @@ class UserRoleController extends Controller
             ['user_id', $userID], ['role_id', $roleID]
         ])->first();
         $office_users = OfficeUser::where('user_role_id', $role->id)->get();
-        $count = count($office_user);
+        $count = count($office_users);
         foreach ($office_users as $office_user){
             if($office_user->office_id == $officeID){
                 $office_user->delete();
