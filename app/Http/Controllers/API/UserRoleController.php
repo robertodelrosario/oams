@@ -80,7 +80,7 @@ class UserRoleController extends Controller
         return response()->json(['status' => false, 'message' => 'Role already added to User']);
     }
 
-    public function deleteSetRole($userID, $roleID){
+    public function deleteSetRole($userID, $roleID, $officeID){
         if($roleID == 5){
             $campus_user = CampusUser::where('user_id', $userID)->first();
             $users = CampusUser::where('campus_id', $campus_user->campus_id)->get();
@@ -95,8 +95,15 @@ class UserRoleController extends Controller
         }
         $role = UserRole::where([
             ['user_id', $userID], ['role_id', $roleID]
-        ]);
-        $role->delete();
+        ])->first();
+        $office_users = OfficeUser::where('user_role_id', $role->id)->get();
+        $count = count($office_user);
+        foreach ($office_users as $office_user){
+            if($office_user->office_id == $officeID){
+                $office_user->delete();
+            }
+        }
+        if($count == 1) $role->delete();
         return response()->json(['status' => true, 'message' => 'Successfully remove role']);
     }
 

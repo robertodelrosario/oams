@@ -46,7 +46,7 @@ Route::group([
     Route::put('/changeAccreditorStatus/{id}', 'AuthController@changeAccreditorStatus');
 
     Route::post('setRole/{userID}', 'UserRoleController@setRole');
-    Route::delete('/deleteSetRole/{userID}/{roleID}', 'UserRoleController@deleteSetRole');
+    Route::delete('/deleteSetRole/{userID}/{roleID}/{officeID}', 'UserRoleController@deleteSetRole');
     Route::post('addRole', 'UserRoleController@addRole');
     Route::get('showRole', 'UserRoleController@showRole');
     Route::delete('deleteRole/{id}', 'UserRoleController@deleteRole');
