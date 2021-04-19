@@ -287,10 +287,9 @@ class DocumentController extends Controller
 
     public function viewLang($id){
         $file_link = Document::where('id', $id)->first();
-
         $file = File::get(storage_path("app/".$file_link->link));
         $type = File::mimeType(storage_path("app/".$file_link->link));
-        return response()->json(['link' => $file_link->link, 'type' => $type]);
+        return response()->json(['link' => "app/".$file_link->link, 'type' => $type]);
     }
 
     public function editDocumentName(request $request, $id){
