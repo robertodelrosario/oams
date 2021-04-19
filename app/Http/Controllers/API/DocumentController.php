@@ -290,11 +290,7 @@ class DocumentController extends Controller
 
         $file = File::get(storage_path("app/".$file_link->link));
         $type = File::mimeType(storage_path("app/".$file_link->link));
-//        dd($type);
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-//        return $response;
-        return response()->json(['link' => $response, 'type' => $type]);
+        return response()->stream($file, $file_link->file_name, $type);
     }
 
     public function editDocumentName(request $request, $id){
