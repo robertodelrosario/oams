@@ -287,8 +287,9 @@ class DocumentController extends Controller
 
     public function viewLang($id){
         $file_link = Document::where('id', $id)->first();
-        dd($file_link);
+
         $file = File::get(storage_path("app/".$file_link->link));
+        dd($file);
         $type = File::mimeType(storage_path("app/".$file_link->link));
         return response()->json(['link' => $file, 'type' => $type]);
     }
