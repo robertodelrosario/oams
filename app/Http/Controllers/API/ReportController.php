@@ -344,6 +344,7 @@ class ReportController extends Controller
         $assignedUsers = AssignedUser::where('app_program_id', $id)->get();
         if($role == 0) $role_str = 'internal accreditor';
         elseif($role == 1) $role_str = 'external accreditor';
+        elseif($role == 1) $role_str = 'external accreditor';
         $transactions = array();
         foreach ($assignedUsers as $assignedUser){
             $tran = DB::table('area_instruments')
