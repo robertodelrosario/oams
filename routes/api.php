@@ -171,6 +171,7 @@ Route::group(['prefix' => '/document'], function() {
     Route::delete('/deleteDocument/{id}', 'DocumentController@deleteDocument');
     Route::delete('/removeDocument/{id}', 'DocumentController@removeDocument');
     Route::get('/viewFile/{id}', 'DocumentController@viewFile');
+    Route::get('/viewLang/{id}', 'DocumentController@viewLang');
     Route::post('/makeDocumentList/{id}', 'DocumentController@makeDocumentList');
     Route::put('/editDocumentName/{id}', 'DocumentController@editDocumentName');
     Route::post('/addTag/{id}', 'DocumentController@addTag');
