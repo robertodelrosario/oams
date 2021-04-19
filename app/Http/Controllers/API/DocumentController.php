@@ -289,8 +289,8 @@ class DocumentController extends Controller
         $file_link = Document::where('id', $id)->first();
 
         $file = File::get(storage_path("app/".$file_link->link));
-        dd($file);
         $type = File::mimeType(storage_path("app/".$file_link->link));
+        dd($type);
         return response()->json(['link' => $file, 'type' => $type]);
     }
 
