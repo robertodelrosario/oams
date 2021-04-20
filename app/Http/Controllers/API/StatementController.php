@@ -189,7 +189,9 @@ class StatementController extends Controller
             $instrumentStatement->parent_statement_id = $request->parent_statement_id;
             $instrumentStatement->save();
 
-            $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
+            $parents = InstrumentStatement::where([
+                ['instrument_parameter_id',$request->instrument_parameter_id],['parent_statement_id', $request->id]
+            ])->get();
             foreach ($parents as $parent){
                 $parent->parent_statement_id = $benchmarkStatement->id;
                 $parent->save();
@@ -208,7 +210,9 @@ class StatementController extends Controller
             $instrumentStatement->parent_statement_id = $request->parent_statement_id;
             $instrumentStatement->save();
 
-            $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
+            $parents = InstrumentStatement::where([
+                ['instrument_parameter_id',$request->instrument_parameter_id],['parent_statement_id', $request->id]
+            ])->get();
             foreach ($parents as $parent){
                 $parent->parent_statement_id = $benchmarkStatement->id;
                 $parent->save();
@@ -222,7 +226,9 @@ class StatementController extends Controller
         $instrumentStatement->parent_statement_id = $request->parent_statement_id;
         $instrumentStatement->save();
 
-        $parents = InstrumentStatement::where('parent_statement_id', $request->id)->get();
+        $parents = InstrumentStatement::where([
+            ['instrument_parameter_id',$request->instrument_parameter_id],['parent_statement_id', $request->id]
+        ])->get();
         foreach ($parents as $parent){
             $parent->parent_statement_id = $statement->id;
             $parent->save();
