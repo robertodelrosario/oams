@@ -246,4 +246,8 @@ class StatementController extends Controller
             return response()->json(['status' => true, 'message' => 'removed statement from statement table']);
         }
     }
+
+    public function showAllStatement(){
+        return response()->json(BenchmarkStatement::all());
+    }
 }

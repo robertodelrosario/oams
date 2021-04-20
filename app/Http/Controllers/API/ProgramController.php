@@ -243,8 +243,5 @@ class ProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted instrument!']);
     }
 
-    public function showAllStatement(){
-        return response()->json(BenchmarkStatement::all());
-    }
 
 }
