@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -289,7 +290,11 @@ class DocumentController extends Controller
         $file_link = Document::where('id', $id)->first();
         $file = File::get(storage_path("app/".$file_link->link));
         $type = File::mimeType(storage_path("app/".$file_link->link));
-        return response()->json(['link' => "app/".$file_link->link, 'type' => $type]);
+        $url = Storage::url("app/".$file_link->link);
+        return response()->json(['url' => $url]);
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
     }
 
     public function editDocumentName(request $request, $id){
