@@ -304,7 +304,7 @@ class DocumentController extends Controller
         $type = File::mimeType(storage_path("app/".$file_link->link));
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
-        return view('view_file', compact('response'));
+        return view('view_file', compact('file_link'));
     }
 
     public function editDocumentName(request $request, $id){
