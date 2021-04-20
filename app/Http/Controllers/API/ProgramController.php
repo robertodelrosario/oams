@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\ApplicationProgram;
 use App\AreaInstrument;
+use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
 use App\InstrumentProgram;
@@ -118,15 +119,6 @@ class ProgramController extends Controller
 
     public function selectInstrument($programID, $intendedProgramID){
         $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
-
-//        $accreditions = ApplicationProgram::where('program_id', $programID)->get();
-//        $date = new Carbon;
-//        foreach($accreditions as $accredition){
-//            if (($accredition->approved_end_date < $date && $accredition->approved_start_date >= $date) || $accredition->status != 'done'){
-//                return response()->json(['status' => false, 'message'=>'Accreditation for this program is on going!']);
-//                break;
-//            }
-//        }
         $count = 0;
         foreach ($areas as $area){
             $check = InstrumentProgram::where([
@@ -249,6 +241,10 @@ class ProgramController extends Controller
         ]);
         $instrumentProgram->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted instrument!']);
+    }
+
+    public function showAllStatement(){
+        return response()->json(BenchmarkStatement::all());
     }
 
 }
