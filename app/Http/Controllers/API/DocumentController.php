@@ -296,6 +296,16 @@ class DocumentController extends Controller
 //        $response->header("Content-Type", $type);
 //        return $response;
     }
+    public function view($id){
+        $data = Document::where('id', $id)->first();
+//        $file = File::get(storage_path("app/".$file_link->link));
+//        $type = File::mimeType(storage_path("app/".$file_link->link));
+//        $url = Storage::path("app/".$file_link->link);
+        return view('view_file', compact('data'));
+//        $response = Response::make($file, 200);
+//        $response->header("Content-Type", $type);
+//        return $response;
+    }
 
     public function editDocumentName(request $request, $id){
         $document = Document::where('id', $id)->first();
