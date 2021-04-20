@@ -297,14 +297,14 @@ class DocumentController extends Controller
 //        return $response;
     }
     public function view($id){
-        $data = Document::where('id', $id)->first();
-//        $file = File::get(storage_path("app/".$file_link->link));
-//        $type = File::mimeType(storage_path("app/".$file_link->link));
-//        $url = Storage::path("app/".$file_link->link);
-        return view('view_file', compact('data'));
-//        $response = Response::make($file, 200);
-//        $response->header("Content-Type", $type);
-//        return $response;
+//        $data = Document::where('id', $id)->first();
+//        return view('view_file', compact('data'));
+        $file_link = Document::where('id', $id)->first();
+        $file = File::get(storage_path("app/".$file_link->link));
+        $type = File::mimeType(storage_path("app/".$file_link->link));
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return view('view_file', compact('response'));
     }
 
     public function editDocumentName(request $request, $id){
