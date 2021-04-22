@@ -56,6 +56,7 @@ class ProgramController extends Controller
             $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
             $program->rating_obtained = $request->rating_obtained;
             $program->campus_id = $id;
+            if(is_null($request->office_id)) $program->office_id = $request->office_id;
             $program->save();
             return response()->json(['status' => true, 'message' => 'Successfully added program!']);
         }

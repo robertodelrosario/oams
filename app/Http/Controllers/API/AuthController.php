@@ -521,6 +521,7 @@ class AuthController extends Controller
         }
         return response()->json(['users' => $collection]);
     }
+
     public function showLocalAccreditor($id){
         $campuses = Campus::where('suc_id', $id)->get();
         $accreditor_array = array();
