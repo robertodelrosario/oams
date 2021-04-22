@@ -46,7 +46,8 @@ class ProgramController extends Controller
             $program = new Program();
             $program->program_name = $request->program_name;
             $program->latest_applied_level = $request->latest_applied_level;
-            if($request->latest_applied_level == 'Candidate') $program->accreditation_status = 'Candidate';
+            if($request->latest_applied_level == 'For PSV Accreditation') $program->accreditation_status = 'For PSV Accreditation';
+            elseif($request->latest_applied_level == 'Candidate') $program->accreditation_status = 'Candidate';
             elseif ($request->latest_applied_level == 'Level I') $program->accreditation_status = 'Level I Accredited';
             elseif ($request->latest_applied_level == 'Level II') $program->accreditation_status = 'Level II Re-accredited';
             elseif ($request->latest_applied_level == 'Level III, Phase 1') $program->accreditation_status = 'Level II Re-accredited';
@@ -56,7 +57,7 @@ class ProgramController extends Controller
             $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
             $program->rating_obtained = $request->rating_obtained;
             $program->campus_id = $id;
-            if(is_null($request->office_id)) $program->office_id = $request->office_id;
+            if(!(is_null($request->office_id))) $program->office_id = $request->office_id;
             $program->save();
             return response()->json(['status' => true, 'message' => 'Successfully added program!']);
         }
