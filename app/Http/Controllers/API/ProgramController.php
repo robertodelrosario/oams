@@ -32,8 +32,7 @@ class ProgramController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'program_name' => 'required',
-            'latest_applied_level' => 'required',
-            'duration_of_validity' => 'required',
+            'latest_applied_level' => 'required'
         ]);
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
@@ -54,7 +53,7 @@ class ProgramController extends Controller
             elseif ($request->latest_applied_level == 'Level III, Phase 2') $program->accreditation_status = 'Level III Re-accredited';
             elseif ($request->latest_applied_level == 'Level IV, Phase 1') $program->accreditation_status = 'Level III Re-accredited';
             elseif ($request->latest_applied_level == 'Level IV, Phase 2') $program->accreditation_status = 'Level IV Re-accredited';
-            $program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
+            if(!(is_null($request->duration_of_validity)))$program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
             $program->rating_obtained = $request->rating_obtained;
             $program->campus_id = $id;
             if(!(is_null($request->office_id))) $program->office_id = $request->office_id;
