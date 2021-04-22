@@ -208,6 +208,6 @@ class OfficeController extends Controller
     }
 
     function showAllOffice(){
-
+        return response()->json(Office::all());
     }
 }
