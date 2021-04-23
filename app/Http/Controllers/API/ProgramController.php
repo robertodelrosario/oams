@@ -80,6 +80,7 @@ class ProgramController extends Controller
                 'accreditation_status' => $program->accreditation_status,
                 'latest_applied_level' => $program->latest_applied_level,
                 'duration_of_validity' => $program->duration_of_validity,
+                'type' => $program->type,
                 'campus_id' => $program->campus_id,
                 'created_at' => $program->created_at,
                 'updated_at' => $program->updated_at,
