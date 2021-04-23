@@ -245,5 +245,14 @@ class ProgramController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted instrument!']);
     }
 
+    public function showAllProgram(){
+        return response()->json(Program::all());
+    }
 
+    public function editProgramType($id, $type){
+        $program = Program::where('id', $id)->first();
+        if($type == 0) $program->type = 'Undergraduate';
+        else $program->type = 'Graduate';
+        $program->save();
+    }
 }
