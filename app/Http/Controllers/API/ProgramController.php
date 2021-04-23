@@ -45,6 +45,7 @@ class ProgramController extends Controller
             $program = new Program();
             $program->program_name = $request->program_name;
             $program->latest_applied_level = $request->latest_applied_level;
+            $program->type = $request->type;
             if($request->latest_applied_level == 'For PSV Accreditation') $program->accreditation_status = 'For PSV Accreditation';
             elseif($request->latest_applied_level == 'Candidate') $program->accreditation_status = 'Candidate';
             elseif ($request->latest_applied_level == 'Level I') $program->accreditation_status = 'Level I Accredited';
