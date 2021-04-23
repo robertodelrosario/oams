@@ -101,6 +101,7 @@ class ProgramController extends Controller
     public function editProgram(request $request, $id){
         $program = Program::where('id', $id)->first();
         $program->program_name = $request->program_name;
+        $program->type = $request->type;
         $program->save();
         return response()->json(['status' => true, 'message' => 'Successfully edited program name', 'suc' => $program]);
     }
