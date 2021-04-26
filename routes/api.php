@@ -101,6 +101,13 @@ Route::group(['prefix' => '/suc'], function() {
     Route::put('/editOffice/{id}', 'OfficeController@editOffice');
     Route::post('/transferOffice/{id}', 'OfficeController@transferOffice');
 
+    Route::post('/addBestPractice/{id}', 'OfficeController@addBestPractice');
+    Route::put('/editBestPractice/{id}', 'OfficeController@editBestPractice');
+    Route::delete('/deleteBestPractice/{id}', 'OfficeController@deleteBestPractice');
+    Route::get('/showBestPractice/{id}', 'OfficeController@showBestPractice');
+    Route::post('/attachDocument/{practice_office_id}/{document_id}', 'OfficeController@attachDocument');
+    Route::delete('/removeAttachDocument/{id}', 'OfficeController@removeAttachDocument');
+
     Route::post('/addProgram/{id}', 'ProgramController@addProgram');
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');
     Route::delete('/deleteProgram/{id}', 'ProgramController@deleteProgram');

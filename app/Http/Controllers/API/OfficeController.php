@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\BestPracticeDocument;
+use App\BestPracticeOffice;
 use App\CampusOffice;
 use App\CampusUser;
 use App\Document;
@@ -207,7 +209,83 @@ class OfficeController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully transfered offices']);
     }
 
-    function showAllOffice(){
+    public function showAllOffice(){
         return response()->json(Office::all());
     }
+
+    public function addBestPractice(request $request, $id){
+        $best_practice = new BestPracticeOffice();
+        $best_practice->best_practice = $request->best_practice;
+        $best_practice->office_id = $id;
+        $best_practice->user_id = auth()->user()->id;
+        $best_practice->save();
+        return response()->json(['status' => true, 'message' => 'Successfully added best practice']);
+    }
+
+    public function editBestPractice(request $request, $id){
+        $best_practice = BestPracticeOffice::where('id', $id)->first();
+        $best_practice->best_practice = $request->best_practice;
+        $best_practice->user_id = auth()->user()->id;
+        $best_practice->save();
+        return response()->json(['status' => true, 'message' => 'Successfully edited best practice']);
+    }
+
+    public function deleteBestPractice($id){
+        $best_practice = BestPracticeOffice::where('id', $id)->first();
+        $best_practice->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully removed best practice']);
+    }
+
+    public function showBestPractice($id){
+        $collection = new Collection();
+        $best_practices = BestPracticeOffice::where('office_id', $id)->get();
+        foreach ($best_practices as $best_practice){
+            $user = User::where('id', $best_practice->user_id)->first();
+            $best_practice_documents = BestPracticeDocument::where('id', $best_practice->id)->get();
+            $document_collection = new Collection();
+            foreach ($best_practice_documents as $best_practice_document){
+                $document = Document::where('id', $best_practice_document->document_id)->first();
+                $document_collection->push([
+                    'best_practice_document_id' => $best_practice_document->id,
+                    'document_id' => $best_practice_document->document_id,
+                    'document_name' => $document->document_name,
+                    'document_name' => $document->document_name,
+                    'link' => $document->link,
+                    'type' => $document->type,
+                ]);
+            }
+            $collection->push([
+                'best_practice_id' =>  $best_practice->id,
+                'best_practice' =>  $best_practice->best_practice,
+                'office_id' =>  $best_practice->office_id,
+                'user_id' =>  $user->id,
+                'first_name' =>  $user->first_name,
+                'last_name' =>  $user->last_name,
+                'files' => $document_collection
+            ]);
+        }
+        return response()->json(['best_practices' => $collection]);
+    }
+
+    public function attachDocument($practice_office_id, $document_id){
+        $best_practice_document = BestPracticeDocument::where([
+            ['document_id', $document_id], ['best_practice_office_id', $practice_office_id]
+        ])->first();
+        if(is_null($best_practice_document)) {
+            $best_practice_document = new BestPracticeDocument();
+            $best_practice_document->document_id = $document_id;
+            $best_practice_document->best_practice_office_id = $practice_office_id;
+            $best_practice_document->save();
+            return response()->json(['status' => true, 'message' => 'Successfully attached document to best practice']);
+        }
+        else return response()->json(['status' => false, 'message' => 'Document was already attached.']);
+    }
+
+    public function removeAttachDocument($id){
+        $best_practice_document = BestPracticeDocument::where('id', $id)->first();
+        $best_practice_document->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully removed attached document from best practice']);
+    }
+
+
 }

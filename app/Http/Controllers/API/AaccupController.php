@@ -205,11 +205,14 @@ class AaccupController extends Controller
 
     public function setAccreditorLead($id){
         $accreditorRequest = AccreditorRequest::where('id', $id)->first();
-        if($accreditorRequest->status == 'accepted') return response()->json(['status' => false ,'message' => 'Request already accepted.']);
         $programs = AccreditorRequest::where('application_program_id', $accreditorRequest->application_program_id)->get();
         foreach ($programs as $program){
             if(Str::contains($program->role, 'leader')) return response()->json(['status' => false ,'message' => 'The team has already a leader.']);
         }
+        if($accreditorRequest->status == 'accepted') {
+            
+        }
+
         $accreditorRequest->role = '[leader] '.$accreditorRequest->role;
         $accreditorRequest->save();
         return response()->json(['status' => true ,'message' => 'Successfully assigned the leader.', 'user'=>$accreditorRequest]);
