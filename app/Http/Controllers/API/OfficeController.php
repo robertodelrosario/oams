@@ -261,6 +261,7 @@ class OfficeController extends Controller
                 'user_id' =>  $user->id,
                 'first_name' =>  $user->first_name,
                 'last_name' =>  $user->last_name,
+                'updated_at' => $best_practice->updated_at,
                 'files' => $document_collection
             ]);
         }
