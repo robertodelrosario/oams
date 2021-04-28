@@ -253,6 +253,7 @@ class AuthController extends Controller
                 return response()->json(['status' => true, 'message' => 'User successfully registered']);
             }
         }
+        echo $check;
         if($role->id == 8){
             $campus_user = CampusUser::where([
                 ['campus_id', $id], ['user_id', $check->id]
@@ -294,7 +295,7 @@ class AuthController extends Controller
             }
             return response()->json(['status' => true, 'message' => 'campus', 'campuses' => $collection, 'user' => $check]);
         }
-        return response()->json(['status' => false, 'message' => 'User is not affiliated to any SUC']);
+        return response()->json(['status' => false, 'message' => 'User was already registered!']);
     }
 
     public function registerAaccupAccreditor(request $request){
