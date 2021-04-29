@@ -38,14 +38,14 @@ class PPPController extends Controller
             if($text['ppp_statement_id'] == null){
                 $ppp_statement = new PPPStatement();
                 $ppp_statement->statement = $text['statement'];
-                $ppp_statement->parameter_program_id = $id;
+                $ppp_statement->program_parameter_id = $id;
                 $ppp_statement->type = $text['type'];
                 $ppp_statement->save();
             }
             else{
                 $ppp_statement = PPPStatement::where('id', $text['ppp_statement_id'])->first();
                 $ppp_statement->statement = $text['statement'];
-                $ppp_statement->parameter_program_id = $id;
+                $ppp_statement->program_parameter_id = $id;
                 $ppp_statement->type = $text['type'];
                 $ppp_statement->save();
             }
