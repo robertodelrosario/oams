@@ -217,15 +217,15 @@ class AppliedProgramController extends Controller
             $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
 
             $compliance = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'Compliance Report'], ['area', $area_name[$area_number->area_number-1]]
+                ['application_program_id', $id], ['type', 'Compliance Report'], ['area', $area_name[$area_number->area_number-1]], ['status', 'approved']
             ])->get();
             foreach ($compliance as $c) $report = Arr::prepend($report,$c);
             $ppp = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'PPP'], ['area', $area_name[$area_number->area_number-1]]
+                ['application_program_id', $id], ['type', 'PPP'], ['area', $area_name[$area_number->area_number-1], ['status', 'approved']]
             ])->get();
             foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1]]
+                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1], ['status', 'approved']]
             ])->get();
             foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
@@ -235,6 +235,41 @@ class AppliedProgramController extends Controller
         foreach ($sar as $s) $report = Arr::prepend($report,$s);
         $sfr = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Internal SFR']
+        ])->get();
+        foreach ($sfr as $s) $report = Arr::prepend($report,$s);
+        return response()->json($report);
+    }
+
+    public function showFileEA($id,$Userid){
+        $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+        $areas = AssignedUser::where([
+            ['app_program_id', $id], ['user_id', $Userid]
+        ])->get();
+
+        $report = array();
+        foreach ($areas as $area){
+            $instrument = InstrumentProgram::where('id', $area->transaction_id)->first();
+            $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+
+            $compliance = ApplicationProgramFile::where([
+                ['application_program_id', $id], ['type', 'Compliance Report'], ['area', $area_name[$area_number->area_number-1]],['status', 'approved']
+            ])->get();
+            foreach ($compliance as $c) $report = Arr::prepend($report,$c);
+            $ppp = ApplicationProgramFile::where([
+                ['application_program_id', $id], ['type', 'PPP'], ['area', $area_name[$area_number->area_number-1]], ['status', 'approved']
+            ])->get();
+            foreach ($ppp as $p) $report = Arr::prepend($report,$p);
+            $narrative = ApplicationProgramFile::where([
+                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1]], ['status', 'approved']
+            ])->get();
+            foreach ($narrative as $n) $report = Arr::prepend($report,$n);
+        }
+        $sar = ApplicationProgramFile::where([
+            ['application_program_id', $id], ['type', 'External SAR']
+        ])->get();
+        foreach ($sar as $s) $report = Arr::prepend($report,$s);
+        $sfr = ApplicationProgramFile::where([
+            ['application_program_id', $id], ['type', 'External SFR']
         ])->get();
         foreach ($sfr as $s) $report = Arr::prepend($report,$s);
         return response()->json($report);
@@ -263,6 +298,16 @@ class AppliedProgramController extends Controller
         ])->get();
         foreach ($sfr as $s) $report = Arr::prepend($report,$s);
         return response()->json($report);
+    }
+
+    public function changeProgramFileStatus(request $request){
+        foreach ($request->file_ids as $file_id){
+            $file = ApplicationProgramFile::where('id',$file_id)->first();
+            if(is_null($file)) return response()->json(['status' => false, 'message' => 'id '.$file_id. ' does not exist']);
+            $file->status = $request->status;
+            $file->save();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully changed the file status.']);
     }
 
     public function viewProgramFile($id){

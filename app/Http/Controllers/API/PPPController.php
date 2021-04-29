@@ -15,20 +15,50 @@ use Illuminate\Support\Collection;
 
 class PPPController extends Controller
 {
+//    public function addPPPStatement(request $request,$id){
+//        foreach ($request->texts as $text) {
+//            $ppp_statement = PPPStatement::where([
+//                ['program_parameter_id', $id], ['statement', $text['statement']], ['type', $text['type']]
+//            ])->first();
+//            if(is_null($ppp_statement)){
+//                $ppp_statement = new PPPStatement();
+//                $ppp_statement->statement = $text['statement'];
+//                $ppp_statement->parameter_program_id = $id;
+//                $ppp_statement->type = $text['type'];
+//                $ppp_statement->save();
+//            }
+//        }
+//        return response()->json(['status' => true, 'message' => 'Successfully added statement/s!']);
+//    }
+
     public function addPPPStatement(request $request,$id){
-        foreach ($request->texts as $text) {
-            $ppp_statement = PPPStatement::where([
-                ['program_parameter_id', $id], ['statement', $text['statement']], ['type', $text['type']]
-            ])->first();
-            if(is_null($ppp_statement)){
+        //text['id', 'statement', 'type']
+        $collection_id = new Collection();
+        foreach ($request->texts as $text){
+            if($text['id'] == null){
                 $ppp_statement = new PPPStatement();
                 $ppp_statement->statement = $text['statement'];
                 $ppp_statement->parameter_program_id = $id;
                 $ppp_statement->type = $text['type'];
                 $ppp_statement->save();
             }
+            else{
+                $ppp_statement = PPPStatement::where('id', $text['id'])->first();
+                $ppp_statement->statement = $text['statement'];
+                $ppp_statement->parameter_program_id = $id;
+                $ppp_statement->type = $text['type'];
+                $ppp_statement->save();
+            }
+            $collection_id->push($ppp_statement->id);
         }
-        return response()->json(['status' => true, 'message' => 'Successfully added statement/s!']);
+        $ppp_statements = PPPStatement::where('parameter_program_id', $id)->get();
+        foreach($ppp_statements as $ppp_statement){
+            if($collection_id->contains($ppp_statement->id)){
+                continue;
+            }
+            else $ppp_statement->delete();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully saved.']);
     }
 
     public function editPPPStatement(request $request,$id){
