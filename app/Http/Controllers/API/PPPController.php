@@ -35,18 +35,18 @@ class PPPController extends Controller
         //text['id', 'statement', 'type']
         $collection_id = new Collection();
         foreach ($request->texts as $text){
-            if($text['id'] == null){
+            if($text->id == null){
                 $ppp_statement = new PPPStatement();
-                $ppp_statement->statement = $text['statement'];
+                $ppp_statement->statement = $text->statement;
                 $ppp_statement->parameter_program_id = $id;
-                $ppp_statement->type = $text['type'];
+                $ppp_statement->type = $text->type;
                 $ppp_statement->save();
             }
             else{
-                $ppp_statement = PPPStatement::where('id', $text['id'])->first();
-                $ppp_statement->statement = $text['statement'];
+                $ppp_statement = PPPStatement::where('id', $text->id)->first();
+                $ppp_statement->statement = $text->statement;
                 $ppp_statement->parameter_program_id = $id;
-                $ppp_statement->type = $text['type'];
+                $ppp_statement->type = $text->type;
                 $ppp_statement->save();
             }
             $collection_id->push($ppp_statement->id);
