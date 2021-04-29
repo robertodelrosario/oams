@@ -144,10 +144,12 @@ class PPPController extends Controller
                         'type' => $document->type,
                     ]);
                 }
+                $office = Office::where('id', $best_practice->office_id)->first();
                 $collection->push([
                     'best_practice_id' => $best_practice->id,
                     'best_practice' => $best_practice->best_practice,
                     'office_id' => $best_practice->office_id,
+                    'office_name' => $office->office_name,
                     'user_id' => $user->id,
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
