@@ -16,15 +16,15 @@ use Illuminate\Support\Collection;
 class PPPController extends Controller
 {
     public function addPPPStatement(request $request,$id){
-        foreach ($request->statements as $statement) {
+        foreach ($request->texts as $text) {
             $ppp_statement = PPPStatement::where([
-                ['parameter_program_id', $id], ['statement', $statement], ['type', $request->type]
+                ['program_parameter_id', $id], ['statement', $text['statement']], ['type', $text['type']]
             ])->first();
             if(is_null($ppp_statement)){
                 $ppp_statement = new PPPStatement();
-                $ppp_statement->statement = $statement;
+                $ppp_statement->statement = $text['statement'];
                 $ppp_statement->parameter_program_id = $id;
-                $ppp_statement->type = $request->type;
+                $ppp_statement->type = $text['type'];
                 $ppp_statement->save();
             }
         }
@@ -48,7 +48,7 @@ class PPPController extends Controller
 
     public function showPPPStatement($id){
         $collection = new Collection();
-        $ppp_statements = PPPStatement::where('parameter_program_id', $id)->get();
+        $ppp_statements = PPPStatement::where('program_parameter_id', $id)->get();
         foreach ($ppp_statements as $ppp_statement){
             $collection_document = new Collection();
             $ppp_statement_documents = PPPStatementDocument::where('ppp_statement_id', $ppp_statement->id)->get();
