@@ -51,7 +51,7 @@ class PPPController extends Controller
             }
             $collection_id->push($ppp_statement->id);
         }
-        $ppp_statements = PPPStatement::where('parameter_program_id', $id)->get();
+        $ppp_statements = PPPStatement::where('program_parameter_id', $id)->get();
         foreach($ppp_statements as $ppp_statement){
             if($collection_id->contains($ppp_statement->id)){
                 continue;
