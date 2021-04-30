@@ -84,13 +84,15 @@ class PPPController extends Controller
             $ppp_statement_documents = PPPStatementDocument::where('ppp_statement_id', $ppp_statement->id)->get();
             foreach ($ppp_statement_documents as $ppp_statement_document){
                 $document = Document::where('id', $ppp_statement_document->id)->first();
-                $collection_document->push([
-                    'ppp_statement_document_id' => $ppp_statement_document->id,
-                    'document_id' =>  $document->id,
-                    'document_name' =>  $document->document_name,
-                    'link' =>  $document->link,
-                    'type' =>  $document->type,
-                ]);
+                if(!(is_null($document))) {
+                    $collection_document->push([
+                        'ppp_statement_document_id' => $ppp_statement_document->id,
+                        'document_id' => $document->id,
+                        'document_name' => $document->document_name,
+                        'link' => $document->link,
+                        'type' => $document->type,
+                    ]);
+                }
             }
             $collection->push([
                 'ppp_statement_id' => $ppp_statement->id,
