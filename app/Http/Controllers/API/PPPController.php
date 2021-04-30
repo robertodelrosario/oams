@@ -21,7 +21,6 @@ use Illuminate\Support\Collection;
 require_once '/var/www/html/oams/vendor/autoload.php';
 //require_once 'C:\laragon\www\online_accreditation_management_system\vendor/autoload.php';
 use  \PhpOffice\PhpWord\PhpWord;
-//use PhpOffice\PhpWord\PhpWord;
 
 class PPPController extends Controller
 {
