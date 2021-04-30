@@ -128,6 +128,7 @@ class AppliedProgramController extends Controller
                 $applicationProgram->type = $request->type;
                 $applicationProgram->application_program_id = $id;
                 $applicationProgram->uploader_id = $userID;
+                $applicationProgram->status = 'pending';
                 $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
                 $area = null;
                 for($x=0; $x < 10; $x++){
