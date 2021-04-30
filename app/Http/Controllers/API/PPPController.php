@@ -18,7 +18,8 @@ use App\ProgramInstrument;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-require_once '/var/www/html/oams/vendor/autoload.php';
+//require_once '/var/www/html/oams/vendor/autoload.php';
+require_once 'C:\laragon\www\online_accreditation_management_system\vendor/autoload.php';
 use  PhpOffice\PhpWord\PhpWord;
 
 class PPPController extends Controller
@@ -312,5 +313,16 @@ class PPPController extends Controller
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($program->program_name.'_PPP_'.$area->area_name.'.docx');
         return response()->download(public_path($program->program_name.'_PPP_'.$area->area_name.'.docx'));
+    }
+
+    public function sample(){
+        $phpword = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpword->addSection();
+
+        $section->addText("Hello World!");
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpword, 'Word2007');
+        $objWriter->save('hello.docx');
+        return response()->download(public_path('hello.docx'));
     }
 }
