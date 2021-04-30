@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AreaInstrument;
 use App\BestPracticeDocument;
 use App\BestPracticeOffice;
 use App\Document;
 use App\Http\Controllers\Controller;
 use App\Office;
+use App\ParameterProgram;
 use App\PPPStatement;
 use App\PPPStatementDocument;
+use App\ProgramInstrument;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -83,16 +86,14 @@ class PPPController extends Controller
             $collection_document = new Collection();
             $ppp_statement_documents = PPPStatementDocument::where('ppp_statement_id', $ppp_statement->id)->get();
             foreach ($ppp_statement_documents as $ppp_statement_document){
-                $document = Document::where('id', $ppp_statement_document->id)->first();
-                if(!(is_null($document))) {
-                    $collection_document->push([
-                        'ppp_statement_document_id' => $ppp_statement_document->id,
-                        'document_id' => $document->id,
-                        'document_name' => $document->document_name,
-                        'link' => $document->link,
-                        'type' => $document->type,
-                    ]);
-                }
+                $document = Document::where('id', $ppp_statement_document->document_id)->first();
+                $collection_document->push([
+                    'ppp_statement_document_id' => $ppp_statement_document->id,
+                    'document_id' => $document->id,
+                    'document_name' => $document->document_name,
+                    'link' => $document->link,
+                    'type' => $document->type,
+                ]);
             }
             $collection->push([
                 'ppp_statement_id' => $ppp_statement->id,
@@ -161,5 +162,37 @@ class PPPController extends Controller
             }
         }
         return response()->json(['best_practices' => $collection]);
+    }
+
+    public function downloadPPP($id){
+        $collection = new Collection();
+        $instrument = ProgramInstrument::where('id', $id)->first();
+        $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+        $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
+        foreach ($parameters as $parameter) {
+            $ppp_statements = PPPStatement::where('program_parameter_id', $parameter->id)->get();
+            foreach ($ppp_statements as $ppp_statement) {
+                $collection_document = new Collection();
+                $ppp_statement_documents = PPPStatementDocument::where('ppp_statement_id', $ppp_statement->id)->get();
+                foreach ($ppp_statement_documents as $ppp_statement_document) {
+                    $document = Document::where('id', $ppp_statement_document->id)->first();
+                    if (!(is_null($document))) {
+                        $collection_document->push([
+                            'ppp_statement_document_id' => $ppp_statement_document->id,
+                            'document_id' => $document->id,
+                            'document_name' => $document->document_name,
+                            'link' => $document->link,
+                            'type' => $document->type,
+                        ]);
+                    }
+                }
+                $collection->push([
+                    'ppp_statement_id' => $ppp_statement->id,
+                    'statement' => $ppp_statement->statement,
+                    'type' => $ppp_statement->type,
+                    'files' => $collection_document
+                ]);
+            }
+        }
     }
 }
