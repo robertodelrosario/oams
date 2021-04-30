@@ -8,9 +8,6 @@ use App\AreaMean;
 use App\AssignedUser;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
-use App\Parameter;
-use App\ParameterProgram;
-use App\PPPStatement;
 use App\Program;
 use App\SFRInformation;
 use App\User;
@@ -20,9 +17,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-require_once '/var/www/html/oams/vendor/autoload.php';
-//require_once 'C:\laragon\www\online_accreditation_management_system\vendor/autoload.php';
-use  \PhpOffice\PhpWord\PhpWord;
+//require_once '/var/www/html/oams/vendor/autoload.php';
+////require_once 'C:\laragon\www\online_accreditation_management_system\vendor/autoload.php';
+//use  \PhpOffice\PhpWord\PhpWord;
 
 class ReportController extends Controller
 {
@@ -589,148 +586,4 @@ class ReportController extends Controller
         return $pdf->stream($prog->program_name. '_SFR.pdf');
     }
 
-    public function downloadPPP($id){
-        $instrument = InstrumentProgram::where('id', $id)->first();
-        $program = Program::where('id',$instrument->program_id)->first();
-        $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
-        $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
-//        foreach ($parameters as $parameter) {
-//            $ppp_statements = PPPStatement::where('program_parameter_id', $parameter->id)->get();
-//            $param = Parameter::where('id', $parameter->parameter_id)->first();
-//            foreach ($ppp_statements as $ppp_statement) {
-//                $collection_document = new Collection();
-//                $ppp_statement_documents = PPPStatementDocument::where('ppp_statement_id', $ppp_statement->id)->get();
-//                foreach ($ppp_statement_documents as $ppp_statement_document) {
-//                    $document = Document::where('id', $ppp_statement_document->document_id)->first();
-//                    $collection_document->push([
-//                        'ppp_statement_document_id' => $ppp_statement_document->id,
-//                        'document_id' => $document->id,
-//                        'document_name' => $document->document_name,
-//                        'link' => $document->link,
-//                        'type' => $document->type,
-//                    ]);
-//                }
-//                $collection->push([
-//                    'program_parameter_id' => $parameter->id,
-//                    'parameter_name'=> $param->parameter_name,
-//                    'ppp_statement_id' => $ppp_statement->id,
-//                    'statement' => $ppp_statement->statement,
-//                    'type' => $ppp_statement->type,
-//                    'files' => $collection_document
-//                ]);
-//            }
-//        }
-
-        $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
-
-        $styleFont1 = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
-        $styleFont2 = array('space' => array('before' => 1000, 'after' => 100));
-        $styleFont3 = array('indentation' => array('left' => 540, 'right' => 120), 'space' => array('before' => 360, 'after' => 280));
-        $styleFont4 = array('indentation' => array('left' => 1000, 'right' => 120));
-
-        $section->addText(
-            $area->area_name,array('bold' => true, 'size' => 14),
-            $styleFont1
-        );
-
-        foreach ($parameters as $parameter){
-            $collection = new Collection();
-            $param = Parameter::where('id', $parameter->parameter_id)->first();
-            $section->addText(
-                $param->parameter_name,array('bold' => true),
-                $styleFont2
-            );
-            $ppp_statements = PPPStatement::where('program_parameter_id', $parameter->id)->get();
-            foreach ($ppp_statements as $ppp_statement) {
-                $collection->push([
-                    'ppp_statement_id' => $ppp_statement->id,
-                    'statement' => $ppp_statement->statement,
-                    'type' => $ppp_statement->type
-                ]);
-            }
-            $section->addText(
-                "1. SYSTEM-INPUTS AND PROCESSES",array('bold' => true, 'size' => 14),
-                $styleFont3
-            );
-            $x = 1;
-            foreach ($collection as $c){
-                if($c['type'] == 'System Input and Process') {
-                    $section->addText(
-                        $x . '. ' . $c['statement'], [],
-                        $styleFont4
-                    );
-                    $x++;
-                }
-            }
-
-            $section->addText(
-                "2. IMPLEMENTATION",array('bold' => true, 'size' => 14),
-                $styleFont3
-            );
-
-            $x = 1;
-            foreach ($collection as $c){
-                if($c['type'] == 'Implementation') {
-                    $section->addText(
-                        $x . '. ' . $c['statement'], [],
-                        $styleFont4
-                    );
-                    $x++;
-                }
-            }
-
-            $section->addText(
-                "3. OUTCOMES",array('bold' => true, 'size' => 14),
-                $styleFont3
-            );
-
-            $x = 1;
-            foreach ($collection as $c){
-                if($c['type'] == 'Outcome') {
-                    $section->addText(
-                        $x . '. ' . $c['statement'], [],
-                        $styleFont4
-                    );
-                    $x++;
-                }
-            }
-
-            $section->addText(
-                "4. BEST PRACTICES",array('bold' => true, 'size' => 14),
-                $styleFont3
-            );
-
-            $x = 1;
-            foreach ($collection as $c){
-                if($c['type'] == 'Best Practice') {
-                    $section->addText(
-                        $x . '. ' . $c['statement'], [],
-                        $styleFont4
-                    );
-                    $x++;
-                }
-            }
-
-            $section->addText(
-                "5. EXTENT of COMPLIANCE",array('bold' => true, 'size' => 14),
-                $styleFont3
-            );
-
-            $x = 1;
-            foreach ($collection as $c){
-                if($c['type'] == 'Extent of Compliance') {
-                    $section->addText(
-                        $x . '. ' . $c['statement'], [],
-                        $styleFont4
-                    );
-                    $x++;
-                }
-            }
-            $section->addPageBreak();
-        }
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save($program->program_name.'_PPP_'.$area->area_name.'.docx');
-        return response()->download(public_path($program->program_name.'_PPP_'.$area->area_name.'.docx'));
-    }
 }

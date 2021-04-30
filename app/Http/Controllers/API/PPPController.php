@@ -19,7 +19,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 require_once '/var/www/html/oams/vendor/autoload.php';
-use  \PhpOffice\PhpWord\PhpWord;
+use  PhpOffice\PhpWord\PhpWord;
 
 class PPPController extends Controller
 {
