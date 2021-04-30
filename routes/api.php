@@ -289,7 +289,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showFileIA/{id}/{userID}', 'AppliedProgramController@showFileIA');
     Route::get('/showFileEA/{id}/{userID}', 'AppliedProgramController@showFileEA');
     Route::get('/showFileTF/{id}/{userID}', 'AppliedProgramController@showFileTF');
-    Route::get('/changeProgramFileStatus', 'AppliedProgramController@changeProgramFileStatus');
+    Route::put('/changeProgramFileStatus', 'AppliedProgramController@changeProgramFileStatus');
 
     Route::post('/uploadPPP/{id}', 'AppliedProgramController@uploadPPP');
     Route::post('/uploadCompliance/{id}', 'AppliedProgramController@uploadCompliance');
