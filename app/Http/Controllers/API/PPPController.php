@@ -202,7 +202,7 @@ class PPPController extends Controller
 //            }
 //        }
 
-        $phpWord = new PhpWord();
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
 
         $styleFont1 = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
