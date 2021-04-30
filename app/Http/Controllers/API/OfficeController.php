@@ -241,7 +241,7 @@ class OfficeController extends Controller
         $best_practices = BestPracticeOffice::where('office_id', $id)->get();
         foreach ($best_practices as $best_practice){
             $user = User::where('id', $best_practice->user_id)->first();
-            $best_practice_documents = BestPracticeDocument::where('id', $best_practice->id)->get();
+            $best_practice_documents = BestPracticeDocument::where('best_practice_office_id', $best_practice->id)->get();
             $document_collection = new Collection();
             foreach ($best_practice_documents as $best_practice_document){
                 $document = Document::where('id', $best_practice_document->document_id)->first();
