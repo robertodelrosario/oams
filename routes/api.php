@@ -146,6 +146,7 @@ Route::group(['prefix' => '/ppp'], function() {
     Route::post('/attachFile/{statement_id}/{document_id}', 'PPPController@attachFile');
     Route::delete('/removeFile/{id}', 'PPPController@removeFile');
     Route::get('/showAllBestPractice/{id}', 'PPPController@showAllBestPractice');
+    Route::get('/downloadPPP/{id}', 'PPPController@downloadPPP');
 });
 
 Route::group(['prefix' => '/aaccup'], function() {

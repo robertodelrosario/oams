@@ -12,6 +12,7 @@ use App\Parameter;
 use App\ParameterProgram;
 use App\PPPStatement;
 use App\PPPStatementDocument;
+use App\Program;
 use App\ProgramInstrument;
 use App\User;
 use Illuminate\Http\Request;
@@ -170,6 +171,7 @@ class PPPController extends Controller
 
     public function downloadPPP($id){
         $instrument = ProgramInstrument::where('id', $id)->first();
+        $program = Program::where('id',$instrument->program_id)->first();
         $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
         $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
 //        foreach ($parameters as $parameter) {
@@ -243,7 +245,7 @@ class PPPController extends Controller
             }
 
             $section->addText(
-                "2. IMPLENTATION",array('bold' => true, 'size' => 14),
+                "2. IMPLEMENTATION",array('bold' => true, 'size' => 14),
                 $styleFont3
             );
 
@@ -259,13 +261,13 @@ class PPPController extends Controller
             }
 
             $section->addText(
-                "2. IMPLEMENTATION",array('bold' => true, 'size' => 14),
+                "3. OUTCOMES",array('bold' => true, 'size' => 14),
                 $styleFont3
             );
 
             $x = 1;
             foreach ($collection as $c){
-                if($c['type'] == 'Implementation') {
+                if($c['type'] == 'Outcome') {
                     $section->addText(
                         $x . '. ' . $c['statement'], [],
                         $styleFont4
@@ -273,6 +275,42 @@ class PPPController extends Controller
                     $x++;
                 }
             }
+
+            $section->addText(
+                "4. BEST PRACTICES",array('bold' => true, 'size' => 14),
+                $styleFont3
+            );
+
+            $x = 1;
+            foreach ($collection as $c){
+                if($c['type'] == 'Best Practice') {
+                    $section->addText(
+                        $x . '. ' . $c['statement'], [],
+                        $styleFont4
+                    );
+                    $x++;
+                }
+            }
+
+            $section->addText(
+                "5. EXTENT of COMPLIANCE",array('bold' => true, 'size' => 14),
+                $styleFont3
+            );
+
+            $x = 1;
+            foreach ($collection as $c){
+                if($c['type'] == 'Extent of Compliance') {
+                    $section->addText(
+                        $x . '. ' . $c['statement'], [],
+                        $styleFont4
+                    );
+                    $x++;
+                }
+            }
+            $section->addPageBreak();
         }
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($program->program_name.'_PPP_'.$area->area_name.'.docx');
+        return response()->download(public_path($program->program_name.'_PPP_'.$area->area_name.'.docx'));
     }
 }
