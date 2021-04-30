@@ -18,7 +18,7 @@ use App\ProgramInstrument;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-require_once '/var/www/html/oams/vendor/autoload.php';
+//require_once '/var/www/html/oams/vendor/autoload.php';
 use  \PhpOffice\PhpWord\PhpWord;
 
 class PPPController extends Controller
@@ -201,7 +201,7 @@ class PPPController extends Controller
 //            }
 //        }
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
         $styleFont1 = array('align'=>\PhpOffice\PhpWord\Style\Cell::VALIGN_CENTER);
