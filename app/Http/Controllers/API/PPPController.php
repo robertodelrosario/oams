@@ -7,6 +7,7 @@ use App\BestPracticeDocument;
 use App\BestPracticeOffice;
 use App\Document;
 use App\Http\Controllers\Controller;
+use App\InstrumentProgram;
 use App\Office;
 use App\Parameter;
 use App\ParameterProgram;
@@ -170,7 +171,7 @@ class PPPController extends Controller
     }
 
     public function downloadPPP($id){
-        $instrument = ProgramInstrument::where('id', $id)->first();
+        $instrument = InstrumentProgram::where('id', $id)->first();
         $program = Program::where('id',$instrument->program_id)->first();
         $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
         $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
