@@ -136,15 +136,74 @@ class StatementController extends Controller
         }
     }
 
+    public function createCriteriaStatement(request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'statement' => 'required',
+            'type' => 'required',
+        ]);
+        if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process statement. Required data']);
+        $check = BenchmarkStatement::where('statement', $request->statement)->first();
+
+        $benchmarkStatement = new BenchmarkStatement();
+
+        $instrument_parameter = InstrumentParameter::where('area_instrument_id', $id)->first();
+
+        if(is_null($check)){
+            $benchmarkStatement->statement = $request->statement;
+            $benchmarkStatement->type = $request->type;
+            $benchmarkStatement->save();
+
+            $instrumentStatement = new InstrumentStatement();
+            $instrumentStatement->instrument_parameter_id = $instrument_parameter->id;
+            $instrumentStatement->benchmark_statement_id = $benchmarkStatement->id;
+            $instrumentStatement->parent_statement_id = $request->statement_parent;
+            $instrumentStatement->save();
+
+            $collections = new Collection();
+            $collections->push([
+                'id'=>$benchmarkStatement->id,
+                'instrument_parameter_id' => $instrument_parameter->id,
+                'statement'=>$benchmarkStatement->statement,
+                'type'=>$benchmarkStatement->type,
+                'parent_statement_id'=>$instrumentStatement->parent_statement_id
+            ]);
+            return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
+        }
+        else{
+            $test = InstrumentStatement::where([
+                ['instrument_parameter_id', $instrument_parameter->id], ['benchmark_statement_id', $check->id]
+            ])->first();
+
+            if(is_null($test)){
+                $instrumentStatement = new InstrumentStatement();
+                $instrumentStatement->instrument_parameter_id = $instrument_parameter->id;
+                $instrumentStatement->benchmark_statement_id = $check->id;
+                $instrumentStatement->parent_statement_id = $request->statement_parent;
+                $instrumentStatement->save();
+
+                $collections = new Collection();
+                $collections->push([
+                    'id'=>$check->id,
+                    'instrument_parameter_id' => $instrument_parameter->id,
+                    'statement'=>$check->statement,
+                    'type'=>$check->type,
+                    'parent_statement_id'=>$instrumentStatement->parent_statement_id
+                ]);
+                return response()->json(['status' => true, 'message' => 'Successfully added benchmark statements!', 'statement' => $collections]);
+            }
+            return response()->json(['status' => false, 'message' => 'Statement was already added.']);
+        }
+    }
+
     public function showStatement($id){
-        $instrumentStatement = DB::table('instruments_statements')
-            ->join('instruments_parameters', 'instruments_parameters.id', '=', 'instruments_statements.instrument_parameter_id' )
-            ->join('parameters', 'parameters.id', '=' , 'instruments_parameters.parameter_id')
-            ->join('benchmark_statements','instruments_statements.benchmark_statement_id','=', 'benchmark_statements.id')
-            ->where('instruments_parameters.area_instrument_id',$id )
-            ->select('instruments_statements.instrument_parameter_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','instruments_statements.parent_statement_id', 'instruments_parameters.parameter_id', 'parameters.parameter')
-            ->orderBy('parameters.parameter')
-            ->get();
+//        $instrumentStatement = DB::table('instruments_statements')
+//            ->join('instruments_parameters', 'instruments_parameters.id', '=', 'instruments_statements.instrument_parameter_id' )
+//            ->join('parameters', 'parameters.id', '=' , 'instruments_parameters.parameter_id')
+//            ->join('benchmark_statements','instruments_statements.benchmark_statement_id','=', 'benchmark_statements.id')
+//            ->where('instruments_parameters.area_instrument_id',$id )
+//            ->select('instruments_statements.instrument_parameter_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','instruments_statements.parent_statement_id', 'instruments_parameters.parameter_id', 'parameters.parameter')
+//            ->orderBy('parameters.parameter')
+//            ->get();
         $collection = new Collection();
         $instrument_parameters = InstrumentParameter::where('area_instrument_id', $id)->get();
         foreach ($instrument_parameters as $instrument_parameter){

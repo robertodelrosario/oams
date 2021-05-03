@@ -225,6 +225,7 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::post('/cloneInstrument/{id}', 'InstrumentController@cloneInstrument');
 //    Route::post('/createStatement', 'StatementController@createStatement');
     Route::post('/createStatement/{id}', 'StatementController@createStatement');
+    Route::post('/createCriteriaStatement/{id}', 'StatementController@createCriteriaStatement');
     Route::post('/createParameter', 'ParameterController@createParameter');
     Route::get('/showProgram', 'InstrumentController@showProgram');
     Route::get('/showParameter/{id}', 'ParameterController@showParameter');
