@@ -59,6 +59,20 @@ class PPPController extends Controller
                 $ppp_statement->save();
             }
             $collection_id->push($ppp_statement->id);
+            if($text['best_practice_id'] != null){
+                $files = BestPracticeDocument::where('best_practice_office_id', $text['best_practice_id'])->get();
+                foreach($files as $file){
+                    $ppp_statement_document = PPPStatementDocument::where([
+                        ['ppp_statement_id', $ppp_statement->id], ['document_id', $file->document_id]
+                    ])->first();
+                    if(is_null($ppp_statement_document)){
+                        $ppp_statement_document = new PPPStatementDocument();
+                        $ppp_statement_document->ppp_statement_id = $ppp_statement->id;
+                        $ppp_statement_document->document_id = $file->document_id;
+                        $ppp_statement_document->save();
+                    }
+                }
+            }
         }
         $ppp_statements = PPPStatement::where('program_parameter_id', $id)->get();
         foreach($ppp_statements as $ppp_statement){
