@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\AreaInstrument;
 use App\BenchmarkStatement;
+use App\InstrumentParameter;
 use App\InstrumentStatement;
 use App\Parameter;
 use App\ParameterStatement;
@@ -135,20 +136,6 @@ class StatementController extends Controller
         }
     }
 
-//    public function showStatement($id){
-//        $instrumentStatement = DB::table('instruments_statements')
-//            ->leftjoin('benchmark_statements','instruments_statements.benchmark_statement_id','=', 'benchmark_statements.id')
-//            ->leftjoin('parameters_statements', 'parameters_statements.benchmark_statement_id', '=', 'benchmark_statements.id')
-//            ->leftjoin('parameters', 'parameters.id', '=' , 'parameters_statements.parameter_id')
-//            ->leftjoin('instruments_parameters', 'instruments_parameters.parameter_id', '=', 'parameters.id')
-//            ->where('instruments_parameters.area_instrument_id',$id )
-//            ->where('instruments_statements.area_instrument_id', $id)
-//            ->select('instruments_statements.area_instrument_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','instruments_statements.parent_statement_id', 'parameters_statements.parameter_id', 'parameters.parameter')
-//            ->orderBy('parameters.parameter')
-//            ->get();
-//        return response()->json($instrumentStatement);
-//    }
-
     public function showStatement($id){
         $instrumentStatement = DB::table('instruments_statements')
             ->join('instruments_parameters', 'instruments_parameters.id', '=', 'instruments_statements.instrument_parameter_id' )
@@ -158,7 +145,25 @@ class StatementController extends Controller
             ->select('instruments_statements.instrument_parameter_id', 'benchmark_statements.id','benchmark_statements.statement','benchmark_statements.type','instruments_statements.parent_statement_id', 'instruments_parameters.parameter_id', 'parameters.parameter')
             ->orderBy('parameters.parameter')
             ->get();
-        return response()->json($instrumentStatement);
+        $collection = new Collection();
+        $instrument_parameters = InstrumentParameter::where('area_instrument_id', $id)->get();
+        foreach ($instrument_parameters as $instrument_parameter){
+            $parameter = Parameter::where('id', $instrument_parameter->parameter_id)->first();
+            $instrument_statements = InstrumentStatement::where('instrument_parameter_id', $instrument_parameter->id)->get();
+            foreach ($instrument_statements as $instrument_statement){
+                $benchmark_statement = BenchmarkStatement::where('id', $instrument_statement->benchmark_statement_id)->first();
+                $collection->push([
+                   'instrument_parameter_id' => $instrument_parameter->id,
+                   'id' => $benchmark_statement->id,
+                   'statement' => $benchmark_statement->statement,
+                   'type' => $benchmark_statement->type,
+                   'parent_statement_id' => $instrument_statement->parent_statement_id,
+                   'parameter_id' => $instrument_parameter->parameter_id,
+                   'parameter' => $parameter->parameter
+                ]);
+            }
+        }
+        return response()->json($collection);
     }
 
     public function editStatement(request $request){
