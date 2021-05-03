@@ -87,7 +87,7 @@ class InstrumentController extends Controller
             $areaInstrument->save();
 
             $parameter = new Parameter();
-            $parameter->parameter = 'PARAMETER FOR AREA '.$x+1;
+            $parameter->parameter = 'PARAMETER FOR AREA '.($x+1);
             $parameter->save();
             $parameter->areaInstruments()->attach($areaInstrument);
         }
