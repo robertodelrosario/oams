@@ -64,6 +64,36 @@ class InstrumentController extends Controller
 
     }
 
+    public function createCriteriaInstrument(){
+        $intendedProgram = new ProgramInstrument();
+        $intendedProgram->intended_program = 'Criteria Form';
+        $intendedProgram->type_of_instrument = null;
+        $intendedProgram->save();
+
+        $area_name = [
+            "INSTRUCTION",
+            "EXTENSION",
+            "RESEARCH",
+            "FACULTY",
+            "LICENSURE EXAM",
+            "CONSORTIA OR LINKAGE ",
+            "LIBRARY"];
+        for($x=0;$x<7;$x++){
+            $areaInstrument = new AreaInstrument();
+            $areaInstrument->intended_program_id = $intendedProgram->id;
+            $areaInstrument->area_number = $x+1;
+            $areaInstrument->area_name = $area_name[$x];
+            $areaInstrument->version = "version 1";
+            $areaInstrument->save();
+
+            $parameter = new Parameter();
+            $parameter->parameter = 'PARAMETER FOR AREA '.$x+1;
+            $parameter->save();
+            $parameter->areaInstruments()->attach($areaInstrument);
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
+    }
+
     public function showProgram(){
         return response()->json(ProgramInstrument::all());
     }
