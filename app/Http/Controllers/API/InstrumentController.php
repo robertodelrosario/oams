@@ -95,7 +95,7 @@ class InstrumentController extends Controller
     }
 
     public function showProgram(){
-        return response()->json(ProgramInstrument::all());
+        return response()->json(ProgramInstrument::where('id', '!=', 42)->get());
     }
     public function showInstrument($id){
         $instruments = AreaInstrument::where('intended_program_id', $id)->get();
