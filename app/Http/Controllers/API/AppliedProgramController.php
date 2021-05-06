@@ -47,6 +47,7 @@ class AppliedProgramController extends Controller
 //            ['application_id', $request->application_id], ['program_id', $request->program_id]
 //        ])->first();
         $programs = ApplicationProgram::where('program_id', $request->program_id)->get();
+        $check = 'valid';
         foreach ($programs as $program){
             if($program->status != 'done'){
                 $check = 'invalid';
