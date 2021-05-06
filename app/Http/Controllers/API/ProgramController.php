@@ -162,7 +162,6 @@ class ProgramController extends Controller
                         }
                     }
                 }
-
             }
             return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
         }

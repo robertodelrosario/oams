@@ -11,11 +11,15 @@ use App\AssignedUser;
 use App\AssignedUserHead;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
+use App\InstrumentParameter;
 use App\InstrumentProgram;
+use App\InstrumentStatement;
 use App\Office;
 use App\OfficeUser;
+use App\ParameterProgram;
 use App\Program;
 use App\ProgramInstrument;
+use App\ProgramStatement;
 use App\Transaction;
 use App\User;
 use App\UserRole;
@@ -27,6 +31,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Str;
 
 class AppliedProgramController extends Controller
 {
@@ -38,10 +43,18 @@ class AppliedProgramController extends Controller
 
     public function program(request $request)
     {
-        $check = ApplicationProgram::where([
-            ['application_id', $request->application_id], ['program_id', $request->program_id]
-        ])->first();
-        if(is_null($check)){
+//        $check = ApplicationProgram::where([
+//            ['application_id', $request->application_id], ['program_id', $request->program_id]
+//        ])->first();
+        $programs = ApplicationProgram::where('program_id', $request->program_id)->get();
+        foreach ($programs as $program){
+            if($program->status != 'done'){
+                $check = 'invalid';
+                break;
+            }
+            $check = 'valid';
+        }
+        if($check == 'valid'){
             $program = new ApplicationProgram();
             $program->application_id = $request->application_id;
             $program->program_id = $request->program_id;
@@ -80,6 +93,67 @@ class AppliedProgramController extends Controller
                             $task->user_id = $user_role->user_id;
                             $task->role = 'college task force head';
                             $task->save();
+                        }
+                    }
+                }
+            }
+            if(Str::contains($program->level, 'Level III') || Str::contains($program->level, 'Level IV')){
+                $instrument = InstrumentProgram::where('program_id', $request->program_id);
+                $instrument->delete();
+                $areas = AreaInstrument::where('intended_program_id', 42)->get();
+                foreach ($areas as $area){
+                    if($prog->type == 'undergraduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'EXTENSION')) {
+                        $instrumentProgram = new InstrumentProgram();
+                        $instrumentProgram->program_id = $request->program_id;
+                        $instrumentProgram->area_instrument_id = $area->id;
+                        $instrumentProgram->save();
+
+                        $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                        if (count($instrumentParamenters) != 0) {
+                            foreach ($instrumentParamenters as $instrumentParamenter) {
+                                $parameter = new ParameterProgram();
+                                $parameter->program_instrument_id = $instrumentProgram->id;
+                                $parameter->parameter_id = $instrumentParamenter->parameter_id;
+                                $parameter->save();
+
+                                $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                                if (count($statements) != 0) {
+                                    foreach ($statements as $statement) {
+                                        $programStatement = new ProgramStatement();
+                                        $programStatement->program_parameter_id = $parameter->id;
+                                        $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                        $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                        $programStatement->save();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    elseif($prog->type == 'graduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'RESEARCH')) {
+                        $instrumentProgram = new InstrumentProgram();
+                        $instrumentProgram->program_id = $request->program_id;
+                        $instrumentProgram->area_instrument_id = $area->id;
+                        $instrumentProgram->save();
+
+                        $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                        if (count($instrumentParamenters) != 0) {
+                            foreach ($instrumentParamenters as $instrumentParamenter) {
+                                $parameter = new ParameterProgram();
+                                $parameter->program_instrument_id = $instrumentProgram->id;
+                                $parameter->parameter_id = $instrumentParamenter->parameter_id;
+                                $parameter->save();
+
+                                $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                                if (count($statements) != 0) {
+                                    foreach ($statements as $statement) {
+                                        $programStatement = new ProgramStatement();
+                                        $programStatement->program_parameter_id = $parameter->id;
+                                        $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                        $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                        $programStatement->save();
+                                    }
+                                }
+                            }
                         }
                     }
                 }

@@ -308,6 +308,10 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/viewSupportDocument/{id}', 'MSIAttachmentController@viewSupportDocument');
     Route::get('/showDocument', 'MSIAttachmentController@showDocument');
 
+    Route::post('/attachAreaSupportDocument/{id}/{doc_id}', 'MSIAttachmentController@attachAreaSupportDocument');
+    Route::delete('/removeAreaSupportDocument/{id}', 'MSIAttachmentController@removeAreaSupportDocument');
+    Route::get('/showAreaSupportDocument/{id}', 'MSIAttachmentController@showAreaSupportDocument');
+
     Route::get('/showStatementDocument/{id}/{transactionID}', 'MSIController@showStatementDocument');
 
     Route::post('/uploadDummyDocument', 'MSITransactionController@uploadDummyDocument');
@@ -335,5 +339,10 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::get('/showSFRData/{id}/{role}', 'MSIEvaluationController@showSFRData');
     Route::get('/showProgramSAR/{app_prog}/{role}', 'OverviewController@showProgramSAR');
+
+    Route::get('/showCriteriaInstrument', 'CriteriaForm@showCriteriaInstrument');
+    Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
+    Route::delete('/removeInstrument/{id}/{program_id}', 'CriteriaForm@removeInstrument');
+
 });
 
