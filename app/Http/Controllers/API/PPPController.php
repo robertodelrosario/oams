@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 require_once '/var/www/html/oams/vendor/autoload.php';
 //require_once 'C:\laragon\www\online_accreditation_management_system\vendor/autoload.php';
-use  PhpOffice\PhpWord\PhpWord;
+use  \PhpOffice\PhpWord\PhpWord;
 
 class PPPController extends Controller
 {
@@ -330,7 +330,7 @@ class PPPController extends Controller
     }
 
     public function sample(){
-        $phpword = new \PhpOffice\PhpWord\PhpWord();
+        $phpword = new PhpWord();
         $section = $phpword->addSection();
 
         $section->addText("Hello World!");
