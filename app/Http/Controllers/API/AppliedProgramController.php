@@ -103,7 +103,7 @@ class AppliedProgramController extends Controller
                 $instrument->delete();
                 $areas = AreaInstrument::where('intended_program_id', 42)->get();
                 foreach ($areas as $area){
-                    if($prog->type == 'undergraduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'EXTENSION')) {
+                    if($prog->type == 'Undergraduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'EXTENSION')) {
                         $instrumentProgram = new InstrumentProgram();
                         $instrumentProgram->program_id = $request->program_id;
                         $instrumentProgram->area_instrument_id = $area->id;
@@ -130,7 +130,7 @@ class AppliedProgramController extends Controller
                             }
                         }
                     }
-                    elseif($prog->type == 'graduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'RESEARCH')) {
+                    elseif($prog->type == 'Graduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'RESEARCH')) {
                         $instrumentProgram = new InstrumentProgram();
                         $instrumentProgram->program_id = $request->program_id;
                         $instrumentProgram->area_instrument_id = $area->id;
