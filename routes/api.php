@@ -342,7 +342,7 @@ Route::group(['prefix' => '/application'], function() {
 
     Route::get('/showCriteriaInstrument', 'CriteriaForm@showCriteriaInstrument');
     Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
-    Route::delete('/removeInstrument/{id}/{program_id}', 'CriteriaForm@removeInstrument');
+    Route::delete('/removeInstrument/{id}', 'CriteriaForm@removeInstrument');
 
 });
 

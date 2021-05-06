@@ -53,10 +53,8 @@ class CriteriaForm extends Controller
         return response()->json(['status' => true, 'message'=> 'Successfully added']);
     }
 
-    public function removeInstrument($id,$program_id){
-        $check = InstrumentProgram::where([
-            ['program_id', $program_id], ['area_instrument_id',$id]
-        ])->first();
+    public function removeInstrument($id){
+        $check = InstrumentProgram::where('id', $id)->first();
         $check->delete();
         return response()->json(['status' => true, 'message'=> 'Successfully removed.']);
     }
