@@ -245,6 +245,10 @@ class PPPController extends Controller
                 ]);
             }
             $section->addText(
+                $param->parameter,array('bold' => true, 'size' => 14),
+                $styleFont1
+            );
+            $section->addText(
                 "1. SYSTEM-INPUTS AND PROCESSES",array('bold' => true, 'size' => 14),
                 $styleFont3
             );
