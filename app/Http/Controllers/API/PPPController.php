@@ -245,11 +245,11 @@ class PPPController extends Controller
                 ]);
             }
             $section->addText(
-                $param->parameter,array('bold' => true, 'size' => 14),
+                $param->parameter,array('bold' => true, 'size' => 12),
                 $styleFont1
             );
             $section->addText(
-                "1. SYSTEM-INPUTS AND PROCESSES",array('bold' => true, 'size' => 14),
+                "1. SYSTEM-INPUTS AND PROCESSES",array('bold' => true, 'size' => 12),
                 $styleFont3
             );
             $x = 1;
@@ -264,7 +264,7 @@ class PPPController extends Controller
             }
 
             $section->addText(
-                "2. IMPLEMENTATION",array('bold' => true, 'size' => 14),
+                "2. IMPLEMENTATION",array('bold' => true, 'size' => 12),
                 $styleFont3
             );
 
@@ -280,7 +280,7 @@ class PPPController extends Controller
             }
 
             $section->addText(
-                "3. OUTCOMES",array('bold' => true, 'size' => 14),
+                "3. OUTCOMES",array('bold' => true, 'size' => 12),
                 $styleFont3
             );
 
@@ -296,7 +296,7 @@ class PPPController extends Controller
             }
 
             $section->addText(
-                "4. BEST PRACTICES",array('bold' => true, 'size' => 14),
+                "4. BEST PRACTICES",array('bold' => true, 'size' => 12),
                 $styleFont3
             );
 
@@ -312,7 +312,7 @@ class PPPController extends Controller
             }
 
             $section->addText(
-                "5. EXTENT of COMPLIANCE",array('bold' => true, 'size' => 14),
+                "5. EXTENT of COMPLIANCE",array('bold' => true, 'size' => 12),
                 $styleFont3
             );
 
