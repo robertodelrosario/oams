@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AreaMean;
 use App\AssignedUser;
 use App\BestPractice;
 use App\Http\Controllers\Controller;
@@ -178,6 +179,22 @@ class MSIEvaluationController extends Controller
         $recommendation = Recommendation::where('id', $id)->first();
         $recommendation->delete();
         return response()->json(['status' => true, 'message' => 'Successfully deleted recommendation.']);
+    }
+
+    public function saveAreaScore(request $request, $id){
+        $area_mean = AreaMean::where([
+            ['assigned_user_id', auth()->user()->id],['instrument_program_id', $id]
+            ])->first();
+        if(is_null($area_mean)){
+            $area_mean = new AreaMean();
+            $area_mean->assigned_user_id = auth()->user()->id;
+            $area_mean->instrument_program_id = $id;
+            $area_mean->area_mean = $request->score;
+            $area_mean->save();
+        }
+        $area_mean->area_mean = $request->score;
+        $area_mean->save();
+        return response()->json(['status' => true, 'message' => 'Successfully save score.']);
     }
 
 }

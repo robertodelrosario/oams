@@ -300,14 +300,12 @@ class PPPController extends Controller
                 $styleFont3
             );
 
-            $x = 1;
             foreach ($collection as $c){
                 if($c['type'] == 'Best Practice') {
                     $section->addText(
-                        $x . '. ' . $c['statement'], [],
+                        $c['statement'], [],
                         $styleFont4
                     );
-                    $x++;
                 }
             }
 

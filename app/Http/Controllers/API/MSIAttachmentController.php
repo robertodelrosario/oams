@@ -66,7 +66,7 @@ class MSIAttachmentController extends Controller
             ['instrument_program_id', $id], ['document_id', $doc_id]
         ])->first();
         if(is_null($check)){
-            $supportDocument = new AttachedDocument();
+            $supportDocument = new InstrumentProgramDocument();
             $supportDocument->instrument_program_id = $id;
             $supportDocument->document_id = $doc_id;
             $supportDocument->save();
