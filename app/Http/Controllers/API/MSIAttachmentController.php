@@ -89,6 +89,7 @@ class MSIAttachmentController extends Controller
             $user = User::where('id', $file->uploader_id)->first();
             $collection->push([
                 'instrument_program_document_id' =>  $document->id,
+                'document_id' => $file->id,
                 'document_name' => $file->document_name,
                 'link' => $file->link,
                 'type' => $file->type,
