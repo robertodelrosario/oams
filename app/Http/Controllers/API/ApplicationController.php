@@ -8,11 +8,18 @@ use App\ApplicationProgram;
 use App\AreaInstrument;
 use App\AreaMean;
 use App\AssignedUser;
+use App\AssignedUserHead;
 use App\Campus;
 use App\CampusUser;
 use App\Http\Controllers\Controller;
+use App\InstrumentParameter;
 use App\InstrumentProgram;
+use App\InstrumentStatement;
+use App\Office;
+use App\OfficeUser;
+use App\ParameterProgram;
 use App\Program;
+use App\ProgramStatement;
 use App\SUC;
 use App\UserRole;
 use Carbon\Carbon;
@@ -23,6 +30,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ApplicationController extends Controller
 {
@@ -59,6 +67,99 @@ class ApplicationController extends Controller
                 $program->preferred_end_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_end_date'])->format('Y-m-d');
                 $program->status = "pending";
                 $program->save();
+
+                $prog = Program::where('id', $request->programs[$x]['program_id'])->first();
+                if($prog->office_id != null){
+                    $office_users = OfficeUser::where('office_id', $prog->office_id)->get();
+                    foreach($office_users as $office_user){
+                        $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+                        if($user_role->role_id == 2){
+                            $task = new AssignedUserHead();
+                            $task->application_program_id = $program->id;
+                            $task->user_id = $user_role->user_id;
+                            $task->role = 'program task force chair';
+                            $task->save();
+                            break;
+                        }
+                    }
+                    $office = Office::where('id', $prog->office_id)->first();
+                    $parent_office = Office::where('id', $office->parent_office_id)->first();
+                    if(!(is_null($parent_office))){
+                        $office_users = OfficeUser::where('office_id', $parent_office->id)->get();
+                        foreach($office_users as $office_user){
+                            $user_role = UserRole::where('id', $office_user->user_role_id)->first();
+                            if($user_role->role_id == 11){
+                                $task = new AssignedUserHead();
+                                $task->application_program_id = $program->id;
+                                $task->user_id = $user_role->user_id;
+                                $task->role = 'college task force head';
+                                $task->save();
+                            }
+                        }
+                    }
+                }
+                if(Str::contains($program->level, 'Level III') || Str::contains($program->level, 'Level IV')){
+                    $instrument = InstrumentProgram::where('program_id', $request->programs[$x]['program_id']);
+                    $instrument->delete();
+                    $areas = AreaInstrument::where('intended_program_id', 42)->get();
+                    foreach ($areas as $area){
+                        if($prog->type == 'Undergraduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'EXTENSION')) {
+                            $instrumentProgram = new InstrumentProgram();
+                            $instrumentProgram->program_id = $request->programs[$x]['program_id'];
+                            $instrumentProgram->area_instrument_id = $area->id;
+                            $instrumentProgram->save();
+
+                            $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                            if (count($instrumentParamenters) != 0) {
+                                foreach ($instrumentParamenters as $instrumentParamenter) {
+                                    $parameter = new ParameterProgram();
+                                    $parameter->program_instrument_id = $instrumentProgram->id;
+                                    $parameter->parameter_id = $instrumentParamenter->parameter_id;
+                                    $parameter->save();
+
+                                    $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                                    if (count($statements) != 0) {
+                                        foreach ($statements as $statement) {
+                                            $programStatement = new ProgramStatement();
+                                            $programStatement->program_parameter_id = $parameter->id;
+                                            $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                            $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                            $programStatement->save();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        elseif($prog->type == 'Graduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'RESEARCH')) {
+                            $instrumentProgram = new InstrumentProgram();
+                            $instrumentProgram->program_id = $request->programs[$x]['program_id'];
+                            $instrumentProgram->area_instrument_id = $area->id;
+                            $instrumentProgram->save();
+
+                            $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                            if (count($instrumentParamenters) != 0) {
+                                foreach ($instrumentParamenters as $instrumentParamenter) {
+                                    $parameter = new ParameterProgram();
+                                    $parameter->program_instrument_id = $instrumentProgram->id;
+                                    $parameter->parameter_id = $instrumentParamenter->parameter_id;
+                                    $parameter->save();
+
+                                    $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                                    if (count($statements) != 0) {
+                                        foreach ($statements as $statement) {
+                                            $programStatement = new ProgramStatement();
+                                            $programStatement->program_parameter_id = $parameter->id;
+                                            $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                            $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                            $programStatement->save();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
             else $message=1;
         }
