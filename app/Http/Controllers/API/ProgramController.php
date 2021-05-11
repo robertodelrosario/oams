@@ -211,8 +211,6 @@ class ProgramController extends Controller
             }
             return response()->json(['status' => true, 'message' => 'Successfully updated instrument!']);
         }
-
-
     }
 
     public function showInstrumentProgram($id){
