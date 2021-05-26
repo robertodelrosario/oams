@@ -153,7 +153,7 @@ class MSIController extends Controller
 //                    }
 //                }
 
-                return response()->json(['statements' => $statement_collection, 'documents' => $documents, 'area_mean' => $area_mean]);
+                return response()->json(['statements' => $statement_collection, 'documents' => $documents, 'area_mean' => $area_mean->area_means]);
             }
             else{
 
