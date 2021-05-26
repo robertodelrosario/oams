@@ -328,7 +328,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteAssignedHeadUserCoordinator/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedHeadUserCoordinator');
 
     Route::put('/setScore/{id}/{assignedUserId}', 'MSIEvaluationController@setScore');
-    Route::post('/saveAreaScore/{id}/{assignedUserId}', 'MSIEvaluationController@saveAreaScore');
+    Route::post('/saveAreaScore/{id}/{assigned_user_id}', 'MSIEvaluationController@saveAreaScore');
     Route::get('/showBestPractice/{id}/{assignedUserId}', 'MSIEvaluationController@showBestPractice');
     Route::put('/editBestPractice/{id}', 'MSIEvaluationController@editBestPractice');
     Route::delete('/deleteBestPractice/{id}', 'MSIEvaluationController@deleteBestPractice');
