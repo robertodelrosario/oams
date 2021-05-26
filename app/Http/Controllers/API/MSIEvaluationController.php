@@ -182,13 +182,13 @@ class MSIEvaluationController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully deleted recommendation.']);
     }
 
-    public function saveAreaScore(request $request, $id){
+    public function saveAreaScore(request $request, $id, $assigned_user_id){
         $area_mean = AreaMean::where([
-            ['assigned_user_id', auth()->user()->id],['instrument_program_id', $id]
+            ['assigned_user_id', $assigned_user_id],['instrument_program_id', $id]
             ])->first();
         if(is_null($area_mean)){
             $area_mean = new AreaMean();
-            $area_mean->assigned_user_id = auth()->user()->id;
+            $area_mean->assigned_user_id = $assigned_user_id;
             $area_mean->instrument_program_id = $id;
             $area_mean->area_mean = $request->score;
             $area_mean->save();
@@ -199,7 +199,7 @@ class MSIEvaluationController extends Controller
         foreach ($request->remarks as $remark){
             $statement = InstrumentScore::where([
                 ['item_id', $remark->id],
-                ['assigned_user_id', auth()->user()->id]
+                ['assigned_user_id', $assigned_user_id]
             ])->first();
             $statement->remark = $remark->remark;
             $statement->remark_type = $remark->remark_type;
