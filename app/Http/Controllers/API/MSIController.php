@@ -26,7 +26,6 @@ class MSIController extends Controller
         $task = AssignedUser::where([
             ['transaction_id', $transactionID], ['user_id', auth()->user()->id], ['app_program_id', $id]
         ])->first();
-        dd($task);
         if(!(is_null($task))){
             if(Str::contains($task->role, 'internal accreditor') || Str::contains($task->role, 'external accreditor')){
                 $statement_collection = new Collection();
@@ -206,7 +205,7 @@ class MSIController extends Controller
         }
         else{
             $statement_collection = new Collection();
-            $area = InstrumentProgram::where('id', $task->transaction_id)->first();
+            $area = InstrumentProgram::where('id', $transactionID)->first();
             $parameters = ParameterProgram::where('program_instrument_id', $area->id)->get();
             foreach($parameters as $parameter){
                 $statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
