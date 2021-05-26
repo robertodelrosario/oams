@@ -204,33 +204,34 @@ class MSIEvaluationController extends Controller
                 ['item_id', $remark['id']],
                 ['assigned_user_id', $assigned_user_id]
             ])->first();
-            $statement->remark = $remark->remark;
-            $statement->remark_type = $remark->remark_type;
-            $statement->remark_2 = $remark->remark_2;
-            $statement->remark_2_type = $remark->remark_2_type;
+            $statement->remark = $remark['remark'];
+            $statement->remark_type = $remark['remark_type'];
+            $statement->remark_2 = $remark['remark_2'];
+            $statement->remark_2_type = $remark['remark_2_type'];
             $statement->save();
         }
 
         if(count($request->graduate_performances) != 0){
-            foreach ($request->graduate_performances as $graduate_performance){
-                $grad_perf = GraduatePerformance::where('program_statement_id', $graduate_performance->id)->get();
+            $graduate_performances = $request->graduate_performances;
+            foreach ($graduate_performances as $graduate_performance){
+                $grad_perf = GraduatePerformance::where('program_statement_id', $graduate_performance['id'])->get();
                 foreach($grad_perf as $gp) $gp->delete();
                 $performance = new GraduatePerformance();
-                $performance->program_statement_id =  $graduate_performance->id;
-                $performance->year = $graduate_performance->year_1;
-                $performance->rating = $graduate_performance->rating_1;
+                $performance->program_statement_id =  $graduate_performance['id'];
+                $performance->year = $graduate_performance['year_1'];
+                $performance->rating = $graduate_performance['rating_1'];
                 $performance->save();
 
                 $performance2 = new GraduatePerformance();
-                $performance2->program_statement_id =  $graduate_performance->id;
-                $performance2->year = $graduate_performance->year_2;
-                $performance2->rating = $graduate_performance->rating_2;
+                $performance2->program_statement_id =  $graduate_performance['id'];
+                $performance2->year = $graduate_performance['year_2'];
+                $performance2->rating = $graduate_performance['rating_2'];
                 $performance2->save();
 
                 $performance3 = new GraduatePerformance();
-                $performance3->program_statement_id =  $graduate_performance->id;
-                $performance3->year = $graduate_performance->year_3;
-                $performance3->rating = $graduate_performance->rating_3;
+                $performance3->program_statement_id =  $graduate_performance['id'];
+                $performance3->year = $graduate_performance['year_3'];
+                $performance3->rating = $graduate_performance['rating_3'];
                 $performance3->save();
             }
         }
