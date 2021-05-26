@@ -123,10 +123,12 @@ class MSIController extends Controller
                     }
                 }
 
+
                 $area_mean = AreaMean::where([
                     ['instrument_program_id', $task->transaction_id], ['assigned_user_id', $task->id]
                 ])->first();
-
+                if(is_null($area_mean)) $score = null;
+                else $score = $area_mean->area_mean;
 //                $instrumentStatements = DB::table('programs_statements')
 //                    ->join('benchmark_statements', 'benchmark_statements.id', '=', 'programs_statements.benchmark_statement_id')
 //                    ->join('parameters_programs', 'parameters_programs.id', '=', 'programs_statements.program_parameter_id')
@@ -159,7 +161,7 @@ class MSIController extends Controller
 //                    }
 //                }
 
-                return response()->json(['statements' => $statement_collection, 'documents' => $documents, 'area_mean' => $area_mean->area_mean]);
+                return response()->json(['statements' => $statement_collection, 'documents' => $documents, 'area_mean' => $score]);
             }
             else{
 
