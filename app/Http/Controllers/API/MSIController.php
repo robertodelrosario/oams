@@ -36,12 +36,44 @@ class MSIController extends Controller
                     foreach ($statements as $statement){
                         $ratings = new Collection();
                         $graduate_perfomances =  GraduatePerformance::where('program_statement_id', $statement->id)->get();
+                        $year_1 = null;
+                        $year_2 = null;
+                        $year_3 = null;
+                        $rating_1 = null;
+                        $rating_2 = null;
+                        $rating_3 = null;
+                        $x = 1;
                         foreach ($graduate_perfomances as $graduate_perfomance){
-                            $ratings->push([
-                                'year' =>  $graduate_perfomance->year,
-                                'rating' => $graduate_perfomance->rating
-                            ]);
+                            if($x == 1){
+                                $year_1 = $graduate_perfomance->year;
+                                $rating_1 = $graduate_perfomance->rating;
+                                $x++;
+                            }
+                            elseif($x == 2){
+                                $year_2 = $graduate_perfomance->year;
+                                $rating_2 = $graduate_perfomance->rating;
+                                $x++;
+                            }
+                            elseif($x == 3){
+                                $year_3 = $graduate_perfomance->year;
+                                $rating_3 = $graduate_perfomance->rating;
+                                $x++;
+                            }
+//                            $ratings->push([
+//                                'id'=>$graduate_perfomance->id,
+//                                'year' =>  $graduate_perfomance->year,
+//                                'rating' => $graduate_perfomance->rating
+//                            ]);
                         }
+                        $ratings->push([
+                                'year_1' =>  $year_1,
+                                'rating_1' => $rating_1,
+                                'year_2' =>  $year_2,
+                                'rating_2' => $rating_2,
+                                'year_3' =>  $year_3,
+                                'rating_3' => $rating_3,
+                            ]);
+
                         $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
                         $score = InstrumentScore::where([
                             ['item_id', $statement->id], ['assigned_user_id', $task->id]
@@ -135,6 +167,7 @@ class MSIController extends Controller
                         $graduate_perfomances =  GraduatePerformance::where('program_statement_id', $statement->id)->get();
                         foreach ($graduate_perfomances as $graduate_perfomance){
                             $ratings->push([
+                                'id'=>$graduate_perfomance->id,
                                 'year' =>  $graduate_perfomance->year,
                                 'rating' => $graduate_perfomance->rating
                             ]);
@@ -212,12 +245,42 @@ class MSIController extends Controller
                 foreach ($statements as $statement){
                     $ratings = new Collection();
                     $graduate_perfomances =  GraduatePerformance::where('program_statement_id', $statement->id)->get();
+                    $year_1 = null;
+                    $year_2 = null;
+                    $year_3 = null;
+                    $rating_1 = null;
+                    $rating_2 = null;
+                    $rating_3 = null;
+                    $x = 1;
                     foreach ($graduate_perfomances as $graduate_perfomance){
-                        $ratings->push([
-                            'year' =>  $graduate_perfomance->year,
-                            'rating' => $graduate_perfomance->rating
-                        ]);
+                        if($x == 1){
+                            $year_1 = $graduate_perfomance->year;
+                            $rating_1 = $graduate_perfomance->rating;
+                            $x++;
+                        }
+                        elseif($x == 2){
+                            $year_2 = $graduate_perfomance->year;
+                            $rating_2 = $graduate_perfomance->rating;
+                            $x++;
+                        }
+                        elseif($x == 3){
+                            $year_3 = $graduate_perfomance->year;
+                            $rating_3 = $graduate_perfomance->rating;
+                            $x++;
+                        }
+//                        $ratings->push([
+//                            'year' =>  $graduate_perfomance->year,
+//                            'rating' => $graduate_perfomance->rating
+//                        ]);
                     }
+                    $ratings->push([
+                        'year_1' =>  $year_1,
+                        'rating_1' => $rating_1,
+                        'year_2' =>  $year_2,
+                        'rating_2' => $rating_2,
+                        'year_3' =>  $year_3,
+                        'rating_3' => $rating_3,
+                    ]);
                     $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
 
                     $statement_collection->push([
