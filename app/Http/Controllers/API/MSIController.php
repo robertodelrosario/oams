@@ -26,6 +26,7 @@ class MSIController extends Controller
         $task = AssignedUser::where([
             ['transaction_id', $transactionID], ['user_id', auth()->user()->id], ['app_program_id', $id]
         ])->first();
+        echo $task;
         if(!(is_null($task))){
             if(Str::contains($task->role, 'internal accreditor') || Str::contains($task->role, 'external accreditor')){
                 $statement_collection = new Collection();
