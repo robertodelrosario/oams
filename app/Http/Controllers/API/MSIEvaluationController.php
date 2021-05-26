@@ -201,7 +201,7 @@ class MSIEvaluationController extends Controller
         $remarks = $request->remarks;
         foreach ($remarks as $remark){
             $statement = InstrumentScore::where([
-                ['item_id', $remark->id],
+                ['item_id', $remark['id']],
                 ['assigned_user_id', $assigned_user_id]
             ])->first();
             $statement->remark = $remark->remark;
