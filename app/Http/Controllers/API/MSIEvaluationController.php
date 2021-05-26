@@ -193,20 +193,21 @@ class MSIEvaluationController extends Controller
             $area_mean->area_mean = $request->score;
             $area_mean->save();
         }
-        $area_mean->area_mean = $request->score;
-        $area_mean->save();
-
-        foreach ($request->remarks as $remark){
-            $statement = InstrumentScore::where([
-                ['item_id', $remark->id],
-                ['assigned_user_id', $assigned_user_id]
-            ])->first();
-            $statement->remark = $remark->remark;
-            $statement->remark_type = $remark->remark_type;
-            $statement->remark_2 = $remark->remark_2;
-            $statement->remark_2_type = $remark->remark_2_type;
-            $statement->save();
+        else{
+            $area_mean->area_mean = $request->score;
+            $area_mean->save();
         }
+
+        $statement = InstrumentScore::where([
+            ['item_id', $request->remarks[0]['id']],
+            ['assigned_user_id', $assigned_user_id]
+        ])->first();
+        $statement->remark = $request->remarks[0]['remark'];
+        $statement->remark_type = $request->remarks[0]['remark_type'];
+        $statement->remark_2 = $request->remarks[0]['remark_2'];
+        $statement->remark_2_type = $request->remarks[0]['remark_2_type'];
+        $statement->save();
+
 
         if(count($request->graduate_performances) != 0){
             foreach ($request->graduate_performances as $graduate_performance){
