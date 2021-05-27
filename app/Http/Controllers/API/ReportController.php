@@ -259,7 +259,7 @@ class ReportController extends Controller
                 }
                 $average_internal_mean_score = 0;
                 foreach ($partial_internal_mean_scores as $partial_internal_mean_score){
-                    $average_internal_mean_score += $partial_internal_mean_score->area_mean;
+                    $average_internal_mean_score += $partial_internal_mean_score['area_mean'];
                 }
                 if($partial_internal_mean_scores->count() != 0) $average_internal_mean_score = $average_internal_mean_score / $partial_internal_mean_scores->count();
                 else $average_internal_mean_score = 0;
