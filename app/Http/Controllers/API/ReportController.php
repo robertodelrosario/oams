@@ -245,10 +245,10 @@ class ReportController extends Controller
             $instruments_programs = InstrumentProgram::where('program_id', $program->id)->get();
             $internal_scores = new Collection();
             $external_scores = new Collection();
-            foreach ($assigned_users as $assigned_user){
-                $score = AreaMean::where('assigned_user_id', $assigned_user->id)->get();
-                echo $score;
-            }
+//            foreach ($assigned_users as $assigned_user){
+//                $score = AreaMean::where('assigned_user_id', $assigned_user->id)->get();
+//                echo $score;
+//            }
             foreach ($instruments_programs as $instrument_program){
                 $partial_internal_mean_scores = new Collection();
                 $partial_external_mean_scores = new Collection();
@@ -257,8 +257,8 @@ class ReportController extends Controller
                         $score = AreaMean::where([
                             ['instrument_program_id', $instrument_program->id], ['assigned_user_id', $assigned_user->id]
                         ])->first();
-                        if (!(is_null($score))) echo $score;
-                        else dd('close');
+//                        if (!(is_null($score))) echo $score;
+//                        else dd('close');
                         if (!(is_null($score))) {
                             if (Str::contains($assigned_user->role, 'external accreditor')) $partial_external_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
                             else $partial_internal_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
@@ -271,7 +271,7 @@ class ReportController extends Controller
                 }
                 if($partial_internal_mean_scores->count() != 0) $average_internal_mean_score = $average_internal_mean_score / $partial_internal_mean_scores->count();
                 else $average_internal_mean_score = 0;
-                $internal_scores->push(["instrument_program_id" => $score->instrument_program_id, "area_mean" => $average_internal_mean_score]);
+                $internal_scores->push(["instrument_program_id" => $instrument_program->id, "area_mean" => $average_internal_mean_score]);
 
                 $average_external_mean_score = 0;
 
@@ -280,7 +280,7 @@ class ReportController extends Controller
                 }
                 if($partial_external_mean_scores->count() != 0) $average_external_mean_score = $average_external_mean_score / $partial_external_mean_scores->count();
                 else $average_external_mean_score = 0;
-                $external_scores->push(["instrument_program_id" => $score->instrument_program_id, "area_mean" => $average_external_mean_score]);
+                $external_scores->push(["instrument_program_id" => $instrument_program->id, "area_mean" => $average_external_mean_score]);
             }
             $sars = new Collection();
             $result = new Collection();
