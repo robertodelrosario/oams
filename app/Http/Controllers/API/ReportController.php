@@ -288,7 +288,7 @@ class ReportController extends Controller
             if (Str::contains($role, 'external accreditor')) {
                 $total_area_mean = 0;
                 foreach ($external_scores as $external_score) {
-                    $instrument = InstrumentProgram::where('id', $external_score->instrument_program_id)->first();
+                    $instrument = InstrumentProgram::where('id', $external_score['instrument_program_id'])->first();
                     $area_instrument = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
                     $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number,'area' => $area_instrument->area_name,'area_mean' => $external_score['area_mean']]);
                     $total_area_mean += $external_score['area_mean'];
@@ -307,7 +307,7 @@ class ReportController extends Controller
             else {
                 $total_area_mean = 0;
                 foreach ($internal_scores as $internal_score) {
-                    $instrument = InstrumentProgram::where('id', $internal_score->instrument_program_id)->first();
+                    $instrument = InstrumentProgram::where('id', $internal_score['instrument_program_id'])->first();
                     $area_instrument = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
                     $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number,'area' => $area_instrument->area_name,'area_mean' => $internal_score['area_mean']]);
                     $total_area_mean += $internal_score['area_mean'];
