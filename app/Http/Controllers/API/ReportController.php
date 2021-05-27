@@ -223,10 +223,14 @@ class ReportController extends Controller
     public function generateProgramSAR($id, $app_prog){
         $check = ApplicationProgram::where('id', $app_prog)->first();
         $program = Program::where('id', $check->program_id)->first();
-
         $areas = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->get();
+        foreach ($areas as $area){
+            $score = AreaMean::where('assigned_user_id', $area->id)->get();
+            echo $score;
+        }
+        dd('close');
         $instrument_array = array();
         $role = null;
         foreach ($areas as $area){
@@ -309,7 +313,7 @@ class ReportController extends Controller
                 foreach ($internal_scores as $internal_score) {
                     $instrument = InstrumentProgram::where('id', $internal_score['instrument_program_id'])->first();
                     $area_instrument = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
-                    $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number,'area' => $area_instrument->area_name,'area_mean' => $internal_score['area_mean']]);
+                    $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number,'area' => $area_instrument->area_name,'area_mean' => round($internal_score['area_mean'],2)]);
                     $total_area_mean += $internal_score['area_mean'];
                 }
 
@@ -680,5 +684,4 @@ class ReportController extends Controller
         $pdf = PDF::loadView('sfr', ['program' => $prog,  'collections' => $collection]);
         return $pdf->stream($prog->program_name. '_SFR.pdf');
     }
-
 }
