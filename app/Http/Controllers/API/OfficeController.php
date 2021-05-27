@@ -220,7 +220,8 @@ class OfficeController extends Controller
 //        $best_prac->office_id = $id;
 //        $best_prac->user_id = auth()->user()->id;
 //        $best_prac->save();
-        foreach ($request->best_practices as $best_practice) {
+        $best_practices = $request->best_practices;
+        foreach ($best_practices as $best_practice) {
             $best_prac = new BestPracticeOffice();
             $best_prac->best_practice = $best_practice;
             $best_prac->office_id = $id;
