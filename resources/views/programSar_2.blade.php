@@ -12,18 +12,20 @@
 <body>
 
 <div class="container">
-    <h3 style="text-align: center">ACCREDITORS' REPORT</h3>
-    <h3 style="text-align: center">({{ $level }} - EVALUATION)</h3>
+    <h5 style="text-align: center">ACCREDITORS' REPORT</h5>
+    <h5 style="text-align: center">({{ $level }} - EVALUATION)</h5>
     <table class="table-borderless" >
         <tr>
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 12px; width: 90%">Program: {{ $program->program_name }}</th>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 12px; width: 30%">Date: {{ $date }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: left; font-size: 12px; width: 30%">Date: {{ $date }}</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 12px; width: 90%">SUC: {{ $suc['institution_name'] }}</th>
         </tr>
+    </table>
+    <table class="table-borderless" >
         <tr>
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 12px; width: 90%">Address: {{ $suc['address'] }}</th>
         </tr>
@@ -36,8 +38,8 @@
         </tr>
         </thead>
         <tbody>
+        <?php $x = 1; ?>
         @foreach($areas as $area)
-            <?php $x = 1; ?>
             <tr>
                 <th scope="row" class="small">{{ $x }}. {{ $area['area'] }}</th>
                 <td class="small" >{{ $area['area_mean'] }}</td>
