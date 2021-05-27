@@ -226,11 +226,11 @@ class ReportController extends Controller
         $areas = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->get();
-        foreach ($areas as $area){
-            $score = AreaMean::where('assigned_user_id', $area->id)->get();
-            echo $score;
-        }
-        dd('close');
+//        foreach ($areas as $area){
+//            $score = AreaMean::where('assigned_user_id', $area->id)->get();
+//            echo $score;
+//        }
+//        dd('close');
         $instrument_array = array();
         $role = null;
         foreach ($areas as $area){
