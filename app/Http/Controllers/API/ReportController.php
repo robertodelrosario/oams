@@ -245,11 +245,11 @@ class ReportController extends Controller
             $instruments_programs = InstrumentProgram::where('program_id', $program->id)->get();
             $internal_scores = new Collection();
             $external_scores = new Collection();
-            foreach ($assigned_users as $assigned_user){
-                $score = AreaMean::where('assigned_user_id', $assigned_user->id)->get();
-                echo $score;
-            }
-            dd('close');
+//            foreach ($assigned_users as $assigned_user){
+//                $score = AreaMean::where('assigned_user_id', $assigned_user->id)->get();
+//                echo $score;
+//            }
+//            dd('close');
             foreach ($instruments_programs as $instrument_program){
                 $partial_internal_mean_scores = new Collection();
                 $partial_external_mean_scores = new Collection();
@@ -258,6 +258,8 @@ class ReportController extends Controller
                         $score = AreaMean::where([
                             ['instrument_program_id', $instrument_program->id], ['assigned_user_id', $assigned_user->id]
                         ])->first();
+                        if (!(is_null($score))) echo $score;
+                        else dd('close');
                         if (!(is_null($score))) {
                             if (Str::contains($assigned_user->role, 'external accreditor')) $partial_external_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
                             else $partial_internal_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
