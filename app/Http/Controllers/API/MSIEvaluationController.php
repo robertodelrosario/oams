@@ -243,4 +243,12 @@ class MSIEvaluationController extends Controller
         $area_mean = AreaMean::where('id', $id)->first();
         $area_mean->delete();
     }
+
+    public function showMeanScore($id){
+        $assigned_users = AssignedUser::where('app_program_id', $id)->get();
+        foreach ($assigned_users as $assigned_user){
+            $score = AreaMean::where('assigned_user_id', $assigned_user->id)->get();
+            echo $score;
+        }
+    }
 }

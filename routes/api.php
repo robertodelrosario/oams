@@ -334,6 +334,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteBestPractice/{id}', 'MSIEvaluationController@deleteBestPractice');
 
     Route::delete('/deleteAreaMean/{id}', 'MSIEvaluationController@deleteAreaMean');
+    Route::get('/showMeanScore/{id}', 'MSIEvaluationController@showMeanScore');
 
     Route::post('/saveRecommendation/{id}', 'MSIEvaluationController@saveRecommendation');
     Route::put('/editRecommendation/{id}', 'MSIEvaluationController@editRecommendation');
