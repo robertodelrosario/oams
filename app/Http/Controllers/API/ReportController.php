@@ -245,11 +245,10 @@ class ReportController extends Controller
             $instruments_programs = InstrumentProgram::where('program_id', $program->id)->get();
             $internal_scores = new Collection();
             $external_scores = new Collection();
-//            foreach ($assigned_users as $assigned_user){
-//                $score = AreaMean::where('assigned_user_id', $assigned_user->id)->get();
-//                echo $score;
-//            }
-//            dd('close');
+            foreach ($assigned_users as $assigned_user){
+                $score = AreaMean::where('assigned_user_id', $assigned_user->id)->get();
+                echo $score;
+            }
             foreach ($instruments_programs as $instrument_program){
                 $partial_internal_mean_scores = new Collection();
                 $partial_external_mean_scores = new Collection();
