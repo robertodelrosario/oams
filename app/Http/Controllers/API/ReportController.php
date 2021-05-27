@@ -242,7 +242,7 @@ class ReportController extends Controller
 
         if(Str::contains($check->level, 'Level III') || Str::contains($check->level, 'Level IV')){
             $assigned_users = AssignedUser::where('app_program_id', $app_prog)->get();
-            dd($assigned_users);
+            echo $assigned_users;
             $instruments_programs = InstrumentProgram::where('program_id', $program->id)->get();
             $internal_scores = new Collection();
             $external_scores = new Collection();
