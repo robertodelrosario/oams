@@ -186,7 +186,7 @@ class MSIEvaluationController extends Controller
         $area_mean = AreaMean::where([
             ['assigned_user_id', $assigned_user_id],['instrument_program_id', $id]
             ])->get();
-        foreach ($area_mean as $item) $item-delete();
+        foreach ($area_mean as $item) $item->delete();
 //        if(is_null($area_mean)){
 //            $area_mean = new AreaMean();
 //            $area_mean->assigned_user_id = $assigned_user_id;
