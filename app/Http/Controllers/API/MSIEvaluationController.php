@@ -239,4 +239,8 @@ class MSIEvaluationController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully saved.']);
     }
 
+    public function deleteAreaMean($id){
+        $area_mean = AreaMean::where('id', $id)->first();
+        $area_mean->delete();
+    }
 }
