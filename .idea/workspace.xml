@@ -20,6 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/programSar_2.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" afterDir="false" />
     </list>
@@ -397,7 +398,7 @@
       <workItem from="1621824249783" duration="5617000" />
       <workItem from="1622012197537" duration="1021000" />
       <workItem from="1622013559329" duration="5432000" />
-      <workItem from="1622074482499" duration="353000" />
+      <workItem from="1622074482499" duration="2480000" />
     </task>
     <servers />
   </component>
@@ -421,18 +422,14 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1620705314291" />
-    <state x="332" y="64" key="NewPhpClassDialog" timestamp="1612715451517">
+    <state x="347" y="64" key="NewPhpClassDialog" timestamp="1622075139115">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="332" y="64" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1612715451517" />
-    <state x="663" y="263" key="NewPhpFileDialog" timestamp="1615445587077">
+    <state x="347" y="64" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1622075139115" />
+    <state x="663" y="263" key="NewPhpFileDialog" timestamp="1622074970560">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="663" y="263" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1615445587077" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1612747212861">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1612747212861" />
+    <state x="663" y="263" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1622074970560" />
     <state x="551" y="199" key="run.anything.popup" timestamp="1620271655407">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

@@ -6,10 +6,12 @@ use App\ApplicationProgram;
 use App\AreaInstrument;
 use App\AreaMean;
 use App\AssignedUser;
+use App\Campus;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\Program;
 use App\SFRInformation;
+use App\SUC;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -313,10 +315,14 @@ class ReportController extends Controller
                 elseif ($grand_mean >= 4.50) $descriptive_result = 'Excellent';
                 $result->push(['total_area_mean' => round($total_area_mean, 2), 'grand_mean' => round($grand_mean, 2), 'descriptive_result' => $descriptive_result]);
             }
-
-            $pdf = PDF::loadView('programSar', ['program' => $program, 'areas' => $sars, 'result' => $result]);
+            $date = date("Y-m-d");
+            if(Str::contains($check->level, 'Level III')) $level = 'Level III';
+            elseif(Str::contains($check->level, 'Level IV')) $level = 'Level IV';
+            $campus = Campus::where('id', $program->campus_id)->first();
+            $suc = SUC::where('id', $campus->suc_id)->first();
+            $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc]);
             return $pdf->download($program->program_name . '_SAR.pdf');
-            return response()->json(['program' => $program, 'areas' => $program_sar, 'result' => $result]);
+//            return response()->json(['program' => $program, 'areas' => $program_sar, 'result' => $result]);
         }
         else {
             $instruments = AssignedUser::where('app_program_id', $app_prog)->get();
