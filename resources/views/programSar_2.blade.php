@@ -16,8 +16,7 @@
     <h5 style="text-align: center">({{ $level }} - EVALUATION)</h5>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 70%">Program: {{ $program->program_name }}</th>
-            <th scope="col" class="font-weight-bold" style="text-align: left; font-size: 14px; width: 30%">     Date: {{ $date }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Program: {{ $program->program_name }}</th>
         </tr>
     </table>
     <table class="table-borderless" >
@@ -28,6 +27,11 @@
     <table class="table-borderless" >
         <tr>
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Address: {{ $suc['address'] }}</th>
+        </tr>
+    </table>
+    <table class="table-borderless" >
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Date: {{ $date }}</th>
         </tr>
     </table>
     <br>
