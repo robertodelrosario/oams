@@ -86,7 +86,7 @@ class MSIAttachmentController extends Controller
         $documents = InstrumentProgramDocument::where('instrument_program_id', $id)->get();
         foreach ($documents as $document){
             $file = Document::where('id', $document->document_id)->first();
-            $user = User::where('id', $file->uploader_id)->first();
+//            $user = User::where('id', $file->uploader_id)->first();
             $collection->push([
                 'instrument_program_document_id' =>  $document->id,
                 'document_id' => $file->id,
@@ -94,8 +94,8 @@ class MSIAttachmentController extends Controller
                 'link' => $file->link,
                 'type' => $file->type,
                 'uploader_id' => $file->uploader_id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
+//                'first_name' => $user->first_name,
+//                'last_name' => $user->last_name,
                 'updated_at' => $file->updated_at,
             ]);
         }
