@@ -185,18 +185,19 @@ class MSIEvaluationController extends Controller
     public function saveAreaScore(request $request, $id, $assigned_user_id){
         $area_mean = AreaMean::where([
             ['assigned_user_id', $assigned_user_id],['instrument_program_id', $id]
-            ])->first();
-        if(is_null($area_mean)){
-            $area_mean = new AreaMean();
-            $area_mean->assigned_user_id = $assigned_user_id;
-            $area_mean->instrument_program_id = $id;
-            $area_mean->area_mean = $request->score;
-            $area_mean->save();
-        }
-        else{
-            $area_mean->area_mean = $request->score;
-            $area_mean->save();
-        }
+            ])->get();
+        foreach ($area_mean as $item) $item-delete();
+//        if(is_null($area_mean)){
+//            $area_mean = new AreaMean();
+//            $area_mean->assigned_user_id = $assigned_user_id;
+//            $area_mean->instrument_program_id = $id;
+//            $area_mean->area_mean = $request->score;
+//            $area_mean->save();
+//        }
+//        else{
+//            $area_mean->area_mean = $request->score;
+//            $area_mean->save();
+//        }
 
         $remarks = $request->remarks;
         foreach ($remarks as $remark){
