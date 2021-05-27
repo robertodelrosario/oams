@@ -252,6 +252,8 @@ class ReportController extends Controller
                     $score = AreaMean::where([
                         ['instrument_program_id', $instrument_program->id], ['assigned_user_id', $assigned_user->id]
                     ])->first();
+                    if(!(is_null($score))) echo $score;
+                    else dd($score);
                     if(!(is_null($score))) {
                         if (Str::contains($assigned_user->role, 'external accreditor')) $partial_external_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
                         else $partial_internal_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
