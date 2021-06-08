@@ -107,6 +107,8 @@ Route::group(['prefix' => '/suc'], function() {
     Route::get('/showBestPractice/{id}', 'OfficeController@showBestPractice');
     Route::post('/attachDocument/{practice_office_id}/{document_id}', 'OfficeController@attachDocument');
     Route::delete('/removeAttachDocument/{id}', 'OfficeController@removeAttachDocument');
+    Route::post('/addTag/{id}', 'OfficeController@addTag');
+    Route::delete('/removeTag/{id}', 'OfficeController@removeTag');
 
     Route::post('/addProgram/{id}', 'ProgramController@addProgram');
     Route::get('/showProgram/{id}', 'ProgramController@showProgram');

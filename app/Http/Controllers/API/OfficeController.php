@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\BestPracticeDocument;
 use App\BestPracticeOffice;
+use App\BestPracticeTag;
 use App\CampusOffice;
 use App\CampusUser;
 use App\Document;
@@ -223,10 +224,17 @@ class OfficeController extends Controller
         $best_practices = $request->best_practices;
         foreach ($best_practices as $best_practice) {
             $best_prac = new BestPracticeOffice();
-            $best_prac->best_practice = $best_practice;
+            $best_prac->best_practice = $best_practice['best_practice'];
             $best_prac->office_id = $id;
             $best_prac->user_id = auth()->user()->id;
             $best_prac->save();
+
+            foreach($best_practice['tags'] as $tag){
+                $best_practice_tag = new BestPracticeTag();
+                $best_practice_tag->best_practice_office_id = $best_prac->id;
+                $best_practice_tag->tag = $tag;
+                $best_practice_tag->saveA();
+            }
         }
         return response()->json(['status' => true, 'message' => 'Successfully added best practice']);
     }
@@ -263,6 +271,7 @@ class OfficeController extends Controller
                     'type' => $document->type,
                 ]);
             }
+            $best_practice_tags = BestPracticeTag::where('best_practice_office_id', $best_practice->id)->get();
             $collection->push([
                 'best_practice_id' =>  $best_practice->id,
                 'best_practice' =>  $best_practice->best_practice,
@@ -271,7 +280,8 @@ class OfficeController extends Controller
                 'first_name' =>  $user->first_name,
                 'last_name' =>  $user->last_name,
                 'updated_at' => $best_practice->updated_at,
-                'files' => $document_collection
+                'files' => $document_collection,
+                'tags' => $best_practice_tags
             ]);
         }
         return response()->json(['best_practices' => $collection]);
@@ -297,5 +307,22 @@ class OfficeController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully removed attached document from best practice']);
     }
 
+    public function addTag(request $request, $id){
+        foreach ($request->tags as $tag){
+            $best_practice_tag = new BestPracticeTag();
+            $best_practice_tag->best_practice_office_id = $id;
+            $best_practice_tag->tag = $tag;
+            $best_practice_tag->saveA();
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully tags']);
+    }
 
+    public function removeTag($id){
+        $best_practice_tag = BestPracticeTag::where('id', $id)->first();
+        if(!(is_null($best_practice_tag))){
+            $best_practice_tag->delete();
+            return response()->json(['status' => true, 'message' => 'Successfully removed tag.']);
+        }
+        return response()->json(['status' => false, 'message' => 'ID does not exist.']);
+    }
 }
