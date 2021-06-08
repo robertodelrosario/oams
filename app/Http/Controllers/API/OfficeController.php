@@ -307,7 +307,7 @@ class OfficeController extends Controller
             $best_practice_tag = new BestPracticeTag();
             $best_practice_tag->best_practice_office_id = $id;
             $best_practice_tag->tag = $tag;
-            $best_practice_tag->saveA();
+            $best_practice_tag->save();
         }
         return response()->json(['status' => true, 'message' => 'Successfully tags']);
     }
