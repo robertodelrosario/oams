@@ -215,12 +215,7 @@ class OfficeController extends Controller
     }
 
     public function addBestPractice(request $request, $id){
-//
-//        $best_prac = new BestPracticeOffice();
-//        $best_prac->best_practice = $request->best_practice;
-//        $best_prac->office_id = $id;
-//        $best_prac->user_id = auth()->user()->id;
-//        $best_prac->save();
+
         $best_practices = $request->best_practices;
         foreach ($best_practices as $best_practice) {
             $best_prac = new BestPracticeOffice();
@@ -233,7 +228,7 @@ class OfficeController extends Controller
                 $best_practice_tag = new BestPracticeTag();
                 $best_practice_tag->best_practice_office_id = $best_prac->id;
                 $best_practice_tag->tag = $tag;
-                $best_practice_tag->saveA();
+                $best_practice_tag->save();
             }
         }
         return response()->json(['status' => true, 'message' => 'Successfully added best practice']);
