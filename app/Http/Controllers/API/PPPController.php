@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\AreaInstrument;
 use App\BestPracticeDocument;
 use App\BestPracticeOffice;
+use App\BestPracticeTag;
 use App\Document;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
@@ -168,6 +169,7 @@ class PPPController extends Controller
                         'type' => $document->type,
                     ]);
                 }
+                $best_practice_tags = BestPracticeTag::where('best_practice_office_id', $best_practice->id)->get();
                 $office = Office::where('id', $best_practice->office_id)->first();
                 $collection->push([
                     'best_practice_id' => $best_practice->id,
@@ -178,7 +180,8 @@ class PPPController extends Controller
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'updated_at' => $best_practice->updated_at,
-                    'files' => $document_collection
+                    'files' => $document_collection,
+                    'tags' => $best_practice_tags
                 ]);
             }
         }
