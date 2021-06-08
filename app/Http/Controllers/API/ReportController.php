@@ -365,7 +365,7 @@ class ReportController extends Controller
             elseif(Str::contains($check->level, 'Level IV')) $level = 'Level IV';
             $campus = Campus::where('id', $program->campus_id)->first();
             $suc = SUC::where('id', $campus->suc_id)->first();
-            $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'remarks_after_compliance' => $remarks_after_compliance, 'remarks_before_compliance' => $remarks_befores_compliance,'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc]);
+            $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'remarks_after_compliance' => $remarks_after_compliance, 'remarks_before_compliance' => $remarks_before_compliance,'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc]);
             return $pdf->download($program->program_name . '_SAR.pdf');
 //            return response()->json(['program' => $program, 'areas' => $program_sar, 'result' => $result]);
         }
