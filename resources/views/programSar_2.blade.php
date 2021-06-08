@@ -61,6 +61,38 @@
         </tr>
         </tbody>
     </table>
+    <br>
+    <table class="table-borderless" >
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Accreditors Observation, Comments and Recommendations</th>
+        </tr>
+    </table>
+    <table class="table table-bordered" >
+        <thead>
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 50%">Mandatory (to be complied with before the awards of {{ $level }})</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 50%">Enhancement (may be complied with after award of {{ $level }})</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" class="small">
+                <?php $x = 1; ?>
+                @foreach($remarks_before_compliance as $remark)
+                        {{ $x }}. {{ $remark['remark'] }}
+                        <?php $x = $x + 1; ?>
+                    @endforeach
+            </th>
+            <th scope="row" class="small">
+                <?php $x = 1; ?>
+                @foreach($remarks_after_compliance as $remark)
+                    {{ $x }}. {{ $remark['remark'] }}
+                    <?php $x = $x + 1; ?>
+                @endforeach
+            </th>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

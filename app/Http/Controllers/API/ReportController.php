@@ -244,6 +244,8 @@ class ReportController extends Controller
             $instruments_programs = InstrumentProgram::where('program_id', $program->id)->get();
             $internal_scores = new Collection();
             $external_scores = new Collection();
+            $remarks_before_compliance = new Collection();
+            $remarks_after_compliance = new Collection();
             foreach ($instruments_programs as $instrument_program){
                 $partial_internal_mean_scores = new Collection();
                 $partial_external_mean_scores = new Collection();
@@ -252,8 +254,6 @@ class ReportController extends Controller
                         $score = AreaMean::where([
                             ['instrument_program_id', $instrument_program->id], ['assigned_user_id', $assigned_user->id]
                         ])->first();
-//                        if (!(is_null($score))) echo $score;
-//                        else dd('close');
                         if (!(is_null($score))) {
                             if (Str::contains($assigned_user->role, 'external accreditor')) $partial_external_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
                             else $partial_internal_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
@@ -298,6 +298,27 @@ class ReportController extends Controller
                 elseif ($grand_mean < 4.50) $descriptive_result = 'Very Satisfactory';
                 elseif ($grand_mean >= 4.50) $descriptive_result = 'Excellent';
                 $result->push(['total_area_mean' => round($total_area_mean, 2), 'grand_mean' => round($grand_mean, 2), 'descriptive_result' => $descriptive_result]);
+                foreach ($instruments_programs as $instrument_program){
+                    $remarks = SFRInformation::where([
+                        ['application_program_id',$app_prog], ['instrument_program_id', $instrument_program->id], ['type', 'like','%external accreditor%']
+                    ])->get();
+                    if($remarks->count() > 0) {
+                        foreach ($remarks as $remark) {
+                            if($remark->remark_type == 'before_compliance') {
+                                $remarks_before_compliance->push([
+                                    'remark' => $remark->remark,
+                                    'type' => $remark->remark_type
+                                ]);
+                            }
+                            else{
+                                $remarks_after_compliance->push([
+                                    'remark' => $remark->remark,
+                                    'type' => $remark->remark_type
+                                ]);
+                            }
+                        }
+                    }
+                }
             }
             else {
                 $total_area_mean = 0;
@@ -317,13 +338,34 @@ class ReportController extends Controller
                 elseif ($grand_mean < 4.50) $descriptive_result = 'Very Satisfactory';
                 elseif ($grand_mean >= 4.50) $descriptive_result = 'Excellent';
                 $result->push(['total_area_mean' => round($total_area_mean, 2), 'grand_mean' => round($grand_mean, 2), 'descriptive_result' => $descriptive_result]);
+                foreach ($instruments_programs as $instrument_program){
+                    $remarks = SFRInformation::where([
+                        ['application_program_id',$app_prog], ['instrument_program_id', $instrument_program->id], ['type', 'like','%internal accreditor%']
+                    ])->get();
+                    if($remarks->count() > 0) {
+                        foreach ($remarks as $remark) {
+                            if($remark->remark_type == 'before_compliance') {
+                                $remarks_before_compliance->push([
+                                    'remark' => $remark->remark,
+                                    'type' => $remark->remark_type
+                                ]);
+                            }
+                            else{
+                                $remarks_after_compliance->push([
+                                    'remark' => $remark->remark,
+                                    'type' => $remark->remark_type
+                                ]);
+                            }
+                        }
+                    }
+                }
             }
             $date = date("Y-m-d");
             if(Str::contains($check->level, 'Level III')) $level = 'Level III';
             elseif(Str::contains($check->level, 'Level IV')) $level = 'Level IV';
             $campus = Campus::where('id', $program->campus_id)->first();
             $suc = SUC::where('id', $campus->suc_id)->first();
-            $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc]);
+            $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'remarks_after_compliance' => $remarks_after_compliance, 'remarks_before_compliance' => $remarks_befores_compliance,'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc]);
             return $pdf->download($program->program_name . '_SAR.pdf');
 //            return response()->json(['program' => $program, 'areas' => $program_sar, 'result' => $result]);
         }
