@@ -59,7 +59,7 @@ class PPPController extends Controller
                 $ppp_statement->save();
             }
             $collection_id->push($ppp_statement->id);
-            if($text['best_practice_id'] != null || isset($text['best_practice_id'])){
+            if($text['best_practice_id'] != null || !(isset($text['best_practice_id']))){
                 $files = BestPracticeDocument::where('best_practice_office_id', $text['best_practice_id'])->get();
                 foreach($files as $file){
                     $ppp_statement_document = PPPStatementDocument::where([
