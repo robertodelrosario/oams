@@ -98,7 +98,7 @@
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">RECOMMENDED BOARD ACTION:</th>
         </tr>
     </table>
-    <table class="table-borderless" >
+    <table class="table table-bordered" >
         <tr>
             <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Award {{ $level }}</th>
             <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 100%">______________</th>
