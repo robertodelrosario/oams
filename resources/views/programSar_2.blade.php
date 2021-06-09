@@ -100,29 +100,29 @@
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Award {{ $level }}</th>
-            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 100%">______________</th>
+            <th scope="col" class="small" style="text-align: left; font-size: 12px">Award {{ $level }}</th>
+            <th scope="col" class="small" style="text-align: right; font-size: 12px">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Comply with recommendations before the award of {{ $level }}</th>
-            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 100%">______________</th>
+            <th scope="col" class="small" style="text-align: left; font-size: 12px">Comply with recommendations before the award of {{ $level }}</th>
+            <th scope="col" class="small" style="text-align: right; font-size: 12px">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Accreditors:</th>
+            <th scope="col" class="small" style="text-align: left; font-size: 12px">Accreditors:</th>
         </tr>
     </table>
     <br>
     <table class="table-borderless" >
         @foreach($accreditors as $accreditor)
             <tr>
-                <th scope="col" class="small" style="text-decoration: underline; text-align: center; font-size: 12px; width: 265px">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
+                <th scope="col" class="small" style="text-decoration: underline; text-align: center; font-size: 12px">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
             </tr>
             <tr>
-                <th scope="col" class="font-weight-bold" style=" text-align: center; font-size: 12px; width: 265px">Accreditor</th><br><br>
+                <th scope="col" class="font-weight-bold" style=" text-align: center; font-size: 12px">Accreditor</th><br><br>
             </tr>
         @endforeach
 
