@@ -100,23 +100,25 @@
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Award {{ $level }})                                                ______________</th>
+            <th scope="col" class="small" style="text-align: center; font-size: 12px; width: 90%">Award {{ $level }}</th>
+            <th scope="col" class="small" style="text-align: center; font-size: 12px; width: 30%">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Comply with recommendations before the award of {{ $level }})      ______________</th>
+            <th scope="col" class="small" style="text-align: center; font-size: 12px; width: 90%">Comply with recommendations before the award of {{ $level }}</th>
+            <th scope="col" class="small" style="text-align: center; font-size: 12px; width: 30%">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Accreditors:</th>
+            <th scope="col" class="small" style="text-align: center; font-size: 12px; width: 90%">Accreditors:</th>
         </tr>
     </table>
     <table class="table-borderless" >
         @foreach($accreditors as $accreditor)
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-decoration: underline; text-align: center; font-size: 12px; width: 90%">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
+                <th scope="col" class="small" style="text-decoration: underline; text-align: center; font-size: 12px; width: 90%">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
             </tr>
             <tr>
                 <th scope="col" class="font-weight-bold" style=" text-align: center; font-size: 12px; width: 90%">Accreditor</th><br><br>
