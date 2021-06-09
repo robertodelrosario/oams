@@ -121,9 +121,6 @@
             <tr>
                 <th scope="col" class="small" style="border: 1px solid white; text-decoration: underline; text-align: center; font-size: 12px">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
             </tr>
-            <tr>
-                <th scope="col" class="font-weight-bold" style="border: 1px solid white; text-align: center; font-size: 12px; height: 13px">Accreditor</th><br><br>
-            </tr>
         @endforeach
 
     </table>
