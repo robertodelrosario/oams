@@ -98,12 +98,12 @@
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">RECOMMENDED BOARD ACTION:</th>
         </tr>
     </table>
-    <tables>
+    <table>
         <tr>
             <td  class="small" style="border: 1px solid white; text-align: left; font-size: 12px; width: 80%">Award {{ $level }}</td>
             <td class="small" style="text-align: right; font-size: 12px; width: 20%">______________</td>
         </tr>
-    </tables>
+    </table>
     <table style="border: 1px solid white;" >
         <tr>
             <td scope="col" class="small" style="text-align: left; font-size: 12px; width: 80%">Comply with recommendations before the award of {{ $level }}</td>
