@@ -104,10 +104,10 @@
             <td class="small" style="text-align: right; font-size: 12px; width: 30%">______________</td>
         </tr>
     </table>
-    <table class="table-borderless" >
+    <table style="border: 1px solid white;" >
         <tr>
-            <td scope="col" class="small" style="text-align: left; font-size: 12px; width: 512px">Comply with recommendations before the award of {{ $level }}</td>
-            <td scope="col" class="small" style="text-align: right; font-size: 12px; width: 256px">______________</td>
+            <td scope="col" class="small" style="text-align: left; font-size: 12px; width: 80px">Comply with recommendations before the award of {{ $level }}</td>
+            <td scope="col" class="small" style="text-align: right; font-size: 12px; width: 20px">______________</td>
         </tr>
     </table>
     <table class="table-borderless" >
