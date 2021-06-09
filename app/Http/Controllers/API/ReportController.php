@@ -286,10 +286,13 @@ class ReportController extends Controller
                     if (Str::contains($assigned_user->role, 'external accreditor'))
                     {
                         $user = User::where('id', $assigned_user->user_id)->first();
-                        $accreditors->push([
-                            'first_name' => $user->first_name,
-                            'last_name' => $user->last_name
-                        ]);
+                        if(!($accreditors->contains('user_id', $user->id))) {
+                            $accreditors->push([
+                                'user_id' => $user->id,
+                                'first_name' => $user->first_name,
+                                'last_name' => $user->last_name
+                            ]);
+                        }
                     }
                 }
                 $total_area_mean = 0;
@@ -335,10 +338,14 @@ class ReportController extends Controller
                 foreach ($assigned_users as $assigned_user) {
                     if (Str::contains($assigned_user->role, 'internal accreditor')) {
                         $user = User::where('id', $assigned_user->user_id)->first();
-                        $accreditors->push([
-                            'first_name' => $user->first_name,
-                            'last_name' => $user->last_name
-                        ]);
+
+                        if(!($accreditors->contains('user_id', $user->id))) {
+                            $accreditors->push([
+                                'user_id' => $user->id,
+                                'first_name' => $user->first_name,
+                                'last_name' => $user->last_name
+                            ]);
+                        }
                     }
                 }
                 $total_area_mean = 0;
