@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\ApplicationProgram;
 use App\AreaMean;
 use App\AssignedUser;
 use App\BestPractice;
@@ -79,8 +80,12 @@ class MSIEvaluationController extends Controller
         $recommendation_array = array();
         $empty = array();
 
+        $before_compliance = new Collection();
+        $after_compliance = new Collection();
+
         $collection_user = new Collection();
         $test = array();
+        $applied_program = ApplicationProgram::where('id', $id)->first();
         foreach ($transactions as $transaction){
             $tasks = AssignedUser::where([
                 ['transaction_id', $transaction->id], ['app_program_id', $id]
@@ -95,45 +100,78 @@ class MSIEvaluationController extends Controller
             foreach ($tasks as $task){
                 if(Str::contains($task->role, $role_str))
                 {
-                    $test= Arr::prepend($test,$task);
                     $user = User::where('id', $task->user_id)->first();
-                    $bestpractices = DB::table('assigned_users')
-                        ->join('best_practices', 'best_practices.assigned_user_id','=', 'assigned_users.id')
-                        ->where('assigned_users.id', $task->id)
-                        ->get();
-                    foreach ($bestpractices as $bestpractice) $bestpractice_array = Arr::prepend($bestpractice_array,$bestpractice->best_practice);
-
-                    $remarks = DB::table('assigned_users')
-                        ->join('instruments_scores', 'instruments_scores.assigned_user_id', '=', 'assigned_users.id')
-                        ->where('assigned_users.id', $task->id)
-                        ->where('instruments_scores.remark', '!=', null)
-                        ->get();
-                    if(count($remarks) > 0)
-                    foreach ($remarks as $remark)
-                    {
-                        if($remark->remark_type == 'Strength') $remark_strength_array = Arr::prepend($remark_strength_array, $remark->remark);
-                        elseif($remark->remark_type == 'Weakness') $remark_weakness_array = Arr::prepend($remark_weakness_array, $remark->remark);
+                    if(Str::contains($applied_program->level, 'Level III') || Str::contains($applied_program->level, 'Level IV')){
+                        $remarks = InstrumentScore::where('assigned_user_id', $task->id)->get();
+                        foreach ($remarks as $remark){
+                            if(!(is_null($remark->remark))){
+                                $before_compliance->push([
+                                    'remark' => $remark->remark,
+                                    'remark_type' => $remark->remark_type,
+                                ]);
+                            }
+                            if(!(is_null($remark->remark_2))){
+                                $after_compliance->push([
+                                    'remark' => $remark->remark_2,
+                                    'remark_type' => $remark->remark_2_type,
+                                ]);
+                            }
+                        }
+                        $collection_user->push([
+                            'instrument_program_id' => $area->id,
+                            'area_name' => $area->area_name,
+                            'user_name' => $user->first_name. " ".$user->last_name,
+                            'best_practices' => $bestpractice_array,
+                            'strength_remarks' => $remark_strength_array,
+                            'weakness_remarks' => $remark_weakness_array,
+                            'recommendations' => $recommendation_array,
+                            'before_compliance' => $before_compliance,
+                            'after_compliance' => $after_compliance,
+                        ]);
                     }
+                    else{
+                        $test= Arr::prepend($test,$task);
+                        $user = User::where('id', $task->user_id)->first();
+                        $bestpractices = DB::table('assigned_users')
+                            ->join('best_practices', 'best_practices.assigned_user_id','=', 'assigned_users.id')
+                            ->where('assigned_users.id', $task->id)
+                            ->get();
+                        foreach ($bestpractices as $bestpractice) $bestpractice_array = Arr::prepend($bestpractice_array,$bestpractice->best_practice);
 
-                    $recommendations = DB::table('assigned_users')
-                        ->join('recommendations', 'assigned_users.id', '=', 'recommendations.assigned_user_id')
-                        ->where('assigned_users.id', $task->id)
-                        ->get();
-                    foreach ($recommendations as $recommendation) $recommendation_array = Arr::prepend($recommendation_array,$recommendation->recommendation);
+                        $remarks = DB::table('assigned_users')
+                            ->join('instruments_scores', 'instruments_scores.assigned_user_id', '=', 'assigned_users.id')
+                            ->where('assigned_users.id', $task->id)
+                            ->where('instruments_scores.remark', '!=', null)
+                            ->get();
+                        if(count($remarks) > 0) {
+                            foreach ($remarks as $remark) {
+                                if ($remark->remark_type == 'Strength') $remark_strength_array = Arr::prepend($remark_strength_array, $remark->remark);
+                                elseif ($remark->remark_type == 'Weakness') $remark_weakness_array = Arr::prepend($remark_weakness_array, $remark->remark);
+                            }
+                        }
 
-                    $collection_user->push([
-                        'instrument_program_id' => $area->id,
-                        'area_name' => $area->area_name,
-                        'user_name' => $user->first_name. " ".$user->last_name,
-                        'best_practices' => $bestpractice_array,
-                        'strength_remarks' => $remark_strength_array,
-                        'weakness_remarks' => $remark_weakness_array,
-                        'recommendations' => $recommendation_array
-                    ]);
-                    $bestpractice_array = $empty;
-                    $remark_strength_array = $empty;
-                    $remark_weakness_array= $empty;
-                    $recommendation_array= $empty;
+                        $recommendations = DB::table('assigned_users')
+                            ->join('recommendations', 'assigned_users.id', '=', 'recommendations.assigned_user_id')
+                            ->where('assigned_users.id', $task->id)
+                            ->get();
+                        foreach ($recommendations as $recommendation) $recommendation_array = Arr::prepend($recommendation_array,$recommendation->recommendation);
+
+                        $collection_user->push([
+                            'instrument_program_id' => $area->id,
+                            'area_name' => $area->area_name,
+                            'user_name' => $user->first_name. " ".$user->last_name,
+                            'best_practices' => $bestpractice_array,
+                            'strength_remarks' => $remark_strength_array,
+                            'weakness_remarks' => $remark_weakness_array,
+                            'recommendations' => $recommendation_array,
+                            'before_compliance' => nullOrEmptyString(),
+                            'after_compliance' => nullOrEmptyString(),
+                        ]);
+                        $bestpractice_array = $empty;
+                        $remark_strength_array = $empty;
+                        $remark_weakness_array= $empty;
+                        $recommendation_array= $empty;
+                    }
                 }
             }
         }
