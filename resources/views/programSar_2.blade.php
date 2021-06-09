@@ -110,19 +110,18 @@
             <td scope="col" class="small" style="border: 1px solid white; text-align: right; font-size: 12px; width: 20%">______________</td>
         </tr>
     </table>
-    <table class="table-borderless" >
+    <table class="table table-bordered" >
         <tr>
-            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Accreditors:</th>
+            <th scope="col" class="small" style="border: 1px solid white;  text-align: left; font-size: 12px; width: 100%">Accreditors:</th>
         </tr>
     </table>
     <br>
     <table class="table table-bordered"  >
-        @foreach($accreditors as $accreditor)
-            <tr>
-                <th scope="col" class="font-weight-bold" style="border: 1px solid white; text-decoration: underline; text-align: center; font-size: 12px">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
-            </tr>
-        @endforeach
-
+        <tr>
+            @foreach($accreditors as $accreditor)
+                <th scope="col" class="font-weight-bold" style="border: 1px solid white; text-decoration: underline; text-align: center; font-size: 12px; width: 50%">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
+            @endforeach
+        </tr>
     </table>
 </div>
 

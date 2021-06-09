@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="" />
+    <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/programSar_2.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/programSar_2.blade.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -399,7 +402,7 @@
       <workItem from="1623111141827" duration="9351000" />
       <workItem from="1623129476007" duration="3063000" />
       <workItem from="1623201956099" duration="3822000" />
-      <workItem from="1623216030362" duration="5538000" />
+      <workItem from="1623216030362" duration="5717000" />
     </task>
     <servers />
   </component>
