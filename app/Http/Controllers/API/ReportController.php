@@ -300,7 +300,7 @@ class ReportController extends Controller
                 $result->push(['total_area_mean' => round($total_area_mean, 2), 'grand_mean' => round($grand_mean, 2), 'descriptive_result' => $descriptive_result]);
                 foreach ($instruments_programs as $instrument_program){
                     $remarks = SFRInformation::where([
-                        ['application_program_id',$app_prog], ['instrument_program_id', $instrument_program->id], ['type', 'like','%external accreditor%']
+                        ['application_program_id',$app_prog], ['instrument_program_id', $instrument_program->id], ['type', 'External']
                     ])->get();
                     if($remarks->count() > 0) {
                         foreach ($remarks as $remark) {
@@ -340,7 +340,7 @@ class ReportController extends Controller
                 $result->push(['total_area_mean' => round($total_area_mean, 2), 'grand_mean' => round($grand_mean, 2), 'descriptive_result' => $descriptive_result]);
                 foreach ($instruments_programs as $instrument_program){
                     $remarks = SFRInformation::where([
-                        ['application_program_id',$app_prog], ['instrument_program_id', $instrument_program->id], ['type', 'like','%internal accreditor%']
+                        ['application_program_id',$app_prog], ['instrument_program_id', $instrument_program->id], ['type', 'Internal']
                     ])->get();
                     if($remarks->count() > 0) {
                         foreach ($remarks as $remark) {
@@ -367,7 +367,6 @@ class ReportController extends Controller
             $suc = SUC::where('id', $campus->suc_id)->first();
             $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'remarks_after_compliance' => $remarks_after_compliance, 'remarks_before_compliance' => $remarks_before_compliance,'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc]);
             return $pdf->download($program->program_name . '_SAR.pdf');
-//            return response()->json(['program' => $program, 'areas' => $program_sar, 'result' => $result]);
         }
         else {
             $instruments = AssignedUser::where('app_program_id', $app_prog)->get();
