@@ -101,7 +101,7 @@
     <table class="table-borderless" >
         <tr>
             <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Award {{ $level }}</th>
-            <td class="small">______________</td>
+            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 100%">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
@@ -119,10 +119,10 @@
     <table class="table-borderless" >
         @foreach($accreditors as $accreditor)
             <tr>
-                <th scope="col" class="small" style="text-decoration: underline; text-align: center; font-size: 12px; width: 90%">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
+                <th scope="col" class="small" style="text-decoration: underline; text-align: center; font-size: 12px; width: 265px">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
             </tr>
             <tr>
-                <th scope="col" class="font-weight-bold" style=" text-align: center; font-size: 12px; width: 90%">Accreditor</th><br><br>
+                <th scope="col" class="font-weight-bold" style=" text-align: center; font-size: 12px; width: 265px">Accreditor</th><br><br>
             </tr>
         @endforeach
 
