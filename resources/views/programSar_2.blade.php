@@ -93,6 +93,37 @@
         </tr>
         </tbody>
     </table>
+    <table class="table-borderless" >
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">RECOMMENDED BOARD ACTION:</th>
+        </tr>
+    </table>
+    <table class="table-borderless" >
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Award {{ $level }})                                                ______________</th>
+        </tr>
+    </table>
+    <table class="table-borderless" >
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Comply with recommendations before the award of {{ $level }})      ______________</th>
+        </tr>
+    </table>
+    <table class="table-borderless" >
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Accreditors:</th>
+        </tr>
+    </table>
+    <table class="table-borderless" >
+        @foreach($accreditors as $accreditor)
+            <tr>
+                <th scope="col" class="font-weight-bold" style="text-decoration: underline; text-align: center; font-size: 12px; width: 90%">Accreditors:</th>
+            </tr>
+            <tr>
+                <th scope="col" class="font-weight-bold" style=" text-align: center; font-size: 12px; width: 90%">Accreditor</th><br><br>
+            </tr>
+        @endforeach
+
+    </table>
 </div>
 
 </body>

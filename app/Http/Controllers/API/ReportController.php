@@ -246,6 +246,7 @@ class ReportController extends Controller
             $external_scores = new Collection();
             $remarks_before_compliance = new Collection();
             $remarks_after_compliance = new Collection();
+            $accreditors = new Collection();
             foreach ($instruments_programs as $instrument_program){
                 $partial_internal_mean_scores = new Collection();
                 $partial_external_mean_scores = new Collection();
@@ -281,6 +282,16 @@ class ReportController extends Controller
             $result = new Collection();
 
             if (Str::contains($role, 'external accreditor')) {
+                foreach ($assigned_users as $assigned_user){
+                    if (Str::contains($assigned_user->role, 'external accreditor'))
+                    {
+                        $user = User::where('id', $assigned_user->user_id)->first();
+                        $accreditors->push([
+                            'first_name' => $user->first_name,
+                            'last_name' => $user->last_name
+                        ]);
+                    }
+                }
                 $total_area_mean = 0;
                 foreach ($external_scores as $external_score) {
                     $instrument = InstrumentProgram::where('id', $external_score['instrument_program_id'])->first();
@@ -321,6 +332,14 @@ class ReportController extends Controller
                 }
             }
             else {
+                if (Str::contains($assigned_user->role, 'external accreditor'))
+                {
+                    $user = User::where('id', $assigned_user->user_id)->first();
+                    $accreditors->push([
+                        'first_name' => $user->first_name,
+                        'last_name' => $user->last_name
+                    ]);
+                }
                 $total_area_mean = 0;
                 foreach ($internal_scores as $internal_score) {
                     $instrument = InstrumentProgram::where('id', $internal_score['instrument_program_id'])->first();
@@ -365,7 +384,7 @@ class ReportController extends Controller
             elseif(Str::contains($check->level, 'Level IV')) $level = 'Level IV';
             $campus = Campus::where('id', $program->campus_id)->first();
             $suc = SUC::where('id', $campus->suc_id)->first();
-            $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'remarks_after_compliance' => $remarks_after_compliance, 'remarks_before_compliance' => $remarks_before_compliance,'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc]);
+            $pdf = PDF::loadView('programSar_2', ['program' => $program, 'areas' => $sars, 'remarks_after_compliance' => $remarks_after_compliance, 'remarks_before_compliance' => $remarks_before_compliance,'result' => $result, 'date' => $date, 'level' => $level, 'suc' => $suc, 'accreditors' => $accreditors]);
             return $pdf->download($program->program_name . '_SAR.pdf');
         }
         else {
