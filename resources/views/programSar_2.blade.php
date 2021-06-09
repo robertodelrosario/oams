@@ -101,7 +101,7 @@
     <table class="table-borderless" >
         <tr>
             <th scope="col" class="small" style="text-align: left; font-size: 12px">Award {{ $level }}</th>
-            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 256px">______________</th>
+            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 512px">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
