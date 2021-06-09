@@ -332,13 +332,14 @@ class ReportController extends Controller
                 }
             }
             else {
-                if (Str::contains($assigned_user->role, 'internal accreditor'))
-                {
-                    $user = User::where('id', $assigned_user->user_id)->first();
-                    $accreditors->push([
-                        'first_name' => $user->first_name,
-                        'last_name' => $user->last_name
-                    ]);
+                foreach ($assigned_users as $assigned_user) {
+                    if (Str::contains($assigned_user->role, 'internal accreditor')) {
+                        $user = User::where('id', $assigned_user->user_id)->first();
+                        $accreditors->push([
+                            'first_name' => $user->first_name,
+                            'last_name' => $user->last_name
+                        ]);
+                    }
                 }
                 $total_area_mean = 0;
                 foreach ($internal_scores as $internal_score) {
