@@ -164,8 +164,8 @@ class MSIEvaluationController extends Controller
                             'strength_remarks' => $remark_strength_array,
                             'weakness_remarks' => $remark_weakness_array,
                             'recommendations' => $recommendation_array,
-                            'before_compliance' => nullOrEmptyString(),
-                            'after_compliance' => nullOrEmptyString(),
+                            'before_compliance' => null,
+                            'after_compliance' => null,
                         ]);
                         $bestpractice_array = $empty;
                         $remark_strength_array = $empty;
