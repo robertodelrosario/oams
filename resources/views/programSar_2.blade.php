@@ -100,14 +100,14 @@
     </table>
     <table class="table-borderless" >
         <tr>
-            <td  class="small" style="text-align: left; font-size: 12px; width: 256px">Award {{ $level }}</td>
+            <td  class="small" style="text-align: left; font-size: 12px; width: 512px">Award {{ $level }}</td>
             <td class="small" style="text-align: right; font-size: 12px; width: 256px">______________</td>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 256px">Comply with recommendations before the award of {{ $level }}</th>
-            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 256px">______________</th>
+            <td scope="col" class="small" style="text-align: left; font-size: 12px; width: 512px">Comply with recommendations before the award of {{ $level }}</td>
+            <td scope="col" class="small" style="text-align: right; font-size: 12px; width: 256px">______________</td>
         </tr>
     </table>
     <table class="table-borderless" >
