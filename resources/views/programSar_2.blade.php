@@ -100,19 +100,19 @@
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" style="text-align: right; font-size: 12px; width: 90%">Award {{ $level }}</th>
-            <th scope="col"  style="text-align: left; font-size: 12px; width: 30%">______________</th>
+            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Award {{ $level }}</th>
+            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 100%">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 90%">Comply with recommendations before the award of {{ $level }}</th>
-            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 30%">______________</th>
+            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Comply with recommendations before the award of {{ $level }}</th>
+            <th scope="col" class="small" style="text-align: right; font-size: 12px; width: 100%">______________</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="small" style="text-align: center; font-size: 12px; width: 90%">Accreditors:</th>
+            <th scope="col" class="small" style="text-align: left; font-size: 12px; width: 100%">Accreditors:</th>
         </tr>
     </table>
     <br>
