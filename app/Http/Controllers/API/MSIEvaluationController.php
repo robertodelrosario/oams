@@ -105,16 +105,10 @@ class MSIEvaluationController extends Controller
                         $remarks = InstrumentScore::where('assigned_user_id', $task->id)->get();
                         foreach ($remarks as $remark){
                             if(!(is_null($remark->remark))){
-                                $before_compliance->push([
-                                    'remark' => $remark->remark,
-                                    'remark_type' => $remark->remark_type,
-                                ]);
+                                $before_compliance->push($remark->remark);
                             }
                             if(!(is_null($remark->remark_2))){
-                                $after_compliance->push([
-                                    'remark' => $remark->remark_2,
-                                    'remark_type' => $remark->remark_2_type,
-                                ]);
+                                $after_compliance->push($remark->remark_2);
                             }
                         }
                         $collection_user->push([
