@@ -119,7 +119,7 @@
     <table class="table table-bordered"  >
         <tr>
             @foreach($accreditors as $accreditor)
-                <th scope="col" class="font-weight-bold" style="border: 1px solid white; text-decoration: underline; text-align: center; font-size: 12px; width: 50%">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
+                <th scope="col" class="font-weight-bold" style="border: 1px solid black; text-decoration: underline; text-align: center; font-size: 12px; width: 50%">{{$accreditor['first_name']}} {{$accreditor['last_name']}}</th>
             @endforeach
         </tr>
     </table>
