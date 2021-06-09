@@ -79,14 +79,14 @@
             <th scope="row" class="small">
                 <?php $x = 1; ?>
                 @foreach($remarks_before_compliance as $remark)
-                        {{ $x }}. {{ $remark['remark'] }}
+                        {{ $x }}. {{ $remark['remark'] }}<br>
                         <?php $x = $x + 1; ?>
                     @endforeach
             </th>
             <th scope="row" class="small">
                 <?php $x = 1; ?>
                 @foreach($remarks_after_compliance as $remark)
-                    {{ $x }}. {{ $remark['remark'] }}
+                    {{ $x }}. {{ $remark['remark'] }} <br>
                     <?php $x = $x + 1; ?>
                 @endforeach
             </th>
