@@ -332,7 +332,7 @@ class ReportController extends Controller
                 }
             }
             else {
-                if (Str::contains($assigned_user->role, 'external accreditor'))
+                if (Str::contains($assigned_user->role, 'internal accreditor'))
                 {
                     $user = User::where('id', $assigned_user->user_id)->first();
                     $accreditors->push([
