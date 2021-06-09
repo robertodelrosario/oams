@@ -100,8 +100,8 @@
     </table>
     <table class="table-borderless" >
         <tr>
-            <td  class="small" style="text-align: left; font-size: 12px; width: 512px">Award {{ $level }}</td>
-            <td class="small" style="text-align: right; font-size: 12px; width: 256px">______________</td>
+            <td  class="small" style="text-align: left; font-size: 12px; width: 70%">Award {{ $level }}</td>
+            <td class="small" style="text-align: right; font-size: 12px; width: 30%">______________</td>
         </tr>
     </table>
     <table class="table-borderless" >
