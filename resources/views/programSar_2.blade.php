@@ -103,19 +103,14 @@
             <td  class="small" style="border: 1px solid white; text-align: left; font-size: 12px; width: 80%">Award {{ $level }}</td>
             <td class="small" style="border: 1px solid white; text-align: right; font-size: 12px; width: 20%">______________</td>
         </tr>
-    </table>
-    <table class="table table-bordered"  >
         <tr>
             <td scope="col" class="small" style="border: 1px solid white; text-align: left; font-size: 12px; width: 80%">Comply with recommendations before the award of {{ $level }}</td>
             <td scope="col" class="small" style="border: 1px solid white; text-align: right; font-size: 12px; width: 20%">______________</td>
         </tr>
-    </table>
-    <table class="table table-bordered" >
         <tr>
             <th scope="col" class="small" style="border: 1px solid white;  text-align: left; font-size: 12px; width: 100%">Accreditors:</th>
         </tr>
     </table>
-    <br>
     <table class="table table-bordered"  >
         <tr>
             @foreach($accreditors as $accreditor)
