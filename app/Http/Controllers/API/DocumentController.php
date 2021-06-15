@@ -414,12 +414,12 @@ class DocumentController extends Controller
     }
 
     public function deleteDocs($id){
-        $document = Document::where('id', $id)->first();
+        $document = Document::where('id', $id);
         $document->delete();
     }
 
     public function deleteCon($id){
-        $container = DocumentContainer::where('id', $id)->first();
+        $container = DocumentContainer::where('id', $id);
         $container->delete();
     }
 }
