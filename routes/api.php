@@ -209,7 +209,7 @@ Route::group(['prefix' => '/document'], function() {
     Route::delete('/deleteAllDocument', 'DocumentController@deleteAllDocument');
     Route::get('/showAllDocument', 'DocumentController@showAllDocument');
 
-    Route::delete('/deleteDocs/{id}', 'DocumentController@deleteDocs');
+    Route::delete('/deleteDoc/{id}', 'DocumentController@deleteDoc');
     Route::delete('/deleteCon/{id}', 'DocumentController@deleteCon');
 });
 
