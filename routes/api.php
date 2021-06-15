@@ -209,8 +209,8 @@ Route::group(['prefix' => '/document'], function() {
     Route::delete('/deleteAllDocument', 'DocumentController@deleteAllDocument');
     Route::get('/showAllDocument', 'DocumentController@showAllDocument');
 
-    Route::delete('/deleteDoc/{id}', 'DocumentController@deleteDoc');
-    Route::delete('/deleteCon/{id}', 'DocumentController@deleteCon');
+    Route::get('/deleteDoc/{id}', 'DocumentController@deleteDoc');
+    Route::get('/deleteCon/{id}', 'DocumentController@deleteCon');
 });
 
 Route::group(['prefix' => '/accreditor'], function() {
