@@ -208,6 +208,9 @@ Route::group(['prefix' => '/document'], function() {
     Route::get('/showOwnContainer/{id}', 'DocumentController@showOwnContainer');
     Route::delete('/deleteAllDocument', 'DocumentController@deleteAllDocument');
     Route::get('/showAllDocument', 'DocumentController@showAllDocument');
+
+    Route::delete('/deleteDocs/{id}', 'DocumentController@deleteDocs');
+    Route::delete('/deleteCon/{id}', 'DocumentController@deleteCon');
 });
 
 Route::group(['prefix' => '/accreditor'], function() {

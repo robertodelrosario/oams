@@ -412,4 +412,14 @@ class DocumentController extends Controller
     public function showAllDocument(){
         return response()->json(Document::all());
     }
+
+    public function deleteDocs($id){
+        $document = Document::where('id', $id)->first();
+        $document->delete();
+    }
+
+    public function deleteCon($id){
+        $container = DocumentContainer::where('id', $id)->first();
+        $container->delete();
+    }
 }
