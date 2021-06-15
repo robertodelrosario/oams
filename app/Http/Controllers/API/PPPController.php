@@ -192,7 +192,7 @@ class PPPController extends Controller
         $instrument = InstrumentProgram::where('id', $id)->first();
         $program = Program::where('id',$instrument->program_id)->first();
         $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
-        $parameters = ParameterProgram::where('program_instrument_id', $id)->orderBy('parameter', 'ASC')->get();
+        $parameters = ParameterProgram::where('program_instrument_id', $id)->orderBy('parameter_id', 'ASC')->get();
 //        foreach ($parameters as $parameter) {
 //            $ppp_statements = PPPStatement::where('program_parameter_id', $parameter->id)->get();
 //            $param = Parameter::where('id', $parameter->parameter_id)->first();
