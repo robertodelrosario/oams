@@ -50,10 +50,8 @@ class ProgramController extends Controller
             elseif($request->latest_applied_level == 'Candidate') $program->accreditation_status = 'Candidate';
             elseif ($request->latest_applied_level == 'Level I') $program->accreditation_status = 'Level I Accredited';
             elseif ($request->latest_applied_level == 'Level II') $program->accreditation_status = 'Level II Re-accredited';
-            elseif ($request->latest_applied_level == 'Level III, Phase 1') $program->accreditation_status = 'Level II Re-accredited';
-            elseif ($request->latest_applied_level == 'Level III, Phase 2') $program->accreditation_status = 'Level III Re-accredited';
-            elseif ($request->latest_applied_level == 'Level IV, Phase 1') $program->accreditation_status = 'Level III Re-accredited';
-            elseif ($request->latest_applied_level == 'Level IV, Phase 2') $program->accreditation_status = 'Level IV Re-accredited';
+            elseif ($request->latest_applied_level == 'Level III') $program->accreditation_status = 'Level III Re-accredited';
+            elseif ($request->latest_applied_level == 'Level IV') $program->accreditation_status = 'Level IV Re-accredited';
             if(!(is_null($request->duration_of_validity)))$program->duration_of_validity = \Carbon\Carbon::parse($request->duration_of_validity)->format('Y-m-d');
             $program->rating_obtained = $request->rating_obtained;
             $program->campus_id = $id;
