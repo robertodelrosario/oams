@@ -89,19 +89,11 @@ class OverviewController extends Controller
         {
             $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
         }
-        elseif ($check->level == 'Level III, Phase 1')
-        {
-            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
-        }
-        elseif ($check->level == 'Level III, Phase 2')
+        elseif ($check->level == 'Level III')
         {
             $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
         }
-        elseif ($check->level == 'Level IV, Phase 1')
-        {
-            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
-        }
-        elseif ($check->level == 'Level IV, Phase 2')
+        elseif ($check->level == 'Level IV')
         {
             $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level IV')->first();
         }
