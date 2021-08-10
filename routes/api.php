@@ -246,8 +246,8 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::put('/editProgram/{id}', 'InstrumentController@editProgram');
     Route::put('/editInstrument/{id}', 'InstrumentController@editInstrument');
     Route::put('/editParameter/{id}', 'ParameterController@editParameter');
-    Route::post('/setAreaMandatory/{id}', 'StatementController@setAreaMandatory');
-    Route::post('/setInitialAreaMandatory', 'StatementController@setInitialAreaMandatory');
+    Route::post('/setAreaMandatory/{id}', 'InstrumentController@setAreaMandatory');
+    Route::post('/setInitialAreaMandatory', 'InstrumentController@setInitialAreaMandatory');
     Route::delete('/removeAreaMandatory/{id}', 'InstrumentController@removeAreaMandatory');
 
     Route::get('/showCriteriaInstrument/{id}', 'CriteriaForm@showCriteriaInstrument');
