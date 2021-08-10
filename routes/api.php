@@ -249,7 +249,9 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::post('/setAreaMandatory/{id}', 'StatementController@setAreaMandatory');
     Route::delete('/removeAreaMandatory/{id}', 'InstrumentController@removeAreaMandatory');
 
-
+    Route::get('/showCriteriaInstrument/{id}', 'CriteriaForm@showCriteriaInstrument');
+    Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
+    Route::delete('/removeInstrument/{id}', 'CriteriaForm@removeInstrument');
 });
 
 Route::group(['prefix' => '/notification'], function() {
@@ -355,9 +357,9 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showPersonalSFRData/{id}/{role}', 'MSIEvaluationController@showPersonalSFRData');
     Route::get('/showProgramSAR/{app_prog}/{role}', 'OverviewController@showProgramSAR');
 
-    Route::get('/showCriteriaInstrument/{id}', 'CriteriaForm@showCriteriaInstrument');
-    Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
-    Route::delete('/removeInstrument/{id}', 'CriteriaForm@removeInstrument');
+//    Route::get('/showCriteriaInstrument/{id}', 'CriteriaForm@showCriteriaInstrument');
+//    Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
+//    Route::delete('/removeInstrument/{id}', 'CriteriaForm@removeInstrument');
 
 });
 
