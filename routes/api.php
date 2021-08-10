@@ -355,7 +355,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showPersonalSFRData/{id}/{role}', 'MSIEvaluationController@showPersonalSFRData');
     Route::get('/showProgramSAR/{app_prog}/{role}', 'OverviewController@showProgramSAR');
 
-    Route::get('/showCriteriaInstrument', 'CriteriaForm@showCriteriaInstrument');
+    Route::get('/showCriteriaInstrument/{id}', 'CriteriaForm@showCriteriaInstrument');
     Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
     Route::delete('/removeInstrument/{id}', 'CriteriaForm@removeInstrument');
 
