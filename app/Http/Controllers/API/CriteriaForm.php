@@ -20,7 +20,6 @@ class CriteriaForm extends Controller
         $instruments = AreaInstrument::where('intended_program_id', $id)->get();
         foreach ($instruments as $instrument){
             $area_mandatory = AreaMandatory::where('id', $instrument->id)->get();
-            if($area_mandatory->count() > 0) {
                 $collection->push([
                     'id' => $instrument->id,
                     'intended_program_id' => $instrument->intended_program_id,
@@ -31,7 +30,6 @@ class CriteriaForm extends Controller
                     'updated_at' => $instrument->updated_at,
                     'status' => $area_mandatory
                 ]);
-            }
         }
         return response()->json($collection);
 //        $areas = AreaInstrument::where('intended_program_id', 42)->get();
