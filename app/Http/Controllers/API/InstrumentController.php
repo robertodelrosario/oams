@@ -126,16 +126,45 @@ class InstrumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
     }
 
+    public function setInitialAreaMandatory(){
+        for($x=372; $x<379; $x++){
+            $areamandatory = new AreaMandatory();
+            $areamandatory->area_instrument_id = $x;
+            $areamandatory->type = 'Optional';
+            $areamandatory->program_status = 'Graduate';
+            $areamandatory->save();
+
+            $areamandatory = new AreaMandatory();
+            $areamandatory->area_instrument_id = $x;
+            $areamandatory->type = 'Optional';
+            $areamandatory->program_status = 'Undergraduate';
+            $areamandatory->save();
+        }
+        for($x=419; $x<424; $x++){
+            $areamandatory = new AreaMandatory();
+            $areamandatory->area_instrument_id = $x;
+            $areamandatory->type = 'Mandatory';
+            $areamandatory->program_status = 'Graduate';
+            $areamandatory->save();
+
+            $areamandatory = new AreaMandatory();
+            $areamandatory->area_instrument_id = $x;
+            $areamandatory->type = 'Mandatory';
+            $areamandatory->program_status = 'Undergraduate';
+            $areamandatory->save();
+        }
+    }
+
     public function setAreaMandatory(request $request, $id){
         $area_1 = AreaMandatory::where([
-           ['area_instrument_id', $id],['program_status', 'graduate']
+           ['area_instrument_id', $id],['program_status', 'Graduate']
         ])->first();
         if (!(is_null($area_1))){
             $area_1->type = $request->graduate;
             $area_1->save();
         }
         $area_2 = AreaMandatory::where([
-            ['area_instrument_id', $id],['program_status', 'undergraduate']
+            ['area_instrument_id', $id],['program_status', 'Undergraduate']
         ])->first();
         if (!(is_null($area_2))){
             $area_2->type = $request->undergraduate;
