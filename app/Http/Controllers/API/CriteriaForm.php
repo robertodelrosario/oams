@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\AreaInstrument;
+use App\AreaMandatory;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
 use App\InstrumentProgram;
@@ -10,6 +11,7 @@ use App\InstrumentStatement;
 use App\ParameterProgram;
 use App\ProgramStatement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class CriteriaForm extends Controller
 {
