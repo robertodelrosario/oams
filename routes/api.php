@@ -234,7 +234,7 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createStatement/{id}', 'StatementController@createStatement');
     Route::post('/createCriteriaStatement/{id}', 'StatementController@createCriteriaStatement');
     Route::post('/createParameter', 'ParameterController@createParameter');
-    Route::get('/showProgram/{id}', 'InstrumentController@showProgram');
+    Route::get('/showProgram', 'InstrumentController@showProgram');
     Route::get('/showParameter/{id}', 'ParameterController@showParameter');
     Route::get('/showInstrument/{id}', 'InstrumentController@showInstrument');
     Route::get('/showAllStatement', 'StatementController@showAllStatement');
@@ -285,7 +285,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/program', 'AppliedProgramController@program');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');
     Route::put('/edit/{id}', 'AppliedProgramController@edit');
-    Route::get('/showProgram', 'AppliedProgramController@showProgram');
+    Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
     Route::get('/programList/{id}', 'AppliedProgramController@programList');
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
     Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');
