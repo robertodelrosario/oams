@@ -285,7 +285,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/program', 'AppliedProgramController@program');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');
     Route::put('/edit/{id}', 'AppliedProgramController@edit');
-    Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
+    Route::get('/showProgram', 'AppliedProgramController@showProgram');
     Route::get('/programList/{id}', 'AppliedProgramController@programList');
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
     Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');

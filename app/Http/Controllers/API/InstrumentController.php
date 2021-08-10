@@ -151,24 +151,41 @@ class InstrumentController extends Controller
         return response()->json(['status' => false, 'message' => 'Unsuccessfully removed instrument type!']);
     }
 
-    public function showProgram($id){
+    public function showProgram(){
         $collection = new Collection();
-        $instruments = AreaInstrument::where('intended_program_id', $id)->get();
-        foreach ($instruments as $instrument){
-            $area_mandatory = AreaMandatory::where('id', $instrument->id)->get();
-            $collection->push([
-                'id' => $instrument->id,
-                'intended_program_id' => $instrument->intended_program_id,
-                'area_number' => $instrument->area_number,
-                'area_name' => $instrument->area_name,
-                'version' => $instrument->version,
-                'created_at' => $instrument->created_at,
-                'updated_at' => $instrument->updated_at,
-                'status' => $area_mandatory
-            ]);
+        $intendedPrograms = ProgramInstrument::all();
+        foreach ($intendedPrograms as $intendedProgram){
+            if($intendedProgram->id != 42){
+                $collection->push([
+                    'id' => $intendedProgram->id,
+                    'intended_program' => $intendedProgram->intended_program,
+                    'type_of_instrument' => $intendedProgram->type_of_instrument,
+                    'created_at' => $intendedProgram->created_at,
+                    'updated_at' => $intendedProgram->updated_at,
+                ]);
+            }
         }
         return response()->json($collection);
     }
+//    public function showProgram($id){
+//        $collection = new Collection();
+//        $instruments = AreaInstrument::where('intended_program_id', $id)->get();
+//        foreach ($instruments as $instrument){
+//            $area_mandatory = AreaMandatory::where('id', $instrument->id)->get();
+//            $collection->push([
+//                'id' => $instrument->id,
+//                'intended_program_id' => $instrument->intended_program_id,
+//                'area_number' => $instrument->area_number,
+//                'area_name' => $instrument->area_name,
+//                'version' => $instrument->version,
+//                'created_at' => $instrument->created_at,
+//                'updated_at' => $instrument->updated_at,
+//                'status' => $area_mandatory
+//            ]);
+//        }
+//        return response()->json($collection);
+//    }
+
     public function showInstrument($id){
         $instruments = AreaInstrument::where('intended_program_id', $id)->get();
         return response()->json(['instrument' => $instruments]);
