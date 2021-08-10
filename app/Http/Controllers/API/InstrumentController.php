@@ -153,7 +153,7 @@ class InstrumentController extends Controller
 
     public function showProgram($id){
         $collection = new Collection();
-        $instruments = AreaInstrument::where('id', $id)->get();
+        $instruments = AreaInstrument::where('intended_program_id', $id)->get();
         foreach ($instruments as $instrument){
             $area_mandatory = AreaMandatory::where('id', $instrument->id)->get();
             $collection->push([
