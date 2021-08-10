@@ -22,15 +22,6 @@ class CriteriaForm extends Controller
         $undergraduate = '';
         foreach ($instruments as $instrument){
             $area_mandatories = AreaMandatory::where('area_instrument_id', $instrument->id)->get();
-            foreach ($area_mandatories as $area_mandatory){
-                if($area_mandatory->program_status == 'Graduate')
-                    echo $graduate = $area_mandatory->type;
-                elseif ($area_mandatory->program_status == 'Undergraduate')
-                    echo $undergraduate = $area_mandatory->type;
-            }
-        }
-        foreach ($instruments as $instrument){
-            $area_mandatories = AreaMandatory::where('area_instrument_id', $instrument->id)->get();
                 foreach ($area_mandatories as $area_mandatory){
                     if($area_mandatory->program_status == 'Graduate')
                         $graduate = $area_mandatory->type;
