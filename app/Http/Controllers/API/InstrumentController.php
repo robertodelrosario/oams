@@ -127,21 +127,33 @@ class InstrumentController extends Controller
     }
 
     public function setAreaMandatory(request $request, $id){
-        $area = AreaMandatory::where([
-           ['area_instrument_id', $id], ['level', $request->level], ['type', $request->type]
+        $area_1 = AreaMandatory::where([
+           ['area_instrument_id', $id],['program_status', 'graduate']
         ])->first();
-
-        if(is_null($area)){
-            $area = new AreaMandatory();
-            $area->area_instrument_id = $id;
-            $area->level = $request->level;
-            $area->type = $request->type;
-            $area->program_status = $request->program_status;
-            $success = $area->save();
-            if($success) return response()->json(['status' => true, 'message' => 'Successfully set instrument type!']);
-            else return response()->json(['status' => false, 'message' => 'Error saving the type!']);
+        if (!(is_null($area_1))){
+            $area_1->type = $request->graduate;
+            $area_1->save();
         }
-        return response()->json(['status' => false, 'message' => 'Unsuccessfully set instrument type!']);
+        $area_2 = AreaMandatory::where([
+            ['area_instrument_id', $id],['program_status', 'undergraduate']
+        ])->first();
+        if (!(is_null($area_2))){
+            $area_2->type = $request->undergraduate;
+            $area_2->save();
+        }
+
+        if($area_1 && $area_2) return response()->json(['status' => true, 'message' => 'Successfully set instrument type!']);
+        else return response()->json(['status' => false, 'message' => 'Unsuccessfully set instrument type!']);
+//        if(is_null($area)){
+//            $area = new AreaMandatory();
+//            $area->area_instrument_id = $id;
+//            $area->type = $request->type;
+//            $area->program_status = $request->program_status;
+//            $success = $area->save();
+//            if($success) return response()->json(['status' => true, 'message' => 'Successfully set instrument type!']);
+//            else return response()->json(['status' => false, 'message' => 'Error saving the type!']);
+//        }
+
     }
 
     public function removeAreaMandatory($id){

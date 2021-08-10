@@ -18,8 +18,16 @@ class CriteriaForm extends Controller
     public function showCriteriaInstrument($id){
         $collection = new Collection();
         $instruments = AreaInstrument::where('intended_program_id', $id)->get();
+        $graduate = '';
+        $undergraduate = '';
         foreach ($instruments as $instrument){
-            $area_mandatory = AreaMandatory::where('id', $instrument->id)->get();
+            $area_mandatories = AreaMandatory::where('area_instrument_id', $instrument->id)->get();
+                foreach ($area_mandatories as $area_mandatory){
+                    if($area_mandatory->program_status == 'graduate')
+                        $graduate = $area_mandatory->type;
+                    elseif ($area_mandatory->program_status == 'undergraduate')
+                        $undergraduate = $area_mandatory->type;
+                }
                 $collection->push([
                     'id' => $instrument->id,
                     'intended_program_id' => $instrument->intended_program_id,
@@ -28,7 +36,8 @@ class CriteriaForm extends Controller
                     'version' => $instrument->version,
                     'created_at' => $instrument->created_at,
                     'updated_at' => $instrument->updated_at,
-                    'status' => $area_mandatory
+                    'graduate' => $graduate,
+                    'undergraduate' => $undergraduate
                 ]);
         }
         return response()->json($collection);
