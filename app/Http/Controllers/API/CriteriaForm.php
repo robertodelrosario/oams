@@ -18,16 +18,18 @@ class CriteriaForm extends Controller
         $instruments = AreaInstrument::where('intended_program_id', $id)->get();
         foreach ($instruments as $instrument){
             $area_mandatory = AreaMandatory::where('id', $instrument->id)->get();
-            $collection->push([
-                'id' => $instrument->id,
-                'intended_program_id' => $instrument->intended_program_id,
-                'area_number' => $instrument->area_number,
-                'area_name' => $instrument->area_name,
-                'version' => $instrument->version,
-                'created_at' => $instrument->created_at,
-                'updated_at' => $instrument->updated_at,
-                'status' => $area_mandatory
-            ]);
+            if($area_mandatory->count() > 0) {
+                $collection->push([
+                    'id' => $instrument->id,
+                    'intended_program_id' => $instrument->intended_program_id,
+                    'area_number' => $instrument->area_number,
+                    'area_name' => $instrument->area_name,
+                    'version' => $instrument->version,
+                    'created_at' => $instrument->created_at,
+                    'updated_at' => $instrument->updated_at,
+                    'status' => $area_mandatory
+                ]);
+            }
         }
         return response()->json($collection);
 //        $areas = AreaInstrument::where('intended_program_id', 42)->get();
