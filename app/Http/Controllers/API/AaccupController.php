@@ -210,7 +210,7 @@ class AaccupController extends Controller
             if(Str::contains($program->role, 'leader')) return response()->json(['status' => false ,'message' => 'The team has already a leader.']);
         }
         if($accreditorRequest->status == 'accepted') {
-            
+
         }
 
         $accreditorRequest->role = '[leader] '.$accreditorRequest->role;
@@ -340,19 +340,11 @@ class AaccupController extends Controller
         {
             $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
         }
-        elseif ($program->level == 'Level III, Phase 1')
-        {
-            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level II')->first();
-        }
-        elseif ($program->level == 'Level III, Phase 2')
+        elseif ($program->level == 'Level III')
         {
             $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
         }
-        elseif ($program->level == 'Level IV, Phase 1')
-        {
-            $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level III')->first();
-        }
-        elseif ($program->level == 'Level IV, Phase 2')
+        elseif ($program->level == 'Level IV')
         {
             $required_rating = RequiredRating::where('accreditation_status', 'Accredited Level IV')->first();
         }

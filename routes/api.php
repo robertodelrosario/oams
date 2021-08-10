@@ -228,12 +228,13 @@ Route::group(['prefix' => '/accreditor'], function() {
 Route::group(['prefix' => '/instrument'], function() {
     Route::post('/createInstrument', 'InstrumentController@createInstrument');
     Route::post('/createCriteriaInstrument', 'InstrumentController@createCriteriaInstrument');
+    Route::post('/createCriteriaInstrumentLevelIV', 'InstrumentController@createCriteriaInstrumentLevelIV');
     Route::post('/cloneInstrument/{id}', 'InstrumentController@cloneInstrument');
 //    Route::post('/createStatement', 'StatementController@createStatement');
     Route::post('/createStatement/{id}', 'StatementController@createStatement');
     Route::post('/createCriteriaStatement/{id}', 'StatementController@createCriteriaStatement');
     Route::post('/createParameter', 'ParameterController@createParameter');
-    Route::get('/showProgram', 'InstrumentController@showProgram');
+    Route::get('/showProgram/{id}', 'InstrumentController@showProgram');
     Route::get('/showParameter/{id}', 'ParameterController@showParameter');
     Route::get('/showInstrument/{id}', 'InstrumentController@showInstrument');
     Route::get('/showAllStatement', 'StatementController@showAllStatement');
@@ -245,6 +246,9 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::put('/editProgram/{id}', 'InstrumentController@editProgram');
     Route::put('/editInstrument/{id}', 'InstrumentController@editInstrument');
     Route::put('/editParameter/{id}', 'ParameterController@editParameter');
+    Route::post('/setAreaMandatory/{id}', 'StatementController@setAreaMandatory');
+    Route::delete('/removeAreaMandatory/{id}', 'InstrumentController@removeAreaMandatory');
+
 
 });
 

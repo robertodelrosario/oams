@@ -12,6 +12,7 @@ use App\OfficeUser;
 use App\OtherOfficeUser;
 use App\Program;
 use App\Role;
+use App\UserLog;
 use App\UserRole;
 use Illuminate\Http\Request;
 use App\User;
@@ -48,8 +49,16 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        else{
+            $user_log = new UserLog();
+            $user_log->user_id = auth()->user()->id;
+            $user_log->activity = 'login';
+            $user_log->address = $request->ip();
+            $user_log->device = $request->header('User-Agent');
+            $user_log->save();
+        }
         if(auth()->user()->status == 'inactive')
-            return response()->json(['error' => 'Unauthorized [1]'], 401);
+            return response()->json(['error' => 'Inactive User!'], 401);
         return $this->respondWithToken($token);
     }
 
@@ -168,6 +177,21 @@ class AuthController extends Controller
         if(Hash::check($request->current_password, $current_user->password)){
             if($request->confirm_password == $request->new_password){
                 $current_user->update(['password'=> bcrypt($request->new_password)]);
+                $message = '';
+                if($id == auth()->user()->id){
+                    if($current_user->gender == 'Female') $message = 'User '.$current_user->id.' changed her password';
+                    elseif ($current_user->gender == 'Male')$message = 'User '.$current_user->id.' changed his password';
+                    elseif(is_null($current_user->gender)) $message = 'User '.$current_user->id.' changed his/her password';
+                }
+                else{
+                    $message = 'User '.auth()->user()->id.' changed the password of user '.$current_user->id;
+                }
+                $user_log = new UserLog();
+                $user_log->user_id = auth()->user()->id;
+                $user_log->activity = $message;
+                $user_log->address = $request->ip();
+                $user_log->device = $request->header('User-Agent');
+                $user_log->save();
                 return response()->json(['status' => true, 'message' => 'Successfully changed the password.']);
             }
             else return response()->json(['status' => false, 'message' => 'New and confirm password does not match!']);
@@ -609,17 +633,30 @@ class AuthController extends Controller
         return response()->json(User::all());
     }
 
-    public function deleteUser($id){
+    public function deleteUser(request $request,$id){
         $user = User::where('id', $id)->first();
         $user->status = 'inactive';
         $user->save();
+
+        $user_log = new UserLog();
+        $user_log->user_id = auth()->user()->id;
+        $user_log->activity = 'User '.auth()->user()->id.' deactivated user '.$id;
+        $user_log->address = $request->ip();
+        $user_log->device = $request->header('User-Agent');
+        $user_log->save();
         return response()->json(['status' => true, 'message' => 'Successfully disabled user account']);
     }
 
-    public function activateUser($id){
+    public function activateUser(request $request,$id){
         $user = User::where('id', $id)->first();
         $user->status = 'active';
         $user->save();
+        $user_log = new UserLog();
+        $user_log->user_id = auth()->user()->id;
+        $user_log->activity = 'User '.auth()->user()->id.' activated user '.$id;
+        $user_log->address = $request->ip();
+        $user_log->device = $request->header('User-Agent');
+        $user_log->save();
         return response()->json(['status' => true, 'message' => 'Successfully activated user account']);
     }
 

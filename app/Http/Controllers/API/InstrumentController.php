@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AreaMandatory;
 use App\Http\Controllers\Controller;
 use App\AreaInstrument;
 use App\InstrumentParameter;
@@ -11,6 +12,7 @@ use App\Parameter;
 use App\ParameterStatement;
 use App\ProgramInstrument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 class InstrumentController extends Controller
 
@@ -78,6 +80,7 @@ class InstrumentController extends Controller
             "LICENSURE EXAM",
             "CONSORTIA OR LINKAGE ",
             "LIBRARY"];
+
         for($x=0;$x<7;$x++){
             $areaInstrument = new AreaInstrument();
             $areaInstrument->intended_program_id = $intendedProgram->id;
@@ -94,8 +97,77 @@ class InstrumentController extends Controller
         return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
     }
 
-    public function showProgram(){
-        return response()->json(ProgramInstrument::where('id', '!=', 42)->get());
+    public function createCriteriaInstrumentLevelIV(){
+        $intendedProgram = new ProgramInstrument();
+        $intendedProgram->intended_program = 'Criteria Form Level IV';
+        $intendedProgram->type_of_instrument = null;
+        $intendedProgram->save();
+
+        $area_name = [
+            "RESEARCH",
+            "PERFORMANCE OF GRADUATES",
+            "COMMUNITY SERVICE",
+            "INTERNATIONAL LINKAGES AND CONSORTIA",
+            "PLANNING"];
+
+        for($x=0;$x<5;$x++){
+            $areaInstrument = new AreaInstrument();
+            $areaInstrument->intended_program_id = $intendedProgram->id;
+            $areaInstrument->area_number = $x+1;
+            $areaInstrument->area_name = $area_name[$x];
+            $areaInstrument->version = "version 1";
+            $areaInstrument->save();
+
+            $parameter = new Parameter();
+            $parameter->parameter = 'PARAMETER FOR AREA '.($x+1);
+            $parameter->save();
+            $parameter->areaInstruments()->attach($areaInstrument);
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully added instrument!']);
+    }
+
+    public function setAreaMandatory(request $request, $id){
+        $area = AreaMandatory::where([
+           ['area_instrument_id', $id], ['level', $request->level], ['type', $request->type]
+        ])->first();
+
+        if(is_null($area)){
+            $area = new AreaMandatory();
+            $area->area_instrument_id = $id;
+            $area->level = $request->level;
+            $area->type = $request->type;
+            $area->program_status = $request->program_status;
+            $success = $area->save();
+            if($success) return response()->json(['status' => true, 'message' => 'Successfully set instrument type!']);
+            else return response()->json(['status' => false, 'message' => 'Error saving the type!']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unsuccessfully set instrument type!']);
+    }
+
+    public function removeAreaMandatory($id){
+        $area = AreaMandatory::where('id', $id);
+        $success = $area->delete();
+        if($success) return response()->json(['status' => true, 'message' => 'Successfully removed instrument type!']);
+        return response()->json(['status' => false, 'message' => 'Unsuccessfully removed instrument type!']);
+    }
+
+    public function showProgram($id){
+        $collection = new Collection();
+        $instruments = AreaInstrument::where('id', $id)->get();
+        foreach ($instruments as $instrument){
+            $area_mandatory = AreaMandatory::where('id', $instrument->id)->get();
+            $collection->push([
+                'id' => $instrument->id,
+                'intended_program_id' => $instrument->intended_program_id,
+                'area_number' => $instrument->area_number,
+                'area_name' => $instrument->area_name,
+                'version' => $instrument->version,
+                'created_at' => $instrument->created_at,
+                'updated_at' => $instrument->updated_at,
+                'status' => $area_mandatory
+            ]);
+        }
+        return response()->json($collection);
     }
     public function showInstrument($id){
         $instruments = AreaInstrument::where('intended_program_id', $id)->get();
