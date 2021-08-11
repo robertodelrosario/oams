@@ -566,13 +566,13 @@ class AppliedProgramController extends Controller
 
     public function lockSelfSurvey(request $request,$id){
         $program = ApplicationProgram::where('id', $id)->first();
-        if($request->status == true) $program->self_survey_status = 1;
+        if($request->status) $program->self_survey_status = 1;
         else $program->self_survey_status = 0;
         $program->save();
 
         $prog = Program::where('id', $program->program_id)->first();
-        if($request->status == 0) return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully unlocked."]);
-        elseif($request->status == 1) return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully locked."]);
+        if($request->status) return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully locked."]);
+        elseif return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully unlocked."]);
     }
 
     public function showOptionArea($id){
