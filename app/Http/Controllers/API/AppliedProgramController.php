@@ -100,12 +100,13 @@ class AppliedProgramController extends Controller
                 }
             }
 
-            if(Str::contains($program->level, 'Level III')){
-                $instrument = InstrumentProgram::where('program_id', $request->program_id);
-                $instrument->delete();
-                $areas = AreaInstrument::where('intended_program_id', 42)->get();
-                foreach ($areas as $area){
-                    $area_mandatory = AreaMandatory::where('area_instrument_id', $area->id)->get();
+            $instrument = InstrumentProgram::where('program_id', $request->program_id);
+            $instrument->delete();
+            if(Str::contains($program->level, 'Level III')) $areas = AreaInstrument::where('intended_program_id', 42)->get();
+            elseif(Str::contains($program->level, 'Level IV')) $areas = AreaInstrument::where('intended_program_id', 47)->get();
+            foreach ($areas as $area){
+                $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
+                foreach ($area_mandatories as $area_mandatory){
                     if($area_mandatory->type = 'Mandatory' && $prog->type == $area_mandatory->program_status){
                         $instrumentProgram = new InstrumentProgram();
                         $instrumentProgram->program_id = $request->program_id;
@@ -133,8 +134,6 @@ class AppliedProgramController extends Controller
                         }
                     }
                 }
-            }
-            if(Str::contains($program->level, 'Level III')){
             }
 
 //            if(Str::contains($program->level, 'Level III') || Str::contains($program->level, 'Level IV')){
