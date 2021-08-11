@@ -574,4 +574,29 @@ class AppliedProgramController extends Controller
         if($request->status == 0) return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully unlocked."]);
         elseif($request->status == 1) return response()->json(['status' => true, 'message' => "Self-survey for program " .$prog->program_name. " was successfully locked."]);
     }
+
+    public function showOptionArea($id){
+        $collection = new Collection();
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        $program = Program::where('id', $applied_program->program_id)->first();
+        if(Str::contains($applied_program->level, 'Level III')) $areas = AreaInstrument::where('intended_program_id', 42)->get();
+        elseif(Str::contains($applied_program->level, 'Level IV')) $areas = AreaInstrument::where('intended_program_id', 47)->get();
+        foreach ($areas as $area){
+            $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
+            foreach ($area_mandatories as $area_mandatory) {
+                if ($area_mandatory->type == 'Optional' && $program->type == $area_mandatory->program_status){
+                    $collection->push([
+                        'id' => $area->id,
+                        'intended_program_id' => $area->intended_program_id,
+                        'area_number' => $area->area_number,
+                        'area_name' => $area->area_name,
+                        'version' => $area->version,
+                        'created_at' => $area->created_at,
+                        'updated_at' => $area->updated_at
+                    ]);
+                }
+            }
+        }
+        return response()->json($collection);
+    }
 }
