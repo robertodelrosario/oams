@@ -584,6 +584,7 @@ class AppliedProgramController extends Controller
         foreach ($areas as $area){
             $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
             foreach ($area_mandatories as $area_mandatory) {
+                echo $area_mandatory;
                 if ($area_mandatory->type == 'Optional' && $program->type == $area_mandatory->program_status){
                     $collection->push([
                         'id' => $area->id,
