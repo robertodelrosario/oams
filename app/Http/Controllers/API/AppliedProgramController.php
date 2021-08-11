@@ -99,7 +99,6 @@ class AppliedProgramController extends Controller
                     }
                 }
             }
-
             $instrument = InstrumentProgram::where('program_id', $request->program_id);
             $instrument->delete();
             if(Str::contains($program->level, 'Level III')) $areas = AreaInstrument::where('intended_program_id', 42)->get();
@@ -107,7 +106,7 @@ class AppliedProgramController extends Controller
             foreach ($areas as $area){
                 $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
                 foreach ($area_mandatories as $area_mandatory){
-                    if($area_mandatory->type = 'Mandatory' && $prog->type == $area_mandatory->program_status){
+                    if($area_mandatory->type == 'Mandatory' && $prog->type == $area_mandatory->program_status){
                         $instrumentProgram = new InstrumentProgram();
                         $instrumentProgram->program_id = $request->program_id;
                         $instrumentProgram->area_instrument_id = $area->id;
@@ -135,7 +134,6 @@ class AppliedProgramController extends Controller
                     }
                 }
             }
-
 //            if(Str::contains($program->level, 'Level III') || Str::contains($program->level, 'Level IV')){
 //                $instrument = InstrumentProgram::where('program_id', $request->program_id);
 //                $instrument->delete();
