@@ -41,8 +41,6 @@ class CriteriaForm extends Controller
                 ]);
         }
         return response()->json($collection);
-//        $areas = AreaInstrument::where('intended_program_id', 42)->get();
-//        return response()->json($areas);
     }
 
     public function addInstrument($id,$program_id){
