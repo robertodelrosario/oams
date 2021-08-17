@@ -271,6 +271,10 @@ Route::group(['prefix' => '/report'], function() {
     Route::get('/viewSFR/{programID}/{instrumentID}/{role}', 'ReportController@viewSFR');
 
     Route::get('/showTagOption', 'ReportTemplateController@showTagOption');
+    Route::post('/addTemplate/{id}', 'ReportTemplateController@addTemplate');
+    Route::get('/showTemplate/{id}', 'ReportTemplateController@showTemplate');
+    Route::get('/downloadFile/{id}', 'ReportTemplateController@downloadFile');
+    Route::delete('/deleteTemplate/{id}', 'ReportTemplateController@deleteTemplate');
 });
 
 Route::group(['prefix' => '/application'], function() {
