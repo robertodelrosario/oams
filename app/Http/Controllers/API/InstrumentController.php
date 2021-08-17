@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 class InstrumentController extends Controller
-
 {
 /*
     public function __construct()
