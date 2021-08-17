@@ -269,6 +269,8 @@ Route::group(['prefix' => '/report'], function() {
     Route::post('/saveSFR/{programID}/{instrumentID}', 'ReportController@saveSFR');
     Route::get('/showSFR/{id}/{role}', 'ReportController@showSFR');
     Route::get('/viewSFR/{programID}/{instrumentID}/{role}', 'ReportController@viewSFR');
+
+    Route::get('/showTagOption', 'ReportTemplateController@showTagOption');
 });
 
 Route::group(['prefix' => '/application'], function() {

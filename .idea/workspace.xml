@@ -21,7 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/CriteriaForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CriteriaForm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/InstrumentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,12 +186,12 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\laragon\www\online_accreditation_management_system\resources\views\layout" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\laragon\www\online_accreditation_management_system\app\Http\Controllers\API" />
       <recent name="C:\laragon\www\online_accreditation_management_system\app\Http\Controllers" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\online_accreditation_management_system\resources\views\layout" />
     </key>
   </component>
   <component name="RunManager">
@@ -437,7 +438,7 @@
       <workItem from="1628557973633" duration="9986000" />
       <workItem from="1628644556664" duration="7005000" />
       <workItem from="1629090449640" duration="3158000" />
-      <workItem from="1629166455859" duration="1638000" />
+      <workItem from="1629166455859" duration="3329000" />
     </task>
     <servers />
   </component>

@@ -313,6 +313,5 @@ class InstrumentController extends Controller
            }
         }
         return response()->json(['status' => true, 'message' => 'Successfully added instrument!','instrument' => $areaInstrument]);
-
     }
 }
