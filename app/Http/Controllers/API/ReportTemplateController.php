@@ -155,7 +155,7 @@ class ReportTemplateController extends Controller
                             else $core = $area->area_name;
                             if($core == $tag){
                                 $program_report_template = new ProgramReportTemplate();
-                                $program_report_template->report_template_id = $template->id;
+                                $program_report_template->report_template_id = $id;
                                 $program_report_template->instrument_program_id = $intrument_program->id;
                                 $program_report_template->save();
                             }
