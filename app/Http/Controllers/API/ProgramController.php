@@ -12,7 +12,10 @@ use App\InstrumentStatement;
 use App\Office;
 use App\ParameterProgram;
 use App\Program;
+use App\ProgramReportTemplate;
 use App\ProgramStatement;
+use App\ReportTemplate;
+use App\TemplateTag;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
@@ -128,6 +131,7 @@ class ProgramController extends Controller
             ])->first();
             if(!(is_null($check))) $count++;
         }
+        $prog = Program::where('id', $programID)->first();
         if($count == 0)
         {
             $instrument = InstrumentProgram::where('program_id', $programID);
@@ -157,6 +161,18 @@ class ProgramController extends Controller
                                 $programStatement->parent_statement_id = $statement->parent_statement_id;
                                 $programStatement->save();
                             }
+                        }
+                    }
+                }
+                $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
+                foreach ($templates as $template){
+                    $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
+                    foreach ($temp_tags as $temp_tag){
+                        if($temp_tag->tag == $area->area_name){
+                            $program_report_template = new ProgramReportTemplate();
+                            $program_report_template->report_template_id = $template->id;
+                            $program_report_template->instrument_program_id = $instrumentProgram->id;
+                            $program_report_template->save();
                         }
                     }
                 }
@@ -205,7 +221,18 @@ class ProgramController extends Controller
                         }
                     }
                 }
-
+                $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
+                foreach ($templates as $template){
+                    $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
+                    foreach ($temp_tags as $temp_tag){
+                        if($temp_tag->tag == $area->area_name){
+                            $program_report_template = new ProgramReportTemplate();
+                            $program_report_template->report_template_id = $template->id;
+                            $program_report_template->instrument_program_id = $instrumentProgram->id;
+                            $program_report_template->save();
+                        }
+                    }
+                }
             }
             return response()->json(['status' => true, 'message' => 'Successfully updated instrument!']);
         }
