@@ -43,7 +43,7 @@ class ReportTemplateController extends Controller
 
     public function addTemplate(request $request,$id){
         $validator = Validator::make($request->all(), [
-            'file' => 'mimes:doc,pdf,docx'
+            'file' => 'required|mimes:doc,pdf,docx'
         ]);
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file types are .doc,.pdf, and .docx']);
 
