@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class ReportTemplateController extends Controller
 {
@@ -41,6 +42,11 @@ class ReportTemplateController extends Controller
     }
 
     public function addTemplate(request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'file' => 'mimes:doc,pdf,docx'
+        ]);
+        if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file types are .doc,.pdf, and .docx']);
+
         if ($request->hasfile('file')) {
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();

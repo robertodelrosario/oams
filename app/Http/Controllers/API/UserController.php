@@ -13,6 +13,8 @@ use App\InstrumentProgram;
 use App\ParameterMean;
 use App\ParameterProgram;
 use App\Program;
+use App\ProgramReportTemplate;
+use App\ReportTemplate;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -99,7 +101,8 @@ class UserController extends Controller
         $areas = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->get();
-        $instrument_array = array();
+//        $instrument_array = array();
+        $instrument_collection = new Collection();
         $role = null;
         foreach ($areas as $area){
             $instrument = DB::table('instruments_programs')
@@ -109,7 +112,31 @@ class UserController extends Controller
                 ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program_id', 'area_instruments.area_number', 'area_instruments.area_name')
                 ->first();
             $role = $area->role;
-            $instrument_array = Arr::prepend($instrument_array,$instrument);
+//            $instrument_array = Arr::prepend($instrument_array,$instrument);
+            $collection = new Collection();
+            if($area->role == 'accreditation task force') {
+                $templates = ProgramReportTemplate::where('instrument_program_id', $instrument->id)->get();
+                foreach ($templates as $template) {
+                    $report_temp = ReportTemplate::where('id', $template->report_template_id)->first();
+                    $collection->push([
+                        'id' => $report_temp->id,
+                        'link' => $report_temp->link,
+                        'template_name' => $report_temp->template_name,
+                    ]);
+                }
+            }
+            $instrument_collection->push([
+                'id' => $instrument->id,
+                'program_id' => $instrument->program_id,
+                'area_instrument_id' => $instrument->area_instrument_id,
+                'created_at' => $instrument->created_at,
+                'updated_at' => $instrument->updated_at,
+                'program_name' => $instrument->program_name,
+                'intended_program_id' => $instrument->intended_program_id,
+                'area_number' => $instrument->area_number,
+                'area_name' => $instrument->area_name,
+                'report_templates' => $collection
+            ]);
         }
 
         $instruments = AssignedUser::where('app_program_id', $app_prog)->get();
@@ -184,7 +211,7 @@ class UserController extends Controller
         $grand_mean  = $total_weighted_mean/$total_weight;
         $result_internal->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2)]);
 
-        return response()->json(['task' => $areas,'areas'=>$instrument_array,'role' =>$role, 'area_mean_external' => $sar_external, 'area_mean_internal' => $sar_internal, 'result_external' =>$result_external, 'program_mean_internal' => $result_internal]);
+        return response()->json(['task' => $areas,'areas'=>$instrument_collection,'role' =>$role, 'area_mean_external' => $sar_external, 'area_mean_internal' => $sar_internal, 'result_external' =>$result_external, 'program_mean_internal' => $result_internal]);
     }
 
     public function showParameter($id, $app_prog){
