@@ -160,6 +160,7 @@ class ReportTemplateController extends Controller
                                 $program_report_template->save();
                             }
                         }
+                    }
                 }
             }
         }
