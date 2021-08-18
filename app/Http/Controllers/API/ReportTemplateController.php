@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\ApplicationFile;
+use App\ApplicationProgram;
 use App\AreaInstrument;
 use App\Http\Controllers\Controller;
+use App\InstrumentProgram;
+use App\Program;
+use App\ProgramReportTemplate;
 use App\ReportTemplate;
 use App\TemplateTag;
 use Illuminate\Http\Request;
@@ -56,12 +60,33 @@ class ReportTemplateController extends Controller
             $template->template_name = $request->template_name;
             $template->link = $filePath;
             $success = $template->save();
+            $programs = Program::where('campus_id', $id)->get();
             if($success){
                 foreach ($request->tags as $tag){
                     $template_tag = new TemplateTag();
                     $template_tag->report_template_id = $template->id;
                     $template_tag->tag = $tag;
                     $template_tag->save();
+                    foreach ($programs as $program){
+                        $applied_programs = ApplicationProgram::where('program_id', $program->id)->get();
+                        foreach($applied_programs as $applied_program){
+                            $level = $applied_program->level;
+                        }
+                        $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
+                        foreach ($intrument_programs as $intrument_program){
+                            $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
+                            if($level == 'Level III') $core = 'LEVEL III -'.' '. $area->area_name;
+                            elseif($level == 'Level IV') $core = 'LEVEL IV -'.' '. $area->area_name;
+                            else $core = $area->area_name;
+
+                            if($core == $tag){
+                                $program_report_template = new ProgramReportTemplate();
+                                $program_report_template->report_template_id = $template->id;
+                                $program_report_template->instrument_program_id = $intrument_program->id;
+                                $program_report_template->save();
+                            }
+                        }
+                    }
                 }
                 return response()->json(['status' => true, 'message'=>"Successfully added template."]);
             }
