@@ -578,12 +578,12 @@ class AppliedProgramController extends Controller
         foreach ($instrumentPrograms as $instrumentProgram){
             $assigned_users = DB::table('assigned_users')
                 ->join('users', 'users.id', '=', 'assigned_users.user_id')
-                ->where('assigned_users.transaction_id', $instrumentProgram->id)
+                ->where('assigned_users.transaction_id', $instrumentProgram['id'])
                 ->get();
             foreach($assigned_users as $assigned_user){
                 if ($assigned_user != null) $users = Arr::prepend($users, $assigned_user);
             }
-            $intended_program = ProgramInstrument::where('id',$instrumentProgram->intended_program_id)->first();
+            $intended_program = ProgramInstrument::where('id',$instrumentProgram['intended_program_id'])->first();
             if(!(is_null($intended_program))) $program = $intended_program->type_of_instrument;
             else $program = "No attached instrument.";
         }
