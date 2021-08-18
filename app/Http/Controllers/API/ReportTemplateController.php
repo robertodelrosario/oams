@@ -130,6 +130,8 @@ class ReportTemplateController extends Controller
 
     public function addTemplatetag(request $request, $id){
         $success = false;
+        $template = ReportTemplate::where('id', $id)->first();
+        $programs = Program::where('campus_id', $template->campus_id)->get();
         foreach ($request->tags as $tag){
             $temp_tag = TemplateTag::where([
               ['tag', $tag], ['report_template_id', $id]
@@ -139,6 +141,26 @@ class ReportTemplateController extends Controller
                 $temp_tag->tag = $tag;
                 $temp_tag->report_template_id = $id;
                 $success = $temp_tag->save();
+                if($success){
+                    foreach ($programs as $program){
+                        $applied_programs = ApplicationProgram::where('program_id', $program->id)->get();
+                        foreach($applied_programs as $applied_program){
+                            $level = $applied_program->level;
+                        }
+                        $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
+                        foreach ($intrument_programs as $intrument_program){
+                            $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
+                            if($level == 'Level III') $core = 'LEVEL III -'.' '. $area->area_name;
+                            elseif($level == 'Level IV') $core = 'LEVEL IV -'.' '. $area->area_name;
+                            else $core = $area->area_name;
+                            if($core == $tag){
+                                $program_report_template = new ProgramReportTemplate();
+                                $program_report_template->report_template_id = $template->id;
+                                $program_report_template->instrument_program_id = $intrument_program->id;
+                                $program_report_template->save();
+                            }
+                        }
+                }
             }
         }
         if($success) return response()->json(['status' => true, "message" => 'Successfully added tags for template.']);
