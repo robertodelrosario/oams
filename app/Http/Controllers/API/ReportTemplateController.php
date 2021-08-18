@@ -167,7 +167,28 @@ class ReportTemplateController extends Controller
     }
 
     public function removeTemplateTag($id){
-        $temp_tag = TemplateTag::where('id', $id);
+        $temp_tag = TemplateTag::where('id', $id)->first();
+        $template = ReportTemplate::where('id', $temp_tag->report_template_id)->first();
+        $programs = Program::where('campus_id', $template->campus_id)->get();
+        foreach ($programs as $program){
+            $applied_programs = ApplicationProgram::where('program_id', $program->id)->get();
+            foreach($applied_programs as $applied_program){
+                $level = $applied_program->level;
+            }
+            $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
+            foreach ($intrument_programs as $intrument_program){
+                $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
+                if($level == 'Level III') $core = 'LEVEL III -'.' '. $area->area_name;
+                elseif($level == 'Level IV') $core = 'LEVEL IV -'.' '. $area->area_name;
+                else $core = $area->area_name;
+                if($core == $temp_tag->tag){
+                    $program_report_template = ProgramReportTemplate::where([
+                      ['report_template_id', $template->id], ['instrument_program_id', $intrument_program->id]
+                    ]);
+                    $program_report_template->delete();
+                }
+            }
+        }
         $success = $temp_tag->delete();
         if($success) return response()->json(['status' => true, "message" => 'Successfully remove tag.']);
         else return response()->json(['status' => false, "message" => 'Unsuccessfully remove tag.']);
