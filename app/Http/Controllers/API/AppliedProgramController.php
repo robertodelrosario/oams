@@ -538,7 +538,7 @@ class AppliedProgramController extends Controller
         $instruments =  InstrumentProgram::where('program_id', $id)->get();
         foreach ($instruments as $instrument){
             $area = AreaInstrument::where('id', $instrument->id)->first();
-            $area_type = AreaMandatory::where('area_instrument_id',$area->id)->first();
+            if(!(is_null($area)))$area_type = AreaMandatory::where('area_instrument_id',$area->id)->first();
             if(is_null($area_type)) $type = null;
             elseif($area_type->type == 'Mandatory') $type = 'Mandatory';
             elseif($area_type->type == 'Optional') $type = 'Optional';
