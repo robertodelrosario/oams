@@ -141,7 +141,6 @@ class ReportTemplateController extends Controller
                 $temp_tag->tag = $tag;
                 $temp_tag->report_template_id = $id;
                 $success = $temp_tag->save();
-                if($success){
                     foreach ($programs as $program){
                         $applied_programs = ApplicationProgram::where('program_id', $program->id)->get();
                         foreach($applied_programs as $applied_program){
@@ -160,7 +159,6 @@ class ReportTemplateController extends Controller
                                 $program_report_template->save();
                             }
                         }
-                    }
                 }
             }
         }
