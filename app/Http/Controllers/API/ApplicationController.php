@@ -6,6 +6,7 @@ use App\Application;
 use App\ApplicationFile;
 use App\ApplicationProgram;
 use App\AreaInstrument;
+use App\AreaMandatory;
 use App\AreaMean;
 use App\AssignedUser;
 use App\AssignedUserHead;
@@ -19,8 +20,11 @@ use App\Office;
 use App\OfficeUser;
 use App\ParameterProgram;
 use App\Program;
+use App\ProgramReportTemplate;
 use App\ProgramStatement;
+use App\ReportTemplate;
 use App\SUC;
+use App\TemplateTag;
 use App\UserRole;
 use Carbon\Carbon;
 use App\User;
@@ -98,17 +102,24 @@ class ApplicationController extends Controller
                         }
                     }
                 }
-                if(Str::contains($program->level, 'Level III') || Str::contains($program->level, 'Level IV')){
-                    $instrument = InstrumentProgram::where('program_id', $request->programs[$x]['program_id']);
-                    $instrument->delete();
+                $instrument = InstrumentProgram::where('program_id', $program->program_id);
+                $instrument->delete();
+                if(Str::contains($program->level, 'Level III')) {
                     $areas = AreaInstrument::where('intended_program_id', 42)->get();
-                    foreach ($areas as $area){
-                        if($prog->type == 'Undergraduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'EXTENSION')) {
+                    $level = 'LEVEL III -';
+                }
+                elseif(Str::contains($program->level, 'Level IV')) {
+                    $areas = AreaInstrument::where('intended_program_id', 47)->get();
+                    $level = 'LEVEL IV -';
+                }
+                foreach ($areas as $area){
+                    $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
+                    foreach ($area_mandatories as $area_mandatory){
+                        if($area_mandatory->type == 'Mandatory' && $prog->type == $area_mandatory->program_status){
                             $instrumentProgram = new InstrumentProgram();
-                            $instrumentProgram->program_id = $request->programs[$x]['program_id'];
+                            $instrumentProgram->program_id = $request->program_id;
                             $instrumentProgram->area_instrument_id = $area->id;
                             $instrumentProgram->save();
-
                             $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
                             if (count($instrumentParamenters) != 0) {
                                 foreach ($instrumentParamenters as $instrumentParamenter) {
@@ -129,37 +140,22 @@ class ApplicationController extends Controller
                                     }
                                 }
                             }
-                        }
-                        elseif($prog->type == 'Graduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'RESEARCH')) {
-                            $instrumentProgram = new InstrumentProgram();
-                            $instrumentProgram->program_id = $request->programs[$x]['program_id'];
-                            $instrumentProgram->area_instrument_id = $area->id;
-                            $instrumentProgram->save();
-
-                            $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-                            if (count($instrumentParamenters) != 0) {
-                                foreach ($instrumentParamenters as $instrumentParamenter) {
-                                    $parameter = new ParameterProgram();
-                                    $parameter->program_instrument_id = $instrumentProgram->id;
-                                    $parameter->parameter_id = $instrumentParamenter->parameter_id;
-                                    $parameter->save();
-
-                                    $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
-                                    if (count($statements) != 0) {
-                                        foreach ($statements as $statement) {
-                                            $programStatement = new ProgramStatement();
-                                            $programStatement->program_parameter_id = $parameter->id;
-                                            $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
-                                            $programStatement->parent_statement_id = $statement->parent_statement_id;
-                                            $programStatement->save();
-                                        }
+                            $code = $level.' '.$area->area_name;
+                            $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
+                            foreach ($templates as $template){
+                                $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
+                                foreach ($temp_tags as $temp_tag){
+                                    if($temp_tag->tag == $code){
+                                        $program_report_template = new ProgramReportTemplate();
+                                        $program_report_template->report_template_id = $template->id;
+                                        $program_report_template->instrument_program_id = $instrumentProgram->id;
+                                        $program_report_template->save();
                                     }
                                 }
                             }
                         }
                     }
                 }
-
             }
             else $message=1;
         }

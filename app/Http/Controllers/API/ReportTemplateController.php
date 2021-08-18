@@ -96,4 +96,28 @@ class ReportTemplateController extends Controller
         if($success) return response()->json(['status' => true, "message" => 'Successfully deleted the template.']);
         else return response()->json(['status' => false, "message" => 'Unsuccessfully deleted the template.']);
     }
+
+    public function addTemplatetag(request $request, $id){
+        $success = false;
+        foreach ($request->tags as $tag){
+            $temp_tag = TemplateTag::where([
+              ['tag', $tag], ['report_template_id', $id]
+            ])->first();
+            if(is_null($temp_tag)){
+                $temp_tag = new TemplateTag();
+                $temp_tag->tag = $tag;
+                $temp_tag->report_template_id = $id;
+                $success = $temp_tag->save();
+            }
+        }
+        if($success) return response()->json(['status' => true, "message" => 'Successfully added tags for template.']);
+        else return response()->json(['status' => false, "message" => 'Variable tags is either empty or tags already exist.']);
+    }
+
+    public function removeTemplateTag($id){
+        $temp_tag = TemplateTag::where('id', $id);
+        $success = $temp_tag->delete();
+        if($success) return response()->json(['status' => true, "message" => 'Successfully remove tag.']);
+        else return response()->json(['status' => false, "message" => 'Unsuccessfully remove tag.']);
+    }
 }

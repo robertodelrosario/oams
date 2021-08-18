@@ -20,7 +20,10 @@ use App\OfficeUser;
 use App\ParameterProgram;
 use App\Program;
 use App\ProgramInstrument;
+use App\ProgramReportTemplate;
 use App\ProgramStatement;
+use App\ReportTemplate;
+use App\TemplateTag;
 use App\Transaction;
 use App\User;
 use App\UserRole;
@@ -101,8 +104,14 @@ class AppliedProgramController extends Controller
             }
             $instrument = InstrumentProgram::where('program_id', $request->program_id);
             $instrument->delete();
-            if(Str::contains($program->level, 'Level III')) $areas = AreaInstrument::where('intended_program_id', 42)->get();
-            elseif(Str::contains($program->level, 'Level IV')) $areas = AreaInstrument::where('intended_program_id', 47)->get();
+            if(Str::contains($program->level, 'Level III')) {
+                $areas = AreaInstrument::where('intended_program_id', 42)->get();
+                $level = 'LEVEL III -';
+            }
+            elseif(Str::contains($program->level, 'Level IV')) {
+                $areas = AreaInstrument::where('intended_program_id', 47)->get();
+                $level = 'LEVEL IV -';
+            }
             foreach ($areas as $area){
                 $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
                 foreach ($area_mandatories as $area_mandatory){
@@ -128,6 +137,20 @@ class AppliedProgramController extends Controller
                                         $programStatement->parent_statement_id = $statement->parent_statement_id;
                                         $programStatement->save();
                                     }
+                                }
+                            }
+                        }
+                        //code here
+                        $code = $level.' '.$area->area_name;
+                        $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
+                        foreach ($templates as $template){
+                            $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
+                            foreach ($temp_tags as $temp_tag){
+                                if($temp_tag->tag == $code){
+                                    $program_report_template = new ProgramReportTemplate();
+                                    $program_report_template->report_template_id = $template->id;
+                                    $program_report_template->instrument_program_id = $instrumentProgram->id;
+                                    $program_report_template->save();
                                 }
                             }
                         }
@@ -511,11 +534,44 @@ class AppliedProgramController extends Controller
     }
 
     public function showInstrumentProgram($id){
-        $instrumentPrograms = DB::table('instruments_programs')
-            ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
-            ->where('instruments_programs.program_id', $id)
-            ->select('instruments_programs.*','area_instruments.intended_program_id','area_instruments.area_number', 'area_instruments.area_name', 'area_instruments.version')
-            ->get();
+        $instrumentPrograms = new Collection();
+        $instruments =  InstrumentProgram::where('program_id', $id)->get();
+        foreach ($instruments as $instrument){
+            $area = AreaInstrument::where('id', $instrument->id)->first();
+            $area_type = AreaMandatory::where('area_instrument_id',$area->id)->first();
+            if(is_null($area_type)) $type = null;
+            elseif($area_type->type == 'Mandatory') $type = 'Mandatory';
+            elseif($area_type->type == 'Optional') $type = 'Optional';
+            $templates = ProgramReportTemplate::where('instrument_program_id', $instrument->id)->get();
+            $collection = new Collection();
+            foreach ($templates as $template){
+                $report_temp = ReportTemplate::where('id', $template->report_template_id)->first();
+                $collection->push([
+                    'id' => $report_temp->id,
+                    'link' => $report_temp->link,
+                    'template_name' => $report_temp->template_name,
+                ]);
+            }
+            $instrumentPrograms->push([
+                'id' => $instrument->id,
+                'program_id' => $instrument->program_id,
+                'area_instrument_id' => $instrument->area_instrument_id,
+                'created_at' => $instrument->created_at,
+                'updated_at' => $instrument->updated_at,
+                'intended_program_id' => $area->intended_program_id,
+                'area_number' => $area->area_number,
+                'area_name' => $area->area_name,
+                'version' => $area->version,
+                'report_templates' => $collection,
+                'type' => $type
+            ]);
+        }
+
+//        $instrumentPrograms = DB::table('instruments_programs')
+//            ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
+//            ->where('instruments_programs.program_id', $id)
+//            ->select('instruments_programs.*','area_instruments.intended_program_id','area_instruments.area_number', 'area_instruments.area_name', 'area_instruments.version')
+//            ->get();
         if(count($instrumentPrograms) < 0 ) return response()->json(['status' => false, 'message' => 'Do not have instruments']);
         $users = array();
         $program= null;
