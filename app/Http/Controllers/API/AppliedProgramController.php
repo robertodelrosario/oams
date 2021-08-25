@@ -541,9 +541,12 @@ class AppliedProgramController extends Controller
     public function showInstrumentProgram($id){
         $instrumentPrograms = new Collection();
         $instruments =  InstrumentProgram::where('program_id', $id)->get();
+        $program = Program::where('id', $id)->first();
         foreach ($instruments as $instrument){
             $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
-            $area_type = AreaMandatory::where('area_instrument_id',$area->id)->first();
+            $area_type = AreaMandatory::where([
+                ['area_instrument_id',$area->id], ['program_status',$program->type]
+            ])->first();
 //            if(is_null($area_type)) $type = null;
 //            elseif($area_type->type == 'Mandatory') $type = 'Mandatory';
 //            elseif($area_type->type == 'Optional') $type = 'Optional';
