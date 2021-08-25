@@ -195,7 +195,7 @@ class InstrumentController extends Controller
         $collection = new Collection();
         $intendedPrograms = ProgramInstrument::all();
         foreach ($intendedPrograms as $intendedProgram){
-            if($intendedProgram->id != 42 && $intendedProgram->id != 47){
+            if($intendedProgram->id != 42 && $intendedProgram->id != 47 && $intendedProgram->id != 48){
                 $collection->push([
                     'id' => $intendedProgram->id,
                     'intended_program' => $intendedProgram->intended_program,
