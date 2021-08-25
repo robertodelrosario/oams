@@ -150,6 +150,7 @@ class AppliedProgramController extends Controller
                         }
                     }
                 }
+                return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
             }
             elseif(Str::contains($program->level, 'Level III')) {
                 $areas = AreaInstrument::where('intended_program_id', 42)->get();
