@@ -544,9 +544,9 @@ class AppliedProgramController extends Controller
         foreach ($instruments as $instrument){
             $area = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
             $area_type = AreaMandatory::where('area_instrument_id',$area->id)->first();
-            if(is_null($area_type)) $type = null;
-            elseif($area_type->type == 'Mandatory') $type = 'Mandatory';
-            elseif($area_type->type == 'Optional') $type = 'Optional';
+//            if(is_null($area_type)) $type = null;
+//            elseif($area_type->type == 'Mandatory') $type = 'Mandatory';
+//            elseif($area_type->type == 'Optional') $type = 'Optional';
             $templates = ProgramReportTemplate::where('instrument_program_id', $instrument->id)->get();
             $collection = new Collection();
             foreach ($templates as $template){
@@ -568,7 +568,7 @@ class AppliedProgramController extends Controller
                 'area_name' => $area->area_name,
                 'version' => $area->version,
                 'report_templates' => $collection,
-                'type' => $type
+                'type' => $area_type->type
             ]);
         }
 
