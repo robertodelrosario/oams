@@ -109,14 +109,14 @@ class ApplicationController extends Controller
                     $areas = AreaInstrument::where('intended_program_id', 48)->get();
                     foreach ($areas as $area){
                         $instrumentProgram = new InstrumentProgram();
-                        $instrumentProgram->program_id = $request->program_id;
+                        $instrumentProgram->program_id = $request->programs[$x]['program_id'];
                         $instrumentProgram->area_instrument_id = $area->id;
                         $instrumentProgram->save();
                         $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
                         if (count($instrumentParamenters) != 0) {
                             foreach ($instrumentParamenters as $instrumentParamenter) {
                                 $parameter = new ParameterProgram();
-                                $parameter->program_instrument_id = $request->programs[$x]['program_id'];
+                                $parameter->program_instrument_id = $instrumentProgram->id;
                                 $parameter->parameter_id = $instrumentParamenter->parameter_id;
                                 $parameter->save();
 
