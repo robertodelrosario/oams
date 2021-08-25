@@ -133,7 +133,7 @@ class ReportTemplateController extends Controller
         else return response()->json(['status' => false, "message" => 'Unsuccessfully deleted the template.']);
     }
 
-    public function addTemplatetag(request $request, $id){
+    public function addTemplateTag(request $request, $id){
         $success = false;
         $template = ReportTemplate::where('id', $id)->first();
         $programs = Program::where('campus_id', $template->campus_id)->get();
