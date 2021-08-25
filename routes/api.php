@@ -253,6 +253,10 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::get('/showCriteriaInstrument/{id}', 'CriteriaForm@showCriteriaInstrument');
     Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
     Route::delete('/removeInstrument/{id}', 'CriteriaForm@removeInstrument');
+
+    Route::post('/addInstrumentTag/{id}', 'InstrumentController@addInstrumentTag');
+    Route::delete('/removeInstrumentTag/{id}', 'InstrumentController@removeInstrumentTag');
+    Route::get('/showInstrumentTag/{id}', 'InstrumentController@showInstrumentTag');
 });
 
 Route::group(['prefix' => '/notification'], function() {

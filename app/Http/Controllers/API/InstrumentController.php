@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AreaInstrumentTag;
 use App\AreaMandatory;
 use App\Http\Controllers\Controller;
 use App\AreaInstrument;
@@ -227,8 +228,22 @@ class InstrumentController extends Controller
 //    }
 
     public function showInstrument($id){
+        $collection = new Collection();
         $instruments = AreaInstrument::where('intended_program_id', $id)->get();
-        return response()->json(['instrument' => $instruments]);
+        foreach ($instruments as $instrument){
+            $tags = AreaInstrumentTag::where('area_instrument_id', $instrument->id)->get();
+            $collection->push([
+                'id' =>  $instrument->id,
+                'intended_program_id' =>  $instrument->intended_program_id,
+                'area_number' =>  $instrument->area_number,
+                'area_name' =>  $instrument->area_name,
+                'version' =>  $instrument->version,
+                'created_at' =>  $instrument->created_at,
+                'updated_at' =>  $instrument->updated_at,
+                'tags' =>  $tags,
+            ]);
+        }
+        return response()->json(['instrument' => $collection]);
     }
 
     public function deleteProgram($id){
@@ -270,16 +285,16 @@ class InstrumentController extends Controller
 
         if(!(is_null($test))) return response()->json(['status' => false, 'message' => 'Instrument already exist']);
 
-        $area_name = ["AREA I: VISION, MISSION, GOALS AND OBJECTIVES",
-            "AREA II: FACULTY",
-            "AREA III: Curriculum and Instruction",
-            "AREA IV: SUPPORT TO STUDENTS",
-            "AREA V: RESEARCH",
-            "AREA VI: EXTENSION AND COMMUNITY INVOLVEMENT",
-            "AREA VII: LIBRARY",
-            "AREA VIII: PHYSICAL PLANT AND FACILITIES",
-            "AREA IX: LABORATORIES",
-            "AREA X: ADMINISTRATION"];
+//        $area_name = ["AREA I: VISION, MISSION, GOALS AND OBJECTIVES",
+//            "AREA II: FACULTY",
+//            "AREA III: Curriculum and Instruction",
+//            "AREA IV: SUPPORT TO STUDENTS",
+//            "AREA V: RESEARCH",
+//            "AREA VI: EXTENSION AND COMMUNITY INVOLVEMENT",
+//            "AREA VII: LIBRARY",
+//            "AREA VIII: PHYSICAL PLANT AND FACILITIES",
+//            "AREA IX: LABORATORIES",
+//            "AREA X: ADMINISTRATION"];
 
         $intendedProgram = new ProgramInstrument();
         $intendedProgram->intended_program = $request->intended_program;
@@ -312,5 +327,32 @@ class InstrumentController extends Controller
            }
         }
         return response()->json(['status' => true, 'message' => 'Successfully added instrument!','instrument' => $areaInstrument]);
+    }
+
+    public function addInstrumentTag(request $request,$id){
+        $tag = AreaInstrumentTag::where([
+            ['area_instrument_id', $id], ['tag', $request->tag]
+        ])->first();
+        if(is_null($tag)){
+            $tag = new AreaInstrumentTag();
+            $tag->tag = $request->tag;
+            $tag->area_instrument_id = $id;
+            $success = $tag->save();
+            if($success) return response()->json(['status' => true, 'message' => 'Successfully added tag']);
+            else return response()->json(['status' => false, 'message' => 'Unsuccessfully added tag']);
+        }
+        return response()->json(['status' => true, 'message' => 'Already exist!']);
+    }
+
+    public function removeInstrumentTag($id){
+        $tag = AreaInstrumentTag::where('id', $id);
+        $success = $tag->delete();
+        if($success) return response()->json(['status' => true, 'message' => 'Successfully removed tag']);
+        else return response()->json(['status' => false, 'message' => 'Unsuccessfully removed tag']);
+    }
+
+    public function showInstrumentTag($id){
+        $tags = AreaInstrumentTag::where('area_instrument_id', $id)->get();
+        return response()->json($tags);
     }
 }
