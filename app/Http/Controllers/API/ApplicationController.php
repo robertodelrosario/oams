@@ -70,7 +70,8 @@ class ApplicationController extends Controller
                 $program->preferred_start_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_start_date'])->format('Y-m-d');
                 $program->preferred_end_date = \Carbon\Carbon::parse($request->programs[$x]['preferred_end_date'])->format('Y-m-d');
                 $program->status = "pending";
-                $program->save();
+                $success = $program->save();
+                if(!($success)) dd($application);
 
                 $prog = Program::where('id', $request->programs[$x]['program_id'])->first();
                 if($prog->office_id != null){
