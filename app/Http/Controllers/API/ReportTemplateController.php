@@ -52,6 +52,10 @@ class ReportTemplateController extends Controller
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file types are .doc,.pdf, and .docx']);
 
         if ($request->hasfile('file')) {
+            $template = ReportTemplate::where([
+                ['campus_id', $id],['template_name',$request->template_name]
+                ])->first();
+            if(!(is_null($template))) return response()->json(['status' => false, 'message' => 'Template name already exist!']);
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
             $filePath = $file->storeAs('reporttemplates/files', $fileName);
