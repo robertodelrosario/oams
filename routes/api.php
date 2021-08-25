@@ -276,7 +276,7 @@ Route::group(['prefix' => '/report'], function() {
     Route::get('/downloadFile/{id}', 'ReportTemplateController@downloadFile');
     Route::delete('/deleteTemplate/{id}', 'ReportTemplateController@deleteTemplate');
     Route::post('/addTemplateTag/{id}', 'ReportTemplateController@addTemplatetag');
-    Route::get('/removeTemplateTag/{id}', 'ReportTemplateController@removeTemplateTag');
+    Route::delete('/removeTemplateTag/{id}', 'ReportTemplateController@removeTemplateTag');
 });
 
 Route::group(['prefix' => '/application'], function() {
