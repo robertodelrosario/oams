@@ -102,57 +102,56 @@ class ApplicationController extends Controller
                         }
                     }
                 }
-                $instruments = InstrumentProgram::where('program_id', $program->program_id)->get();
-                foreach ($instruments as $instrument) $instrument->delete();
+                $instrument = InstrumentProgram::where('program_id', $program->program_id);
+                $instrument->delete();
 
-//                if(Str::contains($program->level, 'Candidate')){
-//                    $areas = AreaInstrument::where('intended_program_id', 48)->get();
-//                    foreach ($areas as $area){
-//                        $instrumentProgram = new InstrumentProgram();
-//                        $instrumentProgram->program_id = $request->program_id;
-//                        $instrumentProgram->area_instrument_id = $area->id;
-//                        $instrumentProgram->save();
-//                        $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-//                        if (count($instrumentParamenters) != 0) {
-//                            foreach ($instrumentParamenters as $instrumentParamenter) {
-//                                $parameter = new ParameterProgram();
-//                                $parameter->program_instrument_id = $instrumentProgram->id;
-//                                $parameter->parameter_id = $instrumentParamenter->parameter_id;
-//                                $parameter->save();
-//
-//                                $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
-//                                if (count($statements) != 0) {
-//                                    foreach ($statements as $statement) {
-//                                        $programStatement = new ProgramStatement();
-//                                        $programStatement->program_parameter_id = $parameter->id;
-//                                        $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
-//                                        $programStatement->parent_statement_id = $statement->parent_statement_id;
-//                                        $programStatement->save();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
-//                        foreach ($templates as $template){
-//                            $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
-//                            foreach ($temp_tags as $temp_tag){
-//                                if($temp_tag->tag == $area->area_name){
-//                                    $program_report_template = ProgramReportTemplate::where([
-//                                        ['report_template_id', $template->id], ['instrument_program_id', $instrumentProgram->id]
-//                                    ])->first();
-//                                    if(is_null($program_report_template)) {
-//                                        $program_report_template = new ProgramReportTemplate();
-//                                        $program_report_template->report_template_id = $template->id;
-//                                        $program_report_template->instrument_program_id = $instrumentProgram->id;
-//                                        $program_report_template->save();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//                else{
-                $areas = null;
+                if(Str::contains($program->level, 'Candidate')){
+                    $areas = AreaInstrument::where('intended_program_id', 48)->get();
+                    foreach ($areas as $area){
+                        $instrumentProgram = new InstrumentProgram();
+                        $instrumentProgram->program_id = $request->program_id;
+                        $instrumentProgram->area_instrument_id = $area->id;
+                        $instrumentProgram->save();
+                        $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                        if (count($instrumentParamenters) != 0) {
+                            foreach ($instrumentParamenters as $instrumentParamenter) {
+                                $parameter = new ParameterProgram();
+                                $parameter->program_instrument_id = $request->programs[$x]['program_id'];
+                                $parameter->parameter_id = $instrumentParamenter->parameter_id;
+                                $parameter->save();
+
+                                $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                                if (count($statements) != 0) {
+                                    foreach ($statements as $statement) {
+                                        $programStatement = new ProgramStatement();
+                                        $programStatement->program_parameter_id = $parameter->id;
+                                        $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                        $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                        $programStatement->save();
+                                    }
+                                }
+                            }
+                        }
+                        $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
+                        foreach ($templates as $template){
+                            $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
+                            foreach ($temp_tags as $temp_tag){
+                                if($temp_tag->tag == $area->area_name){
+                                    $program_report_template = ProgramReportTemplate::where([
+                                        ['report_template_id', $template->id], ['instrument_program_id', $instrumentProgram->id]
+                                    ])->first();
+                                    if(is_null($program_report_template)) {
+                                        $program_report_template = new ProgramReportTemplate();
+                                        $program_report_template->report_template_id = $template->id;
+                                        $program_report_template->instrument_program_id = $instrumentProgram->id;
+                                        $program_report_template->save();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
                     if(Str::contains($program->level, 'Level III')) {
                         $areas = AreaInstrument::where('intended_program_id', 42)->get();
                         $level = 'LEVEL III -';
@@ -161,50 +160,48 @@ class ApplicationController extends Controller
                         $areas = AreaInstrument::where('intended_program_id', 47)->get();
                         $level = 'LEVEL IV -';
                     }
-                    if(!(is_null($areas))){
-                        foreach ($areas as $area){
-                            $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
-                            foreach ($area_mandatories as $area_mandatory){
-                                if($area_mandatory->type == 'Mandatory' && $prog->type == $area_mandatory->program_status){
-                                    $instrumentProgram = new InstrumentProgram();
-                                    $instrumentProgram->program_id = $request->program_id;
-                                    $instrumentProgram->area_instrument_id = $area->id;
-                                    $instrumentProgram->save();
-                                    $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-                                    if (count($instrumentParamenters) != 0) {
-                                        foreach ($instrumentParamenters as $instrumentParamenter) {
-                                            $parameter = new ParameterProgram();
-                                            $parameter->program_instrument_id = $instrumentProgram->id;
-                                            $parameter->parameter_id = $instrumentParamenter->parameter_id;
-                                            $parameter->save();
+                    foreach ($areas as $area){
+                        $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
+                        foreach ($area_mandatories as $area_mandatory){
+                            if($area_mandatory->type == 'Mandatory' && $prog->type == $area_mandatory->program_status){
+                                $instrumentProgram = new InstrumentProgram();
+                                $instrumentProgram->program_id = $request->programs[$x]['program_id'];
+                                $instrumentProgram->area_instrument_id = $area->id;
+                                $instrumentProgram->save();
+                                $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                                if (count($instrumentParamenters) != 0) {
+                                    foreach ($instrumentParamenters as $instrumentParamenter) {
+                                        $parameter = new ParameterProgram();
+                                        $parameter->program_instrument_id = $instrumentProgram->id;
+                                        $parameter->parameter_id = $instrumentParamenter->parameter_id;
+                                        $parameter->save();
 
-                                            $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
-                                            if (count($statements) != 0) {
-                                                foreach ($statements as $statement) {
-                                                    $programStatement = new ProgramStatement();
-                                                    $programStatement->program_parameter_id = $parameter->id;
-                                                    $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
-                                                    $programStatement->parent_statement_id = $statement->parent_statement_id;
-                                                    $programStatement->save();
-                                                }
+                                        $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
+                                        if (count($statements) != 0) {
+                                            foreach ($statements as $statement) {
+                                                $programStatement = new ProgramStatement();
+                                                $programStatement->program_parameter_id = $parameter->id;
+                                                $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
+                                                $programStatement->parent_statement_id = $statement->parent_statement_id;
+                                                $programStatement->save();
                                             }
                                         }
                                     }
-                                    $code = $level.' '.$area->area_name;
-                                    $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
-                                    foreach ($templates as $template){
-                                        $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
-                                        foreach ($temp_tags as $temp_tag){
-                                            if($temp_tag->tag == $code){
-                                                $program_report_template = ProgramReportTemplate::where([
-                                                    ['report_template_id', $template->id], ['instrument_program_id', $instrumentProgram->id]
-                                                ])->first();
-                                                if(is_null($program_report_template)) {
-                                                    $program_report_template = new ProgramReportTemplate();
-                                                    $program_report_template->report_template_id = $template->id;
-                                                    $program_report_template->instrument_program_id = $instrumentProgram->id;
-                                                    $program_report_template->save();
-                                                }
+                                }
+                                $code = $level.' '.$area->area_name;
+                                $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
+                                foreach ($templates as $template){
+                                    $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
+                                    foreach ($temp_tags as $temp_tag){
+                                        if($temp_tag->tag == $code){
+                                            $program_report_template = ProgramReportTemplate::where([
+                                                ['report_template_id', $template->id], ['instrument_program_id', $instrumentProgram->id]
+                                            ])->first();
+                                            if(is_null($program_report_template)) {
+                                                $program_report_template = new ProgramReportTemplate();
+                                                $program_report_template->report_template_id = $template->id;
+                                                $program_report_template->instrument_program_id = $instrumentProgram->id;
+                                                $program_report_template->save();
                                             }
                                         }
                                     }
@@ -213,7 +210,7 @@ class ApplicationController extends Controller
                         }
                     }
                 }
-//            }
+            }
             else $message=1;
         }
         if($message == 0) return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
