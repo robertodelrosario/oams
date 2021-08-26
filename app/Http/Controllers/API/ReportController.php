@@ -40,8 +40,9 @@ class ReportController extends Controller
             $filePath = $request->file('sar')->storeAs('reports', $fileName);
             $area->sar_report = $filePath;
         }
-        $area->save();
-        return response()->json(['status' => true, 'message' => 'Successfully added report documents!']);
+        $success = $area->save();
+        if($success) return response()->json(['status' => true, 'message' => 'Successfully added report documents!']);
+        else response()->json(['status' => false, 'message' => 'Unsuccessfully added report documents!']);
     }
 
     public function generateAreaSAR($id, $app_prog){
