@@ -29,18 +29,19 @@ class ReportController extends Controller
         $area = AssignedUser::where([
             ['user_id', $userID], ['app_program_id', $id]
         ])->first();
-
+        $success = false;
         if(!(is_null($request->sfr))){
             $fileName = $request->sfr->getClientOriginalName();
             $filePath = $request->file('sfr')->storeAs('reports', $fileName);
             $area->sfr_report = $filePath;
+            $success = $area->save();
         }
         if(!(is_null($request->sar))){
             $fileName = $request->sar->getClientOriginalName();
             $filePath = $request->file('sar')->storeAs('reports', $fileName);
             $area->sar_report = $filePath;
+            $success = $area->save();
         }
-        $success = $area->save();
         if($success) return response()->json(['status' => true, 'message' => 'Successfully added report documents!']);
         else response()->json(['status' => false, 'message' => 'Unsuccessfully added report documents!']);
     }
