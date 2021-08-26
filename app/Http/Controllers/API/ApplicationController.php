@@ -133,23 +133,6 @@ class ApplicationController extends Controller
                                 }
                             }
                         }
-                        $templates = ReportTemplate::where('campus_id', $prog->campus_id)->get();
-                        foreach ($templates as $template){
-                            $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
-                            foreach ($temp_tags as $temp_tag){
-                                if($temp_tag->tag == $area->area_name){
-                                    $program_report_template = ProgramReportTemplate::where([
-                                        ['report_template_id', $template->id], ['instrument_program_id', $instrumentProgram->id]
-                                    ])->first();
-                                    if(is_null($program_report_template)) {
-                                        $program_report_template = new ProgramReportTemplate();
-                                        $program_report_template->report_template_id = $template->id;
-                                        $program_report_template->instrument_program_id = $instrumentProgram->id;
-                                        $program_report_template->save();
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
                 else{
