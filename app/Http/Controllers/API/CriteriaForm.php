@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\ApplicationProgram;
 use App\AreaInstrument;
+use App\AreaInstrumentTag;
 use App\AreaMandatory;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
@@ -33,6 +34,7 @@ class CriteriaForm extends Controller
                     elseif ($area_mandatory->program_status == 'Undergraduate')
                         $undergraduate = $area_mandatory->type;
                 }
+            $tags = AreaInstrumentTag::where('area_instrument_id', $instrument->id)->get();
                 $collection->push([
                     'id' => $instrument->id,
                     'intended_program_id' => $instrument->intended_program_id,
@@ -42,7 +44,8 @@ class CriteriaForm extends Controller
                     'created_at' => $instrument->created_at,
                     'updated_at' => $instrument->updated_at,
                     'graduate' => $graduate,
-                    'undergraduate' => $undergraduate
+                    'undergraduate' => $undergraduate,
+                    'tags' => $tags
                 ]);
         }
         return response()->json($collection);

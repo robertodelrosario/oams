@@ -307,6 +307,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::put('/lockSelfSurvey/{id}', 'AppliedProgramController@lockSelfSurvey');
 
     Route::post('/uploadFile/{id}/{userID}', 'AppliedProgramController@uploadFile');
+    Route::put('/updateProgramFile/{id}', 'AppliedProgramController@updateProgramFile');
     Route::delete('/deleteProgramFile/{id}/{user_id}', 'AppliedProgramController@deleteProgramFile');
     Route::get('/viewProgramFile/{id}', 'AppliedProgramController@viewProgramFile');
     Route::get('/showProgramFile/{id}', 'AppliedProgramController@showProgramFile');

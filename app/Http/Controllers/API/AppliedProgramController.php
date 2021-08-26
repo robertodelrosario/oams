@@ -304,7 +304,12 @@ class AppliedProgramController extends Controller
         ]);
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Required File!']);
 
-
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        if(Str::contains($applied_program->level, 'Level IV'))
+            $area_name = array('RESEARCH','PERFORMANCE OF GRADUATES','COMMUNITY SERVICE','INTERNATIONAL LINKAGES AND CONSORTIA','PLANNING');
+        elseif(Str::contains($applied_program->level, 'Level III'))
+            $area_name = array('INSTRUCTION','EXTENSION','RESEARCH','FACULTY','LICENSURE EXAM', 'CONSORTIA OR LINKAGE', 'LIBRARY');
+        else $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
         if ($request->hasfile('filename')) {
             foreach ($files = $request->file('filename') as $file) {
                 $applicationProgram = new ApplicationProgramFile();
@@ -316,7 +321,6 @@ class AppliedProgramController extends Controller
                 $applicationProgram->application_program_id = $id;
                 $applicationProgram->uploader_id = $userID;
                 $applicationProgram->status = 'pending';
-                $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
                 $area = null;
                 for($x=0; $x < 10; $x++){
                     if($x+1 == $request->area_number) {
@@ -330,6 +334,19 @@ class AppliedProgramController extends Controller
             return response()->json(['status' => true, 'message' => 'Successfully added files!']);
         }
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
+    }
+
+    public function updateProgramFile(request $request, $id){
+        $newfile = ApplicationProgramFile::where('id', $id)->first();
+        $user = User::where('id', $newfile->uploader_id)->first();
+        if($newfile->uploader_id != auth()->user()->id) return response()->json(['status' => false, 'message' => 'Only '.$user->first_name." ".$user->last_name." can update the file."]);
+        $fileName = $request->file->getClientOriginalName();
+        $filePath = $$request->file->storeAs('application/files', $fileName);
+        $newfile->file_title = $fileName;
+        $newfile->file = $filePath;
+        $success = $newfile->save();
+        if ($success) return response()->json(['status' => true, 'message' => 'Successfully updated file']);
+        else return response()->json(['status' => false, 'message' => 'Unsuccessfully updated file']);
     }
 
     public function deleteProgramFile($id, $user_id){
