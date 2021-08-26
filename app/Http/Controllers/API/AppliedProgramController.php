@@ -366,7 +366,13 @@ class AppliedProgramController extends Controller
     }
 
     public function showFileTF($id,$Userid){
-        $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        if(Str::contains($applied_program->level, 'Level IV'))
+            $area_name = array('RESEARCH','PERFORMANCE OF GRADUATES','COMMUNITY SERVICE','INTERNATIONAL LINKAGES AND CONSORTIA','PLANNING');
+        elseif(Str::contains($applied_program->level, 'Level III'))
+            $area_name = array('INSTRUCTION','EXTENSION','RESEARCH','FACULTY','LICENSURE EXAM', 'CONSORTIA OR LINKAGE', 'LIBRARY');
+        else $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+//        $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
 
         $areas = AssignedUser::where([
             ['app_program_id', $id], ['user_id', $Userid]
@@ -394,7 +400,13 @@ class AppliedProgramController extends Controller
     }
 
     public function showFileIA($id,$Userid){
-        $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        if(Str::contains($applied_program->level, 'Level IV'))
+            $area_name = array('RESEARCH','PERFORMANCE OF GRADUATES','COMMUNITY SERVICE','INTERNATIONAL LINKAGES AND CONSORTIA','PLANNING');
+        elseif(Str::contains($applied_program->level, 'Level III'))
+            $area_name = array('INSTRUCTION','EXTENSION','RESEARCH','FACULTY','LICENSURE EXAM', 'CONSORTIA OR LINKAGE', 'LIBRARY');
+        else $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+//        $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
         $areas = AssignedUser::where([
             ['app_program_id', $id], ['user_id', $Userid]
         ])->get();
@@ -429,7 +441,13 @@ class AppliedProgramController extends Controller
     }
 
     public function showFileEA($id,$Userid){
-        $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        if(Str::contains($applied_program->level, 'Level IV'))
+            $area_name = array('RESEARCH','PERFORMANCE OF GRADUATES','COMMUNITY SERVICE','INTERNATIONAL LINKAGES AND CONSORTIA','PLANNING');
+        elseif(Str::contains($applied_program->level, 'Level III'))
+            $area_name = array('INSTRUCTION','EXTENSION','RESEARCH','FACULTY','LICENSURE EXAM', 'CONSORTIA OR LINKAGE', 'LIBRARY');
+        else $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+//        $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
         $areas = AssignedUser::where([
             ['app_program_id', $id], ['user_id', $Userid]
         ])->get();
