@@ -324,8 +324,8 @@ class AppliedProgramController extends Controller
         $user = User::where('id', $newfile->uploader_id)->first();
         if($newfile->uploader_id != auth()->user()->id) return response()->json(['status' => false, 'message' => 'Only '.$user->first_name." ".$user->last_name." can update the file."]);
         if(!(is_null($request->file))) {
-            $fileName = $request->filename->getClientOriginalName();
-            $filePath = $request->filename->storeAs('application/files', $fileName);
+            $fileName = $request->file->getClientOriginalName();
+            $filePath = $request->file->storeAs('application/files', $fileName);
             $newfile->file_title = $fileName;
             $newfile->file = $filePath;
             $success = $newfile->save();
