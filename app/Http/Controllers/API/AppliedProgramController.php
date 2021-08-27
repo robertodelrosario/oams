@@ -328,6 +328,7 @@ class AppliedProgramController extends Controller
             $filePath = $request->file->storeAs('application/files', $fileName);
             $newfile->file_title = $fileName;
             $newfile->file = $filePath;
+            $newfile->status = 'revised';
             $success = $newfile->save();
             if ($success) return response()->json(['status' => true, 'message' => 'Successfully updated file']);
             else return response()->json(['status' => false, 'message' => 'Unsuccessfully updated file']);
@@ -361,7 +362,7 @@ class AppliedProgramController extends Controller
         ])->get();
         foreach ($ppp as $p) $report = Arr::prepend($report,$p);
         $narrative = ApplicationProgramFile::where([
-            ['application_program_id', $id], ['type', 'Narrative Report']
+            ['application_program_id', $id], ['type', 'like','%Narrative%']
         ])->get();
         foreach ($narrative as $n) $report = Arr::prepend($report,$n);
 
@@ -395,7 +396,7 @@ class AppliedProgramController extends Controller
             ])->get();
             foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1]]
+                ['application_program_id', $id], ['type', 'like','%Narrative%'], ['area', $area_name[$area_number->area_number-1]]
             ])->get();
             foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
@@ -428,7 +429,7 @@ class AppliedProgramController extends Controller
             ])->get();
             foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1], ['status', 'approved']]
+                ['application_program_id', $id], ['type', 'like','%Narrative%'], ['area', $area_name[$area_number->area_number-1], ['status', 'approved']]
             ])->get();
             foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
@@ -469,7 +470,7 @@ class AppliedProgramController extends Controller
             ])->get();
             foreach ($ppp as $p) $report = Arr::prepend($report,$p);
             $narrative = ApplicationProgramFile::where([
-                ['application_program_id', $id], ['type', 'Narrative Report'], ['area', $area_name[$area_number->area_number-1]], ['status', 'approved']
+                ['application_program_id', $id], ['type', 'like','%Narrative%'], ['area', $area_name[$area_number->area_number-1]], ['status', 'approved']
             ])->get();
             foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
@@ -495,7 +496,7 @@ class AppliedProgramController extends Controller
         ])->get();
         foreach ($ppp as $p) $report = Arr::prepend($report,$p);
         $narrative = ApplicationProgramFile::where([
-            ['application_program_id', $id], ['type', 'Narrative Report']
+            ['application_program_id', $id], ['type', 'like','%Narrative%']
         ])->get();
         foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         $sar = ApplicationProgramFile::where([

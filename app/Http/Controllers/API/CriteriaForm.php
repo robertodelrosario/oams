@@ -70,7 +70,7 @@ class CriteriaForm extends Controller
         $instrumentProgram->program_id = $program_id;
         $instrumentProgram->area_instrument_id = $id;
         $instrumentProgram->save();
-        $area = AreaInstrument::where('id', area_instrument_id)->first();
+        $area = AreaInstrument::where('id', $id)->first();
         $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $id)->get();
         if(count($instrumentParamenters) != 0){
             foreach ($instrumentParamenters as $instrumentParamenter){
