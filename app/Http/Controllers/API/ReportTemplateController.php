@@ -77,7 +77,7 @@ class ReportTemplateController extends Controller
                         foreach($applied_programs as $applied_program){
                             $level = $applied_program->level;
                         }
-                        if(is_null($level)) {
+                        if(!(is_null($level))) {
                             $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
                             foreach ($intrument_programs as $intrument_program) {
                                 $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
@@ -99,7 +99,7 @@ class ReportTemplateController extends Controller
                         }
                     }
                 }
-                return response()->json(['status' => true, 'message'=>"Successfully added template.". $level]);
+                return response()->json(['status' => true, 'message'=>"Successfully added template."]);
             }
         }
 
@@ -152,26 +152,29 @@ class ReportTemplateController extends Controller
                 $temp_tag->tag = $tag;
                 $temp_tag->report_template_id = $id;
                 $success = $temp_tag->save();
+                $level = null;
                     foreach ($programs as $program){
                         $applied_programs = ApplicationProgram::where('program_id', $program->id)->get();
                         foreach($applied_programs as $applied_program){
                             $level = $applied_program->level;
                         }
-                        $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
-                        foreach ($intrument_programs as $intrument_program){
-                            $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
-                            if($level == 'Level III') $core = 'LEVEL III -'.' '. $area->area_name;
-                            elseif($level == 'Level IV') $core = 'LEVEL IV -'.' '. $area->area_name;
-                            else $core = $area->area_name;
-                            if($core == $tag){
-                                $program_report_template = ProgramReportTemplate::where([
-                                    ['report_template_id', $template->id], ['instrument_program_id', $intrument_program->id]
-                                ])->first();
-                                if(is_null($program_report_template)) {
-                                    $program_report_template = new ProgramReportTemplate();
-                                    $program_report_template->report_template_id = $id;
-                                    $program_report_template->instrument_program_id = $intrument_program->id;
-                                    $program_report_template->save();
+                        if(!is_null($level)) {
+                            $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
+                            foreach ($intrument_programs as $intrument_program) {
+                                $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
+                                if ($level == 'Level III') $core = 'LEVEL III -' . ' ' . $area->area_name;
+                                elseif ($level == 'Level IV') $core = 'LEVEL IV -' . ' ' . $area->area_name;
+                                else $core = $area->area_name;
+                                if ($core == $tag) {
+                                    $program_report_template = ProgramReportTemplate::where([
+                                        ['report_template_id', $template->id], ['instrument_program_id', $intrument_program->id]
+                                    ])->first();
+                                    if (is_null($program_report_template)) {
+                                        $program_report_template = new ProgramReportTemplate();
+                                        $program_report_template->report_template_id = $id;
+                                        $program_report_template->instrument_program_id = $intrument_program->id;
+                                        $program_report_template->save();
+                                    }
                                 }
                             }
                         }
@@ -186,22 +189,25 @@ class ReportTemplateController extends Controller
         $temp_tag = TemplateTag::where('id', $id)->first();
         $template = ReportTemplate::where('id', $temp_tag->report_template_id)->first();
         $programs = Program::where('campus_id', $template->campus_id)->get();
+        $level = null;
         foreach ($programs as $program){
             $applied_programs = ApplicationProgram::where('program_id', $program->id)->get();
             foreach($applied_programs as $applied_program){
                 $level = $applied_program->level;
             }
-            $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
-            foreach ($intrument_programs as $intrument_program){
-                $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
-                if($level == 'Level III') $core = 'LEVEL III -'.' '. $area->area_name;
-                elseif($level == 'Level IV') $core = 'LEVEL IV -'.' '. $area->area_name;
-                else $core = $area->area_name;
-                if($core == $temp_tag->tag){
-                    $program_report_template = ProgramReportTemplate::where([
-                      ['report_template_id', $template->id], ['instrument_program_id', $intrument_program->id]
-                    ]);
-                    $program_report_template->delete();
+            if(!(is_null($level))) {
+                $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
+                foreach ($intrument_programs as $intrument_program) {
+                    $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
+                    if ($level == 'Level III') $core = 'LEVEL III -' . ' ' . $area->area_name;
+                    elseif ($level == 'Level IV') $core = 'LEVEL IV -' . ' ' . $area->area_name;
+                    else $core = $area->area_name;
+                    if ($core == $temp_tag->tag) {
+                        $program_report_template = ProgramReportTemplate::where([
+                            ['report_template_id', $template->id], ['instrument_program_id', $intrument_program->id]
+                        ]);
+                        $program_report_template->delete();
+                    }
                 }
             }
         }
