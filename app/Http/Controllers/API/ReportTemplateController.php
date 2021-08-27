@@ -99,7 +99,7 @@ class ReportTemplateController extends Controller
                         }
                     }
                 }
-                return response()->json(['status' => true, 'message'=>"Successfully added template.", 'level' => $level]);
+                return response()->json(['status' => true, 'message'=>"Successfully added template.". $level]);
             }
         }
 
