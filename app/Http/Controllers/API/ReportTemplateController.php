@@ -84,7 +84,6 @@ class ReportTemplateController extends Controller
                                 if ($level == 'Level III') $core = 'LEVEL III -' . ' ' . $area->area_name;
                                 elseif ($level == 'Level IV') $core = 'LEVEL IV -' . ' ' . $area->area_name;
                                 else $core = $area->area_name;
-
                                 if ($core == $tag) {
                                     $program_report_template = ProgramReportTemplate::where([
                                         ['report_template_id', $template->id], ['instrument_program_id', $intrument_program->id]
@@ -100,7 +99,7 @@ class ReportTemplateController extends Controller
                         }
                     }
                 }
-                return response()->json(['status' => true, 'message'=>"Successfully added template."]);
+                return response()->json(['status' => true, 'message'=>"Successfully added template.", 'level' => $level]);
             }
         }
 
