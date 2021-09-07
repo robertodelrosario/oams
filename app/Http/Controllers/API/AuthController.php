@@ -431,6 +431,7 @@ class AuthController extends Controller
             if($user_role->role_id = 11) {
                 $is_active_head = true;
                 $user_offices = OfficeUser::where('user_role_id', $user_role->id)->get();
+                dd($user_offices);
                 foreach ($user_offices as $user_office){
                     $head_office = Office::where('id', $user_office->office_id)->first();
                     $head_office_id = $head_office->id;
