@@ -46,6 +46,15 @@ class UserRoleController extends Controller
                         break;
                     }
                 }
+            } elseif ($role->id == 5){
+                $users = OfficeUser::where('office_id', $request->office_id)->get();
+                foreach ($users as $user) {
+                    $user_role = UserRole::where('id', $user->user_role_id)->first();
+                    if ($user_role->role_id == 5) {
+                        $role = Role::where('role', 'QA staff')->first();
+                        break;
+                    }
+                }
             }
         }
         $check = UserRole::where([
