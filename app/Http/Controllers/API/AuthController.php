@@ -508,6 +508,7 @@ class AuthController extends Controller
                 }
             }
             if($is_active_head){
+                dd($is_active_head);
                 foreach ($collection_1 as $col){
                     if($col['role_id'] == 1 || $col['role_id'] == 2){
                         $sub_offices = Office::where('parent_office_id', $head_office_id)->get();
