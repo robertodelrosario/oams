@@ -416,8 +416,8 @@ class AuthController extends Controller
         $is_active_qa = false;
         $is_active_head = false;
         $is_active_chairman = false;
-        $chairman_office = null;
-        $head_office = null;
+        $chairman_office_id = 0;
+        $head_office_id = 0;
         foreach ($user_roles as $user_role){
             if($user_role->role_id == 5 || $user_role->role_id == 6) $is_active_qa = true;
             elseif($user_role->role_id = 2) {
@@ -425,6 +425,7 @@ class AuthController extends Controller
                 $user_offices = OfficeUser::where('user_role_id', $user_role->id)->get();
                 foreach ($user_offices as $user_office){
                     $chairman_office = Office::where('id', $user_office->office_id)->first();
+                    $chairman_office_id = $chairman_office->id;
                 }
             }
             elseif($user_role->role_id = 11) {
@@ -432,6 +433,7 @@ class AuthController extends Controller
                 $user_offices = OfficeUser::where('user_role_id', $user_role->id)->get();
                 foreach ($user_offices as $user_office){
                     $head_office = Office::where('id', $user_office->office_id)->first();
+                    $head_office_id = $head_office->id;
                 }
             }
         }
@@ -489,7 +491,7 @@ class AuthController extends Controller
             }
             if($is_active_chairman){
                 foreach ($collection_1 as $col){
-                    if($col['role_id'] == 1 && $col['office_id'] == $chairman_office->id){
+                    if($col['role_id'] == 1 && $col['office_id'] == $chairman_office_id){
                         $collection_chairman->push([
                             'id' => $campus_user->id,
                             'user_id' => $user->id,
@@ -508,7 +510,7 @@ class AuthController extends Controller
             if($is_active_head){
                 foreach ($collection_1 as $col){
                     if($col['role_id'] == 1 || $col['role_id'] == 2){
-                        $sub_offices = Office::where('parent_office_id', $head_office->id)->get();
+                        $sub_offices = Office::where('parent_office_id', $head_office_id)->get();
                         foreach ($sub_offices as $sub_office){
                             if($sub_office->id == $col['office_id']){
                                 $collection_head->push([
