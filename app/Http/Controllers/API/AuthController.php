@@ -511,7 +511,6 @@ class AuthController extends Controller
                 foreach ($collection_1 as $col){
                     if($col['role_id'] == 1 || $col['role_id'] == 2){
                         $sub_offices = Office::where('parent_office_id', $head_office_id)->get();
-                        dd($head_office_id);
                         foreach ($sub_offices as $sub_office){
                             if($sub_office->id == $col['office_id']){
                                 $collection_head->push([
