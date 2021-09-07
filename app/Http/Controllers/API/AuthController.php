@@ -490,7 +490,7 @@ class AuthController extends Controller
                 ]);
             }
             if($is_active_chairman){
-                dd($is_active_chairman)
+                dd($is_active_chairman);
                 foreach ($collection_1 as $col){
                     if($col['role_id'] == 1 && $col['office_id'] == $chairman_office_id){
                         $collection_chairman->push([
