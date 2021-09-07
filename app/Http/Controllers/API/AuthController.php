@@ -127,49 +127,6 @@ class AuthController extends Controller
                 }
             }
         }
-//        foreach ($campuses as $campus){
-//            foreach ($user_roles as $user_role){
-//                $campus_offices = CampusOffice::where('campus_id', $campus->campus_id)->get();
-//                foreach ($campus_offices as $campus_office){
-//                    $office_users = OfficeUser::where('user_role_id', $user_role->id)->get();
-//                    foreach ($office_users as $office_user){
-//                        if ($campus_office->office_id == $office_user->office_id) {
-//                            $office = Office::where('id', $office_user->office_id)->first();
-//                            if(!($collection_1->contains('id',$office_user->id ))) {
-//                                $collection_1->push([
-//                                    'id' => $office_user->id,
-//                                    'user_role_id' => $user_role->id,
-//                                    'role_id' => $user_role->role_id,
-//                                    'role' => $user_role->role,
-//                                    'office_user_id' => $office->id,
-//                                    'office_id' => $office->id,
-//                                    'office_name' => $office->office_name,
-//                                    'campus_id' => $campus_office->campus_id
-//                                ]);
-//                            }
-//                        }
-//                    }
-////                    $office_user = OfficeUser::where('user_role_id', $user_role->id)->first();
-////                    if(!(is_null($office_user))) {
-////                        if ($campus_office->office_id == $office_user->office_id) {
-////                            $office = Office::where('id', $office_user->office_id)->first();
-////                            if(!($collection_1->contains('id',$office_user->id ))) {
-////                                $collection_1->push([
-////                                    'id' => $office_user->id,
-////                                    'user_role_id' => $user_role->id,
-////                                    'role_id' => $user_role->role_id,
-////                                    'role' => $user_role->role,
-////                                    'office_user_id' => $office->id,
-////                                    'office_id' => $office->id,
-////                                    'office_name' => $office->office_name,
-////                                    'campus_id' => $campus_office->campus_id
-////                                ]);
-////                            }
-////                        }
-////                    }
-//                }
-//            }
-//        }
         return response()->json(['user' => auth()->user(), 'role' => $roles, 'campus'=>$campuses, 'office' => $collection_1]);
     }
     /**
@@ -323,7 +280,6 @@ class AuthController extends Controller
                 return response()->json(['status' => true, 'message' => 'User successfully registered']);
             }
         }
-//        echo $check;
         if($role->id == 8){
             $campus_user = CampusUser::where([
                 ['campus_id', $id], ['user_id', $check->id]
@@ -452,8 +408,31 @@ class AuthController extends Controller
     }
 
     public function showCampusUser($id){
-        $collection = new Collection();
+        $collection_qa = new Collection();
+        $collection_head = new Collection();
+        $collection_chairman = new Collection();
         $campus_users = CampusUser::where('campus_id', $id)->get();
+        $user_roles = UserRole::where('user_id', auth()->user()->id)->get();
+        $is_active_qa = false;
+        $is_active_head = false;
+        $is_active_chairman = false;
+        foreach ($user_roles as $user_role){
+            if($user_role->role_id == 5 || $user_role->role_id == 6) $is_active_qa = true;
+            elseif($user_role->role_id = 2) {
+                $is_active_chairman = true;
+                $user_offices = OfficeUser::where('user_role_id', $user_role->id)->get();
+                foreach ($user_offices as $user_office){
+                    $chairman_office = Office::where('id', $user_office->office_id)->first();
+                }
+            }
+            elseif($user_role->role_id = 11) {
+                $is_active_head = true;
+                $user_offices = OfficeUser::where('user_role_id', $user_role->id)->get();
+                foreach ($user_offices as $user_office){
+                    $head_office = Office::where('id', $user_office->office_id)->first();
+                }
+            }
+        }
         foreach ($campus_users as $campus_user){
             $collection_1 = new Collection();
             $user = User::where('id', $campus_user->user_id)->first();
@@ -491,50 +470,64 @@ class AuthController extends Controller
                         'office_name' => null
                     ]);
                 }
-//                $office = DB::table('offices')
-//                    ->join('offices_users', 'offices_users.office_id', '=', 'offices.id')
-//                    ->where('offices_users.user_role_id', $role->id)
-//                    ->first();
-//                if(!(is_null($office))) {
-//                    $campus_office = CampusOffice::where([
-//                        ['campus_id', $id], ['office_id', $office->office_id]
-//                    ])->first();
-//                    if(!(is_null($campus_office))) {
-//                        $collection_1->push([
-//                            'user_role_id' => $role->id,
-//                            'role_id' => $role->role_id,
-//                            'role' => $role->role,
-//                            'office_user_id' => $office->id,
-//                            'office_id' => $office->office_id,
-//                            'office_name' => $office->office_name
-//                        ]);
-//                    }
-//                }
-//                if($role->role_id == 7 || $role->role_id == 8){
-//                    $collection_1->push([
-//                        'user_role_id' => $role->id,
-//                        'role_id' => $role->role_id,
-//                        'role' => $role->role,
-//                        'office_user_id' => null,
-//                        'office_id' => null,
-//                        'office_name' => null
-//                    ]);
-//                }
             }
-            $collection->push([
-                'id' =>  $campus_user->id,
-                'user_id' => $user->id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'email' => $user->email,
-                'status' => $user->status,
-                'middle_initial' => $user->middle_initial,
-                'name_extension' => $user->name_extension,
-                'contact_no' => $user->contact_no,
-                'office_roles' => $collection_1
-            ]);
+            if($is_active_qa) {
+                $collection_qa->push([
+                    'id' => $campus_user->id,
+                    'user_id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                    'status' => $user->status,
+                    'middle_initial' => $user->middle_initial,
+                    'name_extension' => $user->name_extension,
+                    'contact_no' => $user->contact_no,
+                    'office_roles' => $collection_1
+                ]);
+            }
+            if($is_active_chairman){
+                foreach ($collection_1 as $col){
+                    if($col['role_id'] == 1 && $col['office_id'] == $chairman_office->id){
+                        $collection_chairman->push([
+                            'id' => $campus_user->id,
+                            'user_id' => $user->id,
+                            'first_name' => $user->first_name,
+                            'last_name' => $user->last_name,
+                            'email' => $user->email,
+                            'status' => $user->status,
+                            'middle_initial' => $user->middle_initial,
+                            'name_extension' => $user->name_extension,
+                            'contact_no' => $user->contact_no,
+                            'office_roles' => $collection_1
+                        ]);
+                    }
+                }
+            }
+            if($is_active_head){
+                foreach ($collection_1 as $col){
+                    if($col['role_id'] == 1 || $col['role_id'] == 2){
+                        $sub_offices = Office::where('parent_office_id', $head_office->id)->get();
+                        foreach ($sub_offices as $sub_office){
+                            if($sub_office->id == $col['office_id']){
+                                $collection_head->push([
+                                    'id' => $campus_user->id,
+                                    'user_id' => $user->id,
+                                    'first_name' => $user->first_name,
+                                    'last_name' => $user->last_name,
+                                    'email' => $user->email,
+                                    'status' => $user->status,
+                                    'middle_initial' => $user->middle_initial,
+                                    'name_extension' => $user->name_extension,
+                                    'contact_no' => $user->contact_no,
+                                    'office_roles' => $collection_1
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return response()->json(['users' => $collection]);
+        return response()->json(['users' => $collection_qa, 'college' => $collection_head, 'department' => $collection_chairman]);
     }
 
     public function showTF($id){
