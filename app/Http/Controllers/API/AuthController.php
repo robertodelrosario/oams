@@ -420,7 +420,7 @@ class AuthController extends Controller
         $head_office_id = 0;
         foreach ($user_roles as $user_role){
             if($user_role->role_id == 5 || $user_role->role_id == 6) $is_active_qa = true;
-            elseif($user_role->role_id = 2) {
+            elseif($user_role->role_id == 2) {
                 $is_active_chairman = true;
                 $user_offices = OfficeUser::where('user_role_id', $user_role->id)->get();
                 foreach ($user_offices as $user_office){
@@ -428,7 +428,7 @@ class AuthController extends Controller
                     $chairman_office_id = $chairman_office->id;
                 }
             }
-            elseif($user_role->role_id = 11){
+            elseif($user_role->role_id == 11){
                 $is_active_head = true;
                 $user_offices = OfficeUser::where('user_role_id', $user_role->id)->get();
                 foreach ($user_offices as $user_office){
