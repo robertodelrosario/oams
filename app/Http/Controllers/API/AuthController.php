@@ -416,6 +416,8 @@ class AuthController extends Controller
         $is_active_qa = false;
         $is_active_head = false;
         $is_active_chairman = false;
+        $chairman_office = null;
+        $head_office = null;
         foreach ($user_roles as $user_role){
             if($user_role->role_id == 5 || $user_role->role_id == 6) $is_active_qa = true;
             elseif($user_role->role_id = 2) {
