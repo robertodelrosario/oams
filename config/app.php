@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -237,6 +238,7 @@ return [
         'CSVReport' => Jimmyjs\ReportGenerator\Facades\CSVReportFacade::class,
 
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
