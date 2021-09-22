@@ -647,7 +647,7 @@ class ReportController extends Controller
                         $user = User::where('id', $ss['user_id'])->first();
                         $user_score->push([
                             'last_name' => $user->last_name,
-                            'score' => $ss->score
+                            'score' => $ss['score']
                         ]);
                     }
                 }
