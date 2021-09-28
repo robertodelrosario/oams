@@ -565,7 +565,7 @@ class ReportController extends Controller
                         'benchmark_statement_id' => $statement->benchmark_statement_id,
                         'parent_statement_id' => $statement->parent_statement_id,
                         'benchmark_statement' => $benchmark_statement->statement,
-                        'degree' => ""
+                        'degree' => " "
                     ]);
 
                     foreach ($statements as $statement_1){
@@ -591,7 +591,7 @@ class ReportController extends Controller
                                         'benchmark_statement_id' => $statement_2->benchmark_statement_id,
                                         'parent_statement_id' => $statement_2->parent_statement_id,
                                         'benchmark_statement' => $benchmark_statement_2->statement,
-                                        'degree' => "    "
+                                        'degree' => "   "
                                     ]);
                                 }
                             }
