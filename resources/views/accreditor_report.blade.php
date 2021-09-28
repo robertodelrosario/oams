@@ -49,9 +49,6 @@
             <tbody>
                 @foreach($result as $score)
                     @if($score['id'] == $area['id'])
-                        <tr>
-                            hello
-                        </tr>
                     @endif
                 @endforeach
             </tbody>
