@@ -15,22 +15,22 @@
     <h3 style="text-align: center">Preliminary Survey Visit</h3>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Program: {{ $program->program_name }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Program: {{ $program['program_name'] }}</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">SUC/Campus: {{ $suc->institution_name }} / {{ $campus->campus_name }} </th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Address: {{ $campus->address}}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Address: {{ $campus['address']}}</th>
         </tr>
     </table>
     <table class="table-borderless" >
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Accreditor: {{ $accreditor->first_name }} {{ $accreditor->last_name }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Accreditor: {{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</th>
         </tr>
     </table>
     <div style="page-break-after: always"></div>
