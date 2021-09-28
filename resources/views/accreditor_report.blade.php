@@ -46,10 +46,29 @@
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Applicable</th>
             </tr>
             </thead>
-            @foreach($result as $res)
-                @if($res['id'] == $area['id'])
+            <tbody>
+            @foreach($result as $score)
+                @if($score['id'] == $area['id'])
+                    <tr>
+                        <th scope="row" class="small">
+                            {{ $score['degree'] }} {{ $score['statement'] }}
+                        </th>
+                        <td class="small" >
+                            hello
+                        </td>
+                        <td class="small">
+                            hello
+                        </td>
+                        <td class="small">
+                            hello
+                        </td>
+                        <td class="small">
+                            hello
+                        </td>
+                    </tr>
                 @endif
             @endforeach
+            </tbody>
         </table>
     @endforeach
 </div>
