@@ -49,6 +49,7 @@
             <tbody>
                 @foreach($result as $score)
                     @if($score['id'] == $area['id'])
+                        hello
                     @endif
                 @endforeach
             </tbody>
