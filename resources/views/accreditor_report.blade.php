@@ -33,52 +33,6 @@
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Accreditor: {{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</th>
         </tr>
     </table>
-    @foreach($areas as $area)
-        <h4 style="text-align: center">{{ $area['area_name'] }}</h4>
-        <table class="table table-bordered" >
-            <thead>
-            <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Checklist of data/information, processes and activities</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Available</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Available but Inadequate</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Available</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Applicable</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($result as $score)
-                @if($score['id'] == $area['id'])
-                    <tr>
-                        <th scope="row" class="small">{{$score['degree']}}{{ $score['statement'] }}</th>
-                        <td class="small" >
-                            @foreach($score['score'] as $user_score)
-                                @if($user_score['score'] >= 3 && $user_score['score'] <= 5)
-                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td class="small">
-                            @foreach($score['score'] as $user_score)
-                                @if($user_score['score'] == 1 || $user_score['score'] == 2)
-                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td class="small">
-                            @foreach($score['score'] as $user_score)
-                                @if($user_score['score'] == 0)
-                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td class="small">
-                        </td>
-                    </tr>
-                @endif
-            @endforeach
-            </tbody>
-        </table>
-    @endforeach
 </div>
 
 </body>
