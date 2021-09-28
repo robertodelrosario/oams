@@ -47,17 +47,36 @@
             </tr>
             </thead>
             <tbody>
-                @foreach($result as $score)
-                    @if($score['id'] == $area['id'])
-                        <tr>
-                            <td class="small" >\</td>
-                            <td class="small">a</td>
-                            <td class="small">a</td>
-                            <td class="small">a</td>
-                            <td class="small">a</td>
-                        </tr>
-                    @endif
-                @endforeach
+            @foreach($result as $score)
+                @if($score['id'] == $area['id'])
+                    <tr>
+                        <th scope="row" class="small">{{ $score['degree'] }} {{ $score['statement'] }}</th>
+                        <td class="small" >
+                            @foreach($score['score'] as $user_score)
+                                @if($user_score['score'] >= 3 && $user_score['score'] <= 5)
+                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td class="small">
+                            @foreach($score['score'] as $user_score)
+                                @if($user_score['score'] == 1 || $user_score['score'] == 2)
+                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td class="small">
+                            @foreach($score['score'] as $user_score)
+                                @if($user_score['score'] == 0)
+                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td class="small">
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
             </tbody>
         </table>
     @endforeach
