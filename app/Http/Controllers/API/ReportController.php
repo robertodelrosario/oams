@@ -654,6 +654,7 @@ class ReportController extends Controller
                 $scores->push([
                     'id' => $instrument['id'],
                     'statement' => $collection_statement['benchmark_statement'],
+                    'statement_id' => $collection_statement['benchmark_statement_id'],
                     'parent_id' => $collection_statement['parent_statement_id'],
                     'degree' => $collection_statement['degree'],
                     'score' => $user_score
