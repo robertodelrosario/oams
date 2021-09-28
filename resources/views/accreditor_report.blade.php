@@ -47,23 +47,8 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($result as $score)
-                @if($score['id'] == $area['id'])
-                    <tr>
-                        <th scope="row" class="small"></th>
-                        <td class="small" >
-
-                        </td>
-                        <td class="small">
-
-                        </td>
-                        <td class="small">
-                     
-                        </td>
-                        <td class="small">
-                        </td>
-                    </tr>
-                @endif
+            @foreach($result as $res)
+                
             @endforeach
             </tbody>
         </table>
