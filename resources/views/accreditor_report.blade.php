@@ -51,7 +51,7 @@
                 @if($score['id'] == $area['id'])
                     <tr>
                         <th scope="row" class="small">
-                            {{ $score['degree'] }} {{ $score['statement'] }}
+                            hello
                         </th>
                         <td class="small" >
                             hello
