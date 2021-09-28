@@ -276,7 +276,7 @@ Route::group(['prefix' => '/report'], function() {
     Route::get('/generateAccreditorReport/{id}', 'ReportController@generateAccreditorReport');
 
     Route::get('/showTagOption', 'ReportTemplateController@showTagOption');
-    Route::post('/addTemplate/{id}', 'ReportTemplateController@addTemplate');
+    Route::post('/addTemgenerateAccreditorReportplate/{id}', 'ReportTemplateController@addTemplate');
     Route::get('/showTemplate/{id}', 'ReportTemplateController@showTemplate');
     Route::get('/downloadFile/{id}', 'ReportTemplateController@downloadFile');
     Route::delete('/deleteTemplate/{id}', 'ReportTemplateController@deleteTemplate');
