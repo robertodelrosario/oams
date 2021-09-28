@@ -33,7 +33,6 @@
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Accreditor: {{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</th>
         </tr>
     </table>
-    <div style="page-break-after: always"></div>
     @foreach($areas as $area)
         <h4 style="text-align: center">{{ $area['area_name'] }}</h4>
         <table class="table table-bordered" >
