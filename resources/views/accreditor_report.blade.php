@@ -46,11 +46,10 @@
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Applicable</th>
             </tr>
             </thead>
-            <tbody>
             @foreach($result as $res)
-                
+                @if($res['id'] == $area['id'])
+                @endif
             @endforeach
-            </tbody>
         </table>
     @endforeach
 </div>
