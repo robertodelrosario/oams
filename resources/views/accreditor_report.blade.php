@@ -50,18 +50,17 @@
             @foreach($result as $score)
                 @if($score['id'] == $area['id'])
                     <tr>
-                        <th scope="row" class="small">{{$score['degree']}}{{ $score['statement'] }}</th>
+                        <th scope="row" class="small"></th>
                         <td class="small" >
-                            hello
+
                         </td>
                         <td class="small">
-                            hello
+
                         </td>
                         <td class="small">
-                            hello
+                     
                         </td>
                         <td class="small">
-                            hello
                         </td>
                     </tr>
                 @endif
