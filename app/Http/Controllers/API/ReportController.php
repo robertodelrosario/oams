@@ -569,7 +569,7 @@ class ReportController extends Controller
                     ]);
 
                     foreach ($statements as $statement_1){
-                        if($statement->id == $statement_1->parent_statement_id){
+                        if($statement->benchmark_statement_id == $statement_1->parent_statement_id){
                             $collection_id->push(['id' => $statement_1->id]);
                             $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
                             $collection_statements->push([
@@ -582,7 +582,7 @@ class ReportController extends Controller
                             ]);
 
                             foreach ($statements as $statement_2){
-                                if($statement_1->id == $statement_2->parent_statement_id){
+                                if($statement_1->benchmark_statement_id == $statement_2->parent_statement_id){
                                     $collection_id->push(['id' => $statement_1->id]);
                                     $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
                                     $collection_statements->push([
