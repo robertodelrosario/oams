@@ -565,7 +565,7 @@ class ReportController extends Controller
                         'benchmark_statement_id' => $statement->benchmark_statement_id,
                         'parent_statement_id' => $statement->parent_statement_id,
                         'benchmark_statement' => $benchmark_statement->statement,
-                        'degree' => 0
+                        'degree' => " "
                     ]);
 
                     foreach ($statements as $statement_1){
@@ -578,7 +578,7 @@ class ReportController extends Controller
                                 'benchmark_statement_id' => $statement_1->benchmark_statement_id,
                                 'parent_statement_id' => $statement_1->parent_statement_id,
                                 'benchmark_statement' => $benchmark_statement_1->statement,
-                                'degree' => 1
+                                'degree' => "   "
                             ]);
 
                             foreach ($statements as $statement_2){
@@ -591,7 +591,7 @@ class ReportController extends Controller
                                         'benchmark_statement_id' => $statement_2->benchmark_statement_id,
                                         'parent_statement_id' => $statement_2->parent_statement_id,
                                         'benchmark_statement' => $benchmark_statement_2->statement,
-                                        'degree' => 2
+                                        'degree' => "     "
                                     ]);
                                 }
                             }
@@ -661,7 +661,7 @@ class ReportController extends Controller
             }
         }
         set_time_limit(300);
-//        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
+        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
         $pdf = PDF::loadView('accreditor_report', ['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
         return $pdf->download($program->program_name . '_ACCREDITOR_REPORT.pdf');
     }
