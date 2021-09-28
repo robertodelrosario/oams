@@ -49,7 +49,13 @@
             <tbody>
                 @foreach($result as $score)
                     @if($score['id'] == $area['id'])
-                        hello
+                        <tr>
+                            <td class="small" >\</td>
+                            <td class="small">a</td>
+                            <td class="small">a</td>
+                            <td class="small">a</td>
+                            <td class="small">a</td>
+                        </tr>
                     @endif
                 @endforeach
             </tbody>
