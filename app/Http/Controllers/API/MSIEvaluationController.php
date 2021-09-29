@@ -74,6 +74,7 @@ class MSIEvaluationController extends Controller
             $mean->save();
         }
         return response()->json(['status' => true, 'message' => 'Successfully added scores', 'scores' => $request->items, 'mean' => $request->parameter_mean, 'best_practices' => $request->best_practices]);
+
     }
 
     public function showBestPractice($id, $assignedUserId){
