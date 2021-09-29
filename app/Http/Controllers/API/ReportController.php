@@ -720,7 +720,7 @@ class ReportController extends Controller
 
                         foreach ($statements as $statement_2) {
                             if ($statement_1->benchmark_statement_id == $statement_2->parent_statement_id) {
-                                $collection_id->push(['id' => $statement_1->id]);
+                                $collection_id->push(['id' => $statement_2->id]);
                                 $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
                                 $collection_statements->push([
                                     'id' => $statement_2->id,
