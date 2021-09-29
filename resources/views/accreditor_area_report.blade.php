@@ -74,7 +74,7 @@
     <table class="table-borderless" >
         @foreach($accreditors as $acc)
             <tr>
-                <th scope="col" class="font-weight-bold">{{ $acc['last_name'] }}'s Total</th>
+                <th scope="col" class="small">{{ $acc['last_name'] }}'s Total</th>
                 @foreach($total_score as $ts)
                     @if($acc['last_name'] == $ts['last_name'])
                         <td class="small" >
