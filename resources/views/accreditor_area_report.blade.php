@@ -54,7 +54,7 @@
                             @if($user_score['score'] >= 3 && $user_score['score'] <= 5)
                                 {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
                             @endif
-                        @endforeachs
+                        @endforeach
                     </td>
                     <td class="small">
                         @foreach($score['score'] as $user_score)
