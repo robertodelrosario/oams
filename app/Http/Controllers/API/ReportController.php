@@ -777,7 +777,6 @@ class ReportController extends Controller
                 ['instrument_program_id', $program_instrument->id], ['assigned_user_id',$assigned_user->id]
             ])->first();
             if(!(is_null($accreditor_area_mean))) {
-                echo $accreditor_area_mean->area_mean;
                 $area_mean = $area_mean + $accreditor_area_mean->area_mean;
                 $count++;
             }
@@ -808,7 +807,7 @@ class ReportController extends Controller
         set_time_limit(300);
         return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
         $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
-        return $pdf->download($program->program_name .'_'.$area_instrument->area_name.'_ACCREDITOR_REPORT.pdf');
+        return $pdf->download($program->program_name .'_ACCREDITOR_REPORT.pdf');
     }
 
     public function generateProgramSFR($id, $role){
