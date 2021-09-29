@@ -692,11 +692,10 @@ class ReportController extends Controller
         $statement_scores = new Collection();
         $collection_id = new Collection();
         $collection_statements = new Collection();
-        dd($statements);
         foreach ($statements as $statement) {
             $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
             if (!($collection_id->contains($statement->id))) {
-                $collection_id->push(['id' => $statement->id]);
+                $collection_id->push($statement->id);
                 $collection_statements->push([
                     'id' => $statement->id,
                     'instrument_parameter_id' => $statement->instrument_parameter_id,
@@ -709,7 +708,7 @@ class ReportController extends Controller
                 foreach ($statements as $statement_1) {
                     if(!($collection_id->contains($statement_1->id))) {
                         if ($statement->benchmark_statement_id == $statement_1->parent_statement_id) {
-                            $collection_id->push(['id' => $statement_1->id]);
+                            $collection_id->push($statement_1->id);
                             $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
                             $collection_statements->push([
                                 'id' => $statement_1->id,
@@ -722,7 +721,7 @@ class ReportController extends Controller
                             foreach ($statements as $statement_2) {
                                 if(!($collection_id->contains($statement_2->id))) {
                                     if ($statement_1->benchmark_statement_id == $statement_2->parent_statement_id) {
-                                        $collection_id->push(['id' => $statement_2->id]);
+                                        $collection_id->push($statement_2->id);
                                         $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
                                         $collection_statements->push([
                                             'id' => $statement_2->id,
