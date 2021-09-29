@@ -21,7 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accreditor_area_report.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accreditor_area_report.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ReportController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -456,7 +456,7 @@
       <workItem from="1632185902800" duration="4126000" />
       <workItem from="1632272870044" duration="4096000" />
       <workItem from="1632789981448" duration="11860000" />
-      <workItem from="1632877145176" duration="13644000" />
+      <workItem from="1632877145176" duration="13943000" />
     </task>
     <servers />
   </component>

@@ -555,44 +555,47 @@ class ReportController extends Controller
             $statement_scores = new Collection();
             $collection_id = new Collection();
             $collection_statements = new Collection();
-            foreach ($statements as $statement){
+            foreach ($statements as $statement) {
                 $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
-                if(!($collection_id->contains($statement->id))){
-                    $collection_id->push(['id' => $statement->id]);
+                if (!($collection_id->contains($statement->id))) {
+                    $collection_id->push($statement->id);
                     $collection_statements->push([
                         'id' => $statement->id,
                         'instrument_parameter_id' => $statement->instrument_parameter_id,
                         'benchmark_statement_id' => $statement->benchmark_statement_id,
                         'parent_statement_id' => $statement->parent_statement_id,
                         'benchmark_statement' => $benchmark_statement->statement,
-                        'degree' => " "
+                        'degree' => 1
                     ]);
 
-                    foreach ($statements as $statement_1){
-                        if($statement->benchmark_statement_id == $statement_1->parent_statement_id){
-                            $collection_id->push(['id' => $statement_1->id]);
-                            $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
-                            $collection_statements->push([
-                                'id' => $statement_1->id,
-                                'instrument_parameter_id' => $statement_1->instrument_parameter_id,
-                                'benchmark_statement_id' => $statement_1->benchmark_statement_id,
-                                'parent_statement_id' => $statement_1->parent_statement_id,
-                                'benchmark_statement' => $benchmark_statement_1->statement,
-                                'degree' => "  "
-                            ]);
-
-                            foreach ($statements as $statement_2){
-                                if($statement_1->benchmark_statement_id == $statement_2->parent_statement_id){
-                                    $collection_id->push(['id' => $statement_1->id]);
-                                    $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
-                                    $collection_statements->push([
-                                        'id' => $statement_2->id,
-                                        'instrument_parameter_id' => $statement_2->instrument_parameter_id,
-                                        'benchmark_statement_id' => $statement_2->benchmark_statement_id,
-                                        'parent_statement_id' => $statement_2->parent_statement_id,
-                                        'benchmark_statement' => $benchmark_statement_2->statement,
-                                        'degree' => "   "
-                                    ]);
+                    foreach ($statements as $statement_1) {
+                        if(!($collection_id->contains($statement_1->id))) {
+                            if ($statement->benchmark_statement_id == $statement_1->parent_statement_id) {
+                                $collection_id->push($statement_1->id);
+                                $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
+                                $collection_statements->push([
+                                    'id' => $statement_1->id,
+                                    'instrument_parameter_id' => $statement_1->instrument_parameter_id,
+                                    'benchmark_statement_id' => $statement_1->benchmark_statement_id,
+                                    'parent_statement_id' => $statement_1->parent_statement_id,
+                                    'benchmark_statement' => $benchmark_statement_1->statement,
+                                    'degree' => 2
+                                ]);
+                                foreach ($statements as $statement_2) {
+                                    if(!($collection_id->contains($statement_2->id))) {
+                                        if ($statement_1->benchmark_statement_id == $statement_2->parent_statement_id) {
+                                            $collection_id->push($statement_2->id);
+                                            $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
+                                            $collection_statements->push([
+                                                'id' => $statement_2->id,
+                                                'instrument_parameter_id' => $statement_2->instrument_parameter_id,
+                                                'benchmark_statement_id' => $statement_2->benchmark_statement_id,
+                                                'parent_statement_id' => $statement_2->parent_statement_id,
+                                                'benchmark_statement' => $benchmark_statement_2->statement,
+                                                'degree' => 3
+                                            ]);
+                                        }
+                                    }
                                 }
                             }
                         }
