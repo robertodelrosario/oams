@@ -692,6 +692,7 @@ class ReportController extends Controller
         $statement_scores = new Collection();
         $collection_id = new Collection();
         $collection_statements = new Collection();
+        dd($statements);
         foreach ($statements as $statement) {
             $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
             if (!($collection_id->contains($statement->id))) {
