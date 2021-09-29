@@ -665,6 +665,148 @@ class ReportController extends Controller
         return $pdf->download($program->program_name . '_ACCREDITOR_REPORT.pdf');
     }
 
+    public function generateAccreditorAreaReport($id, $instrument_id){
+        $program_instrument = InstrumentProgram::where('id', $instrument_id)->first();
+        $area_instrument = AreaInstrument::where('id', $program_instrument->area_instrument_id)->first();
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        $program = Program::where('id', $program_instrument->program_id)->first();
+        $campus = Campus::where('id', $program->campus_id)->first();
+        $suc = SUC::where('id', $campus->suc_id)->first();
+        $accreditor = User::where('id', auth()->user()->id)->first();
+        $user_task = AssignedUser::where([
+            ['app_program_id', $id], ['user_id', auth()->user()->id]
+        ])->first();
+        if (Str::contains($user_task->role, 'external accreditor')) $role = 'external accreditor';
+        else $role = 'internal accreditor';
+        $assigned_users = AssignedUser::where([
+            ['app_program_id', $id], ['transaction_id', $instrument_id], ['role', 'like', '%'. $role.'%']
+        ])->get();
+        $scores = new Collection();
+        $accreditor_total_score = new Collection();
+        $accreditor_area_mean_score = new Collection();
+
+        $recommendation_collection = new Collection();
+        foreach ($assigned_users as $assigned_user){
+            $recommendations = Recommendation::where('assigned_user_id', $assigned_user->id)->get();
+            foreach ($recommendations as $recommendation){
+                $recommendation_collection->push([
+                    'instrument_id' => $assigned_user->transaction_id,
+                    'recommendation' => $recommendation->recommendation
+                ]);
+            }
+        }
+
+        $parameter = ParameterProgram::where('program_instrument_id', $program_instrument->id)->first();
+        $statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+        $statement_scores = new Collection();
+        $collection_id = new Collection();
+        $collection_statements = new Collection();
+        foreach ($statements as $statement) {
+            $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
+            if (!($collection_id->contains($statement->id))) {
+                $collection_id->push(['id' => $statement->id]);
+                $collection_statements->push([
+                    'id' => $statement->id,
+                    'instrument_parameter_id' => $statement->instrument_parameter_id,
+                    'benchmark_statement_id' => $statement->benchmark_statement_id,
+                    'parent_statement_id' => $statement->parent_statement_id,
+                    'benchmark_statement' => $benchmark_statement->statement,
+                    'degree' => " "
+                ]);
+
+                foreach ($statements as $statement_1) {
+                    if ($statement->benchmark_statement_id == $statement_1->parent_statement_id) {
+                        $collection_id->push(['id' => $statement_1->id]);
+                        $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
+                        $collection_statements->push([
+                            'id' => $statement_1->id,
+                            'instrument_parameter_id' => $statement_1->instrument_parameter_id,
+                            'benchmark_statement_id' => $statement_1->benchmark_statement_id,
+                            'parent_statement_id' => $statement_1->parent_statement_id,
+                            'benchmark_statement' => $benchmark_statement_1->statement,
+                            'degree' => "  "
+                        ]);
+
+                        foreach ($statements as $statement_2) {
+                            if ($statement_1->benchmark_statement_id == $statement_2->parent_statement_id) {
+                                $collection_id->push(['id' => $statement_1->id]);
+                                $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
+                                $collection_statements->push([
+                                    'id' => $statement_2->id,
+                                    'instrument_parameter_id' => $statement_2->instrument_parameter_id,
+                                    'benchmark_statement_id' => $statement_2->benchmark_statement_id,
+                                    'parent_statement_id' => $statement_2->parent_statement_id,
+                                    'benchmark_statement' => $benchmark_statement_2->statement,
+                                    'degree' => "   "
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $area_mean = 0;
+        $count = 0;
+        foreach ($assigned_users as $assigned_user){
+            $available = 0;
+            $inadequate = 0;
+            if($program_instrument->id == $assigned_user->transaction_id){
+                $user = User::where('id', $assigned_user->user_id)->first();
+                foreach ($statements as $statement){
+                    $statement_score = InstrumentScore::where([
+                        ['item_id', $statement->id], ['assigned_user_id', $assigned_user->id]
+                    ])->first();
+                    $statement_scores->push([
+                        'item_id' =>  $statement->id,
+                        'assigned_user_id' => $assigned_user->id,
+                        'user_id' => $assigned_user->user_id,
+                        'score' => $statement_score->item_score
+                    ]);
+                    if($statement_score->item_score >= 3) $available = $available + $statement_score->item_score;
+                    elseif($statement_score->item_score >= 1) $inadequate = $inadequate + $statement_score->item_score;
+                }
+                $accreditor_total_score->push([
+                    'instrument_id' => $program_instrument->id,
+                    'user_id' => $user->id,
+                    'last_name'=> $user->last_name,
+                    'available' => $available,
+                    'inadequate' => $inadequate,
+                ]);
+            }
+            $accreditor_area_mean = AreaMean::where([
+                ['instrument_program_id', $program_instrument->id], ['assigned_user_id',$assigned_user->id]
+            ])->first();
+            if(!(is_null($accreditor_area_mean))) {
+                $area_mean = $area_mean + $accreditor_area_mean->area_mean;
+                $count++;
+            }
+        }
+        if($count != 0) $area_mean = $area_mean/$count;
+        $accreditor_area_mean_score->push([
+            'instrument_program_id' => $program_instrument->id,
+            'area_mean' => $area_mean
+        ]);
+        foreach ($collection_statements as $collection_statement){
+            $user_score = new Collection();
+            foreach ($statement_scores as $ss){
+                if($collection_statement['id'] == $ss['item_id']){
+                    $user = User::where('id', $ss['user_id'])->first();
+                    $user_score->push([
+                        'last_name' => $user->last_name,
+                        'score' => $ss['score']
+                    ]);
+                }
+            }
+            $scores->push([
+                'id' => $program_instrument->id,
+                'statement' => $collection_statement['benchmark_statement'],
+                'degree' => $collection_statement['degree'],
+                'score' => $user_score
+            ]);
+        }
+        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
+    }
+
     public function generateProgramSFR($id, $role){
         $assignedUsers = AssignedUser::where('app_program_id', $id)->get();
         if($role == 0) $role_str = 'internal accreditor';
