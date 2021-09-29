@@ -72,6 +72,23 @@
             @endforeach
             </tbody>
         </table>
+        <table class="table-borderless" style="width: 100%;">
+            @foreach($accreditors as $acc)
+                @if($acc['id'] == $area['id'])
+                    <tr>
+                        <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 90%">{{ $acc['last_name'] }}'s Total</th>
+                        @foreach($total_score as $ts)
+                            @if($acc['last_name'] == $ts['last_name'])
+                                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $ts['available'] }}</th>
+                                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $ts['inadequate'] }}</th>
+                            @endif
+                        @endforeach
+                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">0</th>
+                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%"></th>
+                    </tr>
+                @endif
+            @endforeach
+        </table>
     @endforeach
 </div>
 

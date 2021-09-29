@@ -542,6 +542,7 @@ class ReportController extends Controller
         foreach ($assigned_users as $assigned_user){
             $user = User::where('id', $assigned_user->user_id)->first();
             $accreditors->push([
+                'id' => $assigned_user->transaction_id,
                 'first_name' =>  $user->first_name,
                 'last_name' =>  $user->last_name,
             ]);
