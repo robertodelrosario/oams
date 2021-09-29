@@ -40,30 +40,33 @@
             @foreach($result as $score)
                 @if($score['id'] == $area['id'])
                     <tr>
-                        <th scope="row" class="small">{{ $score['degree'] }} {{ $score['statement'] }}</th>
-                        <td class="small" >
-                            @foreach($score['score'] as $user_score)
-                                @if($user_score['score'] >= 3 && $user_score['score'] <= 5)
-                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td class="small">
-                            @foreach($score['score'] as $user_score)
-                                @if($user_score['score'] == 1 || $user_score['score'] == 2)
-                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td class="small">
-                            @foreach($score['score'] as $user_score)
-                                @if($user_score['score'] == 0)
-                                    {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td class="small">
-                        </td>
+                        @if($score['degree'] == 1) <th scope="row" class="small" >{{ $score['statement'] }}</th>
+                        @elseif($score['degree'] == 2) <th scope="row" class="small"><div style="margin-left: 7%"> {{ $score['statement'] }} </div> </th>
+                        @elseif($score['degree'] == 3) <th scope="row" class="small"> <div style="margin-left: 14%"> {{ $score['statement'] }} </div> </th>
+                        @endif
+                            <td class="small" >
+                                @foreach($score['score'] as $user_score)
+                                    @if($user_score['score'] >= 3 && $user_score['score'] <= 5)
+                                        {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td class="small">
+                                @foreach($score['score'] as $user_score)
+                                    @if($user_score['score'] == 1 || $user_score['score'] == 2)
+                                        {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td class="small">
+                                @foreach($score['score'] as $user_score)
+                                    @if($user_score['score'] == 0 && $user_score['score'] != null)
+                                        {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td class="small">
+                            </td>
                     </tr>
                 @endif
             @endforeach
