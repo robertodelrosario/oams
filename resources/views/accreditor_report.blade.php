@@ -91,6 +91,14 @@
                 @endif
             @endforeach
         </table>
+        <br>
+        <div class="font-weight-bold" style="text-align: left; font-size: 13px" >Recommendations:</div>
+        <br>
+        @foreach($recommendations as $recommendation)
+            @if($recommendation['instrument_id'] == $area['id'])
+                <div style="text-align: left; font-size: 13px" >{{$recommendation['recommendation']}}</div>
+            @endif
+        @endforeach
     @endforeach
 </div>
 
