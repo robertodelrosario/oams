@@ -71,7 +71,7 @@
             @endforeach
             </tbody>
         </table>
-    <table class="table-borderless" >
+    <table class="table-borderless" style="width: 100%;">
         @foreach($accreditors as $acc)
             <tr>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">{{ $acc['last_name'] }}'s Total</th>
@@ -81,8 +81,8 @@
                         <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">{{ $ts['inadequate'] }}</th>
                     @endif
                 @endforeach
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Available</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Applicable</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%"></th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%"></th>
             </tr>
         @endforeach
     </table>
