@@ -14,15 +14,15 @@
 <div class="container">
     <h3 style="text-align: center">Preliminary Survey Visit</h3>
     <br><br>
-    <h4 style="text-align: left">Program: {{ $program['program_name'] }}</h4>
+    <h5 style="text-align: left">Program: {{ $program['program_name'] }}</h5>
     <br>
-    <h4 style="text-align: left">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </h4>
+    <h5 style="text-align: left">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </h5>
     <br>
-    <h4 style="text-align: left">Date of Visit: {{ $applied_program['approved_start_date'] }}</h4>
+    <h5 style="text-align: left">Date of Visit: {{ $applied_program['approved_start_date'] }}</h5>
     <br>
-    <h4 style="text-align: left">Address: {{ $campus['address']}}</h4>
+    <h5 style="text-align: left">Address: {{ $campus['address']}}</h5>
     <br>
-    <h4 style="text-align: left">Accreditor: {{ $accreditor['first_name'] }}</h4>
+    <h5 style="text-align: left">Accreditor: {{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</h5>
 
 
         <div style="page-break-after: always"></div>
@@ -71,6 +71,26 @@
             @endforeach
             </tbody>
         </table>
+    <table class="table-borderless" >
+        @foreach($accreditors as $acc)
+            <tr>
+                <th scope="col" class="font-weight-bold">{{ $acc['last_name'] }}'s Total</th>
+                @foreach($total_score as $ts)
+                    @if($acc['last_name'] == $ts['last_name'])
+                        <td class="small" >
+                            {{ $ts['total'] }}
+                        </td>
+                    @endif
+                @endforeach
+                <td class="small" >
+                    0
+                </td>
+                <td class="small" >
+                </td>
+            </tr>
+
+        @endforeach
+    </table>
 </div>
 
 </body>
