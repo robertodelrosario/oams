@@ -753,8 +753,10 @@ class ReportController extends Controller
                         'user_id' => $assigned_user->user_id,
                         'score' => $statement_score->item_score
                     ]);
-                    if($statement_score->item_score >= 3) $available = $available + $statement_score->item_score;
-                    elseif($statement_score->item_score >= 1) $inadequate = $inadequate + $statement_score->item_score;
+                    if(is_null($statement->parent_statement_id)) {
+                        if ($statement_score->item_score >= 3) $available = $available + $statement_score->item_score;
+                        elseif ($statement_score->item_score >= 1) $inadequate = $inadequate + $statement_score->item_score;
+                    }
                 }
                 $accreditor_total_score->push([
                     'instrument_id' => $program_instrument->id,
@@ -795,38 +797,38 @@ class ReportController extends Controller
                 'score' => $user_score
             ]);
         }
-        $total_score = new Collection();
+//        $total_score = new Collection();
         $accreditors = new Collection();
         foreach ($assigned_users as $assigned_user){
-            $total_available = 0;
-            $total_inadequate = 0;
-            $user = User::where('id', $assigned_user->user_id)->first();
-            $accreditors->push([
-                'first_name' =>  $user->first_name,
-                'last_name' =>  $user->last_name,
-            ]);
-            foreach ($scores as $score){
-                foreach ($score['score'] as $sc){
-                    if($sc['last_name'] == $user->last_name){
-                        if($sc['score'] >= 3 && $sc['score'] <= 5){
-                            $total_available = $total_available + $sc['score'];
-                        }
-                        elseif ($sc['score'] == 1 && $sc['score'] == 2){
-                            $total_inadequate = $total_inadequate + $sc['score'];
-                        }
-                    }
-                }
-            }
-            $total_score->push([
-                'last_name' =>  $user->last_name,
-                'type' => 'available',
-                'total' => $total_available
-            ]);
-            $total_score->push([
-                'last_name' =>  $user->last_name,
-                'type' => 'inadequate',
-                'total' => $total_inadequate
-            ]);
+//            $total_available = 0;
+//            $total_inadequate = 0;
+//            $user = User::where('id', $assigned_user->user_id)->first();
+//            $accreditors->push([
+//                'first_name' =>  $user->first_name,
+//                'last_name' =>  $user->last_name,
+//            ]);
+//            foreach ($scores as $score){
+//                foreach ($score['score'] as $sc){
+//                    if($sc['last_name'] == $user->last_name){
+//                        if($sc['score'] >= 3 && $sc['score'] <= 5){
+//                            $total_available = $total_available + $sc['score'];
+//                        }
+//                        elseif ($sc['score'] == 1 && $sc['score'] == 2){
+//                            $total_inadequate = $total_inadequate + $sc['score'];
+//                        }
+//                    }
+//                }
+//            }
+//            $total_score->push([
+//                'last_name' =>  $user->last_name,
+//                'type' => 'available',
+//                'total' => $total_available
+//            ]);
+//            $total_score->push([
+//                'last_name' =>  $user->last_name,
+//                'type' => 'inadequate',
+//                'total' => $total_inadequate
+//            ]);
             $recommendations = Recommendation::where('assigned_user_id', $assigned_user->id)->get();
             foreach ($recommendations as $recommendation){
                 $recommendation_collection->push([
@@ -837,7 +839,7 @@ class ReportController extends Controller
         }
         set_time_limit(300);
 //        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
-        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'total_score' => $total_score, 'accreditors' => $accreditors]);
+        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'total_score' => $accreditor_total_score, 'accreditors' => $accreditors]);
         return $pdf->download($program->program_name .'_ACCREDITOR_REPORT.pdf');
     }
 

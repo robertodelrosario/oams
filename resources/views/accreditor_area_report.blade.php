@@ -75,7 +75,10 @@
                     @foreach($total_score as $ts)
                         @if($acc['last_name'] == $ts['last_name'])
                             <td class="small" >
-                                {{ $ts['total'] }}
+                                {{ $ts['available'] }}
+                            </td>
+                            <td class="small" >
+                                {{ $ts['inadequate'] }}
                             </td>
                         @endif
                     @endforeach
