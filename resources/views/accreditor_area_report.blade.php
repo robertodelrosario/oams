@@ -71,21 +71,21 @@
             @endforeach
             @foreach($accreditors as $acc)
                 <tr>
-                    <th scope="col" class="small">{{ $acc['last_name'] }}'s Total</th>
+                    <th scope="col" class="small" style="border: none">{{ $acc['last_name'] }}'s Total</th>
                     @foreach($total_score as $ts)
                         @if($acc['last_name'] == $ts['last_name'])
-                            <td class="small" >
+                            <td class="small" style="border: none">
                                 {{ $ts['available'] }}
                             </td>
-                            <td class="small" >
+                            <td class="small" style="border: none">
                                 {{ $ts['inadequate'] }}
                             </td>
                         @endif
                     @endforeach
-                    <td class="small" >
+                    <td class="small" style="border: none">
                         0
                     </td>
-                    <td class="small" >
+                    <td class="small" style="border: none">
                     </td>
                 </tr>
             @endforeach
