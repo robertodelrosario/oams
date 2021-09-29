@@ -74,18 +74,24 @@
     <table class="table-borderless" style="width: 100%;">
         @foreach($accreditors as $acc)
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">{{ $acc['last_name'] }}'s Total</th>
+                <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 90%">{{ $acc['last_name'] }}'s Total</th>
                 @foreach($total_score as $ts)
                     @if($acc['last_name'] == $ts['last_name'])
-                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%; border-bottom: 1px solid black;">{{ $ts['available'] }}</th>
-                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%; border-bottom: 1px solid black;">{{ $ts['inadequate'] }}</th>
+                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $ts['available'] }}</th>
+                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $ts['inadequate'] }}</th>
                     @endif
                 @endforeach
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%; border-bottom: 1px solid black;">0</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%"></th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">0</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%"></th>
             </tr>
         @endforeach
     </table>
+    <br>
+    <div class="font-weight-bold" style="text-align: left; font-size: 13px" >Recommendations:</div>
+    <br>
+    @foreach($recommendations as $recommendation)
+        <div style="text-align: left; font-size: 13px" >{{$recommendation['recommendation']}}</div>
+    @endforeach
 </div>
 
 </body>
