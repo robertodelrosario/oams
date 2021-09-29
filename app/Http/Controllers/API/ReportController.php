@@ -806,7 +806,7 @@ class ReportController extends Controller
             ]);
         }
 //        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
-        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
+        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
         return $pdf->download($program->program_name .'_'.$area_instrument->area_name.'_ACCREDITOR_REPORT.pdf');
     }
 
