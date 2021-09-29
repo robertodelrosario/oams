@@ -90,6 +90,14 @@
                     </tr>
                 @endif
             @endforeach
+                <tr>
+                    <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 90%">Area Mean</th>
+                    @foreach($grand_mean as $gm)
+                        @if($gm['instrument_program_id'] == $area['id'])
+                            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $gm['area_mean'] }}</th>
+                        @endif
+                    @endforeach
+                </tr>
         </table>
         <br>
         <div class="font-weight-bold" style="text-align: left; font-size: 13px" >Recommendations:</div>
