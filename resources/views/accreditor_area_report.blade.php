@@ -14,13 +14,16 @@
 <div class="container">
     <h3 style="text-align: center">Preliminary Survey Visit</h3>
     <br><br>
-    <h2 style="text-align: left">Program: {{ $program['program_name'] }}</h2>
+    <h4 style="text-align: left">Program: {{ $program['program_name'] }}</h4>
     <br>
-    <h2 style="text-align: left">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </h2>
+    <h4 style="text-align: left">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </h4>
     <br>
-    <h2 style="text-align: left">Date of Visit: {{ $applied_program['approved_start_date'] }}</h2>
+    <h4 style="text-align: left">Date of Visit: {{ $applied_program['approved_start_date'] }}</h4>
     <br>
-    <h2 style="text-align: left">>Address: {{ $campus['address']}}</h2>
+    <h4 style="text-align: left">Address: {{ $campus['address']}}</h4>
+    <br>
+    <h4 style="text-align: left">Accreditor: {{ $accreditor['first_name'] }}</h4>
+
 
         <div style="page-break-after: always"></div>
         <h4 style="text-align: center">{{ $areas['area_name'] }}</h4>
