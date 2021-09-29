@@ -782,7 +782,8 @@ class ReportController extends Controller
             'instrument_program_id' => $program_instrument->id,
             'area_mean' => $area_mean
         ]);
-        foreach ($collection_statements as $collection_statement){
+        $sorted = $collection_statements->sortBy('benchmark_statement');
+        foreach ($sorted as $collection_statement){
             $user_score = new Collection();
             foreach ($statement_scores as $ss){
                 if($collection_statement['id'] == $ss['item_id']){
@@ -842,7 +843,7 @@ class ReportController extends Controller
         }
         set_time_limit(300);
 //        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
-        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores->sortBy('benchmark_statement'), 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'total_score' => $accreditor_total_score, 'accreditors' => $accreditors]);
+        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'total_score' => $accreditor_total_score, 'accreditors' => $accreditors]);
         return $pdf->download($program->program_name .'_ACCREDITOR_REPORT.pdf');
     }
 
