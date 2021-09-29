@@ -69,28 +69,26 @@
                     </td>
                 </tr>
             @endforeach
+            @foreach($accreditors as $acc)
+                <tr>
+                    <th scope="col" class="small">{{ $acc['last_name'] }}'s Total</th>
+                    @foreach($total_score as $ts)
+                        @if($acc['last_name'] == $ts['last_name'])
+                            <td class="small" >
+                                {{ $ts['total'] }}
+                            </td>
+                        @endif
+                    @endforeach
+                    <td class="small" >
+                        0
+                    </td>
+                    <td class="small" >
+                    </td>
+                </tr>
+
+            @endforeach
             </tbody>
         </table>
-    <table class="table-borderless" >
-        @foreach($accreditors as $acc)
-            <tr>
-                <th scope="col" class="small">{{ $acc['last_name'] }}'s Total</th>
-                @foreach($total_score as $ts)
-                    @if($acc['last_name'] == $ts['last_name'])
-                        <td class="small" >
-                            {{ $ts['total'] }}
-                        </td>
-                    @endif
-                @endforeach
-                <td class="small" >
-                    0
-                </td>
-                <td class="small" >
-                </td>
-            </tr>
-
-        @endforeach
-    </table>
 </div>
 
 </body>
