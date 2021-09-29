@@ -88,7 +88,6 @@
                     <td class="small" >
                     </td>
                 </tr>
-
             @endforeach
             </tbody>
         </table>

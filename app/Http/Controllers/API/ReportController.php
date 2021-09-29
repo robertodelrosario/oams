@@ -802,11 +802,11 @@ class ReportController extends Controller
         foreach ($assigned_users as $assigned_user){
 //            $total_available = 0;
 //            $total_inadequate = 0;
-//            $user = User::where('id', $assigned_user->user_id)->first();
-//            $accreditors->push([
-//                'first_name' =>  $user->first_name,
-//                'last_name' =>  $user->last_name,
-//            ]);
+            $user = User::where('id', $assigned_user->user_id)->first();
+            $accreditors->push([
+                'first_name' =>  $user->first_name,
+                'last_name' =>  $user->last_name,
+            ]);
 //            foreach ($scores as $score){
 //                foreach ($score['score'] as $sc){
 //                    if($sc['last_name'] == $user->last_name){
