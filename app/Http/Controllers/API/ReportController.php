@@ -808,10 +808,10 @@ class ReportController extends Controller
             foreach ($scores as $score){
                 foreach ($score['score'] as $sc){
                     if($sc['last_name'] == $user->last_name){
-                        if($sc['score'] >= 3 && $sc['score'] >= 5){
+                        if($sc['score'] >= 3 && $sc['score'] <= 5){
                             $total_available = $total_available + $sc['score'];
                         }
-                        elseif ($sc['score'] == 1 && $sc['score'] ==2){
+                        elseif ($sc['score'] == 1 && $sc['score'] == 2){
                             $total_inadequate = $total_inadequate + $sc['score'];
                         }
                     }
