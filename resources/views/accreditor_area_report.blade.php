@@ -81,7 +81,7 @@
                         <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">{{ $ts['inadequate'] }}</th>
                     @endif
                 @endforeach
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%"></th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">0</th>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%"></th>
             </tr>
         @endforeach
