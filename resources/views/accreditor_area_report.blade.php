@@ -48,7 +48,10 @@
             <tbody>
             @foreach($result as $score)
                 <tr>
-                    <th scope="row" class="small">{{ $score['degree'] }} {{ $score['statement'] }}</th>
+                    @if($score['degree'] == 1) <th scope="row" class="small" >{{ $score['statement'] }}</th>
+                    @elseif($score['degree'] == 2) <th scope="row" class="small" style="margin-left: 10px">{{ $score['statement'] }}</th>
+                    @elseif($score['degree'] == 3) <th scope="row" class="small" style="margin-left: 20px">{{ $score['statement'] }}</th>
+                    @endif
                     <td class="small" >
                         @foreach($score['score'] as $user_score)
                             @if($user_score['score'] >= 3 && $user_score['score'] <= 5)

@@ -711,7 +711,7 @@ class ReportController extends Controller
                     'benchmark_statement_id' => $statement->benchmark_statement_id,
                     'parent_statement_id' => $statement->parent_statement_id,
                     'benchmark_statement' => $benchmark_statement->statement,
-                    'degree' => " "
+                    'degree' => 1
                 ]);
 
                 foreach ($statements as $statement_1) {
@@ -724,7 +724,7 @@ class ReportController extends Controller
                             'benchmark_statement_id' => $statement_1->benchmark_statement_id,
                             'parent_statement_id' => $statement_1->parent_statement_id,
                             'benchmark_statement' => $benchmark_statement_1->statement,
-                            'degree' => "     "
+                            'degree' => 2
                         ]);
 
                         foreach ($statements as $statement_2) {
@@ -737,7 +737,7 @@ class ReportController extends Controller
                                     'benchmark_statement_id' => $statement_2->benchmark_statement_id,
                                     'parent_statement_id' => $statement_2->parent_statement_id,
                                     'benchmark_statement' => $benchmark_statement_2->statement,
-                                    'degree' => "   "
+                                    'degree' => 3
                                 ]);
                             }
                         }
