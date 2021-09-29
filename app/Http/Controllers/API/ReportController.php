@@ -777,7 +777,7 @@ class ReportController extends Controller
                 ['instrument_program_id', $program_instrument->id], ['assigned_user_id',$assigned_user->id]
             ])->first();
             if(!(is_null($accreditor_area_mean))) {
-                dd($accreditor_area_mean->area_mean);
+                echo $accreditor_area_mean->area_mean;
                 $area_mean = $area_mean + $accreditor_area_mean->area_mean;
                 $count++;
             }
