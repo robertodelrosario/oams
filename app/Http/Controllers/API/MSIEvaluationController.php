@@ -12,6 +12,7 @@ use App\InstrumentParameter;
 use App\InstrumentProgram;
 use App\InstrumentScore;
 use App\ParameterMean;
+use App\ParameterProgram;
 use App\Program;
 use App\Recommendation;
 use App\User;
@@ -50,6 +51,27 @@ class MSIEvaluationController extends Controller
                 $practice->best_practice = $best_practice;
                 $practice->save();
             }
+        }
+
+        $parameter = ParameterProgram::where('id', $id)->first();
+        $program_parameters = ParameterProgram::where('program_instrument_id', $parameter->program_instrument_id)->get();
+        $score = 0;
+        $count = 0;
+        foreach ($program_parameters as $program_parameter){
+            $para_mean = ParameterMean::where([
+                ['program_parameter_id', $program_parameter->id], ['assigned_user_id', $assignedUserId]
+            ])->first();
+            if(!(is_null($para_mean))){
+                $score = $score + $parameter_mean->parameter_mean;
+                $count++;
+            }
+        }
+        $mean = AreaMean::where([
+            ['instrument_program_id',$parameter->program_instrument_id], ['assigned_user_id', $assignedUserId]
+        ])->first();
+        if(!(is_null($mean))){
+            $mean->area_mean = $score;
+            $mean->save();
         }
         return response()->json(['status' => true, 'message' => 'Successfully added scores', 'scores' => $request->items, 'mean' => $request->parameter_mean, 'best_practices' => $request->best_practices]);
     }
