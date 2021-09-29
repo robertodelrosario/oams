@@ -13,26 +13,16 @@
 
 <div class="container">
     <h3 style="text-align: center">Preliminary Survey Visit</h3>
-    <table class="table-borderless" >
-        <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Program: {{ $program['program_name'] }}</th>
-        </tr>
-    </table>
-    <table class="table-borderless" >
-        <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </th>
-        </tr>
-    </table>
-    <table class="table-borderless" >
-        <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Address: {{ $campus['address']}}</th>
-        </tr>
-    </table>
-    <table class="table-borderless" >
-        <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 90%">Accreditor: {{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</th>
-        </tr>
-    </table>
+    <br><br>
+    <h5 style="text-align: left">Program: {{ $program['program_name'] }}</h5>
+    <br>
+    <h5 style="text-align: left">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </h5>
+    <br>
+    <h5 style="text-align: left">Date of Visit: {{ $applied_program['approved_start_date'] }}</h5>
+    <br>
+    <h5 style="text-align: left">Address: {{ $campus['address']}}</h5>
+    <br>
+    <h5 style="text-align: left">Accreditor: {{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</h5>
     @foreach($areas as $area)
         <div style="page-break-after: always"></div>
         <h4 style="text-align: center">{{ $area['area_name'] }}</h4>
