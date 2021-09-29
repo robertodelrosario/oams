@@ -68,7 +68,7 @@
                     </td>
                     <td class="small">
                         @foreach($score['score'] as $user_score)
-                            @if($user_score['score'] == 0)
+                            @if($user_score['score'] == 0 && $user_score['score'] != null)
                                 {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
                             @endif
                         @endforeach
