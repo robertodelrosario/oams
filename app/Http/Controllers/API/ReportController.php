@@ -706,30 +706,33 @@ class ReportController extends Controller
                 ]);
 
                 foreach ($statements as $statement_1) {
-                    if ($statement->benchmark_statement_id == $statement_1->parent_statement_id && !($collection_id->contains($statement_1->id))) {
-                        $collection_id->push(['id' => $statement_1->id]);
-                        $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
-                        $collection_statements->push([
-                            'id' => $statement_1->id,
-                            'instrument_parameter_id' => $statement_1->instrument_parameter_id,
-                            'benchmark_statement_id' => $statement_1->benchmark_statement_id,
-                            'parent_statement_id' => $statement_1->parent_statement_id,
-                            'benchmark_statement' => $benchmark_statement_1->statement,
-                            'degree' => 2
-                        ]);
-
-                        foreach ($statements as $statement_2) {
-                            if ($statement_1->benchmark_statement_id == $statement_2->parent_statement_id && !($collection_id->contains($statement_2->id))) {
-                                $collection_id->push(['id' => $statement_2->id]);
-                                $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
-                                $collection_statements->push([
-                                    'id' => $statement_2->id,
-                                    'instrument_parameter_id' => $statement_2->instrument_parameter_id,
-                                    'benchmark_statement_id' => $statement_2->benchmark_statement_id,
-                                    'parent_statement_id' => $statement_2->parent_statement_id,
-                                    'benchmark_statement' => $benchmark_statement_2->statement,
-                                    'degree' => 3
-                                ]);
+                    if(!($collection_id->contains($statement_1->id))) {
+                        if ($statement->benchmark_statement_id == $statement_1->parent_statement_id) {
+                            $collection_id->push(['id' => $statement_1->id]);
+                            $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
+                            $collection_statements->push([
+                                'id' => $statement_1->id,
+                                'instrument_parameter_id' => $statement_1->instrument_parameter_id,
+                                'benchmark_statement_id' => $statement_1->benchmark_statement_id,
+                                'parent_statement_id' => $statement_1->parent_statement_id,
+                                'benchmark_statement' => $benchmark_statement_1->statement,
+                                'degree' => 2
+                            ]);
+                            foreach ($statements as $statement_2) {
+                                if(!($collection_id->contains($statement_2->id))) {
+                                    if ($statement_1->benchmark_statement_id == $statement_2->parent_statement_id) {
+                                        $collection_id->push(['id' => $statement_2->id]);
+                                        $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
+                                        $collection_statements->push([
+                                            'id' => $statement_2->id,
+                                            'instrument_parameter_id' => $statement_2->instrument_parameter_id,
+                                            'benchmark_statement_id' => $statement_2->benchmark_statement_id,
+                                            'parent_statement_id' => $statement_2->parent_statement_id,
+                                            'benchmark_statement' => $benchmark_statement_2->statement,
+                                            'degree' => 3
+                                        ]);
+                                    }
+                                }
                             }
                         }
                     }
