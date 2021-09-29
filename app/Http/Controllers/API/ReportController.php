@@ -776,6 +776,7 @@ class ReportController extends Controller
             $accreditor_area_mean = AreaMean::where([
                 ['instrument_program_id', $program_instrument->id], ['assigned_user_id',$assigned_user->id]
             ])->first();
+            echo $accreditor_area_mean->area_mean;
             if(!(is_null($accreditor_area_mean))) {
                 $area_mean = $area_mean + $accreditor_area_mean->area_mean;
                 $count++;
