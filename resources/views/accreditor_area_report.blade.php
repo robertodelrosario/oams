@@ -69,28 +69,23 @@
                     </td>
                 </tr>
             @endforeach
-            @foreach($accreditors as $acc)
-                <tr>
-                    <th scope="col" class="small" style="border: none">{{ $acc['last_name'] }}'s Total</th>
-                    @foreach($total_score as $ts)
-                        @if($acc['last_name'] == $ts['last_name'])
-                            <td class="small" style="border: none">
-                                {{ $ts['available'] }}
-                            </td>
-                            <td class="small" style="border: none">
-                                {{ $ts['inadequate'] }}
-                            </td>
-                        @endif
-                    @endforeach
-                    <td class="small" style="border: none">
-                        0
-                    </td>
-                    <td class="small" style="border: none">
-                    </td>
-                </tr>
-            @endforeach
             </tbody>
         </table>
+    <table class="table-borderless" >
+        @foreach($accreditors as $acc)
+            <tr>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">{{ $acc['last_name'] }}'s Total</th>
+                @foreach($total_score as $ts)
+                    @if($acc['last_name'] == $ts['last_name'])
+                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">{{ $ts['available'] }}</th>
+                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">{{ $ts['inadequate'] }}</th>
+                    @endif
+                @endforeach
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Available</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Applicable</th>
+            </tr>
+        @endforeach
+    </table>
 </div>
 
 </body>
