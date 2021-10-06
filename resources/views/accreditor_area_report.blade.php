@@ -96,7 +96,7 @@
     <div class="font-weight-bold" style="text-align: left; font-size: 13px" >Recommendations:</div>
     <br>
     @foreach($recommendations as $recommendation)
-        <div style="text-align: left; font-size: 13px" >{{$recommendation['recommendation']}}</div>
+        <div style="text-align: left; font-size: 13px" ><u>{{$recommendation['recommendation']}}</u></div>
     @endforeach
 </div>
 

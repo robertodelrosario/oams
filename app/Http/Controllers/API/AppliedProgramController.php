@@ -272,11 +272,14 @@ class AppliedProgramController extends Controller
 
     public function edit(request $request, $id){
         $program = ApplicationProgram::where('id',$id)->first();
-        $program->level = $request->level;
-        $program->preferred_start_date = \Carbon\Carbon::parse($request->preferred_start_date)->format('Y-m-d');
-        $program->preferred_end_date = \Carbon\Carbon::parse($request->preferred_end_date)->format('Y-m-d');
-        $program->save();
-        return response()->json(['status' => true, 'message' => 'Successfully updated applied program!']);
+        if($program->status == 'pending'){
+            $program->preferred_start_date = \Carbon\Carbon::parse($request->preferred_start_date)->format('Y-m-d');
+            $program->preferred_end_date = \Carbon\Carbon::parse($request->preferred_end_date)->format('Y-m-d');
+            $success = $program->save();
+            if($success) return response()->json(['status' => true, 'message' => 'Successfully updated applied program!']);
+            else return response()->json(['status' => false, 'message' => 'Unsuccessfully updated applied program. Invalid input!']);
+        }
+        else return response()->json(['status' => false, 'message' => 'Schedule was already approved.']);
     }
 
     public function uploadFile(Request $request, $id, $userID)
