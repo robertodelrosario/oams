@@ -193,67 +193,6 @@ class AppliedProgramController extends Controller
                     }
                 }
             }
-//            if(Str::contains($program->level, 'Level III') || Str::contains($program->level, 'Level IV')){
-//                $instrument = InstrumentProgram::where('program_id', $request->program_id);
-//                $instrument->delete();
-//                $areas = AreaInstrument::where('intended_program_id', 42)->get();
-//                foreach ($areas as $area){
-//                    if($prog->type == 'Undergraduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'EXTENSION')) {
-//                        $instrumentProgram = new InstrumentProgram();
-//                        $instrumentProgram->program_id = $request->program_id;
-//                        $instrumentProgram->area_instrument_id = $area->id;
-//                        $instrumentProgram->save();
-//
-//                        $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-//                        if (count($instrumentParamenters) != 0) {
-//                            foreach ($instrumentParamenters as $instrumentParamenter) {
-//                                $parameter = new ParameterProgram();
-//                                $parameter->program_instrument_id = $instrumentProgram->id;
-//                                $parameter->parameter_id = $instrumentParamenter->parameter_id;
-//                                $parameter->save();
-//
-//                                $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
-//                                if (count($statements) != 0) {
-//                                    foreach ($statements as $statement) {
-//                                        $programStatement = new ProgramStatement();
-//                                        $programStatement->program_parameter_id = $parameter->id;
-//                                        $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
-//                                        $programStatement->parent_statement_id = $statement->parent_statement_id;
-//                                        $programStatement->save();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                    elseif($prog->type == 'Graduate' && ($area->area_name == 'INSTRUCTION' || $area->area_name == 'RESEARCH')) {
-//                        $instrumentProgram = new InstrumentProgram();
-//                        $instrumentProgram->program_id = $request->program_id;
-//                        $instrumentProgram->area_instrument_id = $area->id;
-//                        $instrumentProgram->save();
-//
-//                        $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
-//                        if (count($instrumentParamenters) != 0) {
-//                            foreach ($instrumentParamenters as $instrumentParamenter) {
-//                                $parameter = new ParameterProgram();
-//                                $parameter->program_instrument_id = $instrumentProgram->id;
-//                                $parameter->parameter_id = $instrumentParamenter->parameter_id;
-//                                $parameter->save();
-//
-//                                $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParamenter->id)->get();
-//                                if (count($statements) != 0) {
-//                                    foreach ($statements as $statement) {
-//                                        $programStatement = new ProgramStatement();
-//                                        $programStatement->program_parameter_id = $parameter->id;
-//                                        $programStatement->benchmark_statement_id = $statement->benchmark_statement_id;
-//                                        $programStatement->parent_statement_id = $statement->parent_statement_id;
-//                                        $programStatement->save();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
             return response()->json(['status' => true, 'message' => 'Successfully added program!', 'applied_program'=> $check]);
         }
         return response()->json(['status' => false, 'message' => 'program already applied!']);
@@ -280,6 +219,18 @@ class AppliedProgramController extends Controller
             else return response()->json(['status' => false, 'message' => 'Unsuccessfully updated applied program. Invalid input!']);
         }
         else return response()->json(['status' => false, 'message' => 'Schedule was already approved.']);
+    }
+
+    public function changeApplication($application_id, $program_id){
+        $application = Application::where('id', $application_id)->first();
+        if($application->status == 'under preparation'){
+            $program = ApplicationProgram::where('id',$program_id)->first();
+            $program->application_id = $application_id;
+            $success = $program->save();
+            if($success) return response()->json(['status' => true, 'message' => 'Successfully transferred applied program!']);
+            else return response()->json(['status' => false, 'message' => 'Unsuccessfully transferred applied program. Invalid input!']);
+        }
+        else return response()->json(['status' => false, 'message' => 'Application was already submitted']);
     }
 
     public function uploadFile(Request $request, $id, $userID)

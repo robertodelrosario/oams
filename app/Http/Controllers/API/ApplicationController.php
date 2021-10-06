@@ -201,6 +201,17 @@ class ApplicationController extends Controller
         else return response()->json(['status' => true, 'message' => 'Successfully added programs with no duplication.', 'application' => $application]);
     }
 
+    public function editApplication(request $request, $id){
+        $application = Application::where('id', $id)->first();
+        if($application->status == 'under preparation'){
+            $application->title = $request->title;
+            $success = $application->save();
+            if ($success) return response()->json(['status' => true, 'message' => 'Successfully updated application']);
+            else return response()->json(['status' => false, 'message' => 'Unsuccessfully updated application. Invalid input!']);
+        }
+        else return response()->json(['status' => false, 'message' => 'Unsuccessfully updated application.']);
+    }
+
     public function submitApplication($id, $sucID){
         $application = Application::where('id', $id)->first();
         $files = ApplicationFile::where('application_id', $application->id)->first();

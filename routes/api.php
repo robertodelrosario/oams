@@ -287,7 +287,8 @@ Route::group(['prefix' => '/report'], function() {
 
 Route::group(['prefix' => '/application'], function() {
     Route::post('/createApplication/{sucID}/{userID}', 'ApplicationController@createApplication');
-    Route::post('/submitApplication/{id}/{sucID}', 'ApplicationController@submitApplication');
+    Route::put('/editApplication/{id}', 'ApplicationController@createApplication');
+    Route::post('/submitApplication/{id}/{sucID}', 'ApplicationController@editApplication');
     Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
     Route::get('/showApplication/{id}', 'ApplicationController@showApplication');
 //    Route::get('/showSubmittedApplication/{id}', 'ApplicationController@showSubmittedApplication');
@@ -302,6 +303,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/program', 'AppliedProgramController@program');
     Route::delete('/delete/{id}', 'AppliedProgramController@delete');
     Route::put('/edit/{id}', 'AppliedProgramController@edit');
+    Route::put('/changeApplication/{application_id}/{program_id}', 'AppliedProgramController@changeApplication');
     Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
     Route::get('/programList/{id}', 'AppliedProgramController@programList');
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
