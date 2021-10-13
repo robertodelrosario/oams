@@ -309,6 +309,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
     Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');
     Route::put('/lockSelfSurvey/{id}', 'AppliedProgramController@lockSelfSurvey');
+    Route::put('/editLevel/{id}', 'AppliedProgramController@editLevel');
 
     Route::post('/uploadFile/{id}/{userID}', 'AppliedProgramController@uploadFile');
     Route::post('/updateProgramFile/{id}', 'AppliedProgramController@updateProgramFile');

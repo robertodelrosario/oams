@@ -31,9 +31,6 @@ class OfficeController extends Controller
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-//        $office = Office::where([
-//            ['campus_id', $id], [strtolower('office_name'), strtolower($request->office_name)]
-//        ])->first();
         $office = Office::where('office_name', $request->office_name)->first();
         if(is_null($office)){
             $office = new Office();
@@ -52,6 +49,9 @@ class OfficeController extends Controller
             return response()->json(['status' => true, 'message' => 'Successfully created office [1]', 'office' => $office]);
         }
         else{
+            if($request->type == 'System Wide'){
+
+            }
             $campus_office = CampusOffice::where([
                 ['campus_id', $id], ['office_id', $office->id]
             ])->first();

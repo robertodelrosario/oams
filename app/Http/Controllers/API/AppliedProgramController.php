@@ -687,4 +687,12 @@ class AppliedProgramController extends Controller
         }
         return response()->json($collection);
     }
+
+    public function editLevel(request $request, $id){
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        $applied_program->level = $request->level;
+        $success = $applied_program->save();
+        if($success) return response()->json(['status' => true, 'message' => 'Success']);
+        else return response()->json(['status' => false, 'message' => 'Unsuccessful']);
+    }
 }
