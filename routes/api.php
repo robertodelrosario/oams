@@ -287,7 +287,7 @@ Route::group(['prefix' => '/report'], function() {
 
 Route::group(['prefix' => '/application'], function() {
     Route::post('/createApplication/{sucID}/{userID}', 'ApplicationController@createApplication');
-    Route::put('/editApplication/{id}', 'ApplicationController@createApplication');
+    Route::put('/editApplication/{id}', 'ApplicationController@editApplication');
     Route::post('/submitApplication/{id}/{sucID}', 'ApplicationController@editApplication');
     Route::delete('/deleteApplication/{id}', 'ApplicationController@deleteApplication');
     Route::get('/showApplication/{id}', 'ApplicationController@showApplication');

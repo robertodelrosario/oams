@@ -112,18 +112,21 @@ class AuthController extends Controller
             $office_users = OfficeUser::where('user_role_id', $user_role->id)->get();
             foreach ($office_users as $office_user){
                 $campus_office = CampusOffice::where('office_id', $office_user->office_id)->first();
+                if(!(is($campus_office)))
                 $office = Office::where('id', $office_user->office_id)->first();
-                if(!($collection_1->contains('id',$office_user->id ))) {
-                    $collection_1->push([
-                        'id' => $office_user->id,
-                        'user_role_id' => $user_role->id,
-                        'role_id' => $user_role->role_id,
-                        'role' => $user_role->role,
-                        'office_user_id' => $office->id,
-                        'office_id' => $office->id,
-                        'office_name' => $office->office_name,
-                        'campus_id' => $campus_office->campus_id
-                    ]);
+                {
+                    if (!($collection_1->contains('id', $office_user->id))) {
+                        $collection_1->push([
+                            'id' => $office_user->id,
+                            'user_role_id' => $user_role->id,
+                            'role_id' => $user_role->role_id,
+                            'role' => $user_role->role,
+                            'office_user_id' => $office->id,
+                            'office_id' => $office->id,
+                            'office_name' => $office->office_name,
+                            'campus_id' => $campus_office->campus_id
+                        ]);
+                    }
                 }
             }
         }
