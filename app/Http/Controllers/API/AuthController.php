@@ -111,20 +111,24 @@ class AuthController extends Controller
         foreach ($user_roles as $user_role){
             $office_users = OfficeUser::where('user_role_id', $user_role->id)->get();
             foreach ($office_users as $office_user){
-                $campus_offices = CampusOffice::where('office_id', $office_user->office_id)->get();
-                foreach ($campus_offices as $campus_office) {
-                    $office = Office::where('id', $office_user->office_id)->first();
-                    if (!($collection_1->contains('id', $office_user->id))) {
-                        $collection_1->push([
-                            'id' => $office_user->id,
-                            'user_role_id' => $user_role->id,
-                            'role_id' => $user_role->role_id,
-                            'role' => $user_role->role,
-                            'office_user_id' => $office->id,
-                            'office_id' => $office->id,
-                            'office_name' => $office->office_name,
-                            'campus_id' => $campus_office->campus_id
-                        ]);
+                foreach($user_campuses as $user_campus){
+                    $campus_offices = CampusOffice::where('office_id', $office_user->office_id)->get();
+                    foreach ($campus_offices as $campus_office) {
+                        if($user_campus->campus_id == $campus_office->campus_id) {
+                            $office = Office::where('id', $office_user->office_id)->first();
+                            if (!($collection_1->contains('id', $office_user->id))) {
+                                $collection_1->push([
+                                    'id' => $office_user->id,
+                                    'user_role_id' => $user_role->id,
+                                    'role_id' => $user_role->role_id,
+                                    'role' => $user_role->role,
+                                    'office_user_id' => $office->id,
+                                    'office_id' => $office->id,
+                                    'office_name' => $office->office_name,
+                                    'campus_id' => $campus_office->campus_id
+                                ]);
+                            }
+                        }
                     }
                 }
             }
