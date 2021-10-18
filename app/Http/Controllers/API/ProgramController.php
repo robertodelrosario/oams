@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ProgramController extends Controller
 {
@@ -104,6 +105,13 @@ class ProgramController extends Controller
         $program = Program::where('id', $id)->first();
         $program->program_name = $request->program_name;
         $program->type = $request->type;
+        $program->rating_obtained = $request->rating_obtained;
+        if(Str::contains($request->latest_applied_level,'For PSV Accreditation')) $program->accreditation_status = 'For PSV Accreditation';
+        elseif(Str::contains($request->latest_applied_level, 'Candidate')) $program->accreditation_status = 'Candidate';
+        elseif (Str::contains($request->latest_applied_level ,'Level I')) $program->accreditation_status = 'Level I Accredited';
+        elseif (Str::contains($request->latest_applied_level,'Level II')) $program->accreditation_status = 'Level II Re-accredited';
+        elseif (Str::contains($request->latest_applied_level, 'Level III')) $program->accreditation_status = 'Level III Re-accredited';
+        elseif (Str::contains($request->latest_applied_level, 'Level IV')) $program->accreditation_status = 'Level IV Re-accredited';
         $program->save();
         return response()->json(['status' => true, 'message' => 'Successfully edited program name', 'suc' => $program]);
     }
