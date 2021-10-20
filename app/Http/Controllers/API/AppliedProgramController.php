@@ -598,12 +598,6 @@ class AppliedProgramController extends Controller
                 'type' => $type
             ]);
         }
-
-//        $instrumentPrograms = DB::table('instruments_programs')
-//            ->join('area_instruments', 'instruments_programs.area_instrument_id', '=', 'area_instruments.id')
-//            ->where('instruments_programs.program_id', $id)
-//            ->select('instruments_programs.*','area_instruments.intended_program_id','area_instruments.area_number', 'area_instruments.area_name', 'area_instruments.version')
-//            ->get();
         if(count($instrumentPrograms) < 0 ) return response()->json(['status' => false, 'message' => 'Do not have instruments']);
         $users = array();
         $program= null;
@@ -616,7 +610,10 @@ class AppliedProgramController extends Controller
                 if ($assigned_user != null) $users = Arr::prepend($users, $assigned_user);
             }
             $intended_program = ProgramInstrument::where('id',$instrumentProgram['intended_program_id'])->first();
-            if(!(is_null($intended_program))) $program = $intended_program->type_of_instrument;
+            if(!(is_null($intended_program))){
+                $program = $intended_program->type_of_instrument;
+                if(is_null($intended_program->type_of_instrument)) $program = $intended_program->intended_program;
+            }
             else $program = "No attached instrument.";
         }
         return response()->json(['instruments' => $instrumentPrograms, 'users' => $users, 'intended_program' => $program]);

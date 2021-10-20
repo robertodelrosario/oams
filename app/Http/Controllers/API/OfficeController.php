@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\BestPracticeDocument;
 use App\BestPracticeOffice;
 use App\BestPracticeTag;
+use App\Campus;
 use App\CampusOffice;
 use App\CampusUser;
 use App\Document;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Office;
 use App\OfficeUser;
 use App\Program;
+use App\SUC;
 use App\User;
 use App\UserRole;
 use Illuminate\Http\Request;
@@ -31,8 +33,43 @@ class OfficeController extends Controller
         ]);
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
-        $office = Office::where('office_name', $request->office_name)->first();
-        if(is_null($office)){
+        if($request->type){
+            $office = Office::where('office_name', $request->office_name)->first();
+            if(is_null($office)){
+                $office = new Office();
+                $office->office_name = $request->office_name;
+                $office->email = $request->email;
+                $office->contact = $request->contact;
+                $office->campus_id = $id;
+                if($request->office_id != null) $office->parent_office_id = $request->office_id;
+                else $office->parent_office_id == null;
+                $office->save();
+
+                $cam_off = new CampusOffice();
+                $cam_off->office_id = $office->id;
+                $cam_off->campus_id = $id;
+                $cam_off->save();
+                return response()->json(['status' => true, 'message' => 'Successfully created office [1]', 'office' => $office]);
+            }
+            else{
+                $campus = Campus::where('id', $id)->first();
+                $suc = SUC::where('id', $campus->suc_id)->first();
+                $campus_offices = CampusOffice::where('office_id', $office->id)->get();
+                foreach ($campus_offices as $campus_office){
+                    $campus_temp = Campus::where('id', $campus_office->campus_id)->first();
+                    $suc_temp = SUC::where('id', $campus_temp->suc_id)->first();
+                    if($suc->id == $suc_temp->id){
+                        $cam_off = new CampusOffice();
+                        $cam_off->office_id = $office->id;
+                        $cam_off->campus_id = $id;
+                        $cam_off->save();
+                        return response()->json(['status' => true, 'message' => 'Successfully created office [2]', 'office' => $office]);
+                    }
+                }
+                return response()->json(['status' => false, 'message' => 'Unsuccessfully created office [3]']);
+            }
+        }
+        else{
             $office = new Office();
             $office->office_name = $request->office_name;
             $office->email = $request->email;
@@ -46,24 +83,38 @@ class OfficeController extends Controller
             $cam_off->office_id = $office->id;
             $cam_off->campus_id = $id;
             $cam_off->save();
-            return response()->json(['status' => true, 'message' => 'Successfully created office [1]', 'office' => $office]);
+            return response()->json(['status' => true, 'message' => 'Successfully created office [4]', 'office' => $office]);
         }
-        else{
-            if($request->type == 'System Wide'){
-
-            }
-            $campus_office = CampusOffice::where([
-                ['campus_id', $id], ['office_id', $office->id]
-            ])->first();
-            if(is_null($campus_office)){
-                $cam_off = new CampusOffice();
-                $cam_off->office_id = $office->id;
-                $cam_off->campus_id = $id;
-                $cam_off->save();
-                return response()->json(['status' => true, 'message' => 'Successfully created office [2]', 'office' => $office]);
-            }
-            return response()->json(['status' => false, 'message' => 'Office already exist!']);
-        }
+//        $office = Office::where('office_name', $request->office_name)->first();
+//        if(is_null($office)){
+//            $office = new Office();
+//            $office->office_name = $request->office_name;
+//            $office->email = $request->email;
+//            $office->contact = $request->contact;
+//            $office->campus_id = $id;
+//            if($request->office_id != null) $office->parent_office_id = $request->office_id;
+//            else $office->parent_office_id == null;
+//            $office->save();
+//
+//            $cam_off = new CampusOffice();
+//            $cam_off->office_id = $office->id;
+//            $cam_off->campus_id = $id;
+//            $cam_off->save();
+//            return response()->json(['status' => true, 'message' => 'Successfully created office [1]', 'office' => $office]);
+//        }
+//        else{
+//            $campus_office = CampusOffice::where([
+//                ['campus_id', $id], ['office_id', $office->id]
+//            ])->first();
+//            if(is_null($campus_office)){
+//                $cam_off = new CampusOffice();
+//                $cam_off->office_id = $office->id;
+//                $cam_off->campus_id = $id;
+//                $cam_off->save();
+//                return response()->json(['status' => true, 'message' => 'Successfully created office [2]', 'office' => $office]);
+//            }
+//            return response()->json(['status' => false, 'message' => 'Office already exist!']);
+//        }
     }
 
     public function showOffice($id){
