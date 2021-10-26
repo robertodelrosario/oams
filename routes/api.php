@@ -306,6 +306,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::put('/changeApplication/{application_id}/{program_id}', 'AppliedProgramController@changeApplication');
     Route::get('/showProgram/{id}', 'AppliedProgramController@showProgram');
     Route::get('/programList/{id}', 'AppliedProgramController@programList');
+    Route::get('/showAllAppliedProgram/{id}', 'AppliedProgramController@showAllAppliedProgram');
     Route::get('/showInstrumentProgram/{id}', 'AppliedProgramController@showInstrumentProgram');
     Route::get('/showStatementDocument/{id}', 'AppliedProgramController@showStatementDocument');
     Route::put('/lockSelfSurvey/{id}', 'AppliedProgramController@lockSelfSurvey');

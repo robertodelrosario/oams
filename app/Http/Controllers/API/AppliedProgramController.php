@@ -692,4 +692,19 @@ class AppliedProgramController extends Controller
         if($success) return response()->json(['status' => true, 'message' => 'Success']);
         else return response()->json(['status' => false, 'message' => 'Unsuccessful']);
     }
+
+    public function showAllAppliedProgram($id){
+        $collection = new Collection();
+        $programs = DB::table('campuses')
+            ->join('programs', 'programs.campus_id', '=', 'campuses.id')
+            ->where('campuses.id', $id)
+            ->get();
+        foreach($programs as $program){
+            $checkPrograms = ApplicationProgram::where('program_id', $program->id)->get();
+            foreach ($checkPrograms as $checkProgram){
+                $collection->push($checkProgram);
+            }
+        }
+        return response()->json(['programs' =>$collection]);
+    }
 }
