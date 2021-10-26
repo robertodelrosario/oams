@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class DocumentController extends Controller
 {
@@ -47,6 +48,12 @@ class DocumentController extends Controller
 
     public function uploadDocument(request $request, $userID, $id){
         if($request->type == 'file'){
+            $validator = Validator::make($request->all(), [
+                'documents' => 'required',
+                'documents.*' => 'max:100000'
+            ]);
+            if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file size is below or equal to 100mb.']);
+
             if ($request->hasfile('documents')) {
                 foreach ($files = $request->file('documents') as $file) {
                     $document = new Document();

@@ -74,7 +74,8 @@ class OverviewController extends Controller
             $total_weight += $w;
         }
         $grand_mean  = $total_weighted_mean/$total_weight;
-        $area_mean = $total_area_mean/$areas->count();
+        $area_mean = 0;
+        if($areas->count() != 0) $area_mean = $total_area_mean/$areas->count();
         $result->push(['total_weight' => $total_weight, 'total_area_mean' => round($total_area_mean, 2),'area_mean' => round($area_mean, 2), 'total_weighted_mean' => round($total_weighted_mean,2), 'grand_mean' => round($grand_mean,2)]);
 
 
