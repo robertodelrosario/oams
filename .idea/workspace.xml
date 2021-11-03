@@ -21,8 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d53814e5-b667-4318-a924-134de7278cdf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AppliedProgramController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +180,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ntc" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../article" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -476,7 +474,9 @@
       <workItem from="1634865593619" duration="596000" />
       <workItem from="1635131273548" duration="714000" />
       <workItem from="1635209464262" duration="1558000" />
-      <workItem from="1635214351574" duration="1816000" />
+      <workItem from="1635214351574" duration="2485000" />
+      <workItem from="1635229717235" duration="2539000" />
+      <workItem from="1635297112745" duration="1744000" />
     </task>
     <servers />
   </component>
@@ -500,10 +500,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="96" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1635209629237" />
-    <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1633519602126">
+    <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1635230030403">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1633519602126" />
+    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1635230030403" />
     <state x="529" y="290" key="NewPhpFileDialog" timestamp="1632882165900">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

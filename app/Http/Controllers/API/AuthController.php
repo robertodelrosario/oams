@@ -58,8 +58,8 @@ class AuthController extends Controller
             $user_log->device = $request->header('User-Agent');
             $user_log->save();
         }
-        if(auth()->user()->status == 'inactive')
-            return response()->json(['error' => 'Inactive User!'], 401);
+//        if(auth()->user()->status == 'inactive')
+//            return response()->json(['error' => 'Inactive User!'], 401);
         return $this->respondWithToken($token);
     }
 
