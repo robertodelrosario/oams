@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\ApplicationProgram;
 use App\AreaInstrument;
+use App\AreaMandatory;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
@@ -146,13 +147,38 @@ class ProgramController extends Controller
             $instrument->delete();
 
             $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
-            foreach ($areas as $area){
+            $areas_collection = new Collection();
+            if($intendedProgramID == 42 || $intendedProgramID == 47){
+                if($intendedProgramID == 42) $level = 'LEVEL III -';
+                else $level = 'LEVEL IV -';
+                foreach ($areas as $area){
+                    $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
+                    foreach ($area_mandatories as $area_mandatory){
+                        if($area_mandatory->type == 'Mandatory' && $prog->type == $area_mandatory->program_status){
+                            $areas_collection->push([
+                                'id' =>  $area->id,
+                                'area_name' => $level.' '.$area->area_name
+                            ]);
+                        }
+                    }
+
+                }
+            }
+            else{
+                foreach ($areas as $area){
+                    $areas_collection->push([
+                        'id' =>  $area->id,
+                        'area_name' => $area->area_name
+                    ]);
+                }
+            }
+            foreach ($areas_collection as $area){
                 $instrumentProgram = new InstrumentProgram();
                 $instrumentProgram->program_id = $programID;
-                $instrumentProgram->area_instrument_id = $area->id;
+                $instrumentProgram->area_instrument_id = $area['id'];
                 $instrumentProgram->save();
 
-                $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                $instrumentParamenters = InstrumentParameter::where('area_instrument_id', $area['id'])->get();
                 if(count($instrumentParamenters) != 0){
                     foreach ($instrumentParamenters as $instrumentParamenter){
                         $parameter = new ParameterProgram();
@@ -176,7 +202,7 @@ class ProgramController extends Controller
                 foreach ($templates as $template){
                     $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
                     foreach ($temp_tags as $temp_tag){
-                        if($temp_tag->tag == $area->area_name){
+                        if($temp_tag->tag == $area['area_name']){
                             $program_report_template = new ProgramReportTemplate();
                             $program_report_template->report_template_id = $template->id;
                             $program_report_template->instrument_program_id = $instrumentProgram->id;
@@ -189,13 +215,38 @@ class ProgramController extends Controller
         }
         else{
             $areas = AreaInstrument::where('intended_program_id', $intendedProgramID)->get();
-            foreach ($areas as $area){
+            $areas_collection = new Collection();
+            if($intendedProgramID == 42 || $intendedProgramID == 47){
+                if($intendedProgramID == 42) $level = 'LEVEL III -';
+                else $level = 'LEVEL IV -';
+                foreach ($areas as $area){
+                    $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
+                    foreach ($area_mandatories as $area_mandatory){
+                        if($area_mandatory->type == 'Mandatory' && $prog->type == $area_mandatory->program_status){
+                            $areas_collection->push([
+                                'id' =>  $area->id,
+                                'area_name' => $level.' '.$area->area_name
+                            ]);
+                        }
+                    }
+
+                }
+            }
+            else{
+                foreach ($areas as $area){
+                    $areas_collection->push([
+                        'id' =>  $area->id,
+                        'area_name' => $area->area_name
+                    ]);
+                }
+            }
+            foreach ($areas_collection as $area){
 
                 $instrumentProgram = InstrumentProgram::where([
-                    ['program_id', $programID], ['area_instrument_id',$area->id]
+                    ['program_id', $programID], ['area_instrument_id',$area['id']]
                 ])->first();
 
-                $instrumentParameters = InstrumentParameter::where('area_instrument_id', $area->id)->get();
+                $instrumentParameters = InstrumentParameter::where('area_instrument_id', $area['id'])->get();
 
                 if(count($instrumentParameters) != 0){
                     foreach ($instrumentParameters as $instrumentParameter){
@@ -233,7 +284,7 @@ class ProgramController extends Controller
                 foreach ($templates as $template){
                     $temp_tags = TemplateTag::where('report_template_id', $template->id)->get();
                     foreach ($temp_tags as $temp_tag){
-                        if($temp_tag->tag == $area->area_name){
+                        if($temp_tag->tag == $area['area_name']){
                             $program_report_template = ProgramReportTemplate::where([
                                 ['report_template_id', $template->id], ['instrument_program_id', $instrumentProgram->id]
                             ])->first();
