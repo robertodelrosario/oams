@@ -98,8 +98,7 @@ class DocumentController extends Controller
     public function showAllContainer($userID,$id){
         $collection = new Collection();
         $campus = Campus::where('id', $id)->first();
-        $user_role = UserRole::where('user_id', $userID)->first();
-        $office_users = OfficeUser::where('user_role_id', $user_role->id)->get();
+
         $offices = Office::where([
             ['campus_id', $campus->id], ['parent_office_id', null]
         ])->get();
@@ -113,23 +112,14 @@ class DocumentController extends Controller
                 $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'main', 'number' => count($documents), 'campus_name' =>$campus->campus_name, 'office_name' => $office->office_name]);
             }
         }
-//        foreach ($campuses as $campus){
-//            $offices = Office::where([
-//                ['campus_id', $campus->id], ['parent_office_id', null]
-//            ])->get();
-//            foreach ($offices as $office){
-//                $containers = DocumentContainer::where('office_id', $office->id)->get();
-//                foreach ($containers as $container){
-//                    $office = Office::where('id', $container->office_id)->first();
-//                    $campus =Campus::where('id', $office->campus_id)->first();
-//                    $tags = Tag::where('container_id', $container->id)->get();
-//                    $documents = Document::where('container_id', $container->id)->get();
-//                    $collection->push(['container' => $container, 'tags' => $tags, 'type' => 'main', 'number' => count($documents), 'campus_name' =>$campus->campus_name, 'office_name' => $office->office_name]);
-//                }
-//            }
-//        }
-        foreach ($office_users as $office_user) {
-            $containers = DocumentContainer::where('office_id', $office_user->office_id)->get();
+        $user_roles = UserRole::where('user_id', $userID)->get();
+        $office_collection = new Collection();
+        foreach ($user_roles as $user_role) {
+            $office_users = OfficeUser::where('user_role_id', $user_role->id)->get();
+            foreach ($office_users as $office_user) $office_collection->push(['office_id' => $office_user->office_id]);
+        }
+        foreach ($office_collection as $off) {
+            $containers = DocumentContainer::where('office_id', $off['office_id'])->get();
             foreach ($containers as $container) {
                 $office = Office::where('id', $container->office_id)->first();
                 $campus = Campus::where('id', $office->campus_id)->first();
