@@ -48,10 +48,15 @@ class OfficeController extends Controller
                 else $office->parent_office_id == null;
                 $office->save();
 
-                $cam_off = new CampusOffice();
-                $cam_off->office_id = $office->id;
-                $cam_off->campus_id = $id;
-                $cam_off->save();
+                $campus = Campus::where('id', $id)->first();
+                $suc = SUC::where('id', $campus->suc_id)->first();
+                $campuses = Campus::where('suc_id', $suc->id)->get();
+                foreach ($campuses as $campus) {
+                    $cam_off = new CampusOffice();
+                    $cam_off->office_id = $office->id;
+                    $cam_off->campus_id = $campus->id;
+                    $cam_off->save();
+                }
                 return response()->json(['status' => true, 'message' => 'Successfully created office [1]', 'office' => $office]);
             }
             else{
