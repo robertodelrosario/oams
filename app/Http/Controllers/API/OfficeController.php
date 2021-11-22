@@ -34,13 +34,16 @@ class OfficeController extends Controller
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
 
         if($request->type){
-            $office = Office::where('office_name', $request->office_name)->first();
+            $office = Office::where([
+                ['office_name', $request->office_name], ['type', 'system-wide']
+                ])->first();
             if(is_null($office)){
                 $office = new Office();
                 $office->office_name = $request->office_name;
                 $office->email = $request->email;
                 $office->contact = $request->contact;
                 $office->campus_id = $id;
+                $office->type = 'system-wide';
                 if($request->office_id != null) $office->parent_office_id = $request->office_id;
                 else $office->parent_office_id == null;
                 $office->save();
@@ -56,9 +59,11 @@ class OfficeController extends Controller
                     ['office_id', $office->id], ['campus_id',$id]
                 ])->first();
                 if(!(is_null($check))) return response()->json(['status' => false, 'message' => 'Already exist!']);
+
                 $campus = Campus::where('id', $id)->first();
                 $suc = SUC::where('id', $campus->suc_id)->first();
                 $campus_offices = CampusOffice::where('office_id', $office->id)->get();
+
                 foreach ($campus_offices as $campus_office){
                     $campus_temp = Campus::where('id', $campus_office->campus_id)->first();
                     $suc_temp = SUC::where('id', $campus_temp->suc_id)->first();
@@ -147,6 +152,7 @@ class OfficeController extends Controller
                             'contact' => $office->contact,
                             'email' => $office->email,
                             'parent_office_id' => $parent_office_id,
+                            'type' => $office->type,
                             'parent_office_name' => $office_name,
                             'user_id' => $user_credentials->id,
                             'first_name' => $user_credentials->first_name,
@@ -239,6 +245,9 @@ class OfficeController extends Controller
         $office->office_name = $request->office_name;
         $office->email = $request->email;
         $office->contact = $request->contact;
+        if($request->type){
+         $office->type = 'system-wide';
+        }
         if($request->office_id != null) $office->parent_office_id = $request->office_id;
         $office->save();
         return response()->json(['status' => true, 'message' => 'Successfully Edited!', 'office' => $office]);
