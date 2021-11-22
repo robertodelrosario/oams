@@ -375,4 +375,12 @@ class OfficeController extends Controller
         }
         return response()->json(['status' => false, 'message' => 'ID does not exist.']);
     }
+
+    public function removeOfficeFromCampus($officeID, $campusID){
+        $check = CampusOffice::where([
+            ['office_id', $officeID], ['campus_id',$campusID]
+        ])->first();
+        $success = $check->delete();
+        if($success)return response()->json(['status' => true, 'message' => 'Removed']);
+    }
 }
