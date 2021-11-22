@@ -52,6 +52,10 @@ class OfficeController extends Controller
                 return response()->json(['status' => true, 'message' => 'Successfully created office [1]', 'office' => $office]);
             }
             else{
+                $check = CampusOffice::where([
+                    ['office_id', ], ['campus_id',]
+                ])->first();
+                if(!(is_null($check))) return response()->json(['status' => false, 'message' => 'Already exist!']);
                 $campus = Campus::where('id', $id)->first();
                 $suc = SUC::where('id', $campus->suc_id)->first();
                 $campus_offices = CampusOffice::where('office_id', $office->id)->get();
