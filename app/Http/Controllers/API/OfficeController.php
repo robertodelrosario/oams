@@ -53,7 +53,7 @@ class OfficeController extends Controller
             }
             else{
                 $check = CampusOffice::where([
-                    ['office_id', ], ['campus_id',]
+                    ['office_id', $office->id], ['campus_id',$id]
                 ])->first();
                 if(!(is_null($check))) return response()->json(['status' => false, 'message' => 'Already exist!']);
                 $campus = Campus::where('id', $id)->first();
