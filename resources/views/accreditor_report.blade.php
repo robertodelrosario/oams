@@ -114,18 +114,44 @@
     <table class="table table-bordered" >
         <thead>
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 80%">Area</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 20%">Area Mean</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 80%">Area</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 20%">Area Mean</th>
         </tr>
         </thead>
         <tbody>
         @foreach($grand_mean as $gm)
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 80%; border-bottom: 1px solid black;">{{ $gm['area_name'] }}</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 20%; border-bottom: 1px solid black;">{{ $gm['area_mean'] }}</th>
+                <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 80%">{{ $gm['area_name'] }}</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 20%">{{ $gm['area_mean'] }}</th>
             </tr>
         @endforeach
         </tbody>
+    </table>
+
+    <table class="table table-bordered" >
+        <thead>
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 80%">Area</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 20%">Area Mean</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($grand_mean as $gm)
+            <tr>
+                <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 80%">{{ $gm['area_name'] }}</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 20%">{{ $gm['area_mean'] }}</th>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+
+    <table class="table-borderless" style="width: 100%;">
+        @foreach($accreditors as $acc)
+            <tr>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 50%; border-bottom: 1px solid black;">{{ $acc['first_name'] }} {{ $acc['last_name'] }}</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 50%">Accreditor</th>
+            </tr>
+        @endforeach
     </table>
 
 </div>
