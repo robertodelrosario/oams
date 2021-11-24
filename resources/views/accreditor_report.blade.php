@@ -121,7 +121,7 @@
         <tbody>
         @foreach($grand_mean as $gm)
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 80%">{{ $gm['area_name'] }}</th>
+                <th scope="col" class="font-weight-bold" style="text-align: left; font-size: 13px; width: 80%">{{ $gm['area_name'] }}</th>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 20%">{{ $gm['area_mean'] }}</th>
             </tr>
         @endforeach

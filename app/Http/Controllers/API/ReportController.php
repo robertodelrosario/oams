@@ -547,7 +547,7 @@ class ReportController extends Controller
                 'first_name' =>  $user->first_name,
                 'last_name' =>  $user->last_name,
             ]);
-            if(!($list_of_accreditor->contains($user->id))){
+            if(!($list_of_accreditor->contains('id', $user->id))){
                 $list_of_accreditor->push([
                     'id' =>  $user->id,
                     'first_name' =>  $user->first_name,
