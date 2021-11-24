@@ -108,6 +108,26 @@
             @endif
         @endforeach
     @endforeach
+
+    <div style="page-break-after: always"></div>
+    <h3 style="text-align: center">SUMMARY OF RATINGS</h3>
+    <table class="table table-bordered" >
+        <thead>
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 80%">Area</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 20%">Area Mean</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($grand_mean as $gm)
+            <tr>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 80%; border-bottom: 1px solid black;">{{ $gm['area_name'] }}</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 20%; border-bottom: 1px solid black;">{{ $gm['area_mean'] }}</th>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+
 </div>
 
 </body>

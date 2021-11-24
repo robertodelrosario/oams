@@ -649,6 +649,8 @@ class ReportController extends Controller
             if($count != 0) $area_mean = $area_mean/$count;
             $accreditor_area_mean_score->push([
                 'instrument_program_id' => $instrument['id'],
+                'area_name' => $instrument['area_name'],
+                'area_number' => $instrument['area_number'],
                 'area_mean' => $area_mean
             ]);
             $sorted = $collection_statements->sortBy('benchmark_statement');
@@ -714,6 +716,7 @@ class ReportController extends Controller
                     'benchmark_statement_id' => $statement->benchmark_statement_id,
                     'parent_statement_id' => $statement->parent_statement_id,
                     'benchmark_statement' => $benchmark_statement->statement,
+                    'type' => $benchmark_statement->type,
                     'degree' => 1
                 ]);
 
@@ -728,6 +731,7 @@ class ReportController extends Controller
                                 'benchmark_statement_id' => $statement_1->benchmark_statement_id,
                                 'parent_statement_id' => $statement_1->parent_statement_id,
                                 'benchmark_statement' => $benchmark_statement_1->statement,
+                                'type' => $benchmark_statement->type,
                                 'degree' => 2
                             ]);
                             foreach ($statements as $statement_2) {
@@ -741,6 +745,7 @@ class ReportController extends Controller
                                             'benchmark_statement_id' => $statement_2->benchmark_statement_id,
                                             'parent_statement_id' => $statement_2->parent_statement_id,
                                             'benchmark_statement' => $benchmark_statement_2->statement,
+                                            'type' => $benchmark_statement->type,
                                             'degree' => 3
                                         ]);
                                     }
@@ -830,7 +835,88 @@ class ReportController extends Controller
             }
         }
         set_time_limit(300);
-//        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
+        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'total_score' => $accreditor_total_score, 'accreditors' => $accreditors]);
+        return $pdf->download($program->program_name .'_ACCREDITOR_REPORT.pdf');
+    }
+
+    public function downloadOBE($id, $instrument_id){
+        $program_instrument = InstrumentProgram::where('id', $instrument_id)->first();
+        $area_instrument = AreaInstrument::where('id', $program_instrument->area_instrument_id)->first();
+        $applied_program = ApplicationProgram::where('id', $id)->first();
+        $program = Program::where('id', $program_instrument->program_id)->first();
+        $campus = Campus::where('id', $program->campus_id)->first();
+        $suc = SUC::where('id', $campus->suc_id)->first();
+        $user_task = AssignedUser::where([
+            ['app_program_id', $id], ['user_id', auth()->user()->id]
+        ])->first();
+        if (Str::contains($user_task->role, 'external accreditor')) $role = 'external accreditor';
+        else $role = 'internal accreditor';
+        $assigned_users = AssignedUser::where([
+            ['app_program_id', $id], ['transaction_id', $instrument_id], ['role', 'like', '%'. $role.'%']
+        ])->get();
+        $scores = new Collection();
+        $accreditor_total_score = new Collection();
+        $accreditor_area_mean_score = new Collection();
+
+        $recommendation_collection = new Collection();
+
+        $parameter = ParameterProgram::where('program_instrument_id', $program_instrument->id)->first();
+        $statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+        $statement_scores = new Collection();
+        $collection_id = new Collection();
+        $collection_statements = new Collection();
+        foreach ($statements as $statement) {
+            $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
+            if (!($collection_id->contains($statement->id))) {
+                $collection_id->push($statement->id);
+                $collection_statements->push([
+                    'id' => $statement->id,
+                    'instrument_parameter_id' => $statement->instrument_parameter_id,
+                    'benchmark_statement_id' => $statement->benchmark_statement_id,
+                    'parent_statement_id' => $statement->parent_statement_id,
+                    'benchmark_statement' => $benchmark_statement->statement,
+                    'type' => $benchmark_statement->type,
+                    'degree' => 1
+                ]);
+
+                foreach ($statements as $statement_1) {
+                    if(!($collection_id->contains($statement_1->id))) {
+                        if ($statement->benchmark_statement_id == $statement_1->parent_statement_id) {
+                            $collection_id->push($statement_1->id);
+                            $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
+                            $collection_statements->push([
+                                'id' => $statement_1->id,
+                                'instrument_parameter_id' => $statement_1->instrument_parameter_id,
+                                'benchmark_statement_id' => $statement_1->benchmark_statement_id,
+                                'parent_statement_id' => $statement_1->parent_statement_id,
+                                'benchmark_statement' => $benchmark_statement_1->statement,
+                                'type' => $benchmark_statement->type,
+                                'degree' => 2
+                            ]);
+                            foreach ($statements as $statement_2) {
+                                if(!($collection_id->contains($statement_2->id))) {
+                                    if ($statement_1->benchmark_statement_id == $statement_2->parent_statement_id) {
+                                        $collection_id->push($statement_2->id);
+                                        $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
+                                        $collection_statements->push([
+                                            'id' => $statement_2->id,
+                                            'instrument_parameter_id' => $statement_2->instrument_parameter_id,
+                                            'benchmark_statement_id' => $statement_2->benchmark_statement_id,
+                                            'parent_statement_id' => $statement_2->parent_statement_id,
+                                            'benchmark_statement' => $benchmark_statement_2->statement,
+                                            'type' => $benchmark_statement->type,
+                                            'degree' => 3
+                                        ]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        set_time_limit(300);
         $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'total_score' => $accreditor_total_score, 'accreditors' => $accreditors]);
         return $pdf->download($program->program_name .'_ACCREDITOR_REPORT.pdf');
     }
