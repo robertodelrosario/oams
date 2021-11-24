@@ -129,22 +129,24 @@
     </table>
     <table class="table-borderless" style="width: 100%;">
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 70%; ">Total</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 70%; text-decoration: underline;">{{ $total }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 70%; ">Total</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%; text-decoration: underline;">{{ $total }}</th>
         </tr>
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 70%; ">Grand Mean</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 70%; text-decoration: underline; text-decoration-style: double;">{{ $grand_mean_total }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 70%; ">Grand Mean</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%; text-decoration: underline; text-decoration-style: double;">{{ $grand_mean_total }}</th>
         </tr>
     </table>
+    <br><br>
     <table class="table-borderless" style="width: 100%;">
         @foreach($list_of_accreditor as $acc)
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 50%; text-decoration: underline;">{{ $acc['first_name'] }} {{ $acc['last_name'] }}</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 50%; text-decoration: underline;">{{ $acc['first_name'] }} {{ $acc['last_name'] }}</th>
             </tr>
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 50%">Accreditor</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 50%">Accreditor</th>
             </tr>
+            <br>
         @endforeach
     </table>
 
