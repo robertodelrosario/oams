@@ -681,9 +681,14 @@ class ReportController extends Controller
                 ]);
             }
         }
+        $area_total = 0;
+        foreach ($accreditor_area_mean_score as $am){
+            $area_total = $area_total + $am['area_mean'];
+        }
+        $grand_mean_total = $area_total/10;
         set_time_limit(500);
 //        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
-        $pdf = PDF::loadView('accreditor_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor, 'list_of_accreditor' => $list_of_accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'accreditors' => $accreditors, 'total_score' => $accreditor_total_score]);
+        $pdf = PDF::loadView('accreditor_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor, 'list_of_accreditor' => $list_of_accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'accreditors' => $accreditors, 'total_score' => $accreditor_total_score, 'total' => $area_total, 'grand_mean_total'=> $grand_mean_total]);
         return $pdf->download($program->program_name . '_ACCREDITOR_REPORT.pdf');
     }
 
