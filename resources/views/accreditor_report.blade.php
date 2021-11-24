@@ -146,7 +146,7 @@
             <tr>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 50%">Accreditor</th>
             </tr>
-            <br>
+            <br><br>
         @endforeach
     </table>
 
