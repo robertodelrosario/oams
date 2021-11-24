@@ -130,7 +130,7 @@
     <table class="table-borderless" style="width: 100%;">
         <tr>
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 70%; ">Total</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 70%; text-decoration: underline;">{{ $total_mean }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 70%; text-decoration: underline;">{{ $total }}</th>
         </tr>
         <tr>
             <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 70%; ">Grand Mean</th>
