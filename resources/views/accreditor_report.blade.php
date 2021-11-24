@@ -139,15 +139,17 @@
     </table>
     <br><br>
     <table class="table-borderless" style="width: 100%;">
-        @foreach($list_of_accreditor as $acc)
-            <tr>
+        <tr>
+            @foreach($list_of_accreditor as $acc)
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 50%; text-decoration: underline;">{{ $acc['first_name'] }} {{ $acc['last_name'] }}</th>
-            </tr>
-            <tr>
+            @endforeach
+        </tr>
+        <tr>
+            @foreach($list_of_accreditor as $acc)
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 50%">Accreditor</th>
-            </tr>
-            <br><br>
-        @endforeach
+            @endforeach
+        </tr>
+
     </table>
 
 </div>
