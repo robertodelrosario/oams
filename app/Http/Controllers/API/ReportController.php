@@ -539,6 +539,7 @@ class ReportController extends Controller
         $accreditor_total_score = new Collection();
         $recommendation_collection = new Collection();
         $accreditors = new Collection();
+        $list_of_accreditor = new Collection();
         foreach ($assigned_users as $assigned_user){
             $user = User::where('id', $assigned_user->user_id)->first();
             $accreditors->push([
@@ -546,6 +547,13 @@ class ReportController extends Controller
                 'first_name' =>  $user->first_name,
                 'last_name' =>  $user->last_name,
             ]);
+            if(!($list_of_accreditor->contains($user->id))){
+                $list_of_accreditor->push([
+                    'id' =>  $user->id,
+                    'first_name' =>  $user->first_name,
+                    'last_name' =>  $user->last_name,
+                ]);
+            }
             $recommendations = Recommendation::where('assigned_user_id', $assigned_user->id)->get();
             foreach ($recommendations as $recommendation){
                 $recommendation_collection->push([
@@ -675,7 +683,7 @@ class ReportController extends Controller
         }
         set_time_limit(500);
 //        return response()->json(['program' => $program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score]);
-        $pdf = PDF::loadView('accreditor_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'accreditors' => $accreditors, 'total_score' => $accreditor_total_score]);
+        $pdf = PDF::loadView('accreditor_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor, 'list_of_accreditor' => $list_of_accreditor ,'areas' => $instruments, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'accreditors' => $accreditors, 'total_score' => $accreditor_total_score]);
         return $pdf->download($program->program_name . '_ACCREDITOR_REPORT.pdf');
     }
 
