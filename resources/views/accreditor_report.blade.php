@@ -129,12 +129,12 @@
     </table>
     <table class="table-borderless" style="width: 100%;">
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 70%; ">Total</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%; text-decoration: underline;">{{ $total }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 80%; ">Total</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 20%; border-bottom: 1px solid black;">{{ $total }}</th>
         </tr>
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 70%; ">Grand Mean</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 30%; text-decoration: underline; text-decoration-style: double;">{{ $grand_mean_total }}</th>
+            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 14px; width: 80%; ">Grand Mean</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 20%; border-bottom-style: double;">{{ $grand_mean_total }}</th>
         </tr>
     </table>
     <br><br>
