@@ -598,13 +598,13 @@ class AuthController extends Controller
 
     public function showLocalAccreditor($id){
         $campuses = Campus::where('suc_id', $id)->get();
+        echo $campuses;
 //        $accreditor_array = array();
 //        $specializations = array();
 //        $degrees_arr = array();
         $accreditor_list = new Collection();
         foreach ($campuses as $campus){
             $accreditors = AccreditorProfile::where('campus_id', $campus->id)->get();
-            echo $accreditors;
             foreach ($accreditors as $accreditor){
                 $user = User::where('id', $accreditor->user_id)->first();
                 if(!($accreditor_list->contains('user_id', $user->id))){
