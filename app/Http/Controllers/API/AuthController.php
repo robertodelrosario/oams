@@ -605,7 +605,7 @@ class AuthController extends Controller
                 ['user_id', $u->user_id], ['role_id', 8]
             ])->first();
             if(!(is_null($user_role))){
-                $user = User::where('id', $user->user_id)->first();
+                $user = User::where('id', $u->user_id)->first();
                 $accreditor = AccreditorProfile::where('user_id', $u->user_id)->first();
                 if(!($accreditor_list->contains('user_id', $user->id))){
                     $accreditor_list->push([
