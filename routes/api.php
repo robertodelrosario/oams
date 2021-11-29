@@ -37,7 +37,7 @@ Route::group([
     Route::get('/showCampusUser/{id}', 'AuthController@showCampusUser');
     Route::get('/showAaccup', 'AuthController@showAaccup');
     Route::get('/showAccreditor', 'AuthController@showAccreditor');
-    Route::get('/showLocalAccreditor/{id}', 'AuthController@showAccreditor');
+    Route::get('/showLocalAccreditor/{id}', 'AuthController@showLocalAccreditor');
     Route::get('/showAllUser', 'AuthController@showAllUser');
     Route::put('/deleteUser/{id}', 'AuthController@deleteUser');
     Route::put('/activateUser/{id}', 'AuthController@activateUser');
