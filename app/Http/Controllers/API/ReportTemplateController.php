@@ -106,7 +106,7 @@ class ReportTemplateController extends Controller
                         }
                     }
                 }
-                if($success_1) return response()->json(['status' => true, 'message'=>"Successfully added template.", 'template' => $collection]);
+                if($success_1) return response()->json(['status' => true, 'message'=>"Successfully added template.", 'template' => $collection, 'programs' => $programs]);
                 else return response()->json(['status' => false, 'message'=>"error"]);
             }
         }
