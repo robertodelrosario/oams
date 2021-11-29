@@ -11,6 +11,7 @@ use App\Campus;
 use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\InstrumentScore;
+use App\Parameter;
 use App\ParameterProgram;
 use App\Program;
 use App\ProgramStatement;
@@ -877,16 +878,25 @@ class ReportController extends Controller
         $collection_id = new Collection();
         $statements_collection = new Collection();
         $parameter_collection = new Collection();
+        foreach ($parameters as $parameter){
+            $param = Parameter::where('id', $parameter->parameter_id)->first();
+            $parameter_collection->push([
+                'id' => $parameter->id,
+                'parameter_id' => $parameter->parameter_id,
+                'parameter' => $param->parameter
+            ]);
+        }
+        $parameters = $parameter_collection->sortBy('parameter');
         foreach($parameters as $parameter){
             $collection_statements = new Collection();
-            $statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+            $statements = ProgramStatement::where('program_parameter_id', $parameter['id'])->get();
             foreach ($statements as $statement){
                 $benchmark_statement = BenchmarkStatement::where('id', $statement->benchmark_statement_id)->first();
                 if (!($collection_id->contains($statement->id))) {
                     $collection_id->push($statement->id);
                     $collection_statements->push([
                         'id' => $statement->id,
-                        'parameter_id' => $parameter->parameter_id,
+                        'parameter_id' => $parameter['parameter_id'],
                         'instrument_parameter_id' => $statement->instrument_parameter_id,
                         'benchmark_statement_id' => $statement->benchmark_statement_id,
                         'parent_statement_id' => $statement->parent_statement_id,
@@ -901,7 +911,7 @@ class ReportController extends Controller
                                 $benchmark_statement_1 = BenchmarkStatement::where('id', $statement_1->benchmark_statement_id)->first();
                                 $collection_statements->push([
                                     'id' => $statement_1->id,
-                                    'parameter_id' => $parameter->parameter_id,
+                                    'parameter_id' => $parameter['parameter_id'],
                                     'instrument_parameter_id' => $statement_1->instrument_parameter_id,
                                     'benchmark_statement_id' => $statement_1->benchmark_statement_id,
                                     'parent_statement_id' => $statement_1->parent_statement_id,
@@ -916,7 +926,7 @@ class ReportController extends Controller
                                             $benchmark_statement_2 = BenchmarkStatement::where('id', $statement_2->benchmark_statement_id)->first();
                                             $collection_statements->push([
                                                 'id' => $statement_2->id,
-                                                'parameter_id' => $parameter->parameter_id,
+                                                'parameter_id' => $parameter['parameter_id'],
                                                 'instrument_parameter_id' => $statement_2->instrument_parameter_id,
                                                 'benchmark_statement_id' => $statement_2->benchmark_statement_id,
                                                 'parent_statement_id' => $statement_2->parent_statement_id,
@@ -958,7 +968,7 @@ class ReportController extends Controller
                 ]);
             }
         }
-        return response()->json($statements_collection);
+        return response()->json(['statement' => $statements_collection, 'parameters' => $parameters]);
 //        set_time_limit(300);
 //        $pdf = PDF::loadView('accreditor_area_report', ['program' => $program,'applied_program' => $applied_program,'campus' => $campus, 'suc'=>$suc, 'accreditor' => $accreditor ,'areas' => $area_instrument, 'result' => $scores, 'recommendations' => $recommendation_collection, 'grand_mean'=> $accreditor_area_mean_score, 'total_score' => $accreditor_total_score, 'accreditors' => $accreditors]);
 //        return $pdf->download($program->program_name .'_ACCREDITOR_REPORT.pdf');
