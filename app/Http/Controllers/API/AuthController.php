@@ -598,31 +598,33 @@ class AuthController extends Controller
     }
 
     public function showLocalAccreditor($id){
-        $users = UserSuc::where('suc_id', $id)->get();
-        echo $users;
+        $campuses = Campus::where('suc_id', $id)->get();
         $accreditor_list = new Collection();
-        foreach ($users as $u){
-            $user_role = UserRole::where([
-                ['user_id', $u->user_id], ['role_id', 8]
-            ])->first();
-            if(!(is_null($user_role))){
-                $user = User::where('id', $u->user_id)->first();
-                $accreditor = AccreditorProfile::where('user_id', $u->user_id)->first();
-                if(!($accreditor_list->contains('user_id', $user->id))){
-                    $accreditor_list->push([
-                        'user_id' => $user->id,
-                        'first_name' => $user->first_name,
-                        'last_name' => $user->last_name,
-                        'email' => $user->email,
-                        'contact_no'=> $user->contact_no,
-                        'accreditor_status'=> $accreditor->accreditor_status,
-                        'region'=> $accreditor->region,
-                        'suc_status'=> $accreditor->suc_status,
-                        'designation'=> $accreditor->designation,
-                        'academic_rank'=> $accreditor->academic_rank,
-                        'campus_id'=> $accreditor->campus_id,
-                        'status'=> $user->status,
-                    ]);
+        foreach ($campuses as $campus){
+            $users = CampusUser::where('campus_id', $campus->id)->get();
+            foreach ($users as $u){
+                $user_role = UserRole::where([
+                    ['user_id', $u->user_id], ['role_id', 8]
+                ])->first();
+                if(!(is_null($user_role))){
+                    $user = User::where('id', $u->user_id)->first();
+                    $accreditor = AccreditorProfile::where('user_id', $u->user_id)->first();
+                    if(!($accreditor_list->contains('user_id', $user->id))){
+                        $accreditor_list->push([
+                            'user_id' => $user->id,
+                            'first_name' => $user->first_name,
+                            'last_name' => $user->last_name,
+                            'email' => $user->email,
+                            'contact_no'=> $user->contact_no,
+                            'accreditor_status'=> $accreditor->accreditor_status,
+                            'region'=> $accreditor->region,
+                            'suc_status'=> $accreditor->suc_status,
+                            'designation'=> $accreditor->designation,
+                            'academic_rank'=> $accreditor->academic_rank,
+                            'campus_id'=> $accreditor->campus_id,
+                            'status'=> $user->status,
+                        ]);
+                    }
                 }
             }
         }
