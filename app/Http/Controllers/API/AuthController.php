@@ -600,13 +600,13 @@ class AuthController extends Controller
     public function showLocalAccreditor($id){
         $users = UserSuc::where('suc_id', $id)->get();
         $accreditor_list = new Collection();
-        foreach ($users as $user){
+        foreach ($users as $u){
             $user_role = UserRole::where([
-                ['user_id', $user->user_id], ['role_id', 8]
+                ['user_id', $u->user_id], ['role_id', 8]
             ])->first();
             if(!(is_null($user_role))){
                 $user = User::where('id', $user->user_id)->first();
-                $accreditor = AccreditorProfile::where('user_id', $user->user_id)->first();
+                $accreditor = AccreditorProfile::where('user_id', $u->user_id)->first();
                 if(!($accreditor_list->contains('user_id', $user->id))){
                     $accreditor_list->push([
                         'user_id' => $user->id,
