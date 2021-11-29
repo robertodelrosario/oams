@@ -95,9 +95,7 @@ class ReportTemplateController extends Controller
                                         $program_report_template->instrument_program_id = $intrument_program->id;
                                         $success_1 = $program_report_template->save();
                                     }
-                                    else $success_1 = false;
                                 }
-                                else $success_1 = false;
                             }
                         }
                     }
