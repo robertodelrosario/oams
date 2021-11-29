@@ -96,7 +96,6 @@ class ReportTemplateController extends Controller
                                         $success_1 = $program_report_template->save();
                                     }
                                 }
-                                else $success_1 = false;
                             }
                         }
                     }
