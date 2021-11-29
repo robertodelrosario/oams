@@ -67,6 +67,7 @@ class ReportTemplateController extends Controller
             $template->link = $filePath;
             $success = $template->save();
             $programs = Program::where('campus_id', $id)->get();
+            $collection = new Collection();
             if($success){
                 foreach ($request->tags as $tag){
                     $template_tag = new TemplateTag();
@@ -95,13 +96,17 @@ class ReportTemplateController extends Controller
                                         $program_report_template->report_template_id = $template->id;
                                         $program_report_template->instrument_program_id = $intrument_program->id;
                                         $success_1 = $program_report_template->save();
+                                        $collection->push([
+                                            'template_id' => $template->id,
+                                            'instrument_program_id'=> $intrument_program->id
+                                        ]);
                                     }
                                 }
                             }
                         }
                     }
                 }
-                if($success_1) return response()->json(['status' => true, 'message'=>"Successfully added template."]);
+                if($success_1) return response()->json(['status' => true, 'message'=>"Successfully added template.", 'template' => $collection]);
                 else return response()->json(['status' => false, 'message'=>"error"]);
             }
         }
