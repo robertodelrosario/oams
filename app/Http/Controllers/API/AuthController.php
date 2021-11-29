@@ -609,21 +609,24 @@ class AuthController extends Controller
                 if(!(is_null($user_role))){
                     $user = User::where('id', $u->user_id)->first();
                     $accreditor = AccreditorProfile::where('user_id', $u->user_id)->first();
-                    if(!($accreditor_list->contains('user_id', $user->id))){
-                        $accreditor_list->push([
-                            'user_id' => $user->id,
-                            'first_name' => $user->first_name,
-                            'last_name' => $user->last_name,
-                            'email' => $user->email,
-                            'contact_no'=> $user->contact_no,
-                            'accreditor_status'=> $accreditor->accreditor_status,
-                            'region'=> $accreditor->region,
-                            'suc_status'=> $accreditor->suc_status,
-                            'designation'=> $accreditor->designation,
-                            'academic_rank'=> $accreditor->academic_rank,
-                            'campus_id'=> $accreditor->campus_id,
-                            'status'=> $user->status,
-                        ]);
+                    if(is_null($accreditor)) continue;
+                    else {
+                        if (!($accreditor_list->contains('user_id', $user->id))) {
+                            $accreditor_list->push([
+                                'user_id' => $user->id,
+                                'first_name' => $user->first_name,
+                                'last_name' => $user->last_name,
+                                'email' => $user->email,
+                                'contact_no' => $user->contact_no,
+                                'accreditor_status' => $accreditor->accreditor_status,
+                                'region' => $accreditor->region,
+                                'suc_status' => $accreditor->suc_status,
+                                'designation' => $accreditor->designation,
+                                'academic_rank' => $accreditor->academic_rank,
+                                'campus_id' => $accreditor->campus_id,
+                                'status' => $user->status,
+                            ]);
+                        }
                     }
                 }
             }
