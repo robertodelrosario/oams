@@ -599,7 +599,7 @@ class AuthController extends Controller
 
     public function showLocalAccreditor($id){
         $users = UserSuc::where('suc_id', $id)->get();
-        echo $user;
+        echo $users;
         $accreditor_list = new Collection();
         foreach ($users as $u){
             $user_role = UserRole::where([
