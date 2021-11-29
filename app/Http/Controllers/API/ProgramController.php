@@ -358,7 +358,7 @@ class ProgramController extends Controller
                                 ['program_parameter_id', $program_parameter->id], ['benchmark_statement_id', $program_statement->benchmark_statement_id]
                                 ])->first();
                             $statement->parent_statement_id = $parameter_statement->parent_statement_id;
-                            $success = $program_statements->save();
+                            $success = $statement->save();
                             if ($success) continue;
                             else return response()->json(['status' => false, 'message' => 'error']);
                         }
