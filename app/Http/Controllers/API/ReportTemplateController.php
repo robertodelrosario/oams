@@ -97,6 +97,7 @@ class ReportTemplateController extends Controller
                                     }
                                     else $success_1 = false;
                                 }
+                                else $success_1 = false;
                             }
                         }
                     }
