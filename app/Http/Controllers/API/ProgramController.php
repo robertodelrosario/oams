@@ -349,7 +349,7 @@ class ProgramController extends Controller
                 $program_parameter = ParameterProgram::where([
                     ['program_instrument_id', $instrument->id], ['parameter_id', $parameter->parameter_id]
                 ])->first();
-                $parameter_statements = InstrumentStatement::where('instrument_parameter_id', $instrument->id)->get();
+                $parameter_statements = InstrumentStatement::where('instrument_parameter_id', $parameter->id)->get();
                 foreach ($parameter_statements as $parameter_statement){
                     $program_statements = ProgramStatement::where('program_parameter_id', $program_parameter->id)->get();
                     foreach ($program_statements as $program_statement){
