@@ -666,6 +666,7 @@ class AppliedProgramController extends Controller
         $program = Program::where('id', $applied_program->program_id)->first();
         if(Str::contains($applied_program->level, 'Level III')) $areas = AreaInstrument::where('intended_program_id', 42)->get();
         elseif(Str::contains($applied_program->level, 'Level IV')) $areas = AreaInstrument::where('intended_program_id', 47)->get();
+        else $areas = null;
         foreach ($areas as $area){
             $area_mandatories = AreaMandatory::where('area_instrument_id', $area->id)->get();
             foreach ($area_mandatories as $area_mandatory) {
