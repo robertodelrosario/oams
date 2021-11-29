@@ -93,14 +93,14 @@ class ReportTemplateController extends Controller
                                         $program_report_template = new ProgramReportTemplate();
                                         $program_report_template->report_template_id = $template->id;
                                         $program_report_template->instrument_program_id = $intrument_program->id;
-                                        $success = $program_report_template->save();
+                                        $success_1 = $program_report_template->save();
                                     }
                                 }
                             }
                         }
                     }
                 }
-                if($success) return response()->json(['status' => true, 'message'=>"Successfully added template."]);
+                if($success_1) return response()->json(['status' => true, 'message'=>"Successfully added template."]);
                 else return response()->json(['status' => false, 'message'=>"error"]);
             }
         }
