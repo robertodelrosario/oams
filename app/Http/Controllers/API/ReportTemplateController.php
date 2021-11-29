@@ -52,7 +52,6 @@ class ReportTemplateController extends Controller
         ]);
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file types are .doc,.pdf, and .docx']);
 
-        $success_1 = false;
         if ($request->hasfile('file')) {
             $template = ReportTemplate::where([
                 ['campus_id', $id],['template_name',$request->template_name]
@@ -67,7 +66,6 @@ class ReportTemplateController extends Controller
             $template->link = $filePath;
             $success = $template->save();
             $programs = Program::where('campus_id', $id)->get();
-            $collection = new Collection();
             if($success){
                 foreach ($request->tags as $tag){
                     $template_tag = new TemplateTag();
@@ -96,17 +94,14 @@ class ReportTemplateController extends Controller
                                         $program_report_template->report_template_id = $template->id;
                                         $program_report_template->instrument_program_id = $intrument_program->id;
                                         $success_1 = $program_report_template->save();
-                                        $collection->push([
-                                            'template_id' => $template->id,
-                                            'instrument_program_id'=> $intrument_program->id
-                                        ]);
                                     }
+                                    else $success_1 = false;
                                 }
                             }
                         }
                     }
                 }
-                if($success_1) return response()->json(['status' => true, 'message'=>"Successfully added template.", 'template' => $collection, 'programs' => $programs]);
+                if($success_1) return response()->json(['status' => true, 'message'=>"Successfully added template."]);
                 else return response()->json(['status' => false, 'message'=>"error"]);
             }
         }
