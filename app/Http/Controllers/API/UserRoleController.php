@@ -149,4 +149,9 @@ class UserRoleController extends Controller
         ])->get();
         foreach ($roles as $role) $role->delete();
     }
+
+    public function deleteUserRole($id){
+        $role = UserRole::where('id', $id)->first();
+        $role->delete();
+    }
 }
