@@ -82,7 +82,7 @@ class ReportTemplateController extends Controller
                             $intrument_programs = InstrumentProgram::where('program_id', $program->id)->get();
                             foreach ($intrument_programs as $intrument_program) {
                                 $area = AreaInstrument::where('id', $intrument_program->area_instrument_id)->first();
-                                if (Str::contains($level, 'Level III')) $core = 'LEVEL III -' . ' ' . $area->area_name;
+                                if ($level == 'Level III') $core = 'LEVEL III -' . ' ' . $area->area_name;
                                 elseif (Str::contains($level, 'Level IV')) $core = 'LEVEL IV -' . ' ' . $area->area_name;
                                 else $core = $area->area_name;
                                 if ($core == $tag) {
