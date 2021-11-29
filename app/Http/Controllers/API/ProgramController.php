@@ -354,7 +354,10 @@ class ProgramController extends Controller
                     $program_statements = ProgramStatement::where('program_parameter_id', $program_parameter->id)->get();
                     foreach ($program_statements as $program_statement){
                         if($parameter_statement->benchmark_statement_id == $program_statement->benchmark_statement_id){
-                            $program_statements->parent_statement_id = $parameter_statement->parent_statement_id;
+                            $statement = ProgramStatement::where([
+                                ['program_parameter_id', $program_parameter->id], ['benchmark_statement_id', $program_statement->benchmark_statement_id]
+                                ])->first();
+                            $statement->parent_statement_id = $parameter_statement->parent_statement_id;
                             $success = $program_statements->save();
                             if ($success) continue;
                             else return response()->json(['status' => false, 'message' => 'error']);
