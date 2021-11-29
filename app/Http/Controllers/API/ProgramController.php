@@ -253,8 +253,6 @@ class ProgramController extends Controller
                         $parameter = ParameterProgram::where([
                             ['program_instrument_id', $instrumentProgram->id], ['parameter_id', $instrumentParameter->parameter_id]
                         ])->first();
-
-
                         if(is_null($parameter)){
                             $parameter = new ParameterProgram();
                             $parameter->program_instrument_id = $instrumentProgram->id;
@@ -265,7 +263,6 @@ class ProgramController extends Controller
                         $statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParameter->id)->get();
                         if(count($statements) != 0){
                             foreach ($statements as $statement){
-
                                 $programStatement = ProgramStatement::where([
                                     ['program_parameter_id', $parameter->id], ['benchmark_statement_id', $statement->benchmark_statement_id]
                                 ])->first();
@@ -342,5 +339,31 @@ class ProgramController extends Controller
         if($type == 0) $program->type = 'Undergraduate';
         else $program->type = 'Graduate';
         $program->save();
+    }
+
+    public function updateSelectedInstrument($programID){
+        $instruments = InstrumentProgram::where('program_id', $programID)->get();
+        foreach ($instruments as $instrument){
+            $instrument_parameters = InstrumentParameter::where('area_instrument_id', $instrument->area_instrument_id)->get();
+            foreach ($instrument_parameters as $parameter){
+                $program_parameter = ParameterProgram::where([
+                    ['program_instrument_id', $instrument->id], ['parameter_id', $parameter->parameter_id]
+                ])->first();
+                $parameter_statements = InstrumentStatement::where('instrument_parameter_id', $instrument->id)->get();
+                foreach ($parameter_statements as $parameter_statement){
+                    $program_statements = ProgramStatement::where('program_parameter_id', $program_parameter->id)->get();
+                    foreach ($program_statements as $program_statement){
+                        if($parameter_statement->benchmark_statement_id == $program_statement->benchmark_statement_id){
+                            $program_statements->parent_statement_id = $parameter_statement->parent_statement_id;
+                            $success = $program_statements->save();
+                            if ($success) continue;
+                            else return response()->json(['status' => false, 'message' => 'error']);
+                        }
+                    }
+                }
+
+            }
+        }
+        return response()->json(['status' => true, 'message' => 'Successfully updated instrument!']);
     }
 }

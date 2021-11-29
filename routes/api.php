@@ -260,6 +260,7 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::get('/showInstrumentTag/{id}', 'InstrumentController@showInstrumentTag');
 
     Route::put('/changeParent/{parameterID}/{statementID}/{parentID}', 'StatementController@changeParent');
+    Route::put('/updateSelectedInstrument/{program_id}', 'ProgramController@updateSelectedInstrument');
 });
 
 Route::group(['prefix' => '/notification'], function() {
