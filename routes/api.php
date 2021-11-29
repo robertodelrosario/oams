@@ -276,6 +276,7 @@ Route::group(['prefix' => '/report'], function() {
     Route::get('/viewSFR/{programID}/{instrumentID}/{role}', 'ReportController@viewSFR');
     Route::get('/generateAccreditorReport/{id}', 'ReportController@generateAccreditorReport');
     Route::get('/generateAccreditorAreaReport/{id}/{instrument_id}', 'ReportController@generateAccreditorAreaReport');
+    Route::get('/downloadOBE/{id}/{instrument_id}', 'ReportController@downloadOBE');
 
     Route::get('/showTagOption', 'ReportTemplateController@showTagOption');
     Route::post('/addTemplate/{id}', 'ReportTemplateController@addTemplate');
