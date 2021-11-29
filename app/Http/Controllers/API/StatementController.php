@@ -320,4 +320,14 @@ class StatementController extends Controller
     public function showAllStatement(){
         return response()->json(BenchmarkStatement::all());
     }
+
+    public function changeParent($parameterID, $statementID, $parentID){
+        $statement = InstrumentStatement::where([
+            ['instrument_parameter_id',$parameterID ], ['benchmark_statement_id', $statementID]
+        ])->first();
+        $statement->parent_statement_id = $parentID;
+        $success = $statement->save();
+        if($success) return response()->json(['status' => true, 'message' => 'success']);
+        else return response()->json(['status' => false, 'message' => 'unsuccessful']);
+    }
 }

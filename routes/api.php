@@ -258,6 +258,8 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::post('/addInstrumentTag/{id}', 'InstrumentController@addInstrumentTag');
     Route::delete('/removeInstrumentTag/{id}', 'InstrumentController@removeInstrumentTag');
     Route::get('/showInstrumentTag/{id}', 'InstrumentController@showInstrumentTag');
+
+    Route::post('/changeParent/{parameterID}/{statementID}/{parentID}', 'StatementController@changeParent');
 });
 
 Route::group(['prefix' => '/notification'], function() {
