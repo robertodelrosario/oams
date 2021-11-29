@@ -167,7 +167,7 @@ class ReportTemplateController extends Controller
                                 if (Str::contains($level, 'Level III')) $core = 'LEVEL III -' . ' ' . $area->area_name;
                                 elseif (Str::contains($level, 'Level IV')) $core = 'LEVEL IV -' . ' ' . $area->area_name;
                                 else $core = $area->area_name;
-                                if ($core == $tag) {
+                                if (Str::contains($core, $tag)) {
                                     $program_report_template = ProgramReportTemplate::where([
                                         ['report_template_id', $template->id], ['instrument_program_id', $intrument_program->id]
                                     ])->first();
