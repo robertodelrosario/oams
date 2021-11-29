@@ -598,7 +598,6 @@ class AuthController extends Controller
 
     public function showLocalAccreditor($id){
         $campuses = Campus::where('suc_id', $id)->get();
-        echo $campuses;
 //        $accreditor_array = array();
 //        $specializations = array();
 //        $degrees_arr = array();
