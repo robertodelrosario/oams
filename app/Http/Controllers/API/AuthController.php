@@ -600,7 +600,7 @@ class AuthController extends Controller
         $campuses = Campus::where('suc_id', $id)->get();
         $accreditor_list = new Collection();
         foreach ($campuses as $campus){
-            $accreditors = AccreditorProfile::where('campus_id', $campus->id)->get();
+            $accreditors = AccreditorProfile::where('campus_id', $campus->campus_id)->get();
             foreach ($accreditors as $accreditor){
                 $user = User::where('id', $accreditor->user_id)->first();
                 if(!($accreditor_list->contains('user_id', $user->id))){
