@@ -598,9 +598,13 @@ class AuthController extends Controller
 
     public function showLocalAccreditor($id){
         $campuses = Campus::where('suc_id', $id)->get();
+//        $accreditor_array = array();
+//        $specializations = array();
+//        $degrees_arr = array();
         $accreditor_list = new Collection();
         foreach ($campuses as $campus){
-            $accreditors = AccreditorProfile::where('campus_id', $campus->campus_id)->get();
+            $accreditors = AccreditorProfile::where('campus_id', $campus->id)->get();
+            echo $accreditors;
             foreach ($accreditors as $accreditor){
                 $user = User::where('id', $accreditor->user_id)->first();
                 if(!($accreditor_list->contains('user_id', $user->id))){
@@ -620,6 +624,27 @@ class AuthController extends Controller
                     ]);
                 }
             }
+//            $accreditors = DB::table('users_roles')
+//                ->join('users', 'users.id', '=', 'users_roles.user_id')
+//                ->join('accreditors_profiles', 'accreditors_profiles.user_id', '=', 'users.id')
+//                ->join('roles', 'roles.id', '=', 'users_roles.role_id')
+//                ->join('campuses', 'campuses.id', '=','accreditors_profiles.campus_id' )
+//                ->where('users_roles.role_id', 8)
+//                ->where('accreditors_profiles.campus_id', $campus->id)
+//                ->get();
+//            foreach ($accreditors as $accreditor){
+//                $accreditor_array = Arr::prepend($accreditor_array,$accreditor);
+//
+//                $specials = AccreditorSpecialization::where('accreditor_id', $accreditor->user_id)->get();
+//                foreach ($specials as $special){
+//                    $specializations = Arr::prepend($specializations, $special);
+//                }
+//
+//                $degrees = AccreditorDegree::where('user_id', $accreditor->user_id)->get();
+//                foreach ($degrees as $degree){
+//                    $degrees_arr = Arr::prepend($degrees_arr, $degree);
+//                }
+//            }
         }
         return response()->json(['users' => $accreditor_list]);
     }
