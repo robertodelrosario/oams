@@ -369,4 +369,30 @@ class ProgramController extends Controller
         }
         return response()->json(['status' => true, 'message' => 'Successfully updated instrument!']);
     }
+
+    public function updateSelectedStatement($id, $instrumentParameterID){
+        $parameter = ParameterProgram::where('id', $id)->first();
+        $program_statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+        $instrument_statements = InstrumentStatement::where('instrument_parameter_id', $instrumentParameterID)->get();
+        foreach ($instrument_statements as $instrument_statement){
+            $check = ProgramStatement::where([
+                ['program_parameter_id', $id], ['benchmark_statement_id', $instrument_statement->benchmark_statement_id]
+            ])->first();
+            if(is_null($check)){
+                $new_statement = new ProgramStatement();
+                $new_statement->program_parameter_id = $id;
+                $new_statement->benchmark_statement_id = $instrument_statement->benchmark_statement_id;
+                $new_statement->parent_statement_id = $instrument_statement->parent_statement_id;
+                $new_statement->save();
+            }
+        }
+        foreach ($program_statements as $program_statement){
+            $check = InstrumentStatement::where([
+                ['instrument_parameter_id', $instrumentParameterID], ['benchmark_statement_id', $program_statement->benchmark_statement_id]
+            ])->first();
+            if(is_null($check)){
+                $program_statement->delete();
+            }
+        }
+    }
 }
