@@ -266,9 +266,10 @@ class AppliedProgramController extends Controller
                     }
                 }
                 $applicationProgram->area = $area;
-                $applicationProgram->save();
+                $success = $applicationProgram->save();
             }
-            return response()->json(['status' => true, 'message' => 'Successfully added files!']);
+            if($success) return response()->json(['status' => true, 'message' => 'Successfully added files!']);
+            else return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
         }
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
     }

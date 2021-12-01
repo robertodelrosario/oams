@@ -320,7 +320,6 @@ class ApplicationController extends Controller
         ]);
         if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file types are .doc,.pdf,.docx, and .zip']);
 
-        $success = false;
         if ($request->hasfile('filename')) {
             foreach ($files = $request->file('filename') as $file) {
                 $application = new ApplicationFile();
@@ -329,11 +328,10 @@ class ApplicationController extends Controller
                 $application->file_title = $fileName;
                 $application->file = $filePath;
                 $application->application_id = $id;
-                $success = $application->save();
+                $application->save();
 
             }
-            if($success) return response()->json(['status' => true, 'message' => 'Successfully added files!', 'file' => $application]);
-            else return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
+            return response()->json(['status' => true, 'message' => 'Successfully added files!']);
         }
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
     }
