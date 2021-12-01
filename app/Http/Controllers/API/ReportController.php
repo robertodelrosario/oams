@@ -982,6 +982,9 @@ class ReportController extends Controller
                 $system_input = 0;
                 $implementation = 0;
                 $outcome = 0;
+                $system_input_count = 0;
+                $implementation_count = 0;
+                $outcome_count = 0;
                 $user = User::where('id', $assigned_user->user_id)->first();
                 foreach ($statements_collection as $sc){
                     if($parameter['parameter_id'] == $sc['parameter_id']){
@@ -990,12 +993,15 @@ class ReportController extends Controller
                                 if($score['id'] == $user->id){
                                     if($sc['type'] == 'System Input'){
                                         $system_input += $score['score'];
+                                        $system_input_count++;
                                     }
                                     elseif ($sc['type'] == 'Implementation'){
                                         $implementation += $score['score'];
+                                        $implementation_count++;
                                     }
                                     else{
                                         $outcome += $score['score'];
+                                        $outcome_count++;
                                     }
                                 }
                             }
@@ -1004,15 +1010,15 @@ class ReportController extends Controller
                 }
                 $system_input_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $system_input
+                    'score' => $system_input/$system_input_count
                 ]);
                 $implementation_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $system_input
+                    'score' => $system_input/$implementation_count
                 ]);
                 $outcome_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $system_input
+                    'score' => $system_input/$outcome_count
                 ]);
                 $parameter_mean = ParameterMean::where([
                     ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
