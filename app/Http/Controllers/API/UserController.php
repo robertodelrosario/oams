@@ -80,12 +80,14 @@ class UserController extends Controller
     public function showInstrument($id, $app_prog){
         $check = ApplicationProgram::where('id', $app_prog)->first();
         $program = Program::where('id', $check->program_id)->first();
-        $date = Carbon::today();
-
+        $date = Carbon::now();
         $area = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->first();
 
+        echo $date;
+        echo $check->approved_start_date;
+        echo $check->approved_end_date;
         if(Str::contains($area->role, 'external accreditor')){
             if ($check->approved_start_date == null || $check->approved_end_date == null){
                 return response()->json(['message'=>'Accreditation for program is not yet approved']);
