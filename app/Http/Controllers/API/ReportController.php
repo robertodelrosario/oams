@@ -890,23 +890,6 @@ class ReportController extends Controller
         }
         $parameters = $parameter_collection->sortBy('parameter');
         foreach($parameters as $parameter){
-            $param_mean_collection = new Collection();
-            foreach ($assigned_users as $assigned_user){
-                $parameter_mean = ParameterMean::where([
-                    ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
-                ])->first();
-                $user = User::where('id', $assigned_user->user_id)->first();
-                $param_mean_collection->push([
-                    'last_name' => $user->last_name,
-                    'parameter_mean' => $parameter_mean->parameter_mean
-                ]);
-            }
-            $sorted_parameter->push([
-                'id' => $parameter['id'],
-                'parameter_id' => $parameter['parameter_id'],
-                'parameter' => $parameter['parameter'],
-                'parameter_mean' => $param_mean_collection
-            ]);
             $collection_statements = new Collection();
             $statements = ProgramStatement::where('program_parameter_id', $parameter['id'])->get();
             foreach ($statements as $statement){
@@ -969,7 +952,9 @@ class ReportController extends Controller
                     $statement_score = InstrumentScore::where([
                         ['item_id', $s['id']], ['assigned_user_id', $assigned_user->id]
                     ])->first();
+
                     $item_scores->push([
+                        'id' => $user->id,
                         'last_name' => $user->last_name,
                         'score' => $statement_score->item_score
                     ]);
@@ -986,6 +971,66 @@ class ReportController extends Controller
                     'score' => $item_scores
                 ]);
             }
+        }
+
+        foreach ($parameters as $parameter){
+            $system_input_collection = new Collection();
+            $implementation_collection = new Collection();
+            $outcome_collection = new Collection();
+            $param_mean_collection = new Collection();
+            foreach ($assigned_users as $assigned_user){
+                $system_input = 0;
+                $implementation = 0;
+                $outcome = 0;
+                $user = User::where('id', $assigned_user->user_id)->first();
+                foreach ($statements_collection as $sc){
+                    if($parameter['id'] == $sc['id']){
+                        if($sc['parent_statement_id'] == null){
+                            foreach ($sc['score'] as $score){
+                                if($score['id'] == $user->id){
+                                    if($sc['type'] == 'System Input'){
+                                        $system_input += $score['score'];
+                                    }
+                                    elseif ($sc['type'] == 'Implementation'){
+                                        $implementation += $score['score'];
+                                    }
+                                    else{
+                                        $outcome += $score['score'];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $system_input_collection->push([
+                    'last_name' =>  $user->last_name,
+                    'score' => $system_input
+                ]);
+                $implementation_collection->push([
+                    'last_name' =>  $user->last_name,
+                    'score' => $system_input
+                ]);
+                $outcome_collection->push([
+                    'last_name' =>  $user->last_name,
+                    'score' => $system_input
+                ]);
+                $parameter_mean = ParameterMean::where([
+                    ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
+                ])->first();
+                $param_mean_collection->push([
+                    'last_name' => $user->last_name,
+                    'parameter_mean' => $parameter_mean->parameter_mean
+                ]);
+            }
+            $sorted_parameter->push([
+                'id' => $parameter['id'],
+                'parameter_id' => $parameter['parameter_id'],
+                'parameter' => $parameter['parameter'],
+                'parameter_mean' => $param_mean_collection,
+                'system_input' => $system_input_collection,
+                'implementation' => $implementation_collection,
+                'outcome' => $outcome_collection
+            ]);
         }
         return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter]);
 //        set_time_limit(300);
