@@ -984,7 +984,7 @@ class ReportController extends Controller
                 $outcome = 0;
                 $user = User::where('id', $assigned_user->user_id)->first();
                 foreach ($statements_collection as $sc){
-                    if($parameter['id'] == $sc['id']){
+                    if($parameter['parameter_id'] == $sc['parameter_id']){
                         if($sc['parent_statement_id'] == null){
                             foreach ($sc['score'] as $score){
                                 if($score['id'] == $user->id){
