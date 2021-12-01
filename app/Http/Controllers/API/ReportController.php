@@ -878,6 +878,7 @@ class ReportController extends Controller
         $collection_id = new Collection();
         $statements_collection = new Collection();
         $parameter_collection = new Collection();
+        $param = new Collection();
         foreach ($parameters as $parameter){
             $param = Parameter::where('id', $parameter->parameter_id)->first();
             $parameter_collection->push([
@@ -888,6 +889,11 @@ class ReportController extends Controller
         }
         $parameters = $parameter_collection->sortBy('parameter');
         foreach($parameters as $parameter){
+            $parameter_collection->push([
+                'id' => $parameter['id'],
+                'parameter_id' => $parameter['parameter_id'],
+                'parameter' => $parameter['parameter']
+            ]);
             $collection_statements = new Collection();
             $statements = ProgramStatement::where('program_parameter_id', $parameter['id'])->get();
             foreach ($statements as $statement){
