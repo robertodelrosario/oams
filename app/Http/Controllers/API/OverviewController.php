@@ -27,14 +27,14 @@ class OverviewController extends Controller
         if($role == 0)  //internal accreditor
         {
             $areas = AssignedUser::where([
-                ['app_program_id', $app_prog], ['role', 'like', 'internal accreditor%']
+                ['app_program_id', $app_prog], ['role', 'like', '%internal accreditor%']
             ])->get();
         }
         else{       //external accreditor
             $areas = array();
             $areas_list = AssignedUser::where('app_program_id', $app_prog)->get();
             foreach ($areas_list as $area_list){
-                if(Str::contains($area_list->role, 'external accreditor')){
+                if(Str::contains($area_list->role, '%external accreditor%')){
                     $areas = Arr::prepend($areas, $area_list);
                 }
             }
