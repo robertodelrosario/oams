@@ -407,7 +407,7 @@ class ProgramController extends Controller
         ])->get();
         echo $assigned_users;
         foreach ($assigned_users as $assigned_user) {
-            $check_area_mean = AreaMean::where('instrument_program_id', $id)->first();
+            $check_area_mean = AreaMean::where(['instrument_program_id', $id],['assigned_user_id', $assigned_user->id])->first();
             echo $check_area_mean;
             if(is_null($check_area_mean)){
                 $area_mean = new AreaMean();
