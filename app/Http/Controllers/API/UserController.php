@@ -85,10 +85,7 @@ class UserController extends Controller
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->first();
 
-        echo $date;
-        echo $date->toDateString();
-        echo $check->approved_start_date;
-        echo $check->approved_end_date;
+        $date = $date->toDateString();
         if(Str::contains($area->role, 'external accreditor')){
             if ($check->approved_start_date == null || $check->approved_end_date == null){
                 return response()->json(['message'=>'Accreditation for program is not yet approved']);
