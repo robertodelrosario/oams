@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\InstrumentProgram;
 use App\InstrumentScore;
 use App\Parameter;
+use App\ParameterMean;
 use App\ParameterProgram;
 use App\Program;
 use App\ProgramStatement;
@@ -889,10 +890,22 @@ class ReportController extends Controller
         }
         $parameters = $parameter_collection->sortBy('parameter');
         foreach($parameters as $parameter){
+            $param_mean_collection = new Collection();
+            foreach ($assigned_users as $assigned_user){
+                $parameter_mean = ParameterMean::where([
+                    ['program_parameter_id', $parameter->id], ['assigned_user_id', $assigned_user->id]
+                ])->first();
+                $user = User::where('id', $assigned_user->user_id)->first();
+                $param_mean_collection->push([
+                    'last_name' => $user->last_name,
+                    'parameter_mean' => $parameter_mean->parameter_mean
+                ]);
+            }
             $sorted_parameter->push([
                 'id' => $parameter['id'],
                 'parameter_id' => $parameter['parameter_id'],
-                'parameter' => $parameter['parameter']
+                'parameter' => $parameter['parameter'],
+                'parameter_mean' => $param_mean_collection
             ]);
             $collection_statements = new Collection();
             $statements = ProgramStatement::where('program_parameter_id', $parameter['id'])->get();
