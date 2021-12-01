@@ -404,15 +404,16 @@ class ProgramController extends Controller
         $assigned_users = AssignedUser::where([
             ['transaction_id', $id], ['role','like','%accreditor%']
         ])->get();
+        echo $assigned_users;
         foreach ($assigned_users as $assigned_user) {
             foreach ($parameters as $parameter) {
                 $program_statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
                 $check_parameter = ParameterMean::where([
                     ['program_parameter_id', $parameter->id], ['assigned_user_id',$assigned_user->id]
                 ])->first();
-                if(Str::contains($assigned_user->role, 'internal accreditor')){
-                    echo $check_parameter;
-                }
+//                if(Str::contains($assigned_user->role, 'internal accreditor')){
+//                    echo $check_parameter;
+//                }
                 if(is_null($check_parameter)){
                     $param = new ParameterMean();
                     $param->program_parameter_id = $parameter->id;
