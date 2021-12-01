@@ -263,6 +263,7 @@ Route::group(['prefix' => '/instrument'], function() {
     Route::put('/changeParent/{parameterID}/{statementID}/{parentID}', 'StatementController@changeParent');
     Route::put('/updateSelectedInstrument/{programID}', 'ProgramController@updateSelectedInstrument');
     Route::put('/updateSelectedStatement/{id}/{instrumentParameterID}', 'ProgramController@updateSelectedStatement');
+    Route::put('/updateSelectedOBE/{id}', 'ProgramController@updateSelectedOBE');
 });
 
 Route::group(['prefix' => '/notification'], function() {

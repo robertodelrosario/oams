@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API;
 use App\ApplicationProgram;
 use App\AreaInstrument;
 use App\AreaMandatory;
+use App\AssignedUser;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
 use App\InstrumentParameter;
 use App\InstrumentProgram;
+use App\InstrumentScore;
 use App\InstrumentStatement;
 use App\Office;
 use App\ParameterProgram;
@@ -392,6 +394,29 @@ class ProgramController extends Controller
             ])->first();
             if(is_null($check)){
                 $program_statement->delete();
+            }
+        }
+    }
+
+    public function updateSelectedOBE($id){
+        $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
+        $assigned_users = AssignedUser::where([
+            ['transaction_id', $id], ['role','like','%accreditor%']
+        ])->get();
+        foreach ($assigned_users as $assigned_user) {
+            foreach ($parameters as $parameter) {
+                $program_statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+                foreach ($program_statements as $program_statement) {
+                    $check = InstrumentScore::where([
+                        ['item_id', $program_statement->id], ['assigned_user_id', $assigned_user->id]
+                    ])->first();
+                    if(is_null($check)){
+                        $item = new InstrumentScore();
+                        $item->item_id = $program_statement->id;
+                        $item->assigned_user_id = $assigned_user->id;
+                        $item->save();
+                    }
+                }
             }
         }
     }

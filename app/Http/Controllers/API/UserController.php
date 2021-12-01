@@ -80,7 +80,7 @@ class UserController extends Controller
     public function showInstrument($id, $app_prog){
         $check = ApplicationProgram::where('id', $app_prog)->first();
         $program = Program::where('id', $check->program_id)->first();
-        $date = new Carbon;
+        $date = Carbon::today();
 
         $area = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]

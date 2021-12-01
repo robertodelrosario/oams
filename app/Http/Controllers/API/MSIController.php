@@ -94,7 +94,6 @@ class MSIController extends Controller
                             'remark_type' => $score->remark_type,
                             'remark_2' => $score->remark_2,
                             'remark_2_type' => $score->remark_2_type,
- //                           'ratings' => $ratings,
                             'year_1' =>  $year_1,
                             'rating_1' => $rating_1,
                             'year_2' =>  $year_2,
