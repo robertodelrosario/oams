@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\ApplicationProgram;
 use App\AreaInstrument;
 use App\AreaMandatory;
+use App\AreaMean;
 use App\AssignedUser;
 use App\BenchmarkStatement;
 use App\Http\Controllers\Controller;
@@ -404,17 +405,20 @@ class ProgramController extends Controller
         $assigned_users = AssignedUser::where([
             ['transaction_id', $id], ['role','like','%accreditor%']
         ])->get();
-        echo $assigned_users;
         foreach ($assigned_users as $assigned_user) {
+            $check_area_mean = AreaMean::where('instrument_program_id', $id)->first();
+            if(is_null($check_area_mean)){
+                $area_mean = new AreaMean();
+                $area_mean->instrument_program_id = $id;
+                $area_mean->assigned_user_id = $assigned_user->id;
+                $area_mean->area_mean = 0;
+                $area_mean->save();
+            }
             foreach ($parameters as $parameter) {
                 $program_statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
                 $check_parameter = ParameterMean::where([
                     ['program_parameter_id', $parameter->id], ['assigned_user_id',$assigned_user->id]
                 ])->first();
-                echo $check_parameter;
-//                if(Str::contains($assigned_user->role, 'internal accreditor')){
-//                    echo $check_parameter;
-//                }
                 if(is_null($check_parameter)){
                     $param = new ParameterMean();
                     $param->program_parameter_id = $parameter->id;
