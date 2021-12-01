@@ -93,7 +93,7 @@ class UserController extends Controller
             else if($check->approved_end_date < $date){
                 return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' has ended last ' .$check->approved_end_date ]);
             }
-            else if($check->approved_start_date >= $date){
+            else if($check->approved_start_date > $date){
                 return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' will start on ' .$check->approved_start_date ]);
             }
         }
