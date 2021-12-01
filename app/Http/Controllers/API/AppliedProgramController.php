@@ -270,7 +270,7 @@ class AppliedProgramController extends Controller
                 $success = $applicationProgram->save();
             }
             if($success) return response()->json(['status' => true, 'message' => 'Successfully added files!']);
-            else return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!', 'filePath' => $filePath, 'fileTitle' => $fileName, 'area_number' $request->area_number]);
+            else return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!', 'filePath' => $filePath, 'fileTitle' => $fileName, 'area_number' => $request->area_number]);
         }
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
     }
