@@ -39,7 +39,7 @@ class OverviewController extends Controller
                 }
             }
         }
-
+        echo $areas;
         foreach ($areas as $area){
             if(!(in_array($area->transaction_id, $transactions))) $transactions= Arr::prepend($transactions,$area->transaction_id);
         }
