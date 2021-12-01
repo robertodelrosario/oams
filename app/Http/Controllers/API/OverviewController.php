@@ -47,7 +47,8 @@ class OverviewController extends Controller
         $weight = array(0,8,8,8,5,4,5,3,4,5);
         $sar = new Collection();
         foreach ($areas as $area) {
-            $mean_score = AreaMean::where('assigned_user_id', $area->id)->first();
+            $mean_score = AreaMean::where([
+                ['instrument_program_id',$area->transaction_id],['assigned_user_id', $area->id]])->first();
             echo $mean_score;
             {
                 if (!(is_null($mean_score))) {
