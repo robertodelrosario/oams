@@ -54,7 +54,13 @@ class OverviewController extends Controller
                         $instrument = InstrumentProgram::where('id', $area->transaction_id)->first();
                         $area_instrument = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
                         if($area_instrument->area_number == $x+1){
-                            $sar->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number, 'area' => $area_instrument->area_name, 'weight' => $weight[$x], 'area_mean' => round($mean_score->area_mean,2), 'weighted_mean' => round($mean_score->area_mean * $weight[$x],2)]);
+                            $sar->push([
+                                'instrument_program_id' => $instrument->id,
+                                'area_number' => $area_instrument->area_number,
+                                'area' => $area_instrument->area_name,
+                                'weight' => $weight[$x],
+                                'area_mean' => round($mean_score->area_mean,2),
+                                'weighted_mean' => round($mean_score->area_mean * $weight[$x],2)]);
                         }
 
                     }

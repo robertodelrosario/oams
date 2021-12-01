@@ -13,6 +13,7 @@ use App\InstrumentProgram;
 use App\InstrumentScore;
 use App\InstrumentStatement;
 use App\Office;
+use App\ParameterMean;
 use App\ParameterProgram;
 use App\Program;
 use App\ProgramReportTemplate;
@@ -406,6 +407,16 @@ class ProgramController extends Controller
         foreach ($assigned_users as $assigned_user) {
             foreach ($parameters as $parameter) {
                 $program_statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
+                $check_parameter = ParameterMean::where([
+                    ['program_parameter_id', $parameter->id], ['assigned_user_id',$assigned_user->id]
+                ])->first();
+                if(is_null($check_parameter)){
+                    $param = new ParameterMean();
+                    $param->program_parameter_id = $parameter->id;
+                    $param->assigned_user_id = $assigned_user->id;
+                    $param->parameter_mean = 0;
+                    $param->save();
+                }
                 foreach ($program_statements as $program_statement) {
                     $check = InstrumentScore::where([
                         ['item_id', $program_statement->id], ['assigned_user_id', $assigned_user->id]
