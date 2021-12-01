@@ -405,7 +405,6 @@ class ProgramController extends Controller
         $assigned_users = AssignedUser::where([
             ['transaction_id', $id], ['role','like','%accreditor%']
         ])->get();
-        echo $assigned_users;
         foreach ($assigned_users as $assigned_user) {
             $check_area_mean = AreaMean::where([['instrument_program_id', $id],['assigned_user_id', $assigned_user->id]])->first();
             echo $check_area_mean;
@@ -415,7 +414,6 @@ class ProgramController extends Controller
                 $area_mean->assigned_user_id = $assigned_user->id;
                 $area_mean->area_mean = 0;
                 $area_mean->save();
-                echo 'sample';
             }
             foreach ($parameters as $parameter) {
                 $program_statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
