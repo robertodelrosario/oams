@@ -413,6 +413,7 @@ class ProgramController extends Controller
                 $area_mean->assigned_user_id = $assigned_user->id;
                 $area_mean->area_mean = 0;
                 $area_mean->save();
+                echo 'sample';
             }
             foreach ($parameters as $parameter) {
                 $program_statements = ProgramStatement::where('program_parameter_id', $parameter->id)->get();
