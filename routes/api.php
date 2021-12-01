@@ -360,7 +360,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::post('/assignTask/{id}/{app_prog_id}', 'AssignTaskController@assignTask');
     Route::post('/assignAccreditor/{id}', 'AssignTaskController@assignAccreditor');
     Route::put('/updateInternalRole/{id}', 'AssignTaskController@updateInternalRole');
-    Route::delete('/deleteAssignedUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedUser');
+    Route::delete('/deleteAssignedUser/{id}', 'AssignTaskController@deleteAssignedUser');
 
     Route::post('/assignHeadTask/{id}', 'AssignTaskController@assignHeadTask');
     Route::delete('/deleteAssignedHeadUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedHeadUser');
