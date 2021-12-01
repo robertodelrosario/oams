@@ -86,6 +86,7 @@ class UserController extends Controller
         ])->first();
 
         echo $date;
+        echo $date->toDateString();
         echo $check->approved_start_date;
         echo $check->approved_end_date;
         if(Str::contains($area->role, 'external accreditor')){
