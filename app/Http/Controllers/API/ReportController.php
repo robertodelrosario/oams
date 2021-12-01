@@ -1014,11 +1014,11 @@ class ReportController extends Controller
                 ]);
                 $implementation_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $system_input/$implementation_count
+                    'score' => $implementation/$implementation_count
                 ]);
                 $outcome_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $system_input/$outcome_count
+                    'score' => $outcome/$outcome_count
                 ]);
                 $parameter_mean = ParameterMean::where([
                     ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
