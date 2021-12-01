@@ -332,7 +332,7 @@ class ApplicationController extends Controller
                 $success = $application->save();
 
             }
-            if($success) return response()->json(['status' => true, 'message' => 'Successfully added files!']);
+            if($success) return response()->json(['status' => true, 'message' => 'Successfully added files!', 'file' => $application]);
             else return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
         }
         return response()->json(['status' => false, 'message' => 'Unsuccessfully added files!']);
