@@ -411,6 +411,7 @@ class ProgramController extends Controller
                 $check_parameter = ParameterMean::where([
                     ['program_parameter_id', $parameter->id], ['assigned_user_id',$assigned_user->id]
                 ])->first();
+                echo $check_parameter;
 //                if(Str::contains($assigned_user->role, 'internal accreditor')){
 //                    echo $check_parameter;
 //                }
