@@ -862,7 +862,7 @@ class ReportController extends Controller
         $suc = SUC::where('id', $campus->suc_id)->first();
 
         $user_task = AssignedUser::where([
-            ['app_program_id', $id], ['user_id', auth()->user()->id]
+            ['app_program_id', $id], ['user_id', auth()->user()->id], ['transaction_id', $instrument_id]
         ])->first();
         if (Str::contains($user_task->role, 'external accreditor')) $role = 'external accreditor';
         else $role = 'internal accreditor';
