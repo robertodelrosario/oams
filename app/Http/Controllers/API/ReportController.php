@@ -893,7 +893,7 @@ class ReportController extends Controller
             $param_mean_collection = new Collection();
             foreach ($assigned_users as $assigned_user){
                 $parameter_mean = ParameterMean::where([
-                    ['program_parameter_id', $parameter->id], ['assigned_user_id', $assigned_user->id]
+                    ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
                 ])->first();
                 $user = User::where('id', $assigned_user->user_id)->first();
                 $param_mean_collection->push([
