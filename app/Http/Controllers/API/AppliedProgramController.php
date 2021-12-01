@@ -247,6 +247,7 @@ class AppliedProgramController extends Controller
         elseif(Str::contains($applied_program->level, 'Level III'))
             $area_name = array('INSTRUCTION','EXTENSION','RESEARCH','FACULTY','LICENSURE EXAM', 'CONSORTIA OR LINKAGE', 'LIBRARY');
         else $area_name = array('Area I','Area II','Area III','Area IV','Area V','Area VI','Area VII','Area VIII','Area IX','Area X');
+        $success = false;
         if ($request->hasfile('filename')) {
             foreach ($files = $request->file('filename') as $file) {
                 $applicationProgram = new ApplicationProgramFile();
