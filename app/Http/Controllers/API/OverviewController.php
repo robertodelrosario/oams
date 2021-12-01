@@ -43,11 +43,12 @@ class OverviewController extends Controller
         foreach ($areas as $area){
             if(!(in_array($area->transaction_id, $transactions))) $transactions= Arr::prepend($transactions,$area->transaction_id);
         }
-        echo $transactions;
+
         $weight = array(0,8,8,8,5,4,5,3,4,5);
         $sar = new Collection();
         foreach ($areas as $area) {
             $mean_score = AreaMean::where('assigned_user_id', $area->id)->first();
+            echo $mean_score;
             {
                 if (!(is_null($mean_score))) {
                     for ($x = 0; $x < 10; $x++) {
