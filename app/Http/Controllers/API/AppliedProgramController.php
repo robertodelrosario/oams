@@ -602,8 +602,8 @@ class AppliedProgramController extends Controller
         $users = array();
         $program= null;
         foreach ($instrumentPrograms as $instrumentProgram){
-            $assigned_users = DB::table('assigned_users')
-                ->join('users', 'users.id', '=', 'assigned_users.user_id')
+            $assigned_users = DB::table('users')
+                ->join('assigned_users', 'users.id', '=', 'assigned_users.user_id')
                 ->where('assigned_users.transaction_id', $instrumentProgram['id'])
                 ->get();
             foreach($assigned_users as $assigned_user){
