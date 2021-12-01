@@ -253,12 +253,12 @@ class AppliedProgramController extends Controller
                 $applicationProgram = new ApplicationProgramFile();
                 $fileName = $file->getClientOriginalName();
                 $filePath = $file->storeAs('application/files', $fileName);
-                $applicationProgram->file_title = $fileName;
-                $applicationProgram->file = $filePath;
-                $applicationProgram->type = $request->type;
-                $applicationProgram->application_program_id = $id;
-                $applicationProgram->uploader_id = $userID;
-                $applicationProgram->status = 'pending';
+                echo $applicationProgram->file_title = $fileName;
+                echo $applicationProgram->file = $filePath;
+                echo $applicationProgram->type = $request->type;
+                echo $applicationProgram->application_program_id = $id;
+                echo $applicationProgram->uploader_id = $userID;
+                echo $applicationProgram->status = 'pending';
                 $area = null;
                 for($x=0; $x < 10; $x++){
                     if($x+1 == $request->area_number) {
@@ -266,7 +266,7 @@ class AppliedProgramController extends Controller
                         break;
                     }
                 }
-                $applicationProgram->area = $area;
+                echo $applicationProgram->area = $area;
                 $success = $applicationProgram->save();
             }
             if($success) return response()->json(['status' => true, 'message' => 'Successfully added files!']);
