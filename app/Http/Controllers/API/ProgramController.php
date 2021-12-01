@@ -402,7 +402,7 @@ class ProgramController extends Controller
     public function updateSelectedOBE($id){
         $parameters = ParameterProgram::where('program_instrument_id', $id)->get();
         $assigned_users = AssignedUser::where([
-            ['transaction_id', $id], ['role','like','%accreditor%']
+            ['transaction_id', $id], ['role','like','%internal%']
         ])->get();
         echo $assigned_users;
         foreach ($assigned_users as $assigned_user) {
