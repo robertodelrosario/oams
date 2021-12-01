@@ -405,6 +405,7 @@ class ProgramController extends Controller
         $assigned_users = AssignedUser::where([
             ['transaction_id', $id], ['role','like','%accreditor%']
         ])->get();
+        echo $assigned_users;
         foreach ($assigned_users as $assigned_user) {
             $check_area_mean = AreaMean::where('instrument_program_id', $id)->first();
             if(is_null($check_area_mean)){
