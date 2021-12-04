@@ -136,7 +136,7 @@ class ApplicationController extends Controller
                     }
                 }
                 else{
-                    $areas = null;
+                    $areas = [];
                     if(Str::contains($program->level, 'Level III')) {
                         $areas = AreaInstrument::where('intended_program_id', 42)->get();
                         $level = 'LEVEL III -';
