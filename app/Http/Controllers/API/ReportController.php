@@ -1010,15 +1010,15 @@ class ReportController extends Controller
                 }
                 $system_input_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $system_input/$system_input_count
+                    'score' => round($system_input/$system_input_count,2)
                 ]);
                 $implementation_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $implementation/$implementation_count
+                    'score' => round($implementation/$implementation_count,2)
                 ]);
                 $outcome_collection->push([
                     'last_name' =>  $user->last_name,
-                    'score' => $outcome/$outcome_count
+                    'score' => round($outcome/$outcome_count,2)
                 ]);
                 $parameter_mean = ParameterMean::where([
                     ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
@@ -1033,9 +1033,9 @@ class ReportController extends Controller
                 'parameter_id' => $parameter['parameter_id'],
                 'parameter' => $parameter['parameter'],
                 'parameter_mean' => $param_mean_collection,
-                'system_input' => round($system_input_collection,2),
-                'implementation' => round($implementation_collection,2),
-                'outcome' => round($outcome_collection,2)
+                'system_input' => $system_input_collection,
+                'implementation' => $implementation_collection,
+                'outcome' => $outcome_collection
             ]);
         }
         return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter]);
