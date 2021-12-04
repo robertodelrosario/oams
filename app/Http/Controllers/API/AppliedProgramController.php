@@ -607,6 +607,7 @@ class AppliedProgramController extends Controller
             $assigned_users = DB::table('users')
                 ->join('assigned_users', 'users.id', '=', 'assigned_users.user_id')
                 ->where('assigned_users.transaction_id', $instrumentProgram['id'])
+                ->where('assigned_users.status', null)
                 ->get();
             foreach($assigned_users as $assigned_user){
                 if ($assigned_user != null) $users = Arr::prepend($users, $assigned_user);

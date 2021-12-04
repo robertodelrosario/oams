@@ -299,6 +299,17 @@ Route::group(['prefix' => '/report'], function() {
     Route::delete('/removeTemplateTag/{id}', 'ReportTemplateController@removeTemplateTag');
 });
 
+Route::group(['prefix' => '/coordinator'], function() {
+    Route::post('/requestCoordinator/{application_id}/{user_id}', 'AaccupController@requestCoordinator');
+    Route::put('/approvedRequest/{id}', 'ApplicationCoordinatorController@approvedRequest');
+    Route::put('/rejectRequest/{id}', 'ApplicationCoordinatorController@rejectRequest');
+    Route::get('/showMyRequest', 'ApplicationCoordinatorController@showMyRequest');
+    Route::get('/showMyAccreditationApplication', 'ApplicationCoordinatorController@showMyAccreditationApplication');
+    Route::get('/showInstrument/{id}', 'ApplicationCoordinatorController@showInstrument');
+    Route::get('/showAccreditorRequested/{id}', 'ApplicationCoordinatorController@showAccreditorRequested');
+    Route::post('/reassignTask/{id}/{application_program_id}/{instrument_id}', 'AaccupController@reassignTask');
+});
+
 Route::group(['prefix' => '/application'], function() {
     Route::post('/createApplication/{sucID}/{userID}', 'ApplicationController@createApplication');
     Route::put('/editApplication/{id}', 'ApplicationController@editApplication');
@@ -395,6 +406,5 @@ Route::group(['prefix' => '/application'], function() {
 //    Route::get('/showCriteriaInstrument/{id}', 'CriteriaForm@showCriteriaInstrument');
 //    Route::post('/addInstrument/{id}/{program_id}', 'CriteriaForm@addInstrument');
 //    Route::delete('/removeInstrument/{id}', 'CriteriaForm@removeInstrument');
-
 });
 

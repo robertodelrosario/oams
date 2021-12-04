@@ -50,9 +50,9 @@ class DocumentController extends Controller
         if($request->type == 'file'){
             $validator = Validator::make($request->all(), [
                 'documents' => 'required',
-                'documents.*' => 'max:100000'
+                'documents.*' => 'max:100000 | mimes:pdf,png,jpg'
             ]);
-            if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file size is below or equal to 100mb.']);
+            if ($validator->fails()) return response()->json(['status' => false, 'message' => 'Acceptable file size is below or equal to 100mb and file type: pdf,png,jpg']);
 
             if ($request->hasfile('documents')) {
                 foreach ($files = $request->file('documents') as $file) {

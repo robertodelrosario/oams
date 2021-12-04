@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\AccreditorRequest;
 use App\Application;
+use App\ApplicationCoordinator;
 use App\ApplicationFile;
 use App\ApplicationProgram;
 use App\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ use App\RequiredRating;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -66,7 +68,21 @@ class AaccupController extends Controller
                 if ($user != null) $users = Arr::prepend($users, $user);
         }
 
-        return response()->json(['programs' =>$programs, 'users' => $users]);
+        $coordinators = new Collection();
+        $application_coordinators = ApplicationCoordinator::where('application_id', $id)->get();
+        foreach ($application_coordinators as $application_coordinator){
+            $user = User::where('id', $application_coordinator->user_id)->first();
+            $coordinators->push([
+                'id' => $application_coordinator->id,
+                'user_id' => $application_coordinator->user_id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'status' => $application_coordinator->status,
+                'date_requested' => $application_coordinator->created_at,
+                'date_updated' => $application_coordinator->updated_at
+            ]);
+        }
+        return response()->json(['programs' =>$programs, 'users' => $users, 'coordinators' => $coordinators]);
     }
 
     public function request(request $request,$userID,$id){
@@ -352,4 +368,17 @@ class AaccupController extends Controller
         return response()->json($required_rating);
     }
 
+    public function requestCoordinator($application_id, $user_id){
+        $check = ApplicationCoordinator::where('application_id', $application_id)->first();
+        if(is_null($check)){
+            $coordinator = new ApplicationCoordinator();
+            $coordinator->application_id = $application_id;
+            $coordinator->user_id = $user_id;
+            $coordinator->status = "pending";
+            $success = $coordinator->save();
+            if($success) return response()->json(['status' => true, 'message' => 'Successfully requested coordinator.']);
+            else return response()->json(['status' => false, 'message' => 'unsuccessfully requested coordinator.']);
+        }
+        else return response()->json(['status' => false, 'message' => 'Already requested coordinator']);
+    }
 }
