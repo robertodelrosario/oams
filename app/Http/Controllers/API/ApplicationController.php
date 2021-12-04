@@ -236,6 +236,7 @@ class ApplicationController extends Controller
         }
 
         if (is_null($messages)){
+            $application->title = $application->title;
             $application->status = 'pending';
             $application->save();
             return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
