@@ -128,7 +128,7 @@ class ApplicationCoordinatorController extends Controller
                 'type' => $type
             ]);
             $assigned_users = AssignedUser::where([
-                ['transaction_id', $instrument->id], ['app_program_id', $applied_program_id], ['role', 'like', '%external accreditor%']
+                ['transaction_id', $instrument->id], ['app_program_id', $id], ['role', 'like', '%external accreditor%']
             ])->get();
             foreach ($assigned_users as $assigned_user){
                 $user = User::where('id', $assigned_user->user_id)->first();
