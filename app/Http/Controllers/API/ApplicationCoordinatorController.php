@@ -134,6 +134,7 @@ class ApplicationCoordinatorController extends Controller
                 $user = User::where('id', $assigned_user->user_id)->first();
                 $users->push([
                     'id' => $assigned_user->id,
+                    'instrument_id' => $instrument->id,
                     'user_id' => $assigned_user->user_id,
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
