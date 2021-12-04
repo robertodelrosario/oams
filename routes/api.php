@@ -143,6 +143,12 @@ Route::group(['prefix' => '/task'], function() {
     Route::get('/showCollegeCoordinator/{id}', 'TaskForceController@showCollegeCoordinator');
 });
 
+Route::group(['prefix' => '/role'], function() {
+    Route::post('/createRole', 'RoleController@createRole');
+    Route::put('/editRole/{id}', 'RoleController@editRole');
+    Route::post('/deleteRole/{id}', 'RoleController@deleteRole');
+});
+
 Route::group(['prefix' => '/ppp'], function() {
     Route::post('/addPPPStatement/{id}', 'PPPController@addPPPStatement');
     Route::put('/editPPPStatement/{id}', 'PPPController@editPPPStatement');
