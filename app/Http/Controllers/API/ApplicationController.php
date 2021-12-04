@@ -214,6 +214,7 @@ class ApplicationController extends Controller
 
     public function submitApplication($id, $sucID){
         $application = Application::where('id', $id)->first();
+        echo $application;
         $files = ApplicationFile::where('application_id', $application->id)->first();
 
         $messages = null;
@@ -236,7 +237,6 @@ class ApplicationController extends Controller
         }
 
         if (is_null($messages)){
-            $application->title = $application->title;
             $application->status = 'pending';
             $application->save();
             return response()->json(['status' => true, 'message' => 'Successful', 'application' => $application]);
