@@ -1033,9 +1033,9 @@ class ReportController extends Controller
                 'parameter_id' => $parameter['parameter_id'],
                 'parameter' => $parameter['parameter'],
                 'parameter_mean' => $param_mean_collection,
-                'system_input' => round_to_2dp($system_input_collection),
-                'implementation' => round_to_2dp($implementation_collection),
-                'outcome' => round_to_2dp($outcome_collection)
+                'system_input' => round($system_input_collection,2),
+                'implementation' => round($implementation_collection,2),
+                'outcome' => round($outcome_collection,2)
             ]);
         }
         return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter]);
