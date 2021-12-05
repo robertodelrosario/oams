@@ -93,8 +93,7 @@
             </td>
         </tr>
     </table>
-    <div style="page-break-after: always"></div>
-    <table class="table table-bordered" >
+    <table class="table table-bordered" style="text-align: center; font-size: 12px; width: 80%">
         <thead>
             <tr>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 70%">Indicators</th>
