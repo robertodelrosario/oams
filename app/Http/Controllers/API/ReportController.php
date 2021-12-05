@@ -1040,7 +1040,7 @@ class ReportController extends Controller
                 'outcome' => $outcome_collection
             ]);
         }
-//        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list]);
+        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list, 'statemenrs' => $collection_statements]);
         set_time_limit(300);
         $pdf = PDF::loadView('download_OBE', ['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list, 'instrument' => $area_instrument]);
         return $pdf->download($program->program_name .'_OBE.pdf');
