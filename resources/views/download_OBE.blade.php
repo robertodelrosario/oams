@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div class="container" style="margin: 0">
+<div class="container" style="margin-right: 0;margin-left: 0;width: 100%">
     <h4 style="text-align: center">{{ $instrument['area_name'] }}</h4>
     <table class="table table-bordered" >
         <tr>
