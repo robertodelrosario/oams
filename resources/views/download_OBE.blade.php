@@ -11,9 +11,9 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" style="margin: 0">
     <h4 style="text-align: center">{{ $instrument['area_name'] }}</h4>
-    <table class="table table-bordered" style="margin-left: 10%; margin-right: 10%;">
+    <table class="table table-bordered" >
         <tr>
             <td class="small" colspan="7" style="text-align: center;font-weight: bold; font-size: 10px">RATING SCALE</td>
         </tr>
