@@ -946,10 +946,11 @@ class ReportController extends Controller
                     }
                 }
             }
-            $sorted = new Collection();
-            foreach ($collection_statements as $collection_statement){
+            $sorted = $collection_statements->sortBy('benchmark_statement');
+            $sorted_statements = new Collection();
+            foreach ($sorted as $collection_statement){
                 if($collection_statement['type'] == 'System Input'){
-                    $sorted->push([
+                    $sorted_statements->push([
                         'id' => $collection_statement['id'],
                         'parameter_id' => $collection_statement['parameter_id'],
                         'instrument_parameter_id' => $collection_statement['instrument_parameter_id'],
@@ -961,9 +962,9 @@ class ReportController extends Controller
                     ]);
                 }
             }
-            foreach ($collection_statements as $collection_statement){
+            foreach ($sorted as $collection_statement){
                 if($collection_statement['type'] == 'Implementation'){
-                    $sorted->push([
+                    $sorted_statements->push([
                         'id' => $collection_statement['id'],
                         'parameter_id' => $collection_statement['parameter_id'],
                         'instrument_parameter_id' => $collection_statement['instrument_parameter_id'],
@@ -975,9 +976,9 @@ class ReportController extends Controller
                     ]);
                 }
             }
-            foreach ($collection_statements as $collection_statement){
+            foreach ($sorted as $collection_statement){
                 if($collection_statement['type'] == 'Outcome'){
-                    $sorted->push([
+                    $sorted_statements->push([
                         'id' => $collection_statement['id'],
                         'parameter_id' => $collection_statement['parameter_id'],
                         'instrument_parameter_id' => $collection_statement['instrument_parameter_id'],
@@ -989,8 +990,7 @@ class ReportController extends Controller
                     ]);
                 }
             }
-//            $sorted = $collection_statements->sortBy('benchmark_statement');
-            foreach ($sorted as $s){
+            foreach ($sorted_statements as $s){
                 $item_scores = new Collection();
                 foreach ($assigned_users as $assigned_user){
                     $user = User::where('id', $assigned_user->user_id)->first();
