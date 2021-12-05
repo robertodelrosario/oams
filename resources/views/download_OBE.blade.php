@@ -93,6 +93,17 @@
             </td>
         </tr>
     </table>
+    <div style="page-break-after: always"></div>
+    <table class="table table-bordered" >
+        <thead>
+            <tr>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 60%">Indicators</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;writing-mode: vertical-rl">Item Rating (IR)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;writing-mode: vertical-rl">System-Implementation-outcome Mean (SIOM)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;writing-mode: vertical-rl">Parameter Mean (PM)</th>
+            </tr>
+        </thead>
+    </table>
 </div>
 </body>
 </html>
