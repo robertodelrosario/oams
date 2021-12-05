@@ -102,6 +102,7 @@ class AssignTaskController extends Controller
             foreach ($assigned_users as $assigned_user){
                 if($assigned_user->id != $user->id){
                     $area_mean = AreaMean::where('assigned_user_id', $user->id)->first();
+                    if(is_null($area_mean)) break;
                     $area_mean->assigned_user_id = $assigned_user->id;
                     $success = $area_mean->save();
                     if($success) break;
