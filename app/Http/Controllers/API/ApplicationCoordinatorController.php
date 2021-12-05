@@ -174,12 +174,26 @@ class ApplicationCoordinatorController extends Controller
             $task->role = $requested_accreditor->role;
             $success = $task->save();
             if($success){
-                $area_mean = new AreaMean();
-                $area_mean->instrument_program_id = $instrument_id;
-                $area_mean->assigned_user_id = $task->id;
-                $area_mean->area_mean = 0;
-                $success = $area_mean->save();
-                if($success){
+                $accreditors = AssignedUser::where([
+                    ['app_program_id', $application_program_id], ['transaction_id',$instrument_id]
+                ])->get();
+                $has_area_mean = false;
+                foreach ($accreditors as $accreditor){
+                    $check_area_mean = AreaMean::where([
+                        ['instrument_program_id', $instrument_id], ['assigned_user_id', $accreditor->id]
+                    ])->first();
+                    if(!(is_null($check_area_mean))){
+                        $has_area_mean = true;
+                        break;
+                    }
+                }
+                if(!($has_area_mean)) {
+                    $area_mean = new AreaMean();
+                    $area_mean->instrument_program_id = $instrument_id;
+                    $area_mean->assigned_user_id = $task->id;
+                    $area_mean->area_mean = 0;
+                    $area_mean->save();
+                }
                     $parameters = ParameterProgram::where('program_instrument_id',$instrument_id)->get();
                     foreach ($parameters as $parameter){
                         $item = new ParameterMean();
@@ -196,8 +210,6 @@ class ApplicationCoordinatorController extends Controller
                             $item->save();
                         }
                     }
-                }
-                else return response()->json(['status' => false, 'message' => 'Error in making area mean.']);
             }
             else return response()->json(['status' => false, 'message' => 'Error in making task.']);
             return response()->json(['status' => true, 'message' => 'Successfully assigned to this area.']);
