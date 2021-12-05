@@ -12,93 +12,91 @@
 <body>
 
 <div class="container">
-    <h3 style="text-align: center">Preliminary Survey Visit</h3>
-    <br><br>
-    <h5 style="text-align: left">Program: {{ $program['program_name'] }}</h5>
-    <br>
-    <h5 style="text-align: left">SUC/Campus: {{ $suc['institution_name'] }} / {{ $campus['campus_name'] }} </h5>
-    <br>
-    <h5 style="text-align: left">Date of Visit: {{ $applied_program['approved_start_date'] }}</h5>
-    <br>
-    <h5 style="text-align: left">Address: {{ $campus['address']}}</h5>
-    <br>
-    <h5 style="text-align: left">Accreditor: {{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</h5>
+    <h3 style="text-align: center">{{ $instrument['area_name'] }}</h3>
 
 
     <div style="page-break-after: always"></div>
     <h4 style="text-align: center">{{ $areas['area_name'] }}</h4>
     <table class="table table-bordered" >
-        <thead>
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 90%">Checklist of data/information, processes and activities</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Available</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Available but Inadequate</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Available</th>
-            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 30%">Not Applicable</th>
+            <td class="small" colspan="7" style="text-align: center; font-size: 11px">RATING SCALE</td>
         </tr>
-        </thead>
-        <tbody>
-        @foreach($result as $score)
-            <tr>
-                @if($score['degree'] == 1) <th scope="row" class="small" >{{ $score['statement'] }}</th>
-                @elseif($score['degree'] == 2) <th scope="row" class="small"><div style="margin-left: 7%"> {{ $score['statement'] }} </div> </th>
-                @elseif($score['degree'] == 3) <th scope="row" class="small"> <div style="margin-left: 14%"> {{ $score['statement'] }} </div> </th>
-                @endif
-                <td class="small" >
-                    @foreach($score['score'] as $user_score)
-                        @if($user_score['score'] >= 3 && $user_score['score'] <= 5)
-                            {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                        @endif
-                    @endforeach
-                </td>
-                <td class="small">
-                    @foreach($score['score'] as $user_score)
-                        @if($user_score['score'] == 1 || $user_score['score'] == 2)
-                            {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                        @endif
-                    @endforeach
-                </td>
-                <td class="small">
-                    @foreach($score['score'] as $user_score)
-                        @if($user_score['score'] == 0 && $user_score['score'] != null)
-                            {{ $user_score['last_name'] }} : {{ $user_score['score'] }}
-                        @endif
-                    @endforeach
-                </td>
-                <td class="small">
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-    <table class="table-borderless" style="width: 100%;">
-        @foreach($accreditors as $acc)
-            <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 90%">{{ $acc['last_name'] }}'s Total</th>
-                @foreach($total_score as $ts)
-                    @if($acc['last_name'] == $ts['last_name'])
-                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $ts['available'] }}</th>
-                        <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $ts['inadequate'] }}</th>
-                    @endif
-                @endforeach
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">0</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%"></th>
-            </tr>
-        @endforeach
         <tr>
-            <th scope="col" class="font-weight-bold" style="text-align: right; font-size: 13px; width: 90%">Area Mean</th>
-            @foreach($grand_mean as $gm)
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 13px; width: 30%; border-bottom: 1px solid black;">{{ $gm['area_mean'] }}</th>
-            @endforeach
+            <td class="small" style="text-align: center; font-size: 9px">NA</td>
+            <td class="small" style="text-align: center; font-size: 9px">0</td>
+            <td class="small" style="text-align: center; font-size: 9px">1</td>
+            <td class="small" style="text-align: center; font-size: 9px">2</td>
+            <td class="small" style="text-align: center; font-size: 9px">3</td>
+            <td class="small" style="text-align: center; font-size: 9px">4</td>
+            <td class="small" style="text-align: center; font-size: 9px">5</td>
+        </tr>
+        <tr>
+            <td class="small" style="text-align: center; font-size: 9px">-</td>
+            <td class="small" style="text-align: center; font-size: 9px">-</td>
+            <td class="small" style="text-align: center; font-size: 9px">Poor</td>
+            <td class="small" style="text-align: center; font-size: 9px">Fair</td>
+            <td class="small" style="text-align: center; font-size: 9px">Satisfactory</td>
+            <td class="small" style="text-align: center; font-size: 9px">Very Satisfactory</td>
+            <td class="small" style="text-align: center; font-size: 9px">Excellent</td>
+        </tr>
+        <tr>
+            <td class="small" style="text-align: center; font-size: 8px">
+                <p>
+                    Not Applicable
+                </p>
+            </td>
+            <td class="small" style="text-align: center; font-size: 8px">
+                <p>
+                    Missing
+                </p>
+            </td>
+            <td class="small" style="text-align: center; font-size: 8px">
+                <p>
+                    Criterion is met minimally in some respects, but much improvement is needed to overcome weaknesses
+                </p>
+                <br>
+                <p>
+                    (75% lesser than the standards)
+                </p>
+            </td>
+            <td class="small" style="text-align: center; font-size: 8px">
+                <p>
+                    Criterion is met in most respects, but some improvement is needed to overcome weaknesses
+                </p>
+                <br>
+                <p>
+                    (50% lesser that the standards)
+                </p>
+            </td>
+            <td class="small" style="text-align: center; font-size: 8px">
+                <p>
+                    Criterion is met all respects
+                </p>
+                <br>
+                <p>
+                    (100% compliance with the standards)
+                </p>
+            </td>
+            <td class="small" style="text-align: center; font-size: 8px">
+                <p>
+                    Criterion is fully met in all respects, at a level that demonstrates good practice
+                </p>
+                <br>
+                <p>
+                    (50% greater that the standards)
+                </p>
+            </td>
+            <td class="small" style="text-align: center; font-size: 8px">
+                <p>
+                    Criterion is fully met with substantial number of good practices, at a level that provides a model for others
+                </p>
+                <br>
+                <p>
+                    (75% greater than the standards)
+                </p>
+            </td>
         </tr>
     </table>
-    <br>
-    <div class="font-weight-bold" style="text-align: left; font-size: 13px" >Recommendations:</div>
-    <br>
-    @foreach($recommendations as $recommendation)
-        <div style="text-align: left; font-size: 13px" ><u>{{$recommendation['recommendation']}}</u></div>
-    @endforeach
 </div>
-
 </body>
 </html>

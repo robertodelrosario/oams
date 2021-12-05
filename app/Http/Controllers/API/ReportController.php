@@ -871,9 +871,11 @@ class ReportController extends Controller
             ['app_program_id', $id], ['transaction_id', $instrument_id], ['role', 'like', '%'. $role.'%']
         ])->get();
 
-        $scores = new Collection();
-        $accreditor_total_score = new Collection();
-        $accreditor_area_mean_score = new Collection();
+        $accreditor_list = new Collection();
+        foreach($assigned_users as $assigned_user){
+            $user = User::where('id', $assigned_user->user_id)->first();
+            $accreditor_list->push(['id' => $user->id, 'first_name' => $user->first_name, 'last_name' => $user->last_name]);
+        }
 
         $parameters = ParameterProgram::where('program_instrument_id', $program_instrument->id)->get();
         $collection_id = new Collection();
@@ -1038,9 +1040,9 @@ class ReportController extends Controller
                 'outcome' => $outcome_collection
             ]);
         }
-        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter]);
+//        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list]);
         set_time_limit(300);
-        $pdf = PDF::loadView('download_OBE', ['statement' => $statements_collection, 'parameters' => $sorted_parameter]);
+        $pdf = PDF::loadView('download_OBE', ['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list, 'instrument' => $area_instrument]);
         return $pdf->download($program->program_name .'_OBE.pdf');
     }
 
