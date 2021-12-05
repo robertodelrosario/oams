@@ -13,10 +13,6 @@
 
 <div class="container">
     <h3 style="text-align: center">{{ $instrument['area_name'] }}</h3>
-
-
-    <div style="page-break-after: always"></div>
-    <h4 style="text-align: center">{{ $areas['area_name'] }}</h4>
     <table class="table table-bordered" >
         <tr>
             <td class="small" colspan="7" style="text-align: center; font-size: 11px">RATING SCALE</td>
