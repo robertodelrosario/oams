@@ -104,9 +104,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($parameters as $parameter)
                 @foreach($parameter_results as $parameter_result)
-                    @if($parameter['parameter_id'] == $parameter_result['parameter_id'])
                         @foreach($parameter_result['parameter_mean'] as $param_mean)
                             @if($param_mean['id'] == $accreditor['id'])
                                 <tr>
@@ -128,14 +126,14 @@
                             @endif
                         @endforeach
                         @foreach($statements as $statement)
-                            @if($statement['parameter_id'] == $parameter['parameter_id'])
+                            @if($statement['parameter_id'] == $parameter_result['parameter_id'])
                                 @if($statement['type'] == "System Input")
                                     @foreach($statement['score'] as $score)
                                         @if($score['id'] == $accreditor['id'])
                                             <tr>
                                                 @if($statement['degree'] == 1) <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                @elseif($statement['degree'] == 1) <th scope="row" class="small" style="margin-left: 7%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                @elseif($statement['degree'] == 1) <th scope="row" class="small" style="margin-left: 14%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
+                                                @elseif($statement['degree'] == 2) <th scope="row" class="small" style="margin-left: 7%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
+                                                @elseif($statement['degree'] == 3) <th scope="row" class="small" style="margin-left: 14%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
                                                 @endif
                                                 <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
                                                 <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 18%;"></th>
@@ -157,14 +155,14 @@
                             @endif
                         @endforeach
                         @foreach($statements as $statement)
-                            @if($statement['parameter_id'] == $parameter['parameter_id'])
+                            @if($statement['parameter_id'] == $parameter_result['parameter_id'])
                                 @if($statement['type'] == "Implementation")
                                     @foreach($statement['score'] as $score)
                                         @if($score['id'] == $accreditor['id'])
                                             <tr>
                                                 @if($statement['degree'] == 1) <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                @elseif($statement['degree'] == 1) <th scope="row" class="small" style="margin-left: 7%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                @elseif($statement['degree'] == 1) <th scope="row" class="small" style="margin-left: 14%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
+                                                @elseif($statement['degree'] == 2) <th scope="row" class="small" style="margin-left: 7%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
+                                                @elseif($statement['degree'] == 3) <th scope="row" class="small" style="margin-left: 14%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
                                                 @endif
                                                 <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
                                                 <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 18%;"></th>
@@ -186,14 +184,14 @@
                             @endif
                         @endforeach
                         @foreach($statements as $statement)
-                            @if($statement['parameter_id'] == $parameter['parameter_id'])
+                            @if($statement['parameter_id'] == $parameter_result['parameter_id'])
                                 @if($statement['type'] == "Outcome")
                                     @foreach($statement['score'] as $score)
                                         @if($score['id'] == $accreditor['id'])
                                             <tr>
                                                 @if($statement['degree'] == 1) <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                @elseif($statement['degree'] == 1) <th scope="row" class="small" style="margin-left: 7%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                @elseif($statement['degree'] == 1) <th scope="row" class="small" style="margin-left: 14%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
+                                                @elseif($statement['degree'] == 2) <th scope="row" class="small" style="margin-left: 7%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
+                                                @elseif($statement['degree'] == 3) <th scope="row" class="small" style="margin-left: 14%;text-align: left; font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
                                                 @endif
                                                 <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
                                                 <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 18%;"></th>
@@ -204,9 +202,7 @@
                                 @endif
                             @endif
                         @endforeach
-                    @endif
                 @endforeach
-            @endforeach
             </tbody>
         </table>
     </div>
