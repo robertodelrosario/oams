@@ -153,7 +153,7 @@ class ApplicationCoordinatorController extends Controller
             $user = User::where('id', $requested_accreditor->accreditor_id)->first();
             $accreditors->push([
                 'id' => $requested_accreditor->id,
-                'user_id' => $user->user_id,
+                'user_id' => $user->id,
                 'first_name' => $user->first_name,
                 'last_name' => $user->first_name,
                 'role' => $requested_accreditor->role
