@@ -97,7 +97,7 @@
         <thead>
             <tr>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 70%">Indicators</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%; writing-mode: vertical-rl;">Item Rating (IR)</th>
+                <th scope="col" style="text-align: center; font-size: 12px; width: 10%; writing-mode: vertical-rl;">Item Rating (IR)</th>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%; ">System-Implementation-outcome Mean (SIOM)</th>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;">Parameter Mean (PM)</th>
             </tr>
