@@ -23,7 +23,6 @@ class SUCController extends Controller
             'address' => 'required',
             'email' => 'required',
             'contact_no' => 'required',
-            'suc_level' => 'required',
         ]);
 
         if($validator->fails()) return response()->json(['status' => false, 'message' => 'Cannot process creation. Required data needed']);
