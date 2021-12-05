@@ -12,41 +12,41 @@
 <body>
 
 <div class="container">
-    <h3 style="text-align: center">{{ $instrument['area_name'] }}</h3>
+    <h4 style="text-align: center">{{ $instrument['area_name'] }}</h4>
     <table class="table table-bordered" >
         <tr>
-            <td class="small" colspan="7" style="text-align: center; font-size: 11px">RATING SCALE</td>
+            <td class="small" colspan="7" style="text-align: center;font-weight: bold; font-size: 10px">RATING SCALE</td>
         </tr>
         <tr>
-            <td class="small" style="text-align: center; font-size: 9px">NA</td>
-            <td class="small" style="text-align: center; font-size: 9px">0</td>
-            <td class="small" style="text-align: center; font-size: 9px">1</td>
-            <td class="small" style="text-align: center; font-size: 9px">2</td>
-            <td class="small" style="text-align: center; font-size: 9px">3</td>
-            <td class="small" style="text-align: center; font-size: 9px">4</td>
-            <td class="small" style="text-align: center; font-size: 9px">5</td>
+            <td class="small" style="text-align: center; font-size: 9px; font-weight: bold;">NA</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">0</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">1</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">2</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">3</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">4</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">5</td>
         </tr>
         <tr>
-            <td class="small" style="text-align: center; font-size: 9px">-</td>
-            <td class="small" style="text-align: center; font-size: 9px">-</td>
-            <td class="small" style="text-align: center; font-size: 9px">Poor</td>
-            <td class="small" style="text-align: center; font-size: 9px">Fair</td>
-            <td class="small" style="text-align: center; font-size: 9px">Satisfactory</td>
-            <td class="small" style="text-align: center; font-size: 9px">Very Satisfactory</td>
-            <td class="small" style="text-align: center; font-size: 9px">Excellent</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">-</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">-</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">Poor</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">Fair</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">Satisfactory</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">Very Satisfactory</td>
+            <td class="small" style="text-align: center;font-weight: bold; font-size: 9px">Excellent</td>
         </tr>
         <tr>
-            <td class="small" style="text-align: center; font-size: 8px">
+            <td class="small" style="text-align: center;font-style: italic; font-size: 8px">
                 <p>
                     Not Applicable
                 </p>
             </td>
-            <td class="small" style="text-align: center; font-size: 8px">
+            <td class="small" style="text-align: center;font-style: italic; font-size: 8px">
                 <p>
                     Missing
                 </p>
             </td>
-            <td class="small" style="text-align: center; font-size: 8px">
+            <td class="small" style="text-align: center;font-style: italic; font-size: 8px">
                 <p>
                     Criterion is met minimally in some respects, but much improvement is needed to overcome weaknesses
                 </p>
@@ -55,7 +55,7 @@
                     (75% lesser than the standards)
                 </p>
             </td>
-            <td class="small" style="text-align: center; font-size: 8px">
+            <td class="small" style="text-align: center;font-style: italic; font-size: 8px">
                 <p>
                     Criterion is met in most respects, but some improvement is needed to overcome weaknesses
                 </p>
@@ -64,7 +64,7 @@
                     (50% lesser that the standards)
                 </p>
             </td>
-            <td class="small" style="text-align: center; font-size: 8px">
+            <td class="small" style="text-align: center;font-style: italic; font-size: 8px">
                 <p>
                     Criterion is met all respects
                 </p>
@@ -73,7 +73,7 @@
                     (100% compliance with the standards)
                 </p>
             </td>
-            <td class="small" style="text-align: center; font-size: 8px">
+            <td class="small" style="text-align: center;font-style: italic; font-size: 8px">
                 <p>
                     Criterion is fully met in all respects, at a level that demonstrates good practice
                 </p>
@@ -82,7 +82,7 @@
                     (50% greater that the standards)
                 </p>
             </td>
-            <td class="small" style="text-align: center; font-size: 8px">
+            <td class="small" style="text-align: center;font-style: italic; font-size: 8px">
                 <p>
                     Criterion is fully met with substantial number of good practices, at a level that provides a model for others
                 </p>
