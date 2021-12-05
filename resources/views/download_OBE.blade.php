@@ -96,10 +96,13 @@
     <table class="table table-bordered" style="table-layout: fixed; width: 100%">
         <thead>
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 70%">Indicators</th>
-                <th scope="col" style="text-align: center; font-size: 12px; width: 10%; writing-mode: vertical-rl;">Item Rating (IR)</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;vertical-align: middle;">System-Implementation-outcome Mean (SIOM)</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%; -ms-writing-mode: bt-lr">Parameter Mean (PM)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 70%">
+                    <p style="vertical-align: center">Indicators</p>
+                    <p style="writing-mode: vertical-rl;">Indicators</p>
+                </th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;">Item Rating (IR)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;">System-Implementation-outcome Mean (SIOM)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;">Parameter Mean (PM)</th>
             </tr>
         </thead>
     </table>
