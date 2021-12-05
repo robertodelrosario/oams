@@ -68,21 +68,22 @@ class AaccupController extends Controller
                 if ($user != null) $users = Arr::prepend($users, $user);
         }
 
-        $coordinators = new Collection();
-        $application_coordinators = ApplicationCoordinator::where('application_id', $id)->get();
-        foreach ($application_coordinators as $application_coordinator){
-            $user = User::where('id', $application_coordinator->user_id)->first();
-            $coordinators->push([
-                'id' => $application_coordinator->id,
-                'user_id' => $application_coordinator->user_id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'status' => $application_coordinator->status,
-                'date_requested' => $application_coordinator->created_at,
-                'date_updated' => $application_coordinator->updated_at
-            ]);
-        }
-        return response()->json(['programs' =>$programs, 'users' => $users, 'coordinators' => $coordinators]);
+//        $coordinators = new Collection();
+//        $application_coordinators = ApplicationCoordinator::where('application_id', $id)->get();
+//        foreach ($application_coordinators as $application_coordinator){
+//            $user = User::where('id', $application_coordinator->user_id)->first();
+//            $coordinators->push([
+//                'id' => $application_coordinator->id,
+//                'user_id' => $application_coordinator->user_id,
+//                'first_name' => $user->first_name,
+//                'last_name' => $user->last_name,
+//                'status' => $application_coordinator->status,
+//                'date_requested' => $application_coordinator->created_at,
+//                'date_updated' => $application_coordinator->updated_at
+//            ]);
+//        }
+        return response()->json(['programs' =>$programs, 'users' => $users]);
+//        return response()->json(['programs' =>$programs, 'users' => $users, 'coordinators' => $coordinators]);
     }
 
     public function request(request $request,$userID,$id){
