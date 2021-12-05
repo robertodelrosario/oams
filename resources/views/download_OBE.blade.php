@@ -96,8 +96,8 @@
     <table class="table table-bordered" style="table-layout: fixed; width: 100%">
         <thead>
             <tr>
-                <th scope="col" class="font-weight-bold" style=" font-size: 12px; width: 70%">
-                    <p style="vertical-align: center">Indicators</p>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 70%">
+                    <p style="vertical-align: middle">Indicators</p>
                     <p style="writing-mode: vertical-rl;">Indicators</p>
                 </th>
                 <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;">Item Rating (IR)</th>
