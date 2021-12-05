@@ -35,7 +35,8 @@ class SUCController extends Controller
             $suc->address = $request->address;
             $suc->email = $request->email;
             $suc->contact_no = $request->contact_no;
-            $suc->suc_level = $request->suc_level;
+            if(is_null($request->suc_level)) $suc->suc_level = 'unposted';
+            else $suc->suc_level = $request->suc_level;
             $suc->save();
             return response()->json(['status' => true, 'message' => 'Successfully created SUC', 'suc' => $suc]);
         }
