@@ -863,8 +863,11 @@ class ReportController extends Controller
         $suc = SUC::where('id', $campus->suc_id)->first();
 
         $user_task = AssignedUser::where([
-            ['app_program_id', $id], ['user_id', auth()->user()->id], ['transaction_id', $instrument_id]
+            ['app_program_id', $id], ['user_id', 109], ['transaction_id', $instrument_id]
         ])->first();
+//        $user_task = AssignedUser::where([
+//            ['app_program_id', $id], ['user_id', auth()->user()->id], ['transaction_id', $instrument_id]
+//        ])->first();
         if (Str::contains($user_task->role, 'external accreditor')) $role = 'external accreditor';
         else $role = 'internal accreditor';
         $assigned_users = AssignedUser::where([
@@ -1054,14 +1057,17 @@ class ReportController extends Controller
                     }
                 }
                 $system_input_collection->push([
+                    'id' => $user->id,
                     'last_name' =>  $user->last_name,
                     'score' => round($system_input/$system_input_count,2)
                 ]);
                 $implementation_collection->push([
+                    'id' => $user->id,
                     'last_name' =>  $user->last_name,
                     'score' => round($implementation/$implementation_count,2)
                 ]);
                 $outcome_collection->push([
+                    'id' => $user->id,
                     'last_name' =>  $user->last_name,
                     'score' => round($outcome/$outcome_count,2)
                 ]);
@@ -1069,6 +1075,7 @@ class ReportController extends Controller
                     ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
                 ])->first();
                 $param_mean_collection->push([
+                    'id' => $user->id,
                     'last_name' => $user->last_name,
                     'parameter_mean' => $parameter_mean->parameter_mean
                 ]);
@@ -1083,7 +1090,7 @@ class ReportController extends Controller
                 'outcome' => $outcome_collection
             ]);
         }
-        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list]);
+//        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list]);
         set_time_limit(300);
         $pdf = PDF::loadView('download_OBE', ['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list, 'instrument' => $area_instrument]);
         return $pdf->download($program->program_name .'_OBE.pdf');
