@@ -13,7 +13,7 @@
 
 <div class="container">
     <h4 style="text-align: center">{{ $instrument['area_name'] }}</h4>
-    <table class="table table-bordered" style="margin-left: 10%; margin-right: 10%; table-layout: auto; width: 100%">
+    <table class="table table-bordered" style="margin-left: 10%; margin-right: 10%;">
         <tr>
             <td class="small" colspan="7" style="text-align: center;font-weight: bold; font-size: 10px">RATING SCALE</td>
         </tr>
