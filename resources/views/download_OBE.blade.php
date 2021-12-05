@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div style="margin-right: 0px;margin-left: 0px;width: 100%;background-color: #1a202c">
+<div style="margin-right: 0px;margin-left: 0px;width: 100%;">
     <h4 style="text-align: center">{{ $instrument['area_name'] }}</h4>
     <table class="table table-bordered" >
         <tr>
@@ -96,10 +96,10 @@
     <table class="table table-bordered" style="table-layout: fixed; width: 100%">
         <thead>
             <tr>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 55%;">Indicators</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%;">Item Rating (IR)</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 20%;">System-Implementation-outcome Mean (SIOM)</th>
-                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 15%;">Parameter Mean (PM)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 60%;">Indicators</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 10%; writing-mode: vertical-rl">Item Rating (IR)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 18%;">System-Implementation-outcome Mean (SIOM)</th>
+                <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 12%;">Parameter Mean (PM)</th>
             </tr>
         </thead>
         <tbody>
