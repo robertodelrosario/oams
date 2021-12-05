@@ -946,7 +946,50 @@ class ReportController extends Controller
                     }
                 }
             }
-            $sorted = $collection_statements->sortBy('benchmark_statement');
+            $sorted = new Collection();
+            foreach ($collection_statements as $collection_statement){
+                if($collection_statement['type'] == 'System Input'){
+                    $sorted->push([
+                        'id' => $collection_statement['id'],
+                        'parameter_id' => $collection_statement['parameter_id'],
+                        'instrument_parameter_id' => $collection_statement['instrument_parameter_id'],
+                        'benchmark_statement_id' => $collection_statement['benchmark_statement_id'],
+                        'parent_statement_id' => $collection_statement['parent_statement_id'],
+                        'benchmark_statement' => $collection_statement['benchmark_statement'],
+                        'type' => $collection_statement['type'],
+                        'degree' => $collection_statement['degree'],
+                    ]);
+                }
+            }
+            foreach ($collection_statements as $collection_statement){
+                if($collection_statement['type'] == 'Implementation'){
+                    $sorted->push([
+                        'id' => $collection_statement['id'],
+                        'parameter_id' => $collection_statement['parameter_id'],
+                        'instrument_parameter_id' => $collection_statement['instrument_parameter_id'],
+                        'benchmark_statement_id' => $collection_statement['benchmark_statement_id'],
+                        'parent_statement_id' => $collection_statement['parent_statement_id'],
+                        'benchmark_statement' => $collection_statement['benchmark_statement'],
+                        'type' => $collection_statement['type'],
+                        'degree' => $collection_statement['degree'],
+                    ]);
+                }
+            }
+            foreach ($collection_statements as $collection_statement){
+                if($collection_statement['type'] == 'Outcome'){
+                    $sorted->push([
+                        'id' => $collection_statement['id'],
+                        'parameter_id' => $collection_statement['parameter_id'],
+                        'instrument_parameter_id' => $collection_statement['instrument_parameter_id'],
+                        'benchmark_statement_id' => $collection_statement['benchmark_statement_id'],
+                        'parent_statement_id' => $collection_statement['parent_statement_id'],
+                        'benchmark_statement' => $collection_statement['benchmark_statement'],
+                        'type' => $collection_statement['type'],
+                        'degree' => $collection_statement['degree'],
+                    ]);
+                }
+            }
+//            $sorted = $collection_statements->sortBy('benchmark_statement');
             foreach ($sorted as $s){
                 $item_scores = new Collection();
                 foreach ($assigned_users as $assigned_user){
@@ -1040,7 +1083,7 @@ class ReportController extends Controller
                 'outcome' => $outcome_collection
             ]);
         }
-        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list, 'statemenrs' => $collection_statements]);
+        return response()->json(['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list]);
         set_time_limit(300);
         $pdf = PDF::loadView('download_OBE', ['statement' => $statements_collection, 'parameters' => $sorted_parameter, 'accreditors' => $accreditor_list, 'instrument' => $area_instrument]);
         return $pdf->download($program->program_name .'_OBE.pdf');
