@@ -111,7 +111,7 @@
                                     <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;font-weight: bold;">{{ $parameter_result['parameter'] }}</th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;"></th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 18%;"></th>
-                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 12%; font-weight: bold;">{{ $param_mean['parameter_mean'] }}</th>
+                                    <th scope="row" class="small" style="text-align: center; font-size: 14px; width: 12%; font-weight: bold;">{{ $param_mean['parameter_mean'] }}</th>
                                 </tr>
                             @endif
                         @endforeach
@@ -120,7 +120,7 @@
                                 <tr>
                                     <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%; font-weight: bold;">SYSTEM-INPUTS AND PROCESSES</th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;"></th>
-                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 18%;font-weight: bold;">{{ $system_input['score'] }}</th>
+                                    <th scope="row" class="small" style="text-align: center; font-size: 14px; width: 18%;font-weight: bold;">{{ $system_input['score'] }}</th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 12%;"></th>
                                 </tr>
                             @endif
@@ -133,10 +133,10 @@
                                             <tr>
                                                 @if($statement['degree'] == 1)
                                                     <th scope="row" class="small" style="font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;font-weight: bold;">{{ $score['score'] }}</th>
+                                                    <th scope="row" class="small" style="text-align: center; font-size: 14px; width: 10%;font-weight: bold;">{{ $score['score'] }}</th>
                                                 @elseif($statement['degree'] == 2)
                                                     <th scope="row" class="small" style="font-size: 12px; width: 60%;"><div style="margin-left: 7%"> {{ $statement['benchmark_statement'] }}</div></th>
-                                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
+                                                    <th scope="row" class="small" style="text-align: center; font-size: 13px; width: 10%;">{{ $score['score'] }}</th>
                                                 @elseif($statement['degree'] == 3)
                                                     <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;"><div style="margin-left: 14%"> {{ $statement['benchmark_statement'] }}</div></th>
                                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
@@ -154,7 +154,7 @@
                                 <tr>
                                     <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;font-weight: bold;">IMPLEMENTATION</th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;"></th>
-                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 18%;font-weight: bold;">{{ $implementation['score'] }}</th>
+                                    <th scope="row" class="small" style="text-align: center; font-size: 14px; width: 18%;font-weight: bold;">{{ $implementation['score'] }}</th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 12%;"></th>
                                 </tr>
                             @endif
@@ -167,10 +167,10 @@
                                             <tr>
                                                 @if($statement['degree'] == 1)
                                                     <th scope="row" class="small" style="font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;font-weight: bold;">{{ $score['score'] }}</th>
+                                                    <th scope="row" class="small" style="text-align: center; font-size: 14px; width: 10%;font-weight: bold;">{{ $score['score'] }}</th>
                                                 @elseif($statement['degree'] == 2)
                                                     <th scope="row" class="small" style="font-size: 12px; width: 60%;"><div style="margin-left: 7%"> {{ $statement['benchmark_statement'] }}</div></th>
-                                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
+                                                    <th scope="row" class="small" style="text-align: center; font-size: 13px; width: 10%;">{{ $score['score'] }}</th>
                                                 @elseif($statement['degree'] == 3)
                                                     <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;"><div style="margin-left: 14%"> {{ $statement['benchmark_statement'] }}</div></th>
                                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
@@ -188,7 +188,7 @@
                                 <tr>
                                     <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;font-weight: bold;">OUTCOME/S</th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;"></th>
-                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 18%;font-weight: bold;">{{ $outcome['score'] }}</th>
+                                    <th scope="row" class="small" style="text-align: center; font-size: 14px; width: 18%;font-weight: bold;">{{ $outcome['score'] }}</th>
                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 12%;"></th>
                                 </tr>
                             @endif
@@ -201,10 +201,10 @@
                                             <tr>
                                                 @if($statement['degree'] == 1)
                                                     <th scope="row" class="small" style="font-size: 12px; width: 60%;">{{ $statement['benchmark_statement'] }}</th>
-                                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;font-weight: bold;">{{ $score['score'] }}</th>
+                                                    <th scope="row" class="small" style="text-align: center; font-size: 14px; width: 10%;font-weight: bold;">{{ $score['score'] }}</th>
                                                 @elseif($statement['degree'] == 2)
                                                     <th scope="row" class="small" style="font-size: 12px; width: 60%;"><div style="margin-left: 7%"> {{ $statement['benchmark_statement'] }}</div></th>
-                                                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
+                                                    <th scope="row" class="small" style="text-align: center; font-size: 13px; width: 10%;">{{ $score['score'] }}</th>
                                                 @elseif($statement['degree'] == 3)
                                                     <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 60%;"><div style="margin-left: 14%"> {{ $statement['benchmark_statement'] }}</div></th>
                                                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 10%;">{{ $score['score'] }}</th>
