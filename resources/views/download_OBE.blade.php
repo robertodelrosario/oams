@@ -254,7 +254,7 @@
         </tbody>
     </table>
     <table class="table-borderless" style="table-layout: fixed; width: 100%">
-        @foreach($total_parameter_means as $total_parameter_means)
+        @foreach($total_parameter_means as $total_parameter_mean)
             @if($total_parameter_mean['id'] == $accreditor['id'])
                 <tr>
                     <th scope="row" class="small" style="text-align: right; font-size: 12px; width: 70%;font-weight: bold;">Total:</th>
