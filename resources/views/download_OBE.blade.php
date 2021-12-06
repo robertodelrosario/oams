@@ -266,7 +266,7 @@
         @foreach($area_means as $area_mean)
             <tr>
                 <th scope="row" class="small" style="text-align: right; font-size: 12px; width: 70%;font-weight: bold;">Mean:</th>
-                <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $area_mean['parameter_mean'] }}</th>
+                <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $area_mean['area_mean'] }}</th>
                 <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $area_mean['descriptive_rating'] }}</th>
             </tr>
         @endforeach
