@@ -255,10 +255,10 @@
     </table>
     <table class="table-borderless" style="table-layout: fixed; width: 100%">
         @foreach($total_parameter_means as $total_parameter_means)
-            @if($total_parameter_means['id'] == $accreditor['id'])
+            @if($total_parameter_mean['id'] == $accreditor['id'])
                 <tr>
                     <th scope="row" class="small" style="text-align: right; font-size: 12px; width: 70%;font-weight: bold;">Total:</th>
-                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $total_parameter_means['total'] }}</th>
+                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $total_parameter_mean['total'] }}</th>
                     <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;"></th>
                 </tr>
             @endif
