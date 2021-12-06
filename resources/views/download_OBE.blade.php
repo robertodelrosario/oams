@@ -230,6 +230,48 @@
         </tr>
     </table>
     <div style="page-break-after: always"></div>
+    <h4 style="text-align: center">SUMMARY OF RATINGS</h4>
+    <table class="table table-bordered" style="table-layout: fixed; width: 100%">
+        <thead>
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 70%;">Parameters</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 15%;">Numerical Rating</th>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 12px; width: 15%;">Descriptive Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($parameter_results as $parameter_result)
+            <tr>
+                <th scope="row" class="small" style="text-align: left; font-size: 12px; width: 70%;font-weight: bold;">{{ $parameter_result['parameter'] }}</th>
+                @foreach($parameter_result['parameter_mean'] as $parameter_mean)
+                    @if($parameter_mean['id'] == $accreditor['id'])
+                        <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $parameter_mean['parameter_mean'] }}</th>
+                        <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $parameter_mean['descriptive_rating'] }}</th>
+                    @endif
+                @endforeach
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+    <table class="table-borderless" style="table-layout: fixed; width: 100%">
+        @foreach($total_parameter_means as $total_parameter_means)
+            @if($total_parameter_means['id'] == $accreditor['id'])
+                <tr>
+                    <th scope="row" class="small" style="text-align: right; font-size: 12px; width: 70%;font-weight: bold;">Total:</th>
+                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $total_parameter_means['total'] }}</th>
+                    <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;"></th>
+                </tr>
+            @endif
+        @endforeach
+        @foreach($area_means as $area_mean)
+            <tr>
+                <th scope="row" class="small" style="text-align: right; font-size: 12px; width: 70%;font-weight: bold;">Mean:</th>
+                <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $area_mean['parameter_mean'] }}</th>
+                <th scope="row" class="small" style="text-align: center; font-size: 12px; width: 15%;">{{ $area_mean['descriptive_rating'] }}</th>
+            </tr>
+        @endforeach
+    </table>
+    <div style="page-break-after: always"></div>
 @endforeach
 
 </body>

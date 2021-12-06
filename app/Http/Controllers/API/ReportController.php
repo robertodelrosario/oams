@@ -875,9 +875,25 @@ class ReportController extends Controller
         ])->get();
 
         $accreditor_list = new Collection();
+        $area_means = new Collection();
         foreach($assigned_users as $assigned_user){
             $user = User::where('id', $assigned_user->user_id)->first();
             $accreditor_list->push(['id' => $user->id, 'first_name' => $user->first_name, 'last_name' => $user->last_name]);
+            $area_mean = AreaMean::where('assigned_user_id', $assigned_user->id)->first();
+            if(!(is_null($area_mean))){
+                if($area_mean->area_mean < 1.5) $descriptive_rating = 'Poor';
+                elseif($area_mean->area_mean < 2.5) $descriptive_rating = 'Fair';
+                elseif($area_mean->area_mean < 3.5) $descriptive_rating = 'Good';
+                elseif($area_mean->area_mean < 4.5) $descriptive_rating = 'Very Good';
+                else $descriptive_rating = 'Excellent';
+                $area_means->push([
+                    'id' =>  $area_mean->id,
+                    'instrument_program_id' =>  $area_mean->instrument_program_id,
+                    'assigned_user_id' =>  $area_mean->assigned_user_id,
+                    'area_mean' =>  $area_mean->area_mean,
+                    'descriptive_rating' => $descriptive_rating
+                ]);
+            }
         }
 
         $parameters = ParameterProgram::where('program_instrument_id', $program_instrument->id)->get();
@@ -1074,10 +1090,16 @@ class ReportController extends Controller
                 $parameter_mean = ParameterMean::where([
                     ['program_parameter_id', $parameter['id']], ['assigned_user_id', $assigned_user->id]
                 ])->first();
+                if($parameter_mean->parameter_mean < 1.5) $descriptive_rating = 'Poor';
+                elseif($parameter_mean->parameter_mean < 2.5) $descriptive_rating = 'Fair';
+                elseif($parameter_mean->parameter_mean < 3.5) $descriptive_rating = 'Good';
+                elseif($parameter_mean->parameter_mean < 4.5) $descriptive_rating = 'Very Good';
+                else $descriptive_rating = 'Excellent';
                 $param_mean_collection->push([
                     'id' => $user->id,
                     'last_name' => $user->last_name,
-                    'parameter_mean' => $parameter_mean->parameter_mean
+                    'parameter_mean' => $parameter_mean->parameter_mean,
+                    'descriptive_rating' => $descriptive_rating
                 ]);
             }
             $sorted_parameter->push([
@@ -1090,9 +1112,25 @@ class ReportController extends Controller
                 'outcome' => $outcome_collection
             ]);
         }
+        $total = new Collection();
+        foreach ($assigned_users as $assigned_user){
+            $total_mean = 0;
+            foreach($sorted_parameter as $sp){
+                foreach ($sp['parameter_mean'] as $pm){
+                    if($assigned_user->user_id == $pm['id']){
+                        $total_mean += $pm['parameter_mean'];
+                    }
+                }
+            }
+            $total->push([
+                'id' => $assigned_user->user_id,
+                'total' => $total_mean,
+            ]);
+        }
+
 //        return response()->json(['statements' => $statements_collection, 'parameter_results' => $sorted_parameter,'parameters' =>  $parameters,'accreditors' => $accreditor_list, 'instrument' => $area_instrument]);
         set_time_limit(300);
-        $pdf = PDF::loadView('download_OBE', ['statements' => $statements_collection, 'parameter_results' => $sorted_parameter,'accreditors' => $accreditor_list, 'instrument' => $area_instrument])->setPaper('a4');
+        $pdf = PDF::loadView('download_OBE', ['statements' => $statements_collection, 'parameter_results' => $sorted_parameter,'accreditors' => $accreditor_list, 'instrument' => $area_instrument, 'area_means' => $area_means, 'total_parameter_means' => $total])->setPaper('a4');
         return $pdf->download($program->program_name .'_OBE.pdf');
     }
 
