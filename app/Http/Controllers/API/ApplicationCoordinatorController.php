@@ -155,7 +155,7 @@ class ApplicationCoordinatorController extends Controller
                 'id' => $requested_accreditor->id,
                 'user_id' => $user->id,
                 'first_name' => $user->first_name,
-                'last_name' => $user->first_name,
+                'last_name' => $user->last_name,
                 'role' => $requested_accreditor->role
             ]);
         }
