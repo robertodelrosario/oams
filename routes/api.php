@@ -307,6 +307,7 @@ Route::group(['prefix' => '/coordinator'], function() {
     Route::get('/showMyAccreditationApplication', 'ApplicationCoordinatorController@showMyAccreditationApplication');
     Route::get('/showInstrument/{id}', 'ApplicationCoordinatorController@showInstrument');
     Route::get('/showAccreditorRequested/{id}', 'ApplicationCoordinatorController@showAccreditorRequested');
+    Route::get('/showAllAccreditorRequested/{id}', 'ApplicationCoordinatorController@showAllAccreditorRequested');
     Route::post('/reassignTask/{id}/{application_program_id}/{instrument_id}', 'ApplicationCoordinatorController@reassignTask');
 });
 

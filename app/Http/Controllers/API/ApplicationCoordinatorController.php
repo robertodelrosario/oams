@@ -161,6 +161,22 @@ class ApplicationCoordinatorController extends Controller
         }
         return response()->json(['users' => $accreditors]);
     }
+
+    public function showAllAccreditorRequested($id){
+        $accreditors = new Collection();
+        $requested_accreditors = AccreditorRequest::where('application_program_id', $id)->get();
+        foreach ($requested_accreditors as $requested_accreditor){
+            $user = User::where('id', $requested_accreditor->accreditor_id)->first();
+            $accreditors->push([
+                'id' => $requested_accreditor->id,
+                'user_id' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->first_name,
+                'role' => $requested_accreditor->role
+            ]);
+        }
+        return response()->json(['users' => $accreditors]);
+    }
     public function reassignTask($id, $application_program_id, $instrument_id){
         $requested_accreditor = AccreditorRequest::where('id', $id)->first();
         $check = AssignedUser::where([
