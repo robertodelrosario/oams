@@ -221,6 +221,15 @@
             </tbody>
         </table>
     </div>
+    <table class="table-borderless" style="width: 100%;">
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 100%; text-decoration: underline;">{{ $accreditor['first_name'] }} {{ $accreditor['last_name'] }}</th>
+        </tr>
+        <tr>
+            <th scope="col" class="font-weight-bold" style="text-align: center; font-size: 14px; width: 100%">Accreditor</th>
+        </tr>
+    </table>
+    <div style="page-break-after: always"></div>
 @endforeach
 
 </body>
