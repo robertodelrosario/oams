@@ -271,6 +271,7 @@
             </tr>
         @endforeach
     </table>
+    <p style="text-align: center;font-size: 12px;">LEAD ACCREDITOR/S</p>
     <div style="page-break-after: always"></div>
 @endforeach
 

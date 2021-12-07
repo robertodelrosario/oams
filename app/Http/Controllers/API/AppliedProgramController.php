@@ -310,11 +310,11 @@ class AppliedProgramController extends Controller
     public function showFileTFH($id){
         $report = array();
         $compliance = ApplicationProgramFile::where([
-            ['application_program_id', $id], ['type', 'Compliance Report']
+            ['application_program_id', $id], ['type', 'like','%Compliance Report%']
             ])->get();
         foreach ($compliance as $c) $report = Arr::prepend($report,$c);
         $ppp = ApplicationProgramFile::where([
-            ['application_program_id', $id], ['type', 'PPP']
+            ['application_program_id', $id], ['type', 'like','%PPP%']
         ])->get();
         foreach ($ppp as $p) $report = Arr::prepend($report,$p);
         $narrative = ApplicationProgramFile::where([
@@ -396,6 +396,10 @@ class AppliedProgramController extends Controller
         $sfr = ApplicationProgramFile::where([
             ['application_program_id', $id], ['type', 'Internal SFR']
         ])->get();
+        $internal_rated_instruments = ApplicationProgramFile::where([
+            ['application_program_id', $id], ['type', 'like', 'Internal Rated Instrument']
+        ])->get();
+        foreach ($internal_rated_instruments as $instrument) $report = Arr::prepend($report,$instrument);
         foreach ($sfr as $s) $report = Arr::prepend($report,$s);
         return response()->json($report);
     }
@@ -431,12 +435,20 @@ class AppliedProgramController extends Controller
             foreach ($narrative as $n) $report = Arr::prepend($report,$n);
         }
         $sar = ApplicationProgramFile::where([
-            ['application_program_id', $id], ['type', 'External SAR']
+            ['application_program_id', $id], ['type','like', 'SAR']
         ])->get();
         foreach ($sar as $s) $report = Arr::prepend($report,$s);
         $sfr = ApplicationProgramFile::where([
-            ['application_program_id', $id], ['type', 'External SFR']
+            ['application_program_id', $id], ['type','like' ,'SFR']
         ])->get();
+        $internal_rated_instruments = ApplicationProgramFile::where([
+            ['application_program_id', $id], ['type', 'like', 'Internal Rated Instrument']
+        ])->get();
+        $rated_instruments = ApplicationProgramFile::where([
+            ['application_program_id', $id], ['type', 'like', 'Rated Instrument']
+        ])->get();
+        foreach ($internal_rated_instruments as $instrument) $report = Arr::prepend($report,$instrument);
+        foreach ($rated_instruments as $instrument) $report = Arr::prepend($report,$instrument);
         foreach ($sfr as $s) $report = Arr::prepend($report,$s);
         return response()->json($report);
     }
