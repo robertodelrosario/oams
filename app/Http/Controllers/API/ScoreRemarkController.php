@@ -35,9 +35,11 @@ class ScoreRemarkController extends Controller
         ])->get();
         foreach ($remarks as $remark){
             $user = User::where('id', $remark->sender_id)->first();
-            $change_message_status = ScoreRemark::where('id', $remark->id)->first();
-            $change_message_status->status = 'read';
-            $change_message_status->save();
+            if($remark->sender_id == auth()->user()->id){
+                $change_message_status = ScoreRemark::where('id', $remark->id)->first();
+                $change_message_status->status = 'read';
+                $change_message_status->save();
+            }
             $messages->push([
                 'id' => $remark->id,
                 'user_id' => $user->id,
