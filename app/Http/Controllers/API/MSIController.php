@@ -118,12 +118,16 @@ class MSIController extends Controller
                 else $score = $area_mean->area_mean;
                 $unread_messages_count = new Collection();
                 foreach ($statement_collection as $sm){
-                    $messages = ScoreRemark::where([
-                        ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id]
+                    $messages_internal = ScoreRemark::where([
+                        ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id], ['type', 'Internal']
+                    ])->get();
+                    $messages_external = ScoreRemark::where([
+                        ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id], ['type', 'External']
                     ])->get();
                     $unread_messages_count->push([
                         'id' =>  $sm['id'],
-                        'count' => count($messages)
+                        'count_internal' => count($messages_internal),
+                        'count_external' => count($messages_external)
                     ]);
                 }
                 return response()->json(['statements' => $statement_collection,'unread_message_count' => $unread_messages_count ,'documents' => $documents, 'area_mean' => $score]);
@@ -216,12 +220,16 @@ class MSIController extends Controller
                     ->get();
                 $unread_messages_count = new Collection();
                 foreach ($statement_collection as $sm){
-                    $messages = ScoreRemark::where([
-                        ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id]
+                    $messages_internal = ScoreRemark::where([
+                        ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id], ['type', 'Internal']
+                    ])->get();
+                    $messages_external = ScoreRemark::where([
+                        ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id], ['type', 'External']
                     ])->get();
                     $unread_messages_count->push([
                         'id' =>  $sm['id'],
-                        'count' => count($messages)
+                        'count_internal' => count($messages_internal),
+                        'count_external' => count($messages_external)
                     ]);
                 }
                 return response()->json(['statements' => $statement_collection,'unread_message_count' => $unread_messages_count,'documents' => $documents, 'remarks' => $remarks]);
@@ -310,12 +318,16 @@ class MSIController extends Controller
                 ->get();
             $unread_messages_count = new Collection();
             foreach ($statement_collection as $sm){
-                $messages = ScoreRemark::where([
-                    ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id]
+                $messages_internal = ScoreRemark::where([
+                    ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id], ['type', 'Internal']
+                ])->get();
+                $messages_external = ScoreRemark::where([
+                    ['application_program_id', $id], ['program_statement_id', $sm['id']], ['status', 'unread'], ['sender_id', '!=', auth()->user()->id], ['type', 'External']
                 ])->get();
                 $unread_messages_count->push([
                     'id' =>  $sm['id'],
-                    'count' => count($messages)
+                    'count_internal' => count($messages_internal),
+                    'count_external' => count($messages_external)
                 ]);
             }
             return response()->json(['statements' => $statement_collection, 'unread_message_count' => $unread_messages_count,'documents' => $documents, 'remarks' => $remarks]);
