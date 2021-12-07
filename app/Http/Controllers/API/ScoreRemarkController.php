@@ -65,7 +65,7 @@ class ScoreRemarkController extends Controller
                 $program_statement = ProgramStatement::where('id', $remark->program_statement_id)->first();
                 $benchmark_statement = BenchmarkStatement::where('id', $program_statement->benchmark_statement_id)->first();
                 $program_parameter = ParameterProgram::where('id',$program_statement->program_parameter_id)->first();
-                $message = 'New message sent by '.$user->first_name.' '.$user->last_name.' for area ID '.$program_parameter->program_instrument_id.'['.$benchmark_statement->benchmark_statement.'].';
+                $message = 'New message sent by '.$user->first_name.' '.$user->last_name.' for area ID '.$program_parameter->program_instrument_id.'['.$benchmark_statement->statement.'].';
                 $notification->push([
                     'id' => $remark->id,
                     'type' =>$remark->type,
