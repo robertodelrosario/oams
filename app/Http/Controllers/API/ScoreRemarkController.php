@@ -68,6 +68,7 @@ class ScoreRemarkController extends Controller
                 $message = 'New message sent by '.$user->first_name.' '.$user->last_name.' for area ID '.$program_parameter->program_instrument_id.'['.$benchmark_statement->statement.'].';
                 $notification->push([
                     'id' => $remark->id,
+                    'statement_id' => $remark->program_statement_id,
                     'type' =>$remark->type,
                     'message' => $message
                 ]);
