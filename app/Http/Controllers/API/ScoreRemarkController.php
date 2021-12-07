@@ -40,7 +40,7 @@ class ScoreRemarkController extends Controller
             $change_message_status->save();
             $messages->push([
                 'id' => $remark->id,
-                'user_id' => $user->user_id,
+                'user_id' => $user->id,
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'message' => $remark->message,
