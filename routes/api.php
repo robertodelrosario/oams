@@ -313,7 +313,7 @@ Route::group(['prefix' => '/coordinator'], function() {
 
 Route::group(['prefix' => '/message'], function() {
     Route::post('/sendRemark/{applied_program_id}/{statement_id}', 'ScoreRemarkController@sendRemark');
-    Route::get('/showRemark/{applied_program_id}/{statement_id}', 'ScoreRemarkController@showRemark');
+    Route::get('/showRemark/{applied_program_id}/{statement_id}/{type}', 'ScoreRemarkController@showRemark');
     Route::get('/showUnreadMessage/{applied_program_id}', 'ScoreRemarkController@showUnreadMessage');
 });
 

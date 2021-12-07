@@ -20,15 +20,18 @@ class ScoreRemarkController extends Controller
         $remark->sender_id = auth()->user()->id;
         $remark->status = 'unread';
         $remark->message = $request->message;
+        $remark->type = $request->type;
         $success = $remark->save();
         if($success) return response()->json(['status' => true, 'message' => 'Message Sent!']);
         else return response()->json(['status' => false, 'message' => 'Error sending message.']);
     }
 
-    public function showRemark($applied_program_id, $statement_id){
+    public function showRemark($applied_program_id, $statement_id, $type){
+        if($type == 0) $message_type = 'Internal';
+        if($type == 1) $message_type = 'External';
         $messages = new Collection();
         $remarks = ScoreRemark::where([
-            ['application_program_id', $applied_program_id], ['program_statement_id', $statement_id]
+            ['application_program_id', $applied_program_id], ['program_statement_id', $statement_id], ['type', $message_type]
         ])->get();
         foreach ($remarks as $remark){
             $user = User::where('id', $remark->sender_id)->first();
@@ -63,6 +66,7 @@ class ScoreRemarkController extends Controller
                 $message = 'New message sent by '.$user->first_name.' '.$user->last_name.' for area ID '.$program_parameter->program_instrument_id.'['.$benchmark_statement->benchmark_statement.'].';
                 $notification->push([
                     'id' => $remark->id,
+                    'type' =>$remark->type,
                     'message' => $message
                 ]);
             }
