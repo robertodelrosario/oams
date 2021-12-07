@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\ParameterProgram;
 use App\ProgramStatement;
 use App\ScoreRemark;
-use http\Client\Curl\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
