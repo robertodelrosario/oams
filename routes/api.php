@@ -311,6 +311,12 @@ Route::group(['prefix' => '/coordinator'], function() {
     Route::post('/reassignTask/{id}/{application_program_id}/{instrument_id}', 'ApplicationCoordinatorController@reassignTask');
 });
 
+Route::group(['prefix' => '/message'], function() {
+    Route::post('/sendRemark/{applied_program_id}/{statement_id}', 'ScoreRemarkController@sendRemark');
+    Route::get('/showRemark/{applied_program_id}/{statement_id}', 'ScoreRemarkController@showRemark');
+    Route::get('/showUnreadMessage/{applied_program_id}', 'ScoreRemarkController@showUnreadMessage');
+});
+
 Route::group(['prefix' => '/application'], function() {
     Route::post('/createApplication/{sucID}/{userID}', 'ApplicationController@createApplication');
     Route::put('/editApplication/{id}', 'ApplicationController@editApplication');
