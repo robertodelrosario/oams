@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\ApplicationFile;
 use App\AttachedDocument;
 use App\Campus;
+use App\CampusOffice;
 use App\CampusUser;
 use App\Document;
 use App\DocumentContainer;
@@ -418,5 +419,27 @@ class DocumentController extends Controller
     public function deleteCon($id){
         $container = DocumentContainer::where('id', $id);
         $container->delete();
+    }
+
+    public function showAllDocumentPerCampus($id){
+        $collection = new Collection();
+        $campus_offices = CampusOffice::where('campus_id', $id)->get();
+        foreach ($campus_offices as $campus_office){
+            $containers = DocumentContainer::where('office_id', $campus_office->office_id)->get();
+            foreach($containers as $container){
+                $documents = Document::where('container_id', $container->id)->get();
+                foreach ($documents as $document) {
+                    $collection->push([
+                        'id' => $document->id,
+                        'document_name' => $document->document_name,
+                        'link' => $document->link,
+                        'type' => $document->type,
+                        'uploader_id' => $document->uploader_id,
+                        'updated_at' => $document->updated_at,
+                    ]);
+                }
+            }
+        }
+        return response()->json(['documents' =>$collection, 'count' => $collection->count()]);
     }
 }

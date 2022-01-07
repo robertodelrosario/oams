@@ -26,7 +26,7 @@ use Illuminate\Support\Collection;
 
 class ApplicationCoordinatorController extends Controller
 {
-    public function approvedRequest($id){
+    public function approveRequest($id){
         $req = ApplicationCoordinator::where('id', $id)->first();
         $req->status = "accepted";
         $success = $req->save();

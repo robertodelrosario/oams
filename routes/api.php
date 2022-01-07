@@ -217,6 +217,7 @@ Route::group(['prefix' => '/document'], function() {
     Route::get('/showOwnContainer/{id}', 'DocumentController@showOwnContainer');
     Route::delete('/deleteAllDocument', 'DocumentController@deleteAllDocument');
     Route::get('/showAllDocument', 'DocumentController@showAllDocument');
+    Route::get('/showAllDocumentPerCampus/{id}', 'DocumentController@showAllDocumentPerCampus');
 
     Route::get('/deleteDoc/{id}', 'DocumentController@deleteDoc');
     Route::get('/deleteCon/{id}', 'DocumentController@deleteCon');
@@ -301,7 +302,9 @@ Route::group(['prefix' => '/report'], function() {
 
 Route::group(['prefix' => '/coordinator'], function() {
     Route::post('/requestCoordinator/{application_id}/{user_id}', 'AaccupController@requestCoordinator');
-    Route::put('/approvedRequest/{id}', 'ApplicationCoordinatorController@approvedRequest');
+    Route::post('/showCoordinatorRequest/{id}', 'AaccupController@showCoordinatorRequest');
+    Route::post('/removeCoordinatorRequest/{id}', 'AaccupController@removeCoordinatorRequest');
+    Route::put('/approveRequest/{id}', 'ApplicationCoordinatorController@approveRequest');
     Route::put('/rejectRequest/{id}', 'ApplicationCoordinatorController@rejectRequest');
     Route::get('/showMyRequest', 'ApplicationCoordinatorController@showMyRequest');
     Route::get('/showMyAccreditationApplication', 'ApplicationCoordinatorController@showMyAccreditationApplication');

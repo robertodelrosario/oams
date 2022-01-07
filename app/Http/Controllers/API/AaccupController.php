@@ -382,4 +382,25 @@ class AaccupController extends Controller
         }
         else return response()->json(['status' => false, 'message' => 'Already requested coordinator']);
     }
+
+    public function showCoordinatorRequest($id){
+        $collection = new Collection();
+        $coordinator = ApplicationCoordinator::where('application_id', $id)->first();
+        $user = User::where('id',$coordinator->user_id)->first();
+        $collection->push([
+            'id' => $coordinator->id,
+            'application_id' => $coordinator->id,
+            'user_id' => $coordinator->user_id,
+            'status' => $coordinator->status,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+        ]);
+        return response()->json($collection);
+    }
+
+    public function removeCoordinatorRequest($id){
+        $coordinator = ApplicationCoordinator::where('id', $id)->first();
+        $coordinator->delete();
+        return response()->json(['status' => true, 'message' => 'Successfully removed requested coordinator.']);
+    }
 }
