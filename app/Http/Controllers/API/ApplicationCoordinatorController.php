@@ -67,7 +67,7 @@ class ApplicationCoordinatorController extends Controller
             $application = Application::where('id', $myRejectedRequest->application_id)->first();
             $suc = SUC::where('id', $application->suc_id)->first();
             $collection->push([
-                'id' =>  $myPendingRequest->id,
+                'id' =>  $myRejectedRequest->id,
                 'application_id' => $myRejectedRequest->application_id,
                 'title' => $application->title,
                 'institution_name' => $suc->institution_name,
@@ -82,7 +82,7 @@ class ApplicationCoordinatorController extends Controller
     public function showMyAccreditationApplication(){
         $collection = new Collection();
         $myAcceptedRequests = ApplicationCoordinator::where([
-            ['user_id', auth()->user()->id()],['status', 'accepted']
+            ['user_id', auth()->user()->id],['status', 'accepted']
         ])->get();
         foreach ($myAcceptedRequests as $myAcceptedRequest){
             $application = Application::where('id', $myAcceptedRequest->application_id)->first();
