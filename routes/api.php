@@ -302,8 +302,8 @@ Route::group(['prefix' => '/report'], function() {
 
 Route::group(['prefix' => '/coordinator'], function() {
     Route::post('/requestCoordinator/{application_id}/{user_id}', 'AaccupController@requestCoordinator');
-    Route::post('/showCoordinatorRequest/{id}', 'AaccupController@showCoordinatorRequest');
-    Route::post('/removeCoordinatorRequest/{id}', 'AaccupController@removeCoordinatorRequest');
+    Route::get('/showCoordinatorRequest/{id}', 'AaccupController@showCoordinatorRequest');
+    Route::delete('/removeCoordinatorRequest/{id}', 'AaccupController@removeCoordinatorRequest');
     Route::put('/approveRequest/{id}', 'ApplicationCoordinatorController@approveRequest');
     Route::put('/rejectRequest/{id}', 'ApplicationCoordinatorController@rejectRequest');
     Route::get('/showMyRequest', 'ApplicationCoordinatorController@showMyRequest');
