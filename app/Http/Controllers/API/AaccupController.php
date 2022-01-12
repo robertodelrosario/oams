@@ -386,6 +386,7 @@ class AaccupController extends Controller
     public function showCoordinatorRequest($id){
         $collection = new Collection();
         $coordinator = ApplicationCoordinator::where('application_id', $id)->first();
+        if(is_null($coordinator)) return response()->json([]);
         $user = User::where('id',$coordinator->user_id)->first();
         $collection->push([
             'id' => $coordinator->id,
