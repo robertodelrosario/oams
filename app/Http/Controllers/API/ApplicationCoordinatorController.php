@@ -45,10 +45,10 @@ class ApplicationCoordinatorController extends Controller
     public function showMyRequest(){
         $collection = new Collection();
         $myPendingRequests = ApplicationCoordinator::where([
-            ['user_id', auth()->user()->id()],['status', 'pending']
+            ['user_id', auth()->user()->id],['status', 'pending']
         ])->get();
         $myRejectedRequests = ApplicationCoordinator::where([
-            ['user_id', auth()->user()->id()],['status', 'rejected']
+            ['user_id', auth()->user()->id],['status', 'rejected']
         ])->get();
         foreach ($myPendingRequests as $myPendingRequest){
             $application = Application::where('id', $myPendingRequest->application_id)->first();
