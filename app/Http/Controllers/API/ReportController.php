@@ -276,7 +276,7 @@ class ReportController extends Controller
                 }
                 if($partial_internal_mean_scores->count() != 0) $average_internal_mean_score = $average_internal_mean_score / $partial_internal_mean_scores->count();
                 else $average_internal_mean_score = 0;
-                $internal_scores->push(["instrument_program_id" => $instrument_program->id, "area_mean" => $average_internal_mean_score]);
+                $internal_scores->push(["instrument_program_id" => $instrument_program->id, "area_mean" => round($average_internal_mean_score, 2)]);
 
                 $average_external_mean_score = 0;
 
@@ -285,7 +285,7 @@ class ReportController extends Controller
                 }
                 if($partial_external_mean_scores->count() != 0) $average_external_mean_score = $average_external_mean_score / $partial_external_mean_scores->count();
                 else $average_external_mean_score = 0;
-                $external_scores->push(["instrument_program_id" => $instrument_program->id, "area_mean" => $average_external_mean_score]);
+                $external_scores->push(["instrument_program_id" => $instrument_program->id, "area_mean" => round($average_external_mean_score, 2)]);
             }
             $sars = new Collection();
             $result = new Collection();
@@ -1231,7 +1231,7 @@ class ReportController extends Controller
         $remarks = SFRInformation::where([
             ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['type', $request->role]
         ])->get();
-        foreach ($remarks as $remark ) $remark->delete();
+        foreach ($remarks->reverse() as $remark ) $remark->delete();
         foreach($request->sfr as $s){
             if(is_null($s['remark'])) continue;
             $check = SFRInformation::where([
