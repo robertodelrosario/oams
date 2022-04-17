@@ -178,7 +178,7 @@ class AssignTaskController extends Controller
                 if(!is_null($score)) $area_mean_external->push($score);
             }
             elseif(Str::contains($user->role, 'internal accreditor')){
-                $score = AreaMean::where('assigned_user_id', $instrument->id)->first();
+                $score = AreaMean::where('assigned_user_id', $user->id)->first();
                 if(!(is_null($score))) $area_mean_internal->push($score);;
             }
         }
