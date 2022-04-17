@@ -143,9 +143,7 @@ class UserController extends Controller
 
         foreach($instruments as $instrument){
             if(Str::contains($instrument->role, 'external') || Str::contains($instrument->role, 'area 7')){
-                $score = AreaMean::where([
-                    ['instrument_program_id',$instrument->transaction_id], ['assigned_user_id', $instrument->id]
-                ])->first();
+                $score = AreaMean::where('assigned_user_id', $instrument->id)->first();
                 if(!is_null($score)) $area_mean_external = Arr::prepend($area_mean_external,$score);
             }
             elseif(Str::contains($instrument->role, 'internal accreditor')){
