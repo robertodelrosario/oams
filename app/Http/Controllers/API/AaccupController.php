@@ -198,7 +198,7 @@ class AaccupController extends Controller
 
     public function deleteAccreditorRequest($id){
         $req = AccreditorRequest::where('id', $id)->first();
-        if($req->status == 'accepted') return response()->json(['status' => false ,'message' => 'Request already accepted.']);
+        // if($req->status == 'accepted') return response()->json(['status' => false ,'message' => 'Request already accepted.']);
         $req->delete();
         return response()->json(['status' => true ,'message' => 'Successfully deleted request']);
     }
