@@ -163,6 +163,7 @@ class UserController extends Controller
         $sar_external = new Collection();
         foreach ($area_mean_external as $area){
             $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
+            echo ($instrument);
             if (!$instrument){$area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
             for($x=0;$x < 10; $x++){
                 if($area_number->area_number == $x+1){
