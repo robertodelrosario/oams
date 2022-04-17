@@ -162,15 +162,14 @@ class UserController extends Controller
 
         $sar_external = new Collection();
         foreach ($area_mean_external as $area){
-            echo (count($area_mean_external));
-            $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
+            if ($area->instrument_program_id){$instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
             if (!$instrument){$area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
             for($x=0;$x < 10; $x++){
                 if($area_number->area_number == $x+1){
                     $sar_external->push(['instrument_program_id' => $instrument->id,'area_number' => $area_number->area_number,'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => round($area->area_mean, 2), 'weighted_mean' => round($area->area_mean * $weight[$x], 2)]);
                     break;
                 }
-            }}
+            }}}
         }
 
         $sar_internal = new Collection();
