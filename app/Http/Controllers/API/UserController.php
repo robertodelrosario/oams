@@ -163,10 +163,11 @@ class UserController extends Controller
         $sar_external = new Collection();
         $x = 0;
         foreach ($area_mean_external as $area){
-            $x++;
-            if($x == 10) break;
+            // $x++;
+            // if($x == 10) break;
             try {
-                // echo count($area_mean_external);
+                echo count($area_mean_external);
+                echo " ";
                 echo $area->instrument_program_id;
                 if($area->instrument_program_id != null)
                 {
