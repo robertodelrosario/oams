@@ -193,17 +193,16 @@ class ApplicationCoordinatorController extends Controller
                 $accreditors = AssignedUser::where([
                     ['app_program_id', $application_program_id], ['transaction_id',$instrument_id]
                 ])->get();
-                $has_area_mean = false;
+                $no_area_mean = true;
                 foreach ($accreditors as $accreditor){
                     $check_area_mean = AreaMean::where([
                         ['instrument_program_id', $instrument_id], ['assigned_user_id', $accreditor->id]
                     ])->first();
                     if(!(is_null($check_area_mean))){
-                        $has_area_mean = true;
-                        break;
+                        $no_area_mean = false;
                     }
                 }
-                if(!($has_area_mean)) {
+                if($no_area_mean) {
                     $area_mean = new AreaMean();
                     $area_mean->instrument_program_id = $instrument_id;
                     $area_mean->assigned_user_id = $task->id;
