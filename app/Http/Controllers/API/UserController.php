@@ -167,6 +167,7 @@ class UserController extends Controller
             // if($x == 10) break;
             try {
                 echo count($area_mean_external);
+                echo $area->instrument_program_id;
                 if($area->instrument_program_id != null)
                 {
                     $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
