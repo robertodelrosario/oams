@@ -108,9 +108,11 @@ class AssignTaskController extends Controller
             else{
                 foreach ($assigned_users as $assigned_user){
                     if($assigned_user->id != $user->id){
+                        $area_mean = new AreaMean();
+                        $area_mean->instrument_program_id = $user->transaction_id;
                         $area_mean->assigned_user_id = $assigned_user->id;
-                        $success = $area_mean->save();
-                        if($success) {
+                        $area_mean->area_mean = 0;
+                        if($area_mean->save()) {
                             $success = $user->delete();
                             if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted [2]']);
                         }
