@@ -186,4 +186,8 @@ class AssignTaskController extends Controller
         }
         return response()->json(['external' => $area_mean_external, 'internal' => $area_mean_internal ]);
     }
+
+    public function allAreaMean(){
+        return response()->json(AreaMean::all());   
+    }
 }

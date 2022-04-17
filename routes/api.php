@@ -390,6 +390,7 @@ Route::group(['prefix' => '/application'], function() {
     Route::delete('/deleteAssignedUser/{id}', 'AssignTaskController@deleteAssignedUser');
     Route::get('/listAssignedUser/{id}', 'AssignTaskController@listAssignedUser');
     Route::get('/areaMean/{id}', 'AssignTaskController@areaMean');
+    Route::get('/allAreaMean', 'AssignTaskController@allAreaMean');
 
     Route::post('/assignHeadTask/{id}', 'AssignTaskController@assignHeadTask');
     Route::delete('/deleteAssignedHeadUser/{userID}/{transactionID}', 'AssignTaskController@deleteAssignedHeadUser');
