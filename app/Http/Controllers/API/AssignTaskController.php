@@ -103,7 +103,7 @@ class AssignTaskController extends Controller
             $area_mean = AreaMean::where('assigned_user_id', $user->id)->first();
             if(is_null($area_mean)){
                 $success = $user->delete();
-                if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted']);
+                if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted [1]']);
             }
             else{
                 foreach ($assigned_users as $assigned_user){
@@ -112,7 +112,7 @@ class AssignTaskController extends Controller
                         $success = $area_mean->save();
                         if($success) {
                             $success = $user->delete();
-                            if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted']);
+                            if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted [2]']);
                         }
                     }
                 }
