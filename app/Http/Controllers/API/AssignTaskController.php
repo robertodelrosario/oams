@@ -166,4 +166,21 @@ class AssignTaskController extends Controller
         $users = AssignedUser::where('app_program_id', $id)->get();
         return response()->json($users);
     }
+
+    public function areaMean($id){
+        $users = AssignedUser::where('app_program_id', $app_prog)->get();
+        $area_mean_external = new Collection();
+        $area_mean_internal = new Collection();
+        foreach($users as $user){
+            if(Str::contains($user->role, 'external accreditor') || Str::contains($user->role, 'area 7')){
+                $score = AreaMean::where('assigned_user_id', $user->id)->first();
+                if(!is_null($score)) $area_mean_external->push($score);
+            }
+            elseif(Str::contains($user->role, 'internal accreditor')){
+                $score = AreaMean::where('assigned_user_id', $instrument->id)->first();
+                if(!(is_null($score))) $area_mean_internal->push($score);;
+            }
+        }
+        return response()->json(['external' => $area_mean_external, 'internal' => $area_mean_internal ]);
+    }
 }
