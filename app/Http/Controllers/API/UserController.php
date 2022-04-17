@@ -86,17 +86,17 @@ class UserController extends Controller
         ])->first();
 
         $date = $date->toDateString();
-        if(Str::contains($area->role, 'external accreditor')){
-            if ($check->approved_start_date == null || $check->approved_end_date == null){
-                return response()->json(['message'=>'Accreditation for program is not yet approved']);
-            }
-            else if($check->approved_end_date < $date){
-                return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' has ended last ' .$check->approved_end_date ]);
-            }
-            else if($check->approved_start_date > $date){
-                return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' will start on ' .$check->approved_start_date ]);
-            }
-        }
+        // if(Str::contains($area->role, 'external accreditor')){
+        //     if ($check->approved_start_date == null || $check->approved_end_date == null){
+        //         return response()->json(['message'=>'Accreditation for program is not yet approved']);
+        //     }
+        //     else if($check->approved_end_date < $date){
+        //         return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' has ended last ' .$check->approved_end_date ]);
+        //     }
+        //     else if($check->approved_start_date > $date){
+        //         return response()->json(['message'=>'Accreditation for program ' .$program->program_name.' will start on ' .$check->approved_start_date ]);
+        //     }
+        // }
 
         $areas = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
