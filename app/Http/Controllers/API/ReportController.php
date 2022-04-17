@@ -1232,7 +1232,7 @@ class ReportController extends Controller
             ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['type', $request->role]
         ])->get();
         foreach ($remarks as $remark ) $remark->delete();
-        foreach($request->sfr->reverse() as $s){
+        foreach($request->sfr as $s){
             if(is_null($s['remark'])) continue;
             $check = SFRInformation::where([
                 ['application_program_id',$programID], ['instrument_program_id', $instrumentID], ['remark',$s['remark']], ['remark_type', $s['type']], ['type', $request->role]
