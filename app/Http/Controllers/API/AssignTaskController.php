@@ -173,11 +173,13 @@ class AssignTaskController extends Controller
         $area_mean_external = new Collection();
         $area_mean_internal = new Collection();
         foreach($users as $user){
-            if(Str::contains($user->role, 'external accreditor') || Str::contains($user->role, 'area 7')){
+            if(Str::contains($user->role, 'external accreditor')){
+                echo $user;
                 $score = AreaMean::where('assigned_user_id', $user->id)->first();
                 if(!is_null($score)) $area_mean_external->push($score);
             }
             elseif(Str::contains($user->role, 'internal accreditor')){
+                $user;
                 $score = AreaMean::where('assigned_user_id', $user->id)->first();
                 if(!(is_null($score))) $area_mean_internal->push($score);;
             }
