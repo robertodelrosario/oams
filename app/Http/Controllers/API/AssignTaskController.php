@@ -98,21 +98,29 @@ class AssignTaskController extends Controller
         $assigned_users = AssignedUser::where([
             ['app_program_id', $user->app_program_id], ['transaction_id', $user->transaction_id]
         ])->get();
+
         if(count($assigned_users) >= 2){
-            foreach ($assigned_users as $assigned_user){
-                if($assigned_user->id != $user->id){
-                    $area_mean = AreaMean::where('assigned_user_id', $user->id)->first();
-                    if(is_null($area_mean)) break;
-                    $area_mean->assigned_user_id = $assigned_user->id;
-                    $success = $area_mean->save();
-                    if($success) break;
+            $area_mean = AreaMean::where('assigned_user_id', $user->id)->first();
+            if(is_null($area_mean)){
+                $success = $user->delete();
+                if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted']);
+            }
+            else{
+                foreach ($assigned_users as $assigned_user){
+                    if($assigned_user->id != $user->id){
+                        $area_mean->assigned_user_id = $assigned_user->id;
+                        $success = $area_mean->save();
+                        if($success) {
+                            $success = $user->delete();
+                            if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted']);
+                        }
+                    }
                 }
             }
         }
-        $success = $user->delete();
-        if($success) return response()->json(['status' => true, 'message' => 'Successfully deleted']);
         else return response()->json(['status' => false, 'message' => 'Unsuccessfully deleted']);
     }
+
     public function deleteAssignedHeadUser($userID, $transactionID){
         $user = AssignedUserHead::where([
             ['application_program_id', $transactionID], ['user_id', $userID]

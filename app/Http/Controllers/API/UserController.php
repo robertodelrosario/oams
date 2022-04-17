@@ -101,7 +101,6 @@ class UserController extends Controller
         $areas = AssignedUser::where([
             ['app_program_id', $app_prog], ['user_id', $id]
         ])->get();
-//        $instrument_array = array();
         $instrument_collection = new Collection();
         $role = null;
         foreach ($areas as $area){
@@ -112,7 +111,6 @@ class UserController extends Controller
                 ->select('instruments_programs.*', 'programs.program_name', 'area_instruments.intended_program_id', 'area_instruments.area_number', 'area_instruments.area_name')
                 ->first();
             $role = $area->role;
-//            $instrument_array = Arr::prepend($instrument_array,$instrument);
             $collection = new Collection();
             if($area->role == 'accreditation task force') {
                 $templates = ProgramReportTemplate::where('instrument_program_id', $instrument->id)->get();
