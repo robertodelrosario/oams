@@ -265,8 +265,8 @@ class ReportController extends Controller
                             ['instrument_program_id', $instrument_program->id], ['assigned_user_id', $assigned_user->id]
                         ])->first();
                         if (!(is_null($score))) {
-                            if (Str::contains($assigned_user->role, 'external accreditor')) $partial_external_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
-                            else $partial_internal_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => $score->area_mean]);
+                            if (Str::contains($assigned_user->role, 'external accreditor')) $partial_external_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => round($score->area_mean, 2)]);
+                            else $partial_internal_mean_scores->push(["instrument_program_id" => $score->instrument_program_id, "assigned_user_id" => $score->assigned_user_id, "area_mean" => round($score->area_mean, 2)]);
                         }
                     }
                 }
@@ -308,7 +308,7 @@ class ReportController extends Controller
                 foreach ($external_scores as $external_score) {
                     $instrument = InstrumentProgram::where('id', $external_score['instrument_program_id'])->first();
                     $area_instrument = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
-                    $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number,'area' => $area_instrument->area_name,'area_mean' => $external_score['area_mean']]);
+                    $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_instrument->area_number,'area' => $area_instrument->area_name,'area_mean' => round($external_score['area_mean'], 2)]);
                     $total_area_mean += $external_score['area_mean'];
                 }
 
@@ -443,7 +443,7 @@ class ReportController extends Controller
                     $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
                     for ($x = 0; $x < 10; $x++) {
                         if ($area_number->area_number == $x + 1) {
-                            $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_number->area_number, 'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
+                            $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_number->area_number, 'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => round($area->area_mean,2), 'weighted_mean' => round($area->area_mean * $weight[$x], 2)]);
                             break;
                         }
                     }
@@ -469,7 +469,7 @@ class ReportController extends Controller
                     $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
                     for ($x = 0; $x < 10; $x++) {
                         if ($area_number->area_number == $x + 1) {
-                            $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_number->area_number, 'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => $area->area_mean, 'weighted_mean' => $area->area_mean * $weight[$x]]);
+                            $sars->push(['instrument_program_id' => $instrument->id, 'area_number' => $area_number->area_number, 'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => round($area->area_mean,2), 'weighted_mean' => round($area->area_mean * $weight[$x], 2)]);
                             break;
                         }
                     }
