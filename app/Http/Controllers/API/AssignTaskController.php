@@ -151,4 +151,9 @@ class AssignTaskController extends Controller
 //        $user->delete();
 //        return response()->json(['status' => true, 'message' => 'Successfully deleted']);
 //    }
+
+    public function listAssignedUser($id){
+        $users = AssignedUser::where('app_program_id', $id)->get();
+        return response()->json($users);
+    }
 }
