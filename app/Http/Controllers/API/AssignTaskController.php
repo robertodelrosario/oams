@@ -168,7 +168,7 @@ class AssignTaskController extends Controller
     }
 
     public function areaMean($id){
-        $users = AssignedUser::where('app_program_id', $app_prog)->get();
+        $users = AssignedUser::where('app_program_id', $id)->get();
         $area_mean_external = new Collection();
         $area_mean_internal = new Collection();
         foreach($users as $user){
