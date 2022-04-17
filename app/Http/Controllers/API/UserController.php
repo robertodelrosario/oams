@@ -161,8 +161,11 @@ class UserController extends Controller
         $weight = array(0,8,8,8,5,4,5,3,4,5);
 
         $sar_external = new Collection();
+        $x = 0;
         foreach ($area_mean_external as $area){
-            try {
+            $x+1;
+            if($x <11)
+            {try {
                 echo $area->instrument_program_id;
                 if($area->instrument_program_id != null)
                 {
@@ -177,7 +180,7 @@ class UserController extends Controller
                 }   
               } catch (Exception $e) {
                       echo "error";
-              }
+              }}
             
         }
 
