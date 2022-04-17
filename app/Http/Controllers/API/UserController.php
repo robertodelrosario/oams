@@ -164,7 +164,7 @@ class UserController extends Controller
         $x = 0;
         foreach ($area_mean_external as $area){
             $x+1;
-            if($x <11)
+            if($x < 11)
             {try {
                 echo $area->instrument_program_id;
                 if($area->instrument_program_id != null)

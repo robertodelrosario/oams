@@ -440,4 +440,6 @@ class ApplicationController extends Controller
         }
         return response()->json(['status' => true, 'message' => 'Unaccredited the program.']);
     }
+
+    
 }
