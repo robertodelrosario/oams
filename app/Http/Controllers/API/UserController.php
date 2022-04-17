@@ -161,29 +161,15 @@ class UserController extends Controller
         $weight = array(0,8,8,8,5,4,5,3,4,5);
 
         $sar_external = new Collection();
-        $x = 0;
         foreach ($area_mean_external as $area){
-            // $x++;
-            // if($x == 10) break;
-            try {
-                echo count($area_mean_external);
-                echo " ";
-                echo $area->instrument_program_id;
-                echo " ";
-                if($area->instrument_program_id != null)
-                {
-                    $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
-                    $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
-                    for($x=0;$x < 10; $x++){
-                        if($area_number->area_number == $x+1){
-                            $sar_external->push(['instrument_program_id' => $instrument->id,'area_number' => $area_number->area_number,'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => round($area->area_mean, 2), 'weighted_mean' => round($area->area_mean * $weight[$x], 2)]);
-                            break;
-                        }
-                    }
-                }   
-              } catch (Exception $e) {
-                      echo "error";
-              }
+            $instrument = InstrumentProgram::where('id', $area->instrument_program_id)->first();
+            $area_number = AreaInstrument::where('id', $instrument->area_instrument_id)->first();
+            for($x=0;$x < 10; $x++){
+                if($area_number->area_number == $x+1){
+                    $sar_external->push(['instrument_program_id' => $instrument->id,'area_number' => $area_number->area_number,'area' => $area_number->area_name, 'weight' => $weight[$x], 'area_mean' => round($area->area_mean, 2), 'weighted_mean' => round($area->area_mean * $weight[$x], 2)]);
+                    break;
+                }
+            }
             
         }
 
